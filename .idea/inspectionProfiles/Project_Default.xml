@@ -7,13 +7,15 @@
           <option value="E501" />
           <option value="E111" />
           <option value="E114" />
+          <option value="E402" />
         </list>
       </option>
     </inspection_tool>
     <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredIdentifiers">
         <list>
-          <option value="behalyze" />
+          <option value="_" />
+          <option value="_N" />
         </list>
       </option>
     </inspection_tool>
