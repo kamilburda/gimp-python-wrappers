@@ -24,9 +24,10 @@ def _value_array_to_list(array):
 
 
 class PdbStubGenerator(Gimp.PlugIn):
-    @GObject.Property(type=Gimp.RunMode,
-                      default=Gimp.RunMode.NONINTERACTIVE,
-                      nick='Run mode', blurb='The run mode')
+    @GObject.Property(
+      type=Gimp.RunMode,
+      default=Gimp.RunMode.NONINTERACTIVE,
+      nick='Run mode', blurb='The run mode')
     def run_mode(self):
       return self._run_mode
 
@@ -34,11 +35,12 @@ class PdbStubGenerator(Gimp.PlugIn):
     def run_mode(self, run_mode):
       self._run_mode = run_mode
 
-    @GObject.Property(type=str,
-                      default=stubgen_pdb.STUB_MODULE_FILEPATH,
-                      nick='Output file path',
-                      blurb='Output file path',
-                      flags=GObject.ParamFlags.READWRITE)
+    @GObject.Property(
+      type=str,
+      default=stubgen_pdb.STUB_MODULE_FILEPATH,
+      nick='Output file path',
+      blurb='Output file path',
+      flags=GObject.ParamFlags.READWRITE)
     def output_filepath(self):
       return self._output_filepath
 
