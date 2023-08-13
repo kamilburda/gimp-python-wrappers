@@ -116,6 +116,17 @@ def _insert_pdb_procedure_arguments(procedure_node, procedure):
 def _insert_pdb_procedure_docstring(procedure_node, procedure):
   proc_docstring = ''
 
+  proc_docstring = _add_proc_blurb_to_docstring(procedure, proc_docstring)
+  proc_docstring = _add_image_types_to_docstring(procedure, proc_docstring)
+  proc_docstring = _add_proc_help_to_docstring(procedure, proc_docstring)
+  proc_docstring = _add_proc_params_to_docstring(procedure, proc_docstring)
+
+  proc_docstring += f'\n{_BODY_INDENT}'
+
+  procedure_node.body[0].value.value = proc_docstring
+
+
+def _add_proc_blurb_to_docstring(procedure, proc_docstring):
   proc_blurb = procedure.get_blurb()
   if proc_blurb:
     proc_blurb = proc_blurb.strip()
@@ -131,12 +142,20 @@ def _insert_pdb_procedure_docstring(procedure_node, procedure):
 
     proc_docstring += proc_blurb
 
+  return proc_docstring
+
+
+def _add_image_types_to_docstring(procedure, proc_docstring):
   proc_image_types = procedure.get_image_types()
   if proc_image_types:
     if proc_docstring:
       proc_docstring += f'\n{_BODY_INDENT}' * 2
     proc_docstring += f'Image types: {proc_image_types}'
 
+  return proc_docstring
+
+
+def _add_proc_help_to_docstring(procedure, proc_docstring):
   proc_help = procedure.get_help()
   if proc_help:
     proc_help = proc_help.strip()
@@ -177,9 +196,53 @@ def _insert_pdb_procedure_docstring(procedure_node, procedure):
 
     proc_docstring += f'{proc_help}'
 
-  proc_docstring += f'\n{_BODY_INDENT}'
+  return proc_docstring
 
-  procedure_node.body[0].value.value = proc_docstring
+
+def _add_proc_params_to_docstring(procedure, proc_docstring):
+  proc_args = procedure.get_arguments()
+
+  if _has_procedure_run_mode_argument(procedure):
+    proc_args = proc_args[1:]
+
+  if not proc_args:
+    return proc_docstring
+
+  proc_params = 'Parameters:'
+  param_prefix = '* '
+
+  for arg in proc_args:
+    if arg.default_value is not None:
+      default_value_str = f' (default: {arg.default_value})'
+    else:
+      default_value_str = ''
+
+    name = _pythonize(arg.name)
+
+    description = arg.blurb
+    if description:
+      if not description.endswith('.'):
+        description += '.'
+    else:
+      description = ''
+
+    param_str = f'{param_prefix}{name}{default_value_str} - {description}'
+    param_str = textwrap.fill(
+      param_str,
+      width=_DOCSTRING_LINE_LENGTH - len(_BODY_INDENT) - len(param_prefix),
+      subsequent_indent=_BODY_INDENT + ' ' * len(param_prefix),
+      break_on_hyphens=False)
+
+    param_str = f'\n{_BODY_INDENT}' * 2 + param_str
+
+    proc_params += param_str
+
+  if proc_docstring:
+    proc_docstring += f'\n{_BODY_INDENT}' * 2
+
+  proc_docstring += f'{proc_params}'
+
+  return proc_docstring
 
 
 def _pythonize(str_):
@@ -187,9 +250,9 @@ def _pythonize(str_):
 
 
 def _has_procedure_run_mode_argument(proc):
-  proc_arg_info = proc.get_arguments()
-  if proc_arg_info and proc_arg_info[0].value_type.pytype is not None:
-    return issubclass(proc_arg_info[0].value_type.pytype, Gimp.RunMode)
+  proc_args = proc.get_arguments()
+  if proc_args and proc_args[0].value_type.pytype is not None:
+    return issubclass(proc_args[0].value_type.pytype, Gimp.RunMode)
   else:
     return False
 
