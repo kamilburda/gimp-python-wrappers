@@ -233,6 +233,7 @@ def _insert_pdb_procedure_docstring(procedure_node, procedure):
   proc_docstring = _add_image_types_to_docstring(procedure, proc_docstring)
   proc_docstring = _add_proc_help_to_docstring(procedure, proc_docstring)
   proc_docstring = _add_proc_params_to_docstring(procedure, proc_docstring)
+  proc_docstring = _add_proc_return_values_to_docstring(procedure, proc_docstring)
 
   proc_docstring += f'\n{_BODY_INDENT}'
 
@@ -313,26 +314,48 @@ def _add_proc_help_to_docstring(procedure, proc_docstring):
 
 
 def _add_proc_params_to_docstring(procedure, proc_docstring):
-  proc_args = procedure.get_arguments()
+  return _add_proc_params_or_retvals_to_docstring(
+    procedure,
+    proc_docstring,
+    'parameter',
+    lambda proc: proc.get_arguments(),
+    'Parameters:',
+  )
 
-  if _has_procedure_run_mode_argument(procedure):
-    proc_args = proc_args[1:]
 
-  if not proc_args:
+def _add_proc_return_values_to_docstring(procedure, proc_docstring):
+  return _add_proc_params_or_retvals_to_docstring(
+    procedure,
+    proc_docstring,
+    'return_value',
+    lambda proc: proc.get_return_values(),
+    'Returns:',
+  )
+
+
+def _add_proc_params_or_retvals_to_docstring(
+        procedure, proc_docstring, param_type, get_params_func, title):
+  params = get_params_func(procedure)
+
+  if param_type == 'parameter':
+    if _has_procedure_run_mode_argument(procedure):
+      params = params[1:]
+
+  if not params:
     return proc_docstring
 
-  proc_params = 'Parameters:'
+  proc_params = title
   param_prefix = '* '
 
-  for arg in proc_args:
-    if arg.default_value is not None:
-      default_value_str = f' (default: {arg.default_value})'
+  for param in params:
+    if param.default_value is not None:
+      default_value_str = f' (default: {param.default_value})'
     else:
       default_value_str = ''
 
-    name = _pythonize(arg.name)
+    name = _pythonize(param.name)
 
-    description = arg.blurb
+    description = param.blurb
     if description:
       if not description.endswith('.'):
         description += '.'
