@@ -67,11 +67,11 @@ def _add_imports(root_node):
   new_import_nodes = ast.parse(
     '\n'
     + '\n'.join([
-      "from typing import List, Union",
-      "from gi.repository import Gegl",
-      "from gi.repository import GObject",
-      "from gi.repository import GLib",
-      "from gi.repository import Gio",
+      'from typing import List, Union, Tuple',
+      'from gi.repository import Gegl',
+      'from gi.repository import GObject',
+      'from gi.repository import GLib',
+      'from gi.repository import Gio',
     ])
   )
 
@@ -149,6 +149,8 @@ def _insert_pdb_procedure_arguments(procedure_node, procedure):
     )
     procedure_node.args.args.insert(1, arg_node)
 
+  procedure_node.returns = _get_pdb_return_values_type_hint(procedure.get_return_values())
+
 
 def _get_pdb_argument_type_hint(proc_arg):
   arg_type_name = _parse_type(proc_arg)
@@ -165,24 +167,43 @@ def _get_pdb_argument_type_hint(proc_arg):
   return node.body[0].args.args[0].annotation
 
 
-def _parse_type(proc_arg):
+def _get_pdb_return_values_type_hint(proc_return_values):
+  return_type_names = [
+    _parse_type(proc_return_value, default_type='Any') for proc_return_value in proc_return_values]
+
+  # Use dummy code with the desired annotation. It is more convenient to create
+  # an annotation node this way.
+  if len(return_type_names) > 1:
+    return_type_names_str = ', '.join(return_type_names)
+    dummy_func_with_type_hint = f'def foo() -> Tuple[{return_type_names_str}]: pass'
+  elif len(return_type_names) == 1:
+    dummy_func_with_type_hint = f'def foo() -> {return_type_names[0]}: pass'
+  else:
+    return None
+
+  node = ast.parse(dummy_func_with_type_hint)
+
+  return node.body[0].returns
+
+
+def _parse_type(proc_arg, default_type=None):
   value_type = proc_arg.value_type
 
   if value_type is None or not value_type.name:
-    return None
+    return default_type
 
   if value_type.name.startswith('Gimp'):
     try:
       getattr(Gimp, value_type.name[len('Gimp'):])
     except AttributeError:
-      return None
+      return default_type
     else:
       return f"Gimp.{value_type.name[len('Gimp'):]}"
   elif value_type.name.startswith('Gegl'):
     try:
       getattr(Gegl, value_type.name[len('Gegl'):])
     except AttributeError:
-      return None
+      return default_type
     else:
       return f"Gegl.{value_type.name[len('Gegl'):]}"
   elif value_type.name in _GTYPES_TO_PYTHON_TYPES:
@@ -191,7 +212,7 @@ def _parse_type(proc_arg):
     if value_type.pytype is not None:
       return _get_full_type_name(value_type.pytype)
     else:
-      return None
+      return default_type
 
 
 def _get_full_type_name(type_):
