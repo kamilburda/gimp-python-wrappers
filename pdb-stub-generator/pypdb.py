@@ -37,18 +37,18 @@ class PyPDBProcedure:
 
   def __init__(self, pdb_wrapper, proc_name):
     self._pdb_wrapper = pdb_wrapper
-    self._proc_name = proc_name
+    self._name = proc_name
 
-    self._proc_info = _gimp_pdb.lookup_procedure(self._proc_name)
+    self._info = _gimp_pdb.lookup_procedure(self._name)
     self._has_run_mode = self._get_has_run_mode()
 
   @property
-  def proc_name(self):
-    return self._proc_name
+  def name(self):
+    return self._name
 
   @property
-  def proc_info(self):
-    return self._proc_info
+  def info(self):
+    return self._info
 
   @property
   def has_run_mode(self):
@@ -61,11 +61,11 @@ class PyPDBProcedure:
         config: Optional[Gimp.ProcedureConfig] = None):
     if config is None:
       if self._has_run_mode:
-        result = _gimp_pdb.run_procedure(self._proc_name, [run_mode, *args])
+        result = _gimp_pdb.run_procedure(self._name, [run_mode, *args])
       else:
-        result = _gimp_pdb.run_procedure(self._proc_name, args)
+        result = _gimp_pdb.run_procedure(self._name, args)
     else:
-      result = _gimp_pdb.run_procedure_config(self._proc_name, config)
+      result = _gimp_pdb.run_procedure_config(self._name, config)
 
     if result is None:
       return None
@@ -92,7 +92,7 @@ class PyPDBProcedure:
       return None
 
   def _get_has_run_mode(self):
-    proc_arg_info = self._proc_info.get_arguments()
+    proc_arg_info = self._info.get_arguments()
     if proc_arg_info:
       return issubclass(proc_arg_info[0].value_type.pytype, Gimp.RunMode)
     else:
