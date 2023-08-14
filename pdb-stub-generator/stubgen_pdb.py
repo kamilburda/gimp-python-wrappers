@@ -7,6 +7,8 @@ import re
 import textwrap
 
 import gi
+gi.require_version('Gegl', '0.4')
+from gi.repository import Gegl
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
 
@@ -24,6 +26,23 @@ _INDENT = '    '
 _BODY_INDENT = _INDENT * 2
 _DOCSTRING_LINE_LENGTH = 80
 
+_GTYPES_TO_PYTHON_TYPES = {
+  'gint': 'int',
+  'guint': 'int',
+  'glong': 'int',
+  'gulong': 'int',
+  'gchar': 'int',
+  'guchar': 'int',
+  'gboolean': 'bool',
+  'gfloat': 'float',
+  'gdouble': 'float',
+  'gchararray': 'str',
+  'GBytes': 'GLib.Bytes',
+  'GFile': 'Gio.File',
+  'GParam': 'GObject.ParamSpec',
+  'GStrv': 'List[str]',
+}
+
 
 def generate_pdb_stubs(output_filepath):
   if not os.path.isfile(PYPDB_MODULE_FILEPATH):
@@ -31,6 +50,8 @@ def generate_pdb_stubs(output_filepath):
 
   with open(PYPDB_MODULE_FILEPATH, 'r', encoding=TEXT_FILE_ENCODING) as f:
     root_node = ast.parse(f.read())
+
+  _add_imports(root_node)
 
   _remove_implementation_of_functions(root_node)
 
@@ -40,6 +61,22 @@ def generate_pdb_stubs(output_filepath):
     _insert_pdb_procedure_node(pypdb_class_node, proc_name, proc)
 
   write_stub_file(output_filepath, root_node)
+
+
+def _add_imports(root_node):
+  new_import_nodes = ast.parse(
+    '\n'
+    + '\n'.join([
+      "from typing import List, Union",
+      "from gi.repository import Gegl",
+      "from gi.repository import GObject",
+      "from gi.repository import GLib",
+      "from gi.repository import Gio",
+    ])
+  )
+
+  for new_import_node in reversed(new_import_nodes.body):
+    root_node.body.insert(0, new_import_node)
 
 
 def _remove_implementation_of_functions(root_node):
@@ -103,7 +140,7 @@ def _insert_pdb_procedure_arguments(procedure_node, procedure):
   for proc_arg in reversed(proc_args):
     arg_node = ast.arg(
       arg=_pythonize(proc_arg.name),
-      annotation=None,
+      annotation=_get_pdb_argument_type_hint(proc_arg),
       col_offset=None,
       end_col_offset=None,
       lineno=None,
@@ -111,6 +148,61 @@ def _insert_pdb_procedure_arguments(procedure_node, procedure):
       type_comment=None,
     )
     procedure_node.args.args.insert(1, arg_node)
+
+
+def _get_pdb_argument_type_hint(proc_arg):
+  arg_type_name = _parse_type(proc_arg)
+
+  # Use dummy code with the desired annotation. It is more convenient to create
+  # an annotation node this way.
+  if arg_type_name is not None:
+    dummy_func_with_type_hint = f'def foo(arg: Union[{arg_type_name}, GObject.GValue]): pass'
+  else:
+    dummy_func_with_type_hint = f'def foo(arg: GObject.GValue): pass'
+
+  node = ast.parse(dummy_func_with_type_hint)
+
+  return node.body[0].args.args[0].annotation
+
+
+def _parse_type(proc_arg):
+  value_type = proc_arg.value_type
+
+  if value_type is None or not value_type.name:
+    return None
+
+  if value_type.name.startswith('Gimp'):
+    try:
+      getattr(Gimp, value_type.name[len('Gimp'):])
+    except AttributeError:
+      return None
+    else:
+      return f"Gimp.{value_type.name[len('Gimp'):]}"
+  elif value_type.name.startswith('Gegl'):
+    try:
+      getattr(Gegl, value_type.name[len('Gegl'):])
+    except AttributeError:
+      return None
+    else:
+      return f"Gegl.{value_type.name[len('Gegl'):]}"
+  elif value_type.name in _GTYPES_TO_PYTHON_TYPES:
+    return _GTYPES_TO_PYTHON_TYPES[value_type.name]
+  else:
+    if value_type.pytype is not None:
+      return _get_full_type_name(value_type.pytype)
+    else:
+      return None
+
+
+def _get_full_type_name(type_):
+  # Taken from: https://stackoverflow.com/a/2020083
+  module_name = type_.__module__
+  if module_name == 'builtins':
+    return type_.__qualname__
+  else:
+    if module_name.startswith('gi.repository.'):
+      module_name = module_name[len('gi.repository.'):]
+    return f'{module_name}.{type_.__qualname__}'
 
 
 def _insert_pdb_procedure_docstring(procedure_node, procedure):
