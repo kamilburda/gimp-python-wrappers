@@ -27,7 +27,8 @@ class PdbStubGenerator(Gimp.PlugIn):
     @GObject.Property(
       type=Gimp.RunMode,
       default=Gimp.RunMode.NONINTERACTIVE,
-      nick='Run mode', blurb='The run mode')
+      nick='Run mode',
+      blurb='The run mode')
     def run_mode(self):
       return self._run_mode
 
@@ -39,7 +40,7 @@ class PdbStubGenerator(Gimp.PlugIn):
       type=str,
       default=stubgen_pdb.STUB_MODULE_FILEPATH,
       nick='Output file path',
-      blurb='Output file path',
+      blurb=f'Output file path (default: "{stubgen_pdb.STUB_MODULE_FILEPATH}")',
       flags=GObject.ParamFlags.READWRITE)
     def output_filepath(self):
       return self._output_filepath
@@ -65,8 +66,7 @@ class PdbStubGenerator(Gimp.PlugIn):
       procedure.set_image_types('')
       procedure.set_documentation(
         'Generates a stub file for the GIMP procedural database (PDB) for Python.',
-        'The stub can then be used in IDEs to provide code completion suggestions.'
-        ' The default save location of the stub is "{}".'.format(stubgen_pdb.STUB_MODULE_FILEPATH),
+        'The stub can then be used in IDEs to display code completion suggestions.',
         name)
       procedure.set_menu_label('Generate GIMP PDB Stubs for Python')
       procedure.set_attribution('Kamil Burda', '', '2023')
