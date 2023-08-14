@@ -230,8 +230,21 @@ def _insert_pdb_procedure_docstring(procedure_node, procedure):
   proc_docstring = ''
 
   proc_docstring = _add_proc_blurb_to_docstring(procedure, proc_docstring)
-  proc_docstring = _add_image_types_to_docstring(procedure, proc_docstring)
+
+  add_extra_newline = True
+  proc_docstring, is_specified = _add_image_types_to_docstring(
+    procedure, proc_docstring)
+
+  add_extra_newline = add_extra_newline and not is_specified
+  proc_docstring, is_specified = _add_menu_label_to_docstring(
+    procedure, proc_docstring, add_extra_newline)
+
+  add_extra_newline = add_extra_newline and not is_specified
+  proc_docstring = _add_menu_paths_to_docstring(
+    procedure, proc_docstring, add_extra_newline)
+
   proc_docstring = _add_proc_help_to_docstring(procedure, proc_docstring)
+
   proc_docstring = _add_proc_params_to_docstring(procedure, proc_docstring)
   proc_docstring = _add_proc_return_values_to_docstring(procedure, proc_docstring)
 
@@ -265,6 +278,30 @@ def _add_image_types_to_docstring(procedure, proc_docstring):
     if proc_docstring:
       proc_docstring += f'\n{_BODY_INDENT}' * 2
     proc_docstring += f'Image types: {proc_image_types}'
+
+  return proc_docstring, bool(proc_image_types)
+
+
+def _add_menu_label_to_docstring(procedure, proc_docstring, add_extra_newline):
+  proc_menu_label = procedure.get_menu_label()
+  if proc_menu_label:
+    if proc_docstring:
+      proc_docstring += f'\n{_BODY_INDENT}' * (2 if add_extra_newline else 1)
+    proc_docstring += f'Menu label: {proc_menu_label}'
+
+  return proc_docstring, bool(proc_menu_label)
+
+
+def _add_menu_paths_to_docstring(procedure, proc_docstring, add_extra_newline):
+  proc_menu_paths = procedure.get_menu_paths()
+  if proc_menu_paths:
+    if proc_docstring:
+      proc_docstring += f'\n{_BODY_INDENT}' * (2 if add_extra_newline else 1)
+
+    proc_menu_paths = [path.rstrip('/') for path in proc_menu_paths]
+    title = 'Menu paths' if len(proc_menu_paths) > 1 else 'Menu path'
+
+    proc_docstring += f'{title}: {", ".join(proc_menu_paths)}'
 
   return proc_docstring
 
