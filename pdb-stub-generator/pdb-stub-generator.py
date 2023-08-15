@@ -16,6 +16,9 @@ import stubgen_pdb
 
 
 def generate_pdb_stubs(run_mode, output_filepath=stubgen_pdb.STUB_MODULE_FILEPATH):
+  if not output_filepath:
+    output_filepath = stubgen_pdb.STUB_MODULE_FILEPATH
+
   stubgen_pdb.generate_pdb_stubs(output_filepath)
 
 
