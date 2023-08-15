@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-"""GIMP plug-in that provides a convenience wrapper for invoking GIMP PDB procedures and generates
-stubs for PDB procedures to allow displaying code completion suggestions in IDEs.
-"""
+"""GIMP plug-in that provides a convenience wrapper for invoking GIMP PDB
+procedures and generates stubs for PDB procedures to allow displaying code
+completion suggestions in IDEs."""
 
 import sys
 
