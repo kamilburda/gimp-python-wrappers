@@ -79,11 +79,17 @@ class PdbStubGenerator(Gimp.PlugIn):
 
     @staticmethod
     def run(procedure, args, data):
-      generate_pdb_stubs(*_value_array_to_list(args))
+      run_mode = args.index(0)
 
-      return_value = procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
+      config = procedure.create_config()
+      config.begin_run(None, run_mode, args)
+      config.get_values(args)
 
-      return return_value
+      generate_pdb_stubs(run_mode, *_value_array_to_list(args)[1:])
+
+      config.end_run(Gimp.PDBStatusType.SUCCESS)
+
+      return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
 
 
 Gimp.main(PdbStubGenerator.__gtype__, sys.argv)
