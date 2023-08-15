@@ -9,17 +9,37 @@ import sys
 import gi
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
+gi.require_version('GimpUi', '3.0')
+from gi.repository import GimpUi
 from gi.repository import GObject
 from gi.repository import GLib
 
 import stubgen_pdb
 
 
-def generate_pdb_stubs(run_mode, output_filepath=stubgen_pdb.STUB_MODULE_FILEPATH):
+def generate_pdb_stubs(procedure, run_mode, config):
+  config_status = Gimp.PDBStatusType.SUCCESS
+
+  if run_mode == Gimp.RunMode.INTERACTIVE:
+    GimpUi.init('generate-pdb-stubs')
+
+    dialog = GimpUi.ProcedureDialog(procedure=procedure, config=config, title=None)
+    dialog.fill(['output-filepath'])
+
+    is_ok_pressed = dialog.run()
+    if is_ok_pressed:
+      dialog.destroy()
+    else:
+      dialog.destroy()
+      return Gimp.PDBStatusType.CANCEL
+
+  output_filepath = config.get_property('output-filepath')
   if not output_filepath:
     output_filepath = stubgen_pdb.STUB_MODULE_FILEPATH
 
   stubgen_pdb.generate_pdb_stubs(output_filepath)
+
+  return config_status
 
 
 def _value_array_to_list(array):
@@ -88,9 +108,9 @@ class PdbStubGenerator(Gimp.PlugIn):
       config.begin_run(None, run_mode, args)
       config.get_values(args)
 
-      generate_pdb_stubs(run_mode, *_value_array_to_list(args)[1:])
+      config_status = generate_pdb_stubs(procedure, run_mode, config)
 
-      config.end_run(Gimp.PDBStatusType.SUCCESS)
+      config.end_run(config_status)
 
       return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
 
