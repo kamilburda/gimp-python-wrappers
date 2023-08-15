@@ -42,7 +42,7 @@ class PdbStubGenerator(Gimp.PlugIn):
     @GObject.Property(
       type=str,
       default=stubgen_pdb.STUB_MODULE_FILEPATH,
-      nick='Output file path',
+      nick='Output _file path',
       blurb=f'Output file path (default: "{stubgen_pdb.STUB_MODULE_FILEPATH}")',
       flags=GObject.ParamFlags.READWRITE)
     def output_filepath(self):
