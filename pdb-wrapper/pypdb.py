@@ -18,10 +18,12 @@ class _PyPDB:
 
   @property
   def last_status(self):
+    """Exit status of the last GIMP PDB procedure invoked by this class."""
     return self._last_status
 
   @property
   def last_error(self):
+    """Error message of the last GIMP PDB procedure invoked by this class."""
     return self._last_error
 
   def __getattr__(self, name):
@@ -44,14 +46,19 @@ class PyPDBProcedure:
 
   @property
   def name(self):
+    """Procedure name as it appears in the GIMP procedural database (PDB)."""
     return self._name
 
   @property
   def info(self):
+    """`Gimp.Procedure` instance containing procedure metadata."""
     return self._info
 
   @property
   def has_run_mode(self):
+    """`True` if the procedure has `run-mode` as its first argument, `False`
+    otherwise.
+    """
     return self._has_run_mode
 
   def __call__(
