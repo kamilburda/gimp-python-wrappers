@@ -13,11 +13,11 @@ gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
 
 
-CURRENT_MODULE_DIRPATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+MODULE_DIRPATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 PYPDB_MODULE_NAME = 'pypdb'
-PYPDB_MODULE_FILEPATH = os.path.join(CURRENT_MODULE_DIRPATH, f'{PYPDB_MODULE_NAME}.py')
-STUB_MODULE_FILEPATH = os.path.join(CURRENT_MODULE_DIRPATH, f'{PYPDB_MODULE_NAME}.pyi')
+PYPDB_MODULE_FILEPATH = os.path.join(MODULE_DIRPATH, f'{PYPDB_MODULE_NAME}.py')
+STUB_MODULE_FILEPATH = os.path.join(MODULE_DIRPATH, f'{PYPDB_MODULE_NAME}.pyi')
 TEXT_FILE_ENCODING = 'utf-8'
 
 _PYPDB_CLASS_NAME = '_PyPDB'
@@ -44,7 +44,7 @@ _GTYPES_TO_PYTHON_TYPES = {
 }
 
 
-def generate_pdb_stubs(output_filepath):
+def generate_pdb_stubs(output_dirpath):
   if not os.path.isfile(PYPDB_MODULE_FILEPATH):
     raise RuntimeError(f'pypdb module does not exist at "{os.path.dirname(PYPDB_MODULE_FILEPATH)}"')
 
@@ -60,7 +60,7 @@ def generate_pdb_stubs(output_filepath):
   for proc_name, proc in sorted(_get_pdb_procedures().items()):
     _insert_pdb_procedure_node(pypdb_class_node, proc_name, proc)
 
-  write_stub_file(output_filepath, root_node)
+  write_stub_file(output_dirpath, root_node)
 
 
 def _add_imports(root_node):
@@ -438,8 +438,8 @@ def _get_pdb_procedures():
   }
 
 
-def write_stub_file(filepath, root_node):
-  os.makedirs(os.path.dirname(filepath), exist_ok=True)
+def write_stub_file(dirpath, root_node):
+  os.makedirs(dirpath, exist_ok=True)
 
-  with open(filepath, 'w', encoding=TEXT_FILE_ENCODING) as stub_file:
+  with open(os.path.join(dirpath, f'{PYPDB_MODULE_NAME}.pyi'), 'w', encoding=TEXT_FILE_ENCODING) as stub_file:
     stub_file.write(ast.unparse(root_node))

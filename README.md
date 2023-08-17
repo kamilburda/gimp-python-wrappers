@@ -29,11 +29,11 @@ To generate a new stub file, this repository must be installed as a GIMP plug-in
 
 To run the stub generator, open GIMP and choose `Filters → Development → Python-Fu → Generate GIMP PDB Stubs for Python`.
 
-You may adjust the output file path.
+You may adjust the output directory.
 
 Alternatively, you can run the generator from the Python-Fu console - choose `Filters -> Development -> Python-Fu -> Console` and enter
 
-    Gimp.get_pdb().run_procedure('generate-pdb-stubs', [Gimp.RunMode.NONINTERACTIVE, <output file path>])
+    Gimp.get_pdb().run_procedure('generate-pdb-stubs', [Gimp.RunMode.NONINTERACTIVE, <output directory path>])
 
 
 ### Adding the GIMP PDB wrapper and the stub file to your IDE

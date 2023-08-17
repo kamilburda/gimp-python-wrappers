@@ -24,7 +24,7 @@ def generate_pdb_stubs(procedure, run_mode, config):
     GimpUi.init('generate-pdb-stubs')
 
     dialog = GimpUi.ProcedureDialog(procedure=procedure, config=config, title=None)
-    dialog.fill(['output-filepath'])
+    dialog.fill(['output-dirpath'])
 
     is_ok_pressed = dialog.run()
     if is_ok_pressed:
@@ -33,11 +33,11 @@ def generate_pdb_stubs(procedure, run_mode, config):
       dialog.destroy()
       return Gimp.PDBStatusType.CANCEL
 
-  output_filepath = config.get_property('output-filepath')
-  if not output_filepath:
-    output_filepath = stubgen_pdb.STUB_MODULE_FILEPATH
+  output_dirpath = config.get_property('output-dirpath')
+  if not output_dirpath:
+    output_dirpath = stubgen_pdb.MODULE_DIRPATH
 
-  stubgen_pdb.generate_pdb_stubs(output_filepath)
+  stubgen_pdb.generate_pdb_stubs(output_dirpath)
 
   return config_status
 
@@ -61,16 +61,16 @@ class PdbStubGenerator(Gimp.PlugIn):
 
     @GObject.Property(
       type=str,
-      default=stubgen_pdb.STUB_MODULE_FILEPATH,
-      nick='Output _file path',
-      blurb=f'Output file path (default: "{stubgen_pdb.STUB_MODULE_FILEPATH}")',
+      default=stubgen_pdb.MODULE_DIRPATH,
+      nick='Output _directory path',
+      blurb=f'Output directory path (default: "{stubgen_pdb.MODULE_DIRPATH}")',
       flags=GObject.ParamFlags.READWRITE)
-    def output_filepath(self):
-      return self._output_filepath
+    def output_dirpath(self):
+      return self._output_dirpath
 
-    @output_filepath.setter
-    def output_filepath(self, value):
-      self._output_filepath = value
+    @output_dirpath.setter
+    def output_dirpath(self, value):
+      self._output_dirpath = value
 
     def do_set_i18n(self, name):
       return False
@@ -101,7 +101,7 @@ class PdbStubGenerator(Gimp.PlugIn):
       procedure.add_menu_path('<Image>/Filters/Development/Python-Fu')
 
       procedure.add_argument_from_property(self, 'run-mode')
-      procedure.add_argument_from_property(self, 'output-filepath')
+      procedure.add_argument_from_property(self, 'output-dirpath')
 
       return procedure
 
