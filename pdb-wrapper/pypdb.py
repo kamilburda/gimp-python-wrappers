@@ -93,7 +93,7 @@ class PyPDBProcedure:
 
   def _get_has_run_mode(self):
     proc_arg_info = self._info.get_arguments()
-    if proc_arg_info:
+    if proc_arg_info and proc_arg_info[0].value_type.pytype:
       return issubclass(proc_arg_info[0].value_type.pytype, Gimp.RunMode)
     else:
       return False
