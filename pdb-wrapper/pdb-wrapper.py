@@ -88,8 +88,13 @@ class PdbStubGenerator(Gimp.PlugIn):
 
       procedure.set_image_types('')
       procedure.set_documentation(
-        'Generates a stub file for the GIMP procedural database (PDB) for Python.',
-        'The stub can then be used in IDEs to display code completion suggestions.',
+        ('Generates a stub file for the GIMP procedural database (PDB) for Python plug-ins'
+         f' named "{stubgen_pdb.PYPDB_MODULE_NAME}.pyi".'),
+        (f'The "{stubgen_pdb.PYPDB_MODULE_NAME}.py" file provides a convenience wrapper'
+         ' to simplify calls to GIMP PDB procedures from Python plug-ins.'
+         f' The generated "{stubgen_pdb.PYPDB_MODULE_NAME}.pyi" stub file can then be used'
+         ' in integrated development environments (IDEs) to display code completion suggestions'
+         ' for GIMP PDB procedures.'),
         name)
       procedure.set_menu_label('Generate GIMP PDB Stubs for Python')
       procedure.set_attribution('Kamil Burda', '', '2023')
