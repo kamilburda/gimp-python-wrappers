@@ -3538,28 +3538,6 @@ class _PyPDB:
         """
         pass
 
-    def generate_pdb_stubs(self, output_filepath: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Generates a stub file for the GIMP procedural database (PDB) for
-        Python plug-ins named "pypdb.pyi".
-        
-        Menu label: Generate GIMP PDB Stubs for Python
-        Menu path: <Image>/Filters/Development/Python-Fu
-        
-        The "pypdb.py" file provides a convenience wrapper to simplify calls to
-        GIMP PDB procedures from Python plug-ins. The generated
-        "pypdb.pyi" stub file can then be used in integrated development
-        environments (IDEs) to display code completion suggestions for
-        GIMP PDB procedures.
-        
-        Parameters:
-        
-        * output_filepath (default: C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\g
-          imp-python-pdb-wrapper\\pdb-wrapper\\pypdb.pyi) - Output file
-          path (default: "C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\gim
-          p-python-pdb-wrapper\\pdb-wrapper\\pypdb.pyi").
-        """
-        pass
-
     def gimp_airbrush(self, drawable: Union[Gimp.Drawable, GObject.GValue], pressure: Union[float, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
         """Paint in the current brush with varying pressure. Paint application
         is time-dependent.
