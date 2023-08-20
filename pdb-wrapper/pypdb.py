@@ -29,10 +29,31 @@ class _PyPDB:
   def __getattr__(self, name):
     proc_name = name.replace('_', '-')
 
+    if not self._procedure_exists(proc_name):
+      raise AttributeError(f'procedure "{proc_name}" does not exist')
+
+    return self._get_proc_by_name(proc_name)
+
+  def __getitem__(self, name):
+    proc_name = name.replace('_', '-')
+
+    if not self._procedure_exists(proc_name):
+      raise KeyError(f'procedure "{proc_name}" does not exist')
+
+    return self._get_proc_by_name(proc_name)
+
+  def __contains__(self, name):
+    return self._procedure_exists(name)
+
+  def _get_proc_by_name(self, proc_name):
     if proc_name not in self._proc_cache:
       self._proc_cache[proc_name] = PyPDBProcedure(self, proc_name)
 
     return self._proc_cache[proc_name]
+
+  @staticmethod
+  def _procedure_exists(proc_name):
+    return _gimp_pdb.procedure_exists(proc_name)
 
 
 class PyPDBProcedure:
