@@ -25,6 +25,19 @@ class _PyPDB:
     def __getattr__(self, name):
         pass
 
+    def __getitem__(self, name):
+        pass
+
+    def __contains__(self, name):
+        pass
+
+    def _get_proc_by_name(self, proc_name):
+        pass
+
+    @staticmethod
+    def _procedure_exists(proc_name):
+        pass
+
     def extension_gimp_help(self, domain_names: Union[List[str], GObject.GValue], domain_uris: Union[List[str], GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
         """Parameters:
         
