@@ -42,10 +42,6 @@ def generate_pdb_stubs(procedure, run_mode, config):
   return config_status
 
 
-def _value_array_to_list(array):
-  return [array.index(i) for i in range(array.length())]
-
-
 class PdbStubGenerator(Gimp.PlugIn):
     @GObject.Property(
       type=Gimp.RunMode,
