@@ -92,8 +92,8 @@ class PdbStubGenerator(Gimp.PlugIn):
          ' in integrated development environments (IDEs) to display code completion suggestions'
          ' for GIMP PDB procedures.'),
         name)
-      procedure.set_menu_label('Generate GIMP PDB Stubs for Python')
       procedure.set_attribution('Kamil Burda', '', '2023')
+      procedure.set_menu_label('Generate GIMP PDB Stubs for Python')
       procedure.add_menu_path('<Image>/Filters/Development/Python-Fu')
 
       procedure.add_argument_from_property(self, 'run-mode')
