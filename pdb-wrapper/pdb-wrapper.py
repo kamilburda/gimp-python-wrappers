@@ -43,77 +43,77 @@ def generate_pdb_stubs(procedure, run_mode, config):
 
 
 class PdbStubGenerator(Gimp.PlugIn):
-    @GObject.Property(
-      type=Gimp.RunMode,
-      default=Gimp.RunMode.NONINTERACTIVE,
-      nick='Run mode',
-      blurb='The run mode')
-    def run_mode(self):
-      return self._run_mode
+  @GObject.Property(
+    type=Gimp.RunMode,
+    default=Gimp.RunMode.NONINTERACTIVE,
+    nick='Run mode',
+    blurb='The run mode')
+  def run_mode(self):
+    return self._run_mode
 
-    @run_mode.setter
-    def run_mode(self, run_mode):
-      self._run_mode = run_mode
+  @run_mode.setter
+  def run_mode(self, run_mode):
+    self._run_mode = run_mode
 
-    @GObject.Property(
-      type=str,
-      default=stubgen_pdb.MODULE_DIRPATH,
-      nick='Output _directory path',
-      blurb=f'Output directory path (default: "{stubgen_pdb.MODULE_DIRPATH}")',
-      flags=GObject.ParamFlags.READWRITE)
-    def output_dirpath(self):
-      return self._output_dirpath
+  @GObject.Property(
+    type=str,
+    default=stubgen_pdb.MODULE_DIRPATH,
+    nick='Output _directory path',
+    blurb=f'Output directory path (default: "{stubgen_pdb.MODULE_DIRPATH}")',
+    flags=GObject.ParamFlags.READWRITE)
+  def output_dirpath(self):
+    return self._output_dirpath
 
-    @output_dirpath.setter
-    def output_dirpath(self, value):
-      self._output_dirpath = value
+  @output_dirpath.setter
+  def output_dirpath(self, value):
+    self._output_dirpath = value
 
-    def do_set_i18n(self, name):
-      return False
+  def do_set_i18n(self, name):
+    return False
 
-    def do_query_procedures(self):
-      return ['generate-pdb-stubs']
+  def do_query_procedures(self):
+    return ['generate-pdb-stubs']
 
-    def do_create_procedure(self, name):
-      procedure = Gimp.Procedure.new(
-        self,
-        name,
-        Gimp.PDBProcType.PLUGIN,
-        self.run,
-        None)
+  def do_create_procedure(self, name):
+    procedure = Gimp.Procedure.new(
+      self,
+      name,
+      Gimp.PDBProcType.PLUGIN,
+      self.run,
+      None)
 
-      procedure.set_image_types('')
-      procedure.set_documentation(
-        ('Generates a stub file for the GIMP procedural database (PDB) for Python plug-ins'
-         f' named "{stubgen_pdb.PYPDB_MODULE_NAME}.pyi".'),
-        (f'The "{stubgen_pdb.PYPDB_MODULE_NAME}.py" file provides a convenience wrapper'
-         ' to simplify calls to GIMP PDB procedures from Python plug-ins.'
-         f' The generated "{stubgen_pdb.PYPDB_MODULE_NAME}.pyi" stub file can then be used'
-         ' in integrated development environments (IDEs) to display code completion suggestions'
-         ' for GIMP PDB procedures.'),
-        name)
-      procedure.set_attribution('Kamil Burda', '', '2023')
-      procedure.set_menu_label('Generate GIMP PDB Stubs for Python')
-      procedure.add_menu_path('<Image>/Filters/Development/Python-Fu')
+    procedure.set_image_types('')
+    procedure.set_documentation(
+      ('Generates a stub file for the GIMP procedural database (PDB) for Python plug-ins'
+       f' named "{stubgen_pdb.PYPDB_MODULE_NAME}.pyi".'),
+      (f'The "{stubgen_pdb.PYPDB_MODULE_NAME}.py" file provides a convenience wrapper'
+       ' to simplify calls to GIMP PDB procedures from Python plug-ins.'
+       f' The generated "{stubgen_pdb.PYPDB_MODULE_NAME}.pyi" stub file can then be used'
+       ' in integrated development environments (IDEs) to display code completion suggestions'
+       ' for GIMP PDB procedures.'),
+      name)
+    procedure.set_attribution('Kamil Burda', '', '2023')
+    procedure.set_menu_label('Generate GIMP PDB Stubs for Python')
+    procedure.add_menu_path('<Image>/Filters/Development/Python-Fu')
 
-      procedure.add_argument_from_property(self, 'run-mode')
-      procedure.add_argument_from_property(self, 'output-dirpath')
+    procedure.add_argument_from_property(self, 'run-mode')
+    procedure.add_argument_from_property(self, 'output-dirpath')
 
-      return procedure
+    return procedure
 
-    @staticmethod
-    def run(procedure, args, data):
-      run_mode = args.index(0)
+  @staticmethod
+  def run(procedure, args, data):
+    run_mode = args.index(0)
 
-      config = procedure.create_config()
-      config.begin_run(None, run_mode, args)
-      config.get_values(args)
+    config = procedure.create_config()
+    config.begin_run(None, run_mode, args)
+    config.get_values(args)
 
-      config_status = generate_pdb_stubs(procedure, run_mode, config)
+    config_status = generate_pdb_stubs(procedure, run_mode, config)
 
-      config.end_run(config_status)
+    config.end_run(config_status)
 
-      return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
+    return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
 
 
 Gimp.main(PdbStubGenerator.__gtype__, sys.argv)
