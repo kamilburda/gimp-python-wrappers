@@ -43,30 +43,17 @@ def generate_pdb_stubs(procedure, run_mode, config):
 
 
 class PdbStubGenerator(Gimp.PlugIn):
-  @GObject.Property(
+  run_mode = GObject.Property(
     type=Gimp.RunMode,
     default=Gimp.RunMode.NONINTERACTIVE,
     nick='Run mode',
     blurb='The run mode')
-  def run_mode(self):
-    return self._run_mode
 
-  @run_mode.setter
-  def run_mode(self, run_mode):
-    self._run_mode = run_mode
-
-  @GObject.Property(
+  output_dirpath = GObject.Property(
     type=str,
     default=stubgen_pdb.MODULE_DIRPATH,
     nick='Output _directory path',
-    blurb=f'Output directory path (default: "{stubgen_pdb.MODULE_DIRPATH}")',
-    flags=GObject.ParamFlags.READWRITE)
-  def output_dirpath(self):
-    return self._output_dirpath
-
-  @output_dirpath.setter
-  def output_dirpath(self, value):
-    self._output_dirpath = value
+    blurb=f'Output directory path (default: "{stubgen_pdb.MODULE_DIRPATH}")')
 
   def do_set_i18n(self, name):
     return False
