@@ -7,7 +7,6 @@ from typing import Optional
 import gi
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
-_gimp_pdb = Gimp.get_pdb()
 
 class _PyPDB:
 
