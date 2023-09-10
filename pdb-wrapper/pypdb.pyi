@@ -1,12 +1,12 @@
-from typing import List, Union, Tuple
+from typing import List, Tuple
 from gi.repository import Gegl
-from gi.repository import GObject
 from gi.repository import GLib
 from gi.repository import Gio
 from typing import Optional
 import gi
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
+from gi.repository import GObject
 
 class _PyPDB:
 
@@ -37,7 +37,7 @@ class _PyPDB:
     def _procedure_exists(proc_name):
         pass
 
-    def extension_gimp_help(self, domain_names: Union[List[str], GObject.GValue], domain_uris: Union[List[str], GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def extension_gimp_help(self, domain_names: List[str], domain_uris: List[str], *, config: Optional[Gimp.ProcedureConfig]=None):
         """Parameters:
         
         * domain_names - Domain names.
@@ -53,7 +53,7 @@ class _PyPDB:
         """
         pass
 
-    def file_aa_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], file_type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_aa_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, file_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves grayscale image in various text formats.
         
         Image types: *
@@ -76,7 +76,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ani_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_ani_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of Windows ANI file format.
         
         Menu label: Microsoft Windows animated cursor
@@ -93,7 +93,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ani_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ani_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a Windows ANI files.
         
         Parameters:
@@ -119,7 +119,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ani_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], cursor_name: Union[str, GObject.GValue], author_name: Union[str, GObject.GValue], default_delay: Union[int, GObject.GValue], n_hot_spot_x: Union[int, GObject.GValue], hot_spot_x: Union[Gimp.Int32Array, GObject.GValue], n_hot_spot_y: Union[int, GObject.GValue], hot_spot_y: Union[Gimp.Int32Array, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ani_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, cursor_name: str, author_name: str, default_delay: int, n_hot_spot_x: int, hot_spot_x: Gimp.Int32Array, n_hot_spot_y: int, hot_spot_y: Gimp.Int32Array, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in Windows ANI file format.
         
         Image types: *
@@ -154,7 +154,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bmp_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_bmp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of Windows BMP file format.
         
         Menu label: Windows BMP image
@@ -171,7 +171,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bmp_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], use_rle: Union[bool, GObject.GValue], write_color_space: Union[bool, GObject.GValue], rgb_format: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_bmp_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, use_rle: bool, write_color_space: bool, rgb_format: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in Windows BMP file format.
         
         Image types: INDEXED, GRAY, RGB*
@@ -201,7 +201,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bz2_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_bz2_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files compressed with bzip2.
         
         Menu label: bzip archive
@@ -218,7 +218,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bz2_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_bz2_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files compressed with bzip2.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -238,7 +238,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cel_load(self, file: Union[Gio.File, GObject.GValue], palette_filename: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_cel_load(self, file: Gio.File, palette_filename: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in KISS CEL file format.
         
         Menu label: KISS CEL
@@ -257,7 +257,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cel_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], palette_filename: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_cel_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, palette_filename: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in KISS CEL file format.
         
         Image types: RGB*, INDEXED*
@@ -279,7 +279,7 @@ class _PyPDB:
         """
         pass
 
-    def file_colorxhtml_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], source_file: Union[bool, GObject.GValue], characters: Union[str, GObject.GValue], font_size: Union[int, GObject.GValue], separate: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_colorxhtml_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, source_file: bool, characters: str, font_size: int, separate: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Save as colored HTML text.
         
         Image types: RGB
@@ -309,7 +309,7 @@ class _PyPDB:
         """
         pass
 
-    def file_csource_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_csource_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Dump image data in RGB(A) format for C source.
         
         Image types: *
@@ -329,7 +329,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cur_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_cur_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of Windows CUR file format.
         
         Menu label: Microsoft Windows cursor
@@ -346,7 +346,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cur_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], n_hot_spot_x: Union[int, GObject.GValue], hot_spot_x: Union[Gimp.Int32Array, GObject.GValue], n_hot_spot_y: Union[int, GObject.GValue], hot_spot_y: Union[Gimp.Int32Array, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_cur_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, n_hot_spot_x: int, hot_spot_x: Gimp.Int32Array, n_hot_spot_y: int, hot_spot_y: Gimp.Int32Array, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in Windows CUR file format.
         
         Image types: *
@@ -374,7 +374,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dcx_load(self, file: Union[Gio.File, GObject.GValue], override_palette: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_dcx_load(self, file: Gio.File, override_palette: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in Zsoft DCX file format.
         
         Menu label: ZSoft DCX image
@@ -394,7 +394,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dds_load(self, file: Union[Gio.File, GObject.GValue], load_mipmaps: Union[bool, GObject.GValue], decode_images: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_dds_load(self, file: Gio.File, load_mipmaps: bool, decode_images: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in DDS image format.
         
         Menu label: DDS image
@@ -416,7 +416,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dds_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], compression_format: Union[int, GObject.GValue], mipmaps: Union[int, GObject.GValue], save_type: Union[int, GObject.GValue], format: Union[int, GObject.GValue], flip_image: Union[bool, GObject.GValue], transparent_color: Union[bool, GObject.GValue], transparent_index: Union[int, GObject.GValue], mipmap_filter: Union[int, GObject.GValue], mipmap_wrap: Union[int, GObject.GValue], gamma_correct: Union[bool, GObject.GValue], srgb: Union[bool, GObject.GValue], gamma: Union[float, GObject.GValue], perceptual_metric: Union[bool, GObject.GValue], preserve_alpha_coverage: Union[bool, GObject.GValue], alpha_test_threshold: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_dds_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, compression_format: int, mipmaps: int, save_type: int, format: int, flip_image: bool, transparent_color: bool, transparent_index: int, mipmap_filter: int, mipmap_wrap: int, gamma_correct: bool, srgb: bool, gamma: float, perceptual_metric: bool, preserve_alpha_coverage: bool, alpha_test_threshold: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in DDS image format.
         
         Image types: INDEXED, GRAY, RGB
@@ -489,7 +489,7 @@ class _PyPDB:
         """
         pass
 
-    def file_desktop_link_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_desktop_link_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Follows a link to an image in a .desktop file.
         
         Menu label: Desktop Link
@@ -507,7 +507,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dicom_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_dicom_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of the dicom file format.
         
         Menu label: DICOM image
@@ -526,7 +526,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dicom_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_dicom_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Save file in the DICOM file format.
         
         Image types: RGB, GRAY
@@ -550,7 +550,7 @@ class _PyPDB:
         """
         pass
 
-    def file_eps_load(self, file: Union[Gio.File, GObject.GValue], resolution: Union[int, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], check_bbox: Union[bool, GObject.GValue], pages: Union[str, GObject.GValue], coloring: Union[int, GObject.GValue], text_alpha_bits: Union[int, GObject.GValue], graphoc_alpha_bits: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_eps_load(self, file: Gio.File, resolution: int, width: int, height: int, check_bbox: bool, pages: str, coloring: int, text_alpha_bits: int, graphoc_alpha_bits: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load Encapsulated PostScript images.
         
         Menu label: Encapsulated PostScript image
@@ -585,7 +585,7 @@ class _PyPDB:
         """
         pass
 
-    def file_eps_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], width: Union[float, GObject.GValue], height: Union[float, GObject.GValue], x_offset: Union[float, GObject.GValue], y_offset: Union[float, GObject.GValue], unit: Union[int, GObject.GValue], keep_ratio: Union[bool, GObject.GValue], rotation: Union[int, GObject.GValue], level: Union[bool, GObject.GValue], eps_flag: Union[bool, GObject.GValue], show_preview: Union[bool, GObject.GValue], preview: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_eps_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, width: float, height: float, x_offset: float, y_offset: float, unit: int, keep_ratio: bool, rotation: int, level: bool, eps_flag: bool, show_preview: bool, preview: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export image as Encapsulated PostScript image.
         
         Image types: RGB, GRAY, INDEXED
@@ -634,7 +634,7 @@ class _PyPDB:
         """
         pass
 
-    def file_exr_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_exr_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in the OpenEXR file format.
         
         Menu label: OpenEXR image
@@ -651,7 +651,7 @@ class _PyPDB:
         """
         pass
 
-    def file_exr_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_exr_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in the OpenEXR file format.
         
         Image types: *
@@ -671,7 +671,7 @@ class _PyPDB:
         """
         pass
 
-    def file_faxg3_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_faxg3_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads g3 fax files.
         
         Menu label: G3 fax image
@@ -688,7 +688,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fits_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_fits_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load file of the FITS file format.
         
         Menu label: Flexible Image Transport System
@@ -705,7 +705,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fits_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_fits_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export file in the FITS file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -725,7 +725,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fli_info(self, file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int]:
+    def file_fli_info(self, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int]:
         """Get information about a Fli movie.
         
         This is an experimental plug-in to handle FLI movies.
@@ -744,7 +744,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fli_load(self, file: Union[Gio.File, GObject.GValue], from_frame: Union[int, GObject.GValue], to_frame: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_fli_load(self, file: Gio.File, from_frame: int, to_frame: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load FLI-movies.
         
         Menu label: AutoDesk FLIC animation
@@ -765,7 +765,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fli_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], from_frame: Union[int, GObject.GValue], to_frame: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_fli_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, from_frame: int, to_frame: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export FLI-movies.
         
         Image types: INDEXED, GRAY
@@ -790,7 +790,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gbr_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gbr_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads GIMP brushes.
         
         Loads GIMP brushes (1 or 4 bpp and old .gpb format).
@@ -805,7 +805,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gbr_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], spacing: Union[int, GObject.GValue], description: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gbr_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, spacing: int, description: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the GIMP brush file format.
         
         Image types: *
@@ -829,7 +829,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gbr_save_internal(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], file: Union[Gio.File, GObject.GValue], spacing: Union[int, GObject.GValue], name: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gbr_save_internal(self, image: Gimp.Image, drawable: Gimp.Drawable, file: Gio.File, spacing: int, name: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports Gimp brush file (.GBR).
         
         Exports Gimp brush file (.GBR).
@@ -848,7 +848,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gex_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def file_gex_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Loads GIMP extension.
         
         Loads GIMP extension.
@@ -863,7 +863,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gif_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gif_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of Compuserve GIF file format.
         
         Menu label: GIF image
@@ -880,7 +880,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gif_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_gif_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads only the first frame of a GIF image, to be used as a thumbnail.
         
         Parameters:
@@ -906,7 +906,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gif_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], interlace: Union[bool, GObject.GValue], loop: Union[bool, GObject.GValue], number_of_repeats: Union[int, GObject.GValue], default_delay: Union[int, GObject.GValue], default_dispose: Union[int, GObject.GValue], as_animation: Union[bool, GObject.GValue], force_delay: Union[bool, GObject.GValue], force_dispose: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gif_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, interlace: bool, loop: bool, number_of_repeats: int, default_delay: int, default_dispose: int, as_animation: bool, force_delay: bool, force_dispose: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in GIF file format.
         
         Image types: INDEXED*, GRAY*
@@ -952,7 +952,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gih_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gih_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads GIMP animated brushes.
         
         This procedure loads a GIMP brush pipe as an image.
@@ -967,7 +967,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gih_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], spacing: Union[int, GObject.GValue], description: Union[str, GObject.GValue], cell_width: Union[int, GObject.GValue], cell_height: Union[int, GObject.GValue], display_cols: Union[int, GObject.GValue], display_rows: Union[int, GObject.GValue], rank: Union[GLib.Bytes, GObject.GValue], dimension_2: Union[int, GObject.GValue], sel: Union[List[str], GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gih_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, spacing: int, description: str, cell_width: int, cell_height: int, display_cols: int, display_rows: int, rank: GLib.Bytes, dimension_2: int, sel: List[str], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports images in GIMP brush pipe format.
         
         Image types: RGB*, GRAY*
@@ -1011,7 +1011,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gih_save_internal(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], spacing: Union[int, GObject.GValue], name: Union[str, GObject.GValue], params: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gih_save_internal(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, spacing: int, name: str, params: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports Gimp animated brush file (.gih).
         
         Exports Gimp animated brush file (.gih).
@@ -1034,7 +1034,7 @@ class _PyPDB:
         """
         pass
 
-    def file_glob(self, pattern: Union[str, GObject.GValue], filename_encoding: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def file_glob(self, pattern: str, filename_encoding: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Returns a list of matching filenames.
         
         This can be useful in scripts and other plug-ins (e.g.,
@@ -1055,7 +1055,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gz_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gz_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files compressed with gzip.
         
         Menu label: gzip archive
@@ -1072,7 +1072,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gz_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gz_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files compressed with gzip.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -1092,7 +1092,7 @@ class _PyPDB:
         """
         pass
 
-    def file_header_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_header_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files as C unsigned character array.
         
         Image types: INDEXED, RGB
@@ -1112,7 +1112,7 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_av1_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_heif_av1_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads AVIF images.
         
         Menu label: HEIF/AVIF
@@ -1129,7 +1129,7 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_av1_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], quality: Union[int, GObject.GValue], lossless: Union[bool, GObject.GValue], save_bit_depth: Union[int, GObject.GValue], pixel_format: Union[int, GObject.GValue], encoder_speed: Union[int, GObject.GValue], save_exif: Union[bool, GObject.GValue], save_xmp: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_heif_av1_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, quality: int, lossless: bool, save_bit_depth: int, pixel_format: int, encoder_speed: int, save_exif: bool, save_xmp: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports AVIF images.
         
         Image types: RGB*
@@ -1163,7 +1163,7 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_heif_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads HEIF images.
         
         Menu label: HEIF/HEIC
@@ -1181,7 +1181,7 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], quality: Union[int, GObject.GValue], lossless: Union[bool, GObject.GValue], save_bit_depth: Union[int, GObject.GValue], pixel_format: Union[int, GObject.GValue], encoder_speed: Union[int, GObject.GValue], save_exif: Union[bool, GObject.GValue], save_xmp: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_heif_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, quality: int, lossless: bool, save_bit_depth: int, pixel_format: int, encoder_speed: int, save_exif: bool, save_xmp: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports HEIF images.
         
         Image types: RGB*
@@ -1215,7 +1215,7 @@ class _PyPDB:
         """
         pass
 
-    def file_hgt_load(self, file: Union[Gio.File, GObject.GValue], sample_spacing: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_hgt_load(self, file: Gio.File, sample_spacing: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load HGT data as images.
         
         Menu label: Digital Elevation Model data
@@ -1240,7 +1240,7 @@ class _PyPDB:
         """
         pass
 
-    def file_html_table_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_html_table_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """GIMP Table Magic.
         
         Image types: *
@@ -1260,7 +1260,7 @@ class _PyPDB:
         """
         pass
 
-    def file_icns_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_icns_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in Apple Icon Image format.
         
         Menu label: Icns
@@ -1277,7 +1277,7 @@ class _PyPDB:
         """
         pass
 
-    def file_icns_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_icns_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from an Apple Icon Image file.
         
         Parameters:
@@ -1303,7 +1303,7 @@ class _PyPDB:
         """
         pass
 
-    def file_icns_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_icns_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in Apple Icon Image file format.
         
         Image types: *
@@ -1323,7 +1323,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ico_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_ico_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of Windows ICO file format.
         
         Menu label: Microsoft Windows icon
@@ -1340,7 +1340,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ico_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ico_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a Windows ICO or CUR files.
         
         Parameters:
@@ -1366,7 +1366,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ico_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ico_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in Windows ICO file format.
         
         Image types: *
@@ -1386,7 +1386,7 @@ class _PyPDB:
         """
         pass
 
-    def file_j2k_load(self, file: Union[Gio.File, GObject.GValue], colorspace: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_j2k_load(self, file: Gio.File, colorspace: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads JPEG 2000 codestream.
         
         Menu label: JPEG 2000 codestream
@@ -1409,7 +1409,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jp2_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_jp2_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads JPEG 2000 images.
         
         Menu label: JPEG 2000 image
@@ -1426,7 +1426,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpeg_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_jpeg_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in the JPEG file format.
         
         Menu label: JPEG image
@@ -1443,7 +1443,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpeg_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_jpeg_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a thumbnail from a JPEG image.
         
         Loads a thumbnail from a JPEG image, if one exists.
@@ -1471,7 +1471,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpeg_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], quality: Union[float, GObject.GValue], smoothing: Union[float, GObject.GValue], optimize: Union[bool, GObject.GValue], progressive: Union[bool, GObject.GValue], cmyk: Union[bool, GObject.GValue], sub_sampling: Union[int, GObject.GValue], baseline: Union[bool, GObject.GValue], restart: Union[int, GObject.GValue], dct: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_jpeg_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, quality: float, smoothing: float, optimize: bool, progressive: bool, cmyk: bool, sub_sampling: int, baseline: bool, restart: int, dct: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in the JPEG file format.
         
         Image types: RGB*, GRAY*
@@ -1516,7 +1516,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpegxl_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_jpegxl_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in the JPEG XL file format.
         
         Menu label: JPEG XL image
@@ -1533,7 +1533,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpegxl_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], lossless: Union[bool, GObject.GValue], compression: Union[float, GObject.GValue], save_bit_depth: Union[int, GObject.GValue], speed: Union[int, GObject.GValue], uses_original_profile: Union[bool, GObject.GValue], cmyk: Union[bool, GObject.GValue], save_exif: Union[bool, GObject.GValue], save_xmp: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_jpegxl_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, lossless: bool, compression: float, save_bit_depth: int, speed: int, uses_original_profile: bool, cmyk: bool, save_exif: bool, save_xmp: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in the JPEG XL file format.
         
         Image types: RGB*, GRAY*
@@ -1572,7 +1572,7 @@ class _PyPDB:
         """
         pass
 
-    def file_load_rgbe(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_load_rgbe(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the RGBE file format.
         
         Menu label: Radiance RGBE
@@ -1589,7 +1589,7 @@ class _PyPDB:
         """
         pass
 
-    def file_mng_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], interlaced: Union[bool, GObject.GValue], png_compression: Union[int, GObject.GValue], jpeg_quality: Union[float, GObject.GValue], jpeg_smoothing: Union[float, GObject.GValue], loop: Union[bool, GObject.GValue], default_delay: Union[int, GObject.GValue], default_chunks: Union[int, GObject.GValue], default_dispose: Union[int, GObject.GValue], bkgd: Union[bool, GObject.GValue], gama: Union[bool, GObject.GValue], phys: Union[bool, GObject.GValue], time: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_mng_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, interlaced: bool, png_compression: int, jpeg_quality: float, jpeg_smoothing: float, loop: bool, default_delay: int, default_chunks: int, default_dispose: int, bkgd: bool, gama: bool, phys: bool, time: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves images in the MNG file format.
         
         Image types: *
@@ -1640,7 +1640,7 @@ class _PyPDB:
         """
         pass
 
-    def file_openraster_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_openraster_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load an OpenRaster (.ora) file.
         
         Menu label: OpenRaster
@@ -1657,7 +1657,7 @@ class _PyPDB:
         """
         pass
 
-    def file_openraster_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_openraster_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a thumbnail from an OpenRaster (.ora) file.
         
         Loads a thumbnail from an OpenRaster (.ora) file.
@@ -1685,7 +1685,7 @@ class _PyPDB:
         """
         pass
 
-    def file_openraster_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_openraster_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Save an OpenRaster (.ora) file.
         
         Image types: *
@@ -1705,7 +1705,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pam_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pam_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the PAM file format.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -1725,7 +1725,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pat_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pat_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads GIMP patterns.
         
         Loads GIMP patterns.
@@ -1740,7 +1740,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pat_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], description: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pat_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, description: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports GIMP pattern file (.PAT).
         
         Image types: *
@@ -1764,7 +1764,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pat_save_internal(self, image: Union[Gimp.Image, GObject.GValue], n_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], name: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pat_save_internal(self, image: Gimp.Image, n_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, name: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports Gimp pattern file (.PAT).
         
         Exports Gimp pattern file (.PAT).
@@ -1783,7 +1783,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pbm_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], raw: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pbm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the PBM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -1805,7 +1805,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pcx_load(self, file: Union[Gio.File, GObject.GValue], override_palette: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pcx_load(self, file: Gio.File, override_palette: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in Zsoft PCX file format.
         
         Menu label: ZSoft PCX image
@@ -1825,7 +1825,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pcx_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pcx_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in ZSoft PCX file format.
         
         Image types: INDEXED, RGB, GRAY
@@ -1845,7 +1845,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_load(self, file: Union[Gio.File, GObject.GValue], password: Union[str, GObject.GValue], reverse_order: Union[bool, GObject.GValue], n_pages: Union[int, GObject.GValue], pages: Union[Gimp.Int32Array, GObject.GValue], antialias: Union[bool, GObject.GValue], white_background: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pdf_load(self, file: Gio.File, password: str, reverse_order: bool, n_pages: int, pages: Gimp.Int32Array, antialias: bool, white_background: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load file in PDF format.
         
         Menu label: Portable Document Format
@@ -1877,7 +1877,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_pdf_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a PDF file.
         
         Loads a small preview of the first page of the PDF format file. Uses the
@@ -1906,7 +1906,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], vectorize: Union[bool, GObject.GValue], ignore_hidden: Union[bool, GObject.GValue], apply_masks: Union[bool, GObject.GValue], layers_as_pages: Union[bool, GObject.GValue], reverse_order: Union[bool, GObject.GValue], root_layers_only: Union[bool, GObject.GValue], convert_text_layers: Union[bool, GObject.GValue], fill_background_color: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pdf_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, vectorize: bool, ignore_hidden: bool, apply_masks: bool, layers_as_pages: bool, reverse_order: bool, root_layers_only: bool, convert_text_layers: bool, fill_background_color: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Save files in PDF format.
         
         Image types: *
@@ -1953,7 +1953,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_save_multi(self, count: Union[int, GObject.GValue], images: Union[Gimp.Int32Array, GObject.GValue], vectorize: Union[bool, GObject.GValue], ignore_hidden: Union[bool, GObject.GValue], apply_masks: Union[bool, GObject.GValue], fill_background_color: Union[bool, GObject.GValue], uri: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pdf_save_multi(self, count: int, images: Gimp.Int32Array, vectorize: bool, ignore_hidden: bool, apply_masks: bool, fill_background_color: bool, uri: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Save files in PDF format.
         
         Image types: *
@@ -1987,7 +1987,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pfm_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pfm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the PFM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2007,7 +2007,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pgm_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], raw: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pgm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the PGM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2029,7 +2029,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pix_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pix_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of the Alias|Wavefront Pix file format.
         
         Menu label: Alias Pix image
@@ -2046,7 +2046,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pix_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pix_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export file in the Alias|Wavefront pix/matte file format.
         
         Image types: *
@@ -2066,7 +2066,7 @@ class _PyPDB:
         """
         pass
 
-    def file_png_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_png_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in PNG file format.
         
         Menu label: PNG image
@@ -2083,7 +2083,7 @@ class _PyPDB:
         """
         pass
 
-    def file_png_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], interlaced: Union[bool, GObject.GValue], compression: Union[int, GObject.GValue], bkgd: Union[bool, GObject.GValue], offs: Union[bool, GObject.GValue], phys: Union[bool, GObject.GValue], time: Union[bool, GObject.GValue], save_transparent: Union[bool, GObject.GValue], optimize_palette: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_png_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, interlaced: bool, compression: int, bkgd: bool, offs: bool, phys: bool, time: bool, save_transparent: bool, optimize_palette: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in PNG file format.
         
         Image types: *
@@ -2122,7 +2122,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pnm_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pnm_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in the PNM file format.
         
         Menu label: PNM Image
@@ -2139,7 +2139,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pnm_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], raw: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pnm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the PNM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2161,7 +2161,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ppm_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], raw: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ppm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the PPM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2183,7 +2183,7 @@ class _PyPDB:
         """
         pass
 
-    def file_print_gtk(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_print_gtk(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Print the image.
         
         Image types: *
@@ -2202,7 +2202,7 @@ class _PyPDB:
         """
         pass
 
-    def file_print_gtk_page_setup(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_print_gtk_page_setup(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Adjust page size and orientation for printing.
         
         Image types: *
@@ -2222,7 +2222,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ps_load(self, file: Union[Gio.File, GObject.GValue], resolution: Union[int, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], check_bbox: Union[bool, GObject.GValue], pages: Union[str, GObject.GValue], coloring: Union[int, GObject.GValue], text_alpha_bits: Union[int, GObject.GValue], graphoc_alpha_bits: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_ps_load(self, file: Gio.File, resolution: int, width: int, height: int, check_bbox: bool, pages: str, coloring: int, text_alpha_bits: int, graphoc_alpha_bits: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load PostScript documents.
         
         Menu label: PostScript document
@@ -2257,7 +2257,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ps_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ps_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a small preview from a PostScript or PDF document.
         
         Parameters:
@@ -2283,7 +2283,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ps_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], width: Union[float, GObject.GValue], height: Union[float, GObject.GValue], x_offset: Union[float, GObject.GValue], y_offset: Union[float, GObject.GValue], unit: Union[int, GObject.GValue], keep_ratio: Union[bool, GObject.GValue], rotation: Union[int, GObject.GValue], level: Union[bool, GObject.GValue], eps_flag: Union[bool, GObject.GValue], show_preview: Union[bool, GObject.GValue], preview: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ps_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, width: float, height: float, x_offset: float, y_offset: float, unit: int, keep_ratio: bool, rotation: int, level: bool, eps_flag: bool, show_preview: bool, preview: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export image as PostScript document.
         
         Image types: RGB, GRAY, INDEXED
@@ -2332,7 +2332,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psd_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads images from the Photoshop PSD and PSB file formats.
         
         Menu label: Photoshop image
@@ -2350,7 +2350,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load_merged(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psd_load_merged(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads images from the Photoshop PSD and PSB file formats.
         
         Menu label: Photoshop image (merged)
@@ -2368,7 +2368,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load_metadata(self, file: Union[Gio.File, GObject.GValue], size: Union[int, GObject.GValue], image: Union[Gimp.Image, GObject.GValue], metadata_type: Union[bool, GObject.GValue], cmyk: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psd_load_metadata(self, file: Gio.File, size: int, image: Gimp.Image, metadata_type: bool, cmyk: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads Photoshop-format metadata from other file formats.
         
         Loads Photoshop-format metadata from other file formats.
@@ -2393,7 +2393,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_psd_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads thumbnails from the Photoshop PSD file format.
         
         This plug-in loads thumbnail images from Adobe Photoshop (TM) native PSD
@@ -2422,7 +2422,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], clippingpath: Union[bool, GObject.GValue], clippingpathname: Union[str, GObject.GValue], clippingpathflatness: Union[float, GObject.GValue], cmyk: Union[bool, GObject.GValue], duotone: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_psd_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, clippingpath: bool, clippingpathname: str, clippingpathflatness: float, cmyk: bool, duotone: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in the Photoshop(tm) PSD file format.
         
         Image types: *
@@ -2459,7 +2459,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psp_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads images from the Paint Shop Pro PSP file format.
         
         Menu label: Paint Shop Pro image
@@ -2478,7 +2478,7 @@ class _PyPDB:
         """
         pass
 
-    def file_qoi_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_qoi_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load file in the QOI file format.
         
         Menu label: Quite OK Image
@@ -2495,7 +2495,7 @@ class _PyPDB:
         """
         pass
 
-    def file_qoi_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_qoi_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export image in the QOI file format.
         
         Image types: *
@@ -2515,7 +2515,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_load(self, file: Union[Gio.File, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], offset: Union[int, GObject.GValue], pixel_format: Union[int, GObject.GValue], data_type: Union[int, GObject.GValue], endianness: Union[int, GObject.GValue], planar_configuration: Union[int, GObject.GValue], palette_offset: Union[int, GObject.GValue], palette_type: Union[int, GObject.GValue], palette_file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_load(self, file: Gio.File, width: int, height: int, offset: int, pixel_format: int, data_type: int, endianness: int, planar_configuration: int, palette_offset: int, palette_type: int, palette_file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load raw images, specifying image information.
         
         Menu label: Raw image data
@@ -2559,7 +2559,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_ari_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_ari_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the ARI raw format via placeholder.
         
         This plug-in loads files in Arriflex' raw ARI format by calling
@@ -2575,7 +2575,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_bay_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_bay_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the BAY raw format via placeholder.
         
         This plug-in loads files in Casio's raw BAY format by calling
@@ -2591,7 +2591,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_canon_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_canon_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Canon raw formats via placeholder.
         
         This plug-in loads files in Canon's raw formats by calling placeholder.
@@ -2606,7 +2606,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_cine_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_cine_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the CINE raw format via placeholder.
         
         This plug-in loads files in Phantom Software's raw CINE format by
@@ -2622,7 +2622,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_dng_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_dng_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the DNG raw format via placeholder.
         
         This plug-in loads files in the Adobe Digital Negative DNG format by
@@ -2638,7 +2638,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_erf_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_erf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the ERF raw format via placeholder.
         
         This plug-in loads files in Epson's raw ERF format by calling
@@ -2654,7 +2654,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_hasselblad_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_hasselblad_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Hasselblad raw formats via placeholder.
         
         This plug-in loads files in Hasselblad's raw formats by calling
@@ -2670,7 +2670,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_kodak_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_kodak_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Kodak raw formats via placeholder.
         
         This plug-in loads files in Kodak's raw formats by calling placeholder.
@@ -2685,7 +2685,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_mef_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_mef_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the MEF raw format via placeholder.
         
         This plug-in loads files in Mamiya's raw MEF format by calling
@@ -2701,7 +2701,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_minolta_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_minolta_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Minolta raw formats via placeholder.
         
         This plug-in loads files in Minolta's raw formats by calling
@@ -2717,7 +2717,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_mos_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_mos_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the MOS raw format via placeholder.
         
         This plug-in loads files in Leaf's raw MOS format by calling
@@ -2733,7 +2733,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_nikon_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_nikon_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Nikon raw formats via placeholder.
         
         This plug-in loads files in Nikon's raw formats by calling placeholder.
@@ -2748,7 +2748,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_orf_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_orf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the ORF raw format via placeholder.
         
         This plug-in loads files in Olympus' raw ORF format by calling
@@ -2764,7 +2764,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_panasonic_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_panasonic_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Panasonic raw formats via placeholder.
         
         This plug-in loads files in Panasonic's raw formats by calling
@@ -2780,7 +2780,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_pef_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_pef_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the PEF raw format via placeholder.
         
         This plug-in loads files in Pentax' raw PEF format by calling
@@ -2796,7 +2796,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_phaseone_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_phaseone_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Phase One raw formats via placeholder.
         
         This plug-in loads files in Phase One's raw formats by calling
@@ -2812,7 +2812,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_pxn_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_pxn_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the PXN raw format via placeholder.
         
         This plug-in loads files in Logitech's raw PXN format by calling
@@ -2828,7 +2828,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_qtk_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_qtk_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the QTK raw format via placeholder.
         
         This plug-in loads files in Apple's QuickTake QTK raw format by calling
@@ -2844,7 +2844,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_raf_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_raf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the RAF raw format via placeholder.
         
         This plug-in loads files in Fujifilm's raw RAF format by calling
@@ -2860,7 +2860,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_rdc_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_rdc_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the RDC raw format via placeholder.
         
         This plug-in loads files in Digital Foto Maker's raw RDC format by
@@ -2876,7 +2876,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_rwl_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_rwl_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the RWL raw format via placeholder.
         
         This plug-in loads files in Leica's raw RWL format by calling
@@ -2892,7 +2892,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_sinar_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_sinar_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Sinar raw formats via placeholder.
         
         This plug-in loads files in Sinar's raw formats by calling placeholder.
@@ -2907,7 +2907,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_sony_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_sony_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the Sony raw formats via placeholder.
         
         This plug-in loads files in Sony's raw formats by calling placeholder.
@@ -2922,7 +2922,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_srw_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_srw_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the SRW raw format via placeholder.
         
         This plug-in loads files in Samsung's raw SRW format by calling
@@ -2938,7 +2938,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_x3f_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_x3f_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in the X3F raw format via placeholder.
         
         This plug-in loads files in Sigma's raw X3F format by calling
@@ -2954,7 +2954,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], planar_configuration: Union[int, GObject.GValue], palette_type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_raw_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, planar_configuration: int, palette_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Dump images to disk in raw format.
         
         Image types: INDEXED, GRAY, RGB, RGBA
@@ -2980,7 +2980,7 @@ class _PyPDB:
         """
         pass
 
-    def file_save_rgbe(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_save_rgbe(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in the RGBE file format.
         
         Image types: *
@@ -3000,7 +3000,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sgi_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_sgi_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in SGI image file format.
         
         Menu label: Silicon Graphics IRIS image
@@ -3017,7 +3017,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sgi_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], compression: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_sgi_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, compression: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in SGI image file format.
         
         Image types: *
@@ -3040,7 +3040,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sunras_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_sunras_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load file of the SunRaster file format.
         
         Menu label: SUN Rasterfile image
@@ -3057,7 +3057,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sunras_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], rle: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_sunras_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, rle: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export file in the SunRaster file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -3081,7 +3081,7 @@ class _PyPDB:
         """
         pass
 
-    def file_svg_load(self, file: Union[Gio.File, GObject.GValue], resolution: Union[float, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], paths: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_svg_load(self, file: Gio.File, resolution: float, width: int, height: int, paths: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in the SVG file format.
         
         Menu label: SVG image
@@ -3112,7 +3112,7 @@ class _PyPDB:
         """
         pass
 
-    def file_svg_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_svg_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Generates a thumbnail of an SVG image.
         
         Renders a thumbnail of an SVG file using librsvg.
@@ -3140,7 +3140,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tga_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_tga_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of Targa file format.
         
         Menu label: TarGA image
@@ -3157,7 +3157,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tga_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], rle: Union[bool, GObject.GValue], origin: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_tga_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, rle: bool, origin: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the Targa file format.
         
         Image types: *
@@ -3181,7 +3181,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tiff_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_tiff_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of the TIFF and BigTIFF file formats.
         
         Menu label: TIFF or BigTIFF image
@@ -3199,7 +3199,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tiff_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], bigtiff: Union[bool, GObject.GValue], compression: Union[int, GObject.GValue], save_transparent_pixels: Union[bool, GObject.GValue], cmyk: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_tiff_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, bigtiff: bool, compression: int, save_transparent_pixels: bool, cmyk: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the TIFF or BigTIFF file formats.
         
         Image types: *
@@ -3234,7 +3234,7 @@ class _PyPDB:
         """
         pass
 
-    def file_wbmp_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_wbmp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files of Wireless BMP file format.
         
         Menu label: Wireless BMP image
@@ -3251,7 +3251,7 @@ class _PyPDB:
         """
         pass
 
-    def file_webp_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_webp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads images in the WebP file format.
         
         Menu label: WebP image
@@ -3268,7 +3268,7 @@ class _PyPDB:
         """
         pass
 
-    def file_webp_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], preset: Union[int, GObject.GValue], lossless: Union[bool, GObject.GValue], quality: Union[float, GObject.GValue], alpha_quality: Union[float, GObject.GValue], use_sharp_yuv: Union[bool, GObject.GValue], animation_loop: Union[bool, GObject.GValue], minimize_size: Union[bool, GObject.GValue], keyframe_distance: Union[int, GObject.GValue], default_delay: Union[int, GObject.GValue], force_delay: Union[bool, GObject.GValue], animation: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_webp_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, preset: int, lossless: bool, quality: float, alpha_quality: float, use_sharp_yuv: bool, animation_loop: bool, minimize_size: bool, keyframe_distance: int, default_delay: int, force_delay: bool, animation: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files in the WebP image format.
         
         Image types: *
@@ -3315,7 +3315,7 @@ class _PyPDB:
         """
         pass
 
-    def file_wmf_load(self, file: Union[Gio.File, GObject.GValue], resolution: Union[float, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_wmf_load(self, file: Gio.File, resolution: float, width: int, height: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in the WMF file format.
         
         Menu label: Microsoft WMF file
@@ -3341,7 +3341,7 @@ class _PyPDB:
         """
         pass
 
-    def file_wmf_load_thumb(self, file: Union[Gio.File, GObject.GValue], thumb_size: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_wmf_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a small preview from a WMF image.
         
         Parameters:
@@ -3367,7 +3367,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xbm_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xbm_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load a file in X10 or X11 bitmap (XBM) file format.
         
         Menu label: X BitMap image
@@ -3385,7 +3385,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xbm_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], save_comment: Union[bool, GObject.GValue], gimp_comment: Union[str, GObject.GValue], x10_format: Union[bool, GObject.GValue], use_hot_spot: Union[bool, GObject.GValue], hot_spot_x: Union[int, GObject.GValue], hot_spot_y: Union[int, GObject.GValue], prefix: Union[str, GObject.GValue], write_mask: Union[bool, GObject.GValue], mask_suffix: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xbm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, save_comment: bool, gimp_comment: str, x10_format: bool, use_hot_spot: bool, hot_spot_x: int, hot_spot_y: int, prefix: str, write_mask: bool, mask_suffix: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export a file in X10 or X11 bitmap (XBM) file format.
         
         Image types: INDEXED
@@ -3427,7 +3427,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xpm_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xpm_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Load files in XPM (X11 Pixmap) format.
         
         Menu label: X PixMap image
@@ -3448,7 +3448,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xpm_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], threshold: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xpm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export files in XPM (X11 Pixmap) format.
         
         Image types: *
@@ -3474,7 +3474,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xwd_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xwd_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files in the XWD (X Window Dump) format.
         
         Menu label: X window dump
@@ -3493,7 +3493,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xwd_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xwd_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports files in the XWD (X Window Dump) format.
         
         Image types: RGB, GRAY, INDEXED
@@ -3513,7 +3513,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xz_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xz_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads files compressed with xz.
         
         Menu label: xz archive
@@ -3530,7 +3530,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xz_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xz_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves files compressed with xz.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -3550,7 +3550,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_airbrush(self, drawable: Union[Gimp.Drawable, GObject.GValue], pressure: Union[float, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_airbrush(self, drawable: Gimp.Drawable, pressure: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Paint in the current brush with varying pressure. Paint application
         is time-dependent.
         
@@ -3573,7 +3573,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_airbrush_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_airbrush_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Paint in the current brush with varying pressure. Paint application
         is time-dependent.
         
@@ -3594,7 +3594,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_attach_parasite(self, parasite: Union[Gimp.Parasite, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_attach_parasite(self, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a global parasite.
         
         This procedure attaches a global parasite. It has no return values.
@@ -3605,7 +3605,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_angle(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_angle(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Gets the rotation angle of a generated brush.
         
         Gets the angle of rotation for a generated brush. Returns an error when
@@ -3621,7 +3621,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_aspect_ratio(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_aspect_ratio(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Gets the aspect ratio of a generated brush.
         
         Gets the aspect ratio of a generated brush. Returns an error when called
@@ -3638,7 +3638,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_by_name(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Brush:
+    def gimp_brush_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Brush:
         """Returns the brush with the given name.
         
         Returns the brush with the given name.
@@ -3653,7 +3653,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_hardness(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_hardness(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Gets the hardness of a generated brush.
         
         Gets the hardness of a generated brush. The hardness of a brush is the
@@ -3671,7 +3671,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_info(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, int]:
+    def gimp_brush_get_info(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, int]:
         """Gets information about the brush.
         
         Gets information about the brush: brush extents (width and height),
@@ -3694,7 +3694,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_pixels(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes, int, GLib.Bytes]:
+    def gimp_brush_get_pixels(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes, int, GLib.Bytes]:
         """Gets information about the brush.
         
         Gets information about the brush: the brush extents (width and height)
@@ -3721,7 +3721,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_radius(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_radius(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Gets the radius of a generated brush.
         
         Gets the radius of a generated brush. Returns an error when called for a
@@ -3737,7 +3737,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_shape(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.BrushGeneratedShape:
+    def gimp_brush_get_shape(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.BrushGeneratedShape:
         """Gets the shape of a generated brush.
         
         Gets the shape of a generated brush. Returns an error when called for a
@@ -3758,7 +3758,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_spacing(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_brush_get_spacing(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Gets the brush spacing, the stamping frequency.
         
         Returns the spacing setting for the brush. Spacing is an integer between
@@ -3776,7 +3776,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_spikes(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_brush_get_spikes(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Gets the number of spikes for a generated brush.
         
         Gets the number of spikes for a generated brush. Returns an error when
@@ -3792,7 +3792,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_is_generated(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_brush_is_generated(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Whether the brush is generated (parametric versus raster).
         
         Returns TRUE when brush is parametric.
@@ -3807,7 +3807,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_new(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Brush:
+    def gimp_brush_new(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Brush:
         """Create a new generated brush having default parameters.
         
         Creates a new, parametric brush.
@@ -3822,7 +3822,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_angle(self, brush: Union[Gimp.Brush, GObject.GValue], angle_in: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_angle(self, brush: Gimp.Brush, angle_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Sets the rotation angle of a generated brush.
         
         Sets the rotation angle for a generated brush. Sets the angle modulo
@@ -3843,7 +3843,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_aspect_ratio(self, brush: Union[Gimp.Brush, GObject.GValue], aspect_ratio_in: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_aspect_ratio(self, brush: Gimp.Brush, aspect_ratio_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Sets the aspect ratio of a generated brush.
         
         Sets the aspect ratio for a generated brush. Clamps aspect ratio to
@@ -3863,7 +3863,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_hardness(self, brush: Union[Gimp.Brush, GObject.GValue], hardness_in: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_hardness(self, brush: Gimp.Brush, hardness_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Sets the hardness of a generated brush.
         
         Sets the hardness for a generated brush. Clamps hardness to [0.0, 1.0].
@@ -3882,7 +3882,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_radius(self, brush: Union[Gimp.Brush, GObject.GValue], radius_in: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_radius(self, brush: Gimp.Brush, radius_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Sets the radius of a generated brush.
         
         Sets the radius for a generated brush. Clamps radius to [0.0, 32767.0].
@@ -3901,7 +3901,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_shape(self, brush: Union[Gimp.Brush, GObject.GValue], shape_in: Union[Gimp.BrushGeneratedShape, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.BrushGeneratedShape:
+    def gimp_brush_set_shape(self, brush: Gimp.Brush, shape_in: Gimp.BrushGeneratedShape, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.BrushGeneratedShape:
         """Sets the shape of a generated brush.
         
         Sets the shape of a generated brush. Returns an error when brush is
@@ -3925,7 +3925,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_spacing(self, brush: Union[Gimp.Brush, GObject.GValue], spacing: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brush_set_spacing(self, brush: Gimp.Brush, spacing: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the brush spacing.
         
         Set the spacing for the brush. The spacing must be an integer between 0
@@ -3941,7 +3941,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_spikes(self, brush: Union[Gimp.Brush, GObject.GValue], spikes_in: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_brush_set_spikes(self, brush: Gimp.Brush, spikes_in: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Sets the number of spikes for a generated brush.
         
         Sets the number of spikes for a generated brush. Clamps spikes to
@@ -3960,7 +3960,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_close_popup(self, brush_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_close_popup(self, brush_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Close the brush selection dialog.
         
         Closes an open brush selection dialog.
@@ -3972,7 +3972,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_get_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_brushes_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve a complete listing of the available brushes.
         
         This procedure returns a complete listing of available GIMP brushes.
@@ -4014,7 +4014,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_brushes_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve a complete listing of the available brushes.
         
         This procedure returns a complete listing of available GIMP brushes.
@@ -4031,7 +4031,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_popup(self, brush_callback: Union[str, GObject.GValue], popup_title: Union[str, GObject.GValue], initial_brush_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_popup(self, brush_callback: str, popup_title: str, initial_brush_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Invokes the GIMP brush selection dialog.
         
         Opens a dialog letting a user choose a brush.
@@ -4056,7 +4056,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_brush(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_brush(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active brush.
         
         Sets the active brush in the current context. The brush will be used in
@@ -4070,7 +4070,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_opacity(self, opacity: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_opacity(self, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the opacity.
         
         Modifies the opacity setting. The value should be a floating point
@@ -4082,7 +4082,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_paint_mode(self, paint_mode: Union[Gimp.LayerMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_paint_mode(self, paint_mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the paint mode.
         
         Modifies the paint_mode setting.
@@ -4094,7 +4094,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_popup(self, brush_callback: Union[str, GObject.GValue], brush_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_popup(self, brush_callback: str, brush_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the selected brush in a brush selection dialog.
         
         Sets the selected brush in a brush selection dialog.
@@ -4108,7 +4108,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_delete(self, buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_buffer_delete(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Deletes a named buffer.
         
         This procedure deletes a named buffer.
@@ -4119,7 +4119,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_bytes(self, buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_buffer_get_bytes(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Retrieves the specified buffer's bytes.
         
         This procedure retrieves the specified named buffer's bytes.
@@ -4134,7 +4134,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_height(self, buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_buffer_get_height(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Retrieves the specified buffer's height.
         
         This procedure retrieves the specified named buffer's height.
@@ -4149,7 +4149,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_image_type(self, buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageBaseType:
+    def gimp_buffer_get_image_type(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageBaseType:
         """Retrieves the specified buffer's image type.
         
         This procedure retrieves the specified named buffer's image type.
@@ -4165,7 +4165,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_width(self, buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_buffer_get_width(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Retrieves the specified buffer's width.
         
         This procedure retrieves the specified named buffer's width.
@@ -4180,7 +4180,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_rename(self, buffer_name: Union[str, GObject.GValue], new_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_buffer_rename(self, buffer_name: str, new_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Renames a named buffer.
         
         This procedure renames a named buffer.
@@ -4197,7 +4197,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffers_get_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_buffers_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve a complete listing of the available buffers.
         
         This procedure returns a complete listing of available named buffers.
@@ -4212,7 +4212,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_combine_masks(self, channel1: Union[Gimp.Channel, GObject.GValue], channel2: Union[Gimp.Channel, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_combine_masks(self, channel1: Gimp.Channel, channel2: Gimp.Channel, operation: Gimp.ChannelOps, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Combine two channel masks.
         
         This procedure combines two channel masks. The result is stored in the
@@ -4235,7 +4235,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_copy(self, channel: Union[Gimp.Channel, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_channel_copy(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
         """Copy a channel.
         
         This procedure copies the specified channel and returns the copy. The
@@ -4252,7 +4252,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_delete(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -4267,7 +4267,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_color(self, channel: Union[Gimp.Channel, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_channel_get_color(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Get the compositing color of the specified channel.
         
         This procedure returns the specified channel's compositing color.
@@ -4282,7 +4282,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_name(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_channel_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -4297,7 +4297,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_opacity(self, channel: Union[Gimp.Channel, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_channel_get_opacity(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Get the opacity of the specified channel.
         
         This procedure returns the specified channel's opacity.
@@ -4312,7 +4312,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_show_masked(self, channel: Union[Gimp.Channel, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_channel_get_show_masked(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the composite method of the specified channel.
         
         This procedure returns the specified channel's composite method. If it
@@ -4329,7 +4329,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_tattoo(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_channel_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -4346,7 +4346,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_visible(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_channel_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -4361,7 +4361,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_new(self, image: Union[Gimp.Image, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], name: Union[str, GObject.GValue], opacity: Union[float, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_channel_new(self, image: Gimp.Image, width: int, height: int, name: str, opacity: float, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
         """Create a new channel.
         
         This procedure creates a new channel with the specified width, height,
@@ -4391,7 +4391,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_new_from_component(self, image: Union[Gimp.Image, GObject.GValue], component: Union[Gimp.ChannelType, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_channel_new_from_component(self, image: Gimp.Image, component: Gimp.ChannelType, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
         """Create a new channel from a color component.
         
         This procedure creates a new channel from a color component. The new
@@ -4415,7 +4415,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_ops_duplicate(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_channel_ops_duplicate(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Duplicate the specified image.
         
         This procedure duplicates the specified image, copying all layers,
@@ -4431,7 +4431,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_ops_offset(self, drawable: Union[Gimp.Drawable, GObject.GValue], wrap_around: Union[bool, GObject.GValue], fill_type: Union[Gimp.OffsetType, GObject.GValue], offset_x: Union[int, GObject.GValue], offset_y: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_ops_offset(self, drawable: Gimp.Drawable, wrap_around: bool, fill_type: Gimp.OffsetType, offset_x: int, offset_y: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Offset the drawable by the specified amounts in the X and Y
         directions.
         
@@ -4459,7 +4459,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_color(self, channel: Union[Gimp.Channel, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_color(self, channel: Gimp.Channel, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the compositing color of the specified channel.
         
         This procedure sets the specified channel's compositing color.
@@ -4472,7 +4472,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_name(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -4485,7 +4485,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_opacity(self, channel: Union[Gimp.Channel, GObject.GValue], opacity: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_opacity(self, channel: Gimp.Channel, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the opacity of the specified channel.
         
         This procedure sets the specified channel's opacity.
@@ -4498,7 +4498,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_show_masked(self, channel: Union[Gimp.Channel, GObject.GValue], show_masked: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_show_masked(self, channel: Gimp.Channel, show_masked: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the composite method of the specified channel.
         
         This procedure sets the specified channel's composite method. If it is
@@ -4513,7 +4513,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_tattoo(self, item: Union[Gimp.Item, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -4528,7 +4528,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_visible(self, item: Union[Gimp.Item, GObject.GValue], visible: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -4541,7 +4541,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_clone(self, drawable: Union[Gimp.Drawable, GObject.GValue], src_drawable: Union[Gimp.Drawable, GObject.GValue], clone_type: Union[Gimp.CloneType, GObject.GValue], src_x: Union[float, GObject.GValue], src_y: Union[float, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_clone(self, drawable: Gimp.Drawable, src_drawable: Gimp.Drawable, clone_type: Gimp.CloneType, src_x: float, src_y: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Clone from the source to the dest drawable using the current brush.
         
         This tool clones (copies) from the source drawable starting at the
@@ -4578,7 +4578,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_clone_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_clone_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Clone from the source to the dest drawable using the current brush.
         
         This tool clones (copies) from the source drawable starting at the
@@ -4600,7 +4600,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_color_picker(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], sample_merged: Union[bool, GObject.GValue], sample_average: Union[bool, GObject.GValue], average_radius: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_color_picker(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, x: float, y: float, sample_merged: bool, sample_average: bool, average_radius: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Determine the color at the given coordinates.
         
         This tool determines the color at the specified coordinates. The
@@ -4657,7 +4657,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_enable_dynamics(self, enable: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_enable_dynamics(self, enable: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Enables paint dynamics using the active paint dynamics.
         
         Enables the active paint dynamics to be used in all subsequent paint
@@ -5293,7 +5293,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_antialias(self, antialias: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_antialias(self, antialias: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the antialias setting.
         
         Modifies the antialias setting. If antialiasing is turned on, the edges
@@ -5316,7 +5316,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_background(self, background: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_background(self, background: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the current GIMP background color.
         
         Sets the current GIMP background color. After this is set, operations
@@ -5329,7 +5329,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush(self, brush: Union[Gimp.Brush, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active brush.
         
         Sets the active brush in the current context. The brush will be used in
@@ -5343,7 +5343,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_angle(self, angle: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_angle(self, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set brush angle in degrees.
         
         Set the angle in degrees for brush based paint tools.
@@ -5354,7 +5354,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_aspect_ratio(self, aspect: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_aspect_ratio(self, aspect: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set brush aspect ratio.
         
         Set the aspect ratio for brush based paint tools.
@@ -5389,7 +5389,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_force(self, force: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_force(self, force: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set brush application force.
         
         Set the brush application force for brush based paint tools.
@@ -5400,7 +5400,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_hardness(self, hardness: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_hardness(self, hardness: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set brush hardness.
         
         Set the brush hardness for brush based paint tools.
@@ -5411,7 +5411,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_size(self, size: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_size(self, size: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set brush size in pixels.
         
         Set the brush size in pixels for brush based paint tools.
@@ -5422,7 +5422,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_spacing(self, spacing: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_spacing(self, spacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set brush spacing as percent of size.
         
         Set the brush spacing as percent of size for brush based paint tools.
@@ -5452,7 +5452,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_diagonal_neighbors(self, diagonal_neighbors: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_diagonal_neighbors(self, diagonal_neighbors: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the diagonal neighbors setting.
         
         Modifies the diagonal neighbors setting. If the affected region of an
@@ -5473,7 +5473,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_distance_metric(self, metric: Union[Gegl.DistanceMetric, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_distance_metric(self, metric: Gegl.DistanceMetric, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the distance metric used in some computations.
         
         Modifies the distance metric used in some computations, such as
@@ -5491,7 +5491,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_dynamics(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_dynamics(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active paint dynamics.
         
         Sets the active paint dynamics. The paint dynamics will be used in all
@@ -5505,7 +5505,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_feather(self, feather: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_feather(self, feather: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the feather setting.
         
         Modifies the feather setting. If the feather option is enabled,
@@ -5526,7 +5526,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_feather_radius(self, feather_radius_x: Union[float, GObject.GValue], feather_radius_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_feather_radius(self, feather_radius_x: float, feather_radius_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the feather radius setting.
         
         Modifies the feather radius setting.
@@ -5542,7 +5542,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_font(self, font: Union[Gimp.Font, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_font(self, font: Gimp.Font, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active font.
         
         Sets the active font in the current context. The font will be used in
@@ -5555,7 +5555,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_foreground(self, foreground: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_foreground(self, foreground: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the current GIMP foreground color.
         
         Sets the current GIMP foreground color. After this is set, operations
@@ -5568,7 +5568,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient(self, gradient: Union[Gimp.Gradient, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the active gradient.
         
         Sets the active gradient in the current context. The gradient will be
@@ -5582,7 +5582,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_blend_color_space(self, blend_color_space: Union[Gimp.GradientBlendColorSpace, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_blend_color_space(self, blend_color_space: Gimp.GradientBlendColorSpace, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the gradient blend color space.
         
         Set the gradient blend color space for paint tools and the gradient
@@ -5627,7 +5627,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_repeat_mode(self, repeat_mode: Union[Gimp.RepeatMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_repeat_mode(self, repeat_mode: Gimp.RepeatMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the gradient repeat mode.
         
         Set the gradient repeat mode for paint tools and the gradient tool.
@@ -5639,7 +5639,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_reverse(self, reverse: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_reverse(self, reverse: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the gradient reverse setting.
         
         Set the gradient reverse setting for paint tools and the gradient tool.
@@ -5650,7 +5650,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_angle(self, angle: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_angle(self, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink angle in degrees.
         
         Set the ink angle in degrees for ink tool.
@@ -5661,7 +5661,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_blob_angle(self, angle: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_blob_angle(self, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink blob angle in degrees.
         
         Set the ink blob angle in degrees for ink tool.
@@ -5672,7 +5672,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_blob_aspect_ratio(self, aspect: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_blob_aspect_ratio(self, aspect: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink blob aspect ratio.
         
         Set the ink blob aspect ratio for ink tool.
@@ -5683,7 +5683,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_blob_type(self, type: Union[Gimp.InkBlobType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_blob_type(self, type: Gimp.InkBlobType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink blob type.
         
         Set the ink blob type for ink tool.
@@ -5695,7 +5695,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_size(self, size: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_size(self, size: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink blob size in pixels.
         
         Set the ink blob size in pixels for ink tool.
@@ -5706,7 +5706,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_size_sensitivity(self, size: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_size_sensitivity(self, size: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink size sensitivity.
         
         Set the ink size sensitivity for ink tool.
@@ -5717,7 +5717,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_speed_sensitivity(self, speed: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_speed_sensitivity(self, speed: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink speed sensitivity.
         
         Set the ink speed sensitivity for ink tool.
@@ -5728,7 +5728,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_tilt_sensitivity(self, tilt: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_tilt_sensitivity(self, tilt: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set ink tilt sensitivity.
         
         Set the ink tilt sensitivity for ink tool.
@@ -5739,7 +5739,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_interpolation(self, interpolation: Union[Gimp.InterpolationType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_interpolation(self, interpolation: Gimp.InterpolationType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the interpolation type.
         
         Modifies the interpolation setting.
@@ -5758,7 +5758,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_cap_style(self, cap_style: Union[Gimp.CapStyle, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_cap_style(self, cap_style: Gimp.CapStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the line cap style setting.
         
         Modifies the line cap style setting for stroking lines.
@@ -5774,7 +5774,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_dash_offset(self, dash_offset: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_dash_offset(self, dash_offset: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the line dash offset setting.
         
         Modifies the line dash offset setting for stroking lines.
@@ -5789,7 +5789,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_dash_pattern(self, num_dashes: Union[int, GObject.GValue], dashes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_dash_pattern(self, num_dashes: int, dashes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the line dash pattern setting.
         
         Modifies the line dash pattern setting for stroking lines.
@@ -5811,7 +5811,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_join_style(self, join_style: Union[Gimp.JoinStyle, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_join_style(self, join_style: Gimp.JoinStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the line join style setting.
         
         Modifies the line join style setting for stroking lines. This setting
@@ -5826,7 +5826,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_miter_limit(self, miter_limit: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_miter_limit(self, miter_limit: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the line miter limit setting.
         
         Modifies the line miter limit setting for stroking lines. A mitered join
@@ -5842,7 +5842,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_width(self, line_width: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_width(self, line_width: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the line width setting.
         
         Modifies the line width setting for stroking lines.
@@ -5857,7 +5857,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_width_unit(self, line_width_unit: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_width_unit(self, line_width_unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the line width unit setting.
         
         Modifies the line width unit setting for stroking lines.
@@ -5872,7 +5872,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_mypaint_brush(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_mypaint_brush(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set a MyPaint brush as the active MyPaint brush.
         
         Sets the active MyPaint brush to the named MyPaint brush. The brush will
@@ -5886,7 +5886,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_opacity(self, opacity: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_opacity(self, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the opacity.
         
         Modifies the opacity setting. The value should be a floating point
@@ -5898,7 +5898,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_paint_method(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_paint_method(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active paint method.
         
         Sets the active paint method to the named paint method. The paint method
@@ -5912,7 +5912,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_paint_mode(self, paint_mode: Union[Gimp.LayerMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_paint_mode(self, paint_mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the paint mode.
         
         Modifies the paint_mode setting.
@@ -5924,7 +5924,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_palette(self, palette: Union[Gimp.Palette, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_palette(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active palette.
         
         Sets the active palette in the current context. The palette will be used
@@ -5938,7 +5938,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_pattern(self, pattern: Union[Gimp.Pattern, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_pattern(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active pattern.
         
         Sets the active pattern in the current context. The pattern will be used
@@ -5952,7 +5952,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_criterion(self, sample_criterion: Union[Gimp.SelectCriterion, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_criterion(self, sample_criterion: Gimp.SelectCriterion, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the sample criterion setting.
         
         Modifies the sample criterion setting. If an operation depends on the
@@ -5971,7 +5971,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_merged(self, sample_merged: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_merged(self, sample_merged: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the sample merged setting.
         
         Modifies the sample merged setting. If an operation depends on the
@@ -5992,7 +5992,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_threshold(self, sample_threshold: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_threshold(self, sample_threshold: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the sample threshold setting.
         
         Modifies the sample threshold setting. If an operation depends on the
@@ -6012,7 +6012,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_threshold_int(self, sample_threshold: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_threshold_int(self, sample_threshold: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the sample threshold setting as an integer value.
         
         Modifies the sample threshold setting as an integer value. See
@@ -6024,7 +6024,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_transparent(self, sample_transparent: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_transparent(self, sample_transparent: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the sample transparent setting.
         
         Modifies the sample transparent setting. If an operation depends on the
@@ -6044,7 +6044,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_stroke_method(self, stroke_method: Union[Gimp.StrokeMethod, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_stroke_method(self, stroke_method: Gimp.StrokeMethod, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active stroke method.
         
         Sets the active stroke method. The method will be used in all subsequent
@@ -6057,7 +6057,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_transform_direction(self, transform_direction: Union[Gimp.TransformDirection, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_transform_direction(self, transform_direction: Gimp.TransformDirection, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the transform direction.
         
         Modifies the transform direction setting.
@@ -6075,7 +6075,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_transform_resize(self, transform_resize: Union[Gimp.TransformResize, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_transform_resize(self, transform_resize: Gimp.TransformResize, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the transform resize type.
         
         Modifies the transform resize setting. When transforming pixels, if the
@@ -6106,7 +6106,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convert_grayscale(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convert_grayscale(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert specified image to grayscale.
         
         This procedure converts the specified image to grayscale. This process
@@ -6118,7 +6118,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convert_indexed(self, image: Union[Gimp.Image, GObject.GValue], dither_type: Union[Gimp.ConvertDitherType, GObject.GValue], palette_type: Union[Gimp.ConvertPaletteType, GObject.GValue], num_cols: Union[int, GObject.GValue], alpha_dither: Union[bool, GObject.GValue], remove_unused: Union[bool, GObject.GValue], palette: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convert_indexed(self, image: Gimp.Image, dither_type: Gimp.ConvertDitherType, palette_type: Gimp.ConvertPaletteType, num_cols: int, alpha_dither: bool, remove_unused: bool, palette: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert specified image to and Indexed image.
         
         This procedure converts the specified image to 'indexed' color. This
@@ -6160,7 +6160,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convert_rgb(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convert_rgb(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert specified image to RGB color.
         
         This procedure converts the specified image to RGB color. This process
@@ -6174,7 +6174,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convolve(self, drawable: Union[Gimp.Drawable, GObject.GValue], pressure: Union[float, GObject.GValue], convolve_type: Union[Gimp.ConvolveType, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convolve(self, drawable: Gimp.Drawable, pressure: float, convolve_type: Gimp.ConvolveType, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convolve (Blur, Sharpen) using the current brush.
         
         This tool convolves the specified drawable with either a sharpening or
@@ -6199,7 +6199,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convolve_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convolve_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convolve (Blur, Sharpen) using the current brush.
         
         This tool convolves the specified drawable with either a sharpening or
@@ -6220,7 +6220,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_crop(self, image: Union[Gimp.Image, GObject.GValue], new_width: Union[int, GObject.GValue], new_height: Union[int, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_crop(self, image: Gimp.Image, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Crop the image to the specified extents.
         
         This procedure crops the image so that it's new width and height are
@@ -6278,7 +6278,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_detach_parasite(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_detach_parasite(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Removes a global parasite.
         
         This procedure detaches a global parasite from. It has no return values.
@@ -6289,7 +6289,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_delete(self, display: Union[Gimp.Display, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_display_delete(self, display: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Delete the specified display.
         
         This procedure removes the specified display. If this is the last
@@ -6304,7 +6304,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_get_window_handle(self, display: Union[Gimp.Display, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_display_get_window_handle(self, display: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get a handle to the native window for an image display.
         
         This procedure returns a handle to the native window for a given image
@@ -6323,7 +6323,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_id_is_valid(self, display_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_display_id_is_valid(self, display_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns TRUE if the display ID is valid.
         
         This procedure checks if the given display ID is valid and refers to an
@@ -6339,7 +6339,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_new(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Display:
+    def gimp_display_new(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Display:
         """Create a new display for the specified image.
         
         Creates a new display for the specified image. If the image already has
@@ -6360,7 +6360,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_present(self, display: Union[Gimp.Display, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_display_present(self, display: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Present the specified display.
         
         This procedure presents the specified display at the top of the display
@@ -6382,7 +6382,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_displays_reconnect(self, old_image: Union[Gimp.Image, GObject.GValue], new_image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_displays_reconnect(self, old_image: Gimp.Image, new_image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Reconnect displays from one image to another image.
         
         This procedure connects all displays of the old_image to the new_image.
@@ -6398,7 +6398,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dodgeburn(self, drawable: Union[Gimp.Drawable, GObject.GValue], exposure: Union[float, GObject.GValue], dodgeburn_type: Union[Gimp.DodgeBurnType, GObject.GValue], dodgeburn_mode: Union[Gimp.TransferMode, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_dodgeburn(self, drawable: Gimp.Drawable, exposure: float, dodgeburn_type: Gimp.DodgeBurnType, dodgeburn_mode: Gimp.TransferMode, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Dodgeburn image with varying exposure.
         
         Dodgeburn. More details here later.
@@ -6423,7 +6423,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dodgeburn_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_dodgeburn_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Dodgeburn image with varying exposure. This is the same as the
         gimp_dodgeburn() function except that the exposure, type and
         mode are taken from the tools option dialog. If the dialog
@@ -6444,7 +6444,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_brightness_contrast(self, drawable: Union[Gimp.Drawable, GObject.GValue], brightness: Union[float, GObject.GValue], contrast: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_brightness_contrast(self, drawable: Gimp.Drawable, brightness: float, contrast: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Modify brightness/contrast in the specified drawable.
         
         This procedures allows the brightness and contrast of the specified
@@ -6461,7 +6461,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_color_balance(self, drawable: Union[Gimp.Drawable, GObject.GValue], transfer_mode: Union[Gimp.TransferMode, GObject.GValue], preserve_lum: Union[bool, GObject.GValue], cyan_red: Union[float, GObject.GValue], magenta_green: Union[float, GObject.GValue], yellow_blue: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_color_balance(self, drawable: Gimp.Drawable, transfer_mode: Gimp.TransferMode, preserve_lum: bool, cyan_red: float, magenta_green: float, yellow_blue: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Modify the color balance of the specified drawable.
         
         Modify the color balance of the specified drawable. There are three axis
@@ -6491,7 +6491,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_colorize_hsl(self, drawable: Union[Gimp.Drawable, GObject.GValue], hue: Union[float, GObject.GValue], saturation: Union[float, GObject.GValue], lightness: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_colorize_hsl(self, drawable: Gimp.Drawable, hue: float, saturation: float, lightness: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Render the drawable as a grayscale image seen through a colored
         glass.
         
@@ -6511,7 +6511,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_curves_explicit(self, drawable: Union[Gimp.Drawable, GObject.GValue], channel: Union[Gimp.HistogramChannel, GObject.GValue], num_values: Union[int, GObject.GValue], values: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_curves_explicit(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, num_values: int, values: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Modifies the intensity curve(s) for specified drawable.
         
         Modifies the intensity mapping for one channel in the specified
@@ -6534,7 +6534,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_curves_spline(self, drawable: Union[Gimp.Drawable, GObject.GValue], channel: Union[Gimp.HistogramChannel, GObject.GValue], num_points: Union[int, GObject.GValue], points: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_curves_spline(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, num_points: int, points: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Modifies the intensity curve(s) for specified drawable.
         
         Modifies the intensity mapping for one channel in the specified
@@ -6560,7 +6560,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_delete(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -6575,7 +6575,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_desaturate(self, drawable: Union[Gimp.Drawable, GObject.GValue], desaturate_mode: Union[Gimp.DesaturateMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_desaturate(self, drawable: Gimp.Drawable, desaturate_mode: Gimp.DesaturateMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Desaturate the contents of the specified drawable, with the specified
         formula.
         
@@ -6592,7 +6592,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_bucket_fill(self, drawable: Union[Gimp.Drawable, GObject.GValue], fill_type: Union[Gimp.FillType, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_bucket_fill(self, drawable: Gimp.Drawable, fill_type: Gimp.FillType, x: float, y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Fill the area by a seed fill starting at the specified coordinates.
         
         This procedure does a seed fill at the specified coordinates, using
@@ -6625,7 +6625,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_clear(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_clear(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Clear selected area of drawable.
         
         This procedure clears the specified drawable. If the drawable has an
@@ -6643,7 +6643,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_fill(self, drawable: Union[Gimp.Drawable, GObject.GValue], fill_type: Union[Gimp.FillType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_fill(self, drawable: Gimp.Drawable, fill_type: Gimp.FillType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Fill selected area of drawable.
         
         This procedure fills the specified drawable according to fill mode. This
@@ -6665,7 +6665,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_gradient_fill(self, drawable: Union[Gimp.Drawable, GObject.GValue], gradient_type: Union[Gimp.GradientType, GObject.GValue], offset: Union[float, GObject.GValue], supersample: Union[bool, GObject.GValue], supersample_max_depth: Union[int, GObject.GValue], supersample_threshold: Union[float, GObject.GValue], dither: Union[bool, GObject.GValue], x1: Union[float, GObject.GValue], y1: Union[float, GObject.GValue], x2: Union[float, GObject.GValue], y2: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_gradient_fill(self, drawable: Gimp.Drawable, gradient_type: Gimp.GradientType, offset: float, supersample: bool, supersample_max_depth: int, supersample_threshold: float, dither: bool, x1: float, y1: float, x2: float, y2: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Draw a gradient between the starting and ending coordinates with the
         specified gradient type.
         
@@ -6715,7 +6715,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_stroke_item(self, drawable: Union[Gimp.Drawable, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_stroke_item(self, drawable: Gimp.Drawable, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Stroke the specified item.
         
         This procedure strokes the specified item, painting along its outline
@@ -6740,7 +6740,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_stroke_selection(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_stroke_selection(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Stroke the current selection.
         
         This procedure strokes the current selection, painting along the
@@ -6764,7 +6764,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_equalize(self, drawable: Union[Gimp.Drawable, GObject.GValue], mask_only: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_equalize(self, drawable: Gimp.Drawable, mask_only: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Equalize the contents of the specified drawable.
         
         This procedure equalizes the contents of the specified drawable. Each
@@ -6784,7 +6784,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_extract_component(self, drawable: Union[Gimp.Drawable, GObject.GValue], component: Union[int, GObject.GValue], invert: Union[bool, GObject.GValue], linear: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_extract_component(self, drawable: Gimp.Drawable, component: int, invert: bool, linear: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Extract a color model component.
         
         Extract a color model component.
@@ -6808,7 +6808,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_fill(self, drawable: Union[Gimp.Drawable, GObject.GValue], fill_type: Union[Gimp.FillType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_fill(self, drawable: Gimp.Drawable, fill_type: Gimp.FillType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Fill the drawable with the specified fill mode.
         
         This procedure fills the drawable. If the fill mode is foreground the
@@ -6832,7 +6832,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_foreground_extract(self, drawable: Union[Gimp.Drawable, GObject.GValue], mode: Union[Gimp.ForegroundExtractMode, GObject.GValue], mask: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_foreground_extract(self, drawable: Gimp.Drawable, mode: Gimp.ForegroundExtractMode, mask: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Extract the foreground of a drawable using a given trimap.
         
         Image Segmentation by Uniform Color Clustering, see
@@ -6849,7 +6849,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_free_shadow(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_free_shadow(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Free the specified drawable's shadow data (if it exists).
         
         This procedure is intended as a memory saving device. If any shadow
@@ -6863,7 +6863,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_bpp(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_bpp(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the bytes per pixel.
         
         This procedure returns the number of bytes per pixel.
@@ -6878,7 +6878,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_format(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_drawable_get_format(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the drawable's Babl format.
         
         This procedure returns the drawable's Babl format. Note that the actual
@@ -6895,7 +6895,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_height(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_height(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the height of the drawable.
         
         This procedure returns the specified drawable's height in pixels.
@@ -6910,7 +6910,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_image(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_drawable_get_image(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Returns the item's image.
         
         This procedure returns the item's image.
@@ -6925,7 +6925,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_name(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_drawable_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -6940,7 +6940,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_offsets(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int]:
+    def gimp_drawable_get_offsets(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int]:
         """Returns the offsets for the drawable.
         
         This procedure returns the specified drawable's offsets. This only makes
@@ -6959,7 +6959,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_tattoo(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -6976,7 +6976,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_thumbnail_format(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_drawable_get_thumbnail_format(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the drawable's thumbnail Babl format.
         
         This procedure returns the drawable's thumbnail Babl format. Thumbnails
@@ -6993,7 +6993,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_visible(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -7008,7 +7008,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_width(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_width(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the width of the drawable.
         
         This procedure returns the specified drawable's width in pixels.
@@ -7023,7 +7023,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_has_alpha(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_has_alpha(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns TRUE if the drawable has an alpha channel.
         
         This procedure returns whether the specified drawable has an alpha
@@ -7041,7 +7041,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_histogram(self, drawable: Union[Gimp.Drawable, GObject.GValue], channel: Union[Gimp.HistogramChannel, GObject.GValue], start_range: Union[float, GObject.GValue], end_range: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float, float, float, float, float]:
+    def gimp_drawable_histogram(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, start_range: float, end_range: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float, float, float, float, float]:
         """Returns information on the intensity histogram for the specified
         drawable.
         
@@ -7091,7 +7091,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_hue_saturation(self, drawable: Union[Gimp.Drawable, GObject.GValue], hue_range: Union[Gimp.HueRange, GObject.GValue], hue_offset: Union[float, GObject.GValue], lightness: Union[float, GObject.GValue], saturation: Union[float, GObject.GValue], overlap: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_hue_saturation(self, drawable: Gimp.Drawable, hue_range: Gimp.HueRange, hue_offset: float, lightness: float, saturation: float, overlap: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Modify hue, lightness, and saturation in the specified drawable.
         
         This procedure allows the hue, lightness, and saturation in the
@@ -7117,7 +7117,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_invert(self, drawable: Union[Gimp.Drawable, GObject.GValue], linear: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_invert(self, drawable: Gimp.Drawable, linear: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Invert the contents of the specified drawable.
         
         This procedure inverts the contents of the specified drawable. Each
@@ -7133,7 +7133,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_is_gray(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_is_gray(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the drawable is a grayscale type.
         
         This procedure returns TRUE if the specified drawable is of type { Gray,
@@ -7149,7 +7149,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_is_indexed(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_is_indexed(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the drawable is an indexed type.
         
         This procedure returns TRUE if the specified drawable is of type {
@@ -7166,7 +7166,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_is_rgb(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_is_rgb(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the drawable is an RGB type.
         
         This procedure returns TRUE if the specified drawable is of type { RGB,
@@ -7182,7 +7182,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_levels(self, drawable: Union[Gimp.Drawable, GObject.GValue], channel: Union[Gimp.HistogramChannel, GObject.GValue], low_input: Union[float, GObject.GValue], high_input: Union[float, GObject.GValue], clamp_input: Union[bool, GObject.GValue], gamma: Union[float, GObject.GValue], low_output: Union[float, GObject.GValue], high_output: Union[float, GObject.GValue], clamp_output: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_levels(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, low_input: float, high_input: float, clamp_input: bool, gamma: float, low_output: float, high_output: float, clamp_output: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Modifies intensity levels in the specified drawable.
         
         This tool allows intensity levels in the specified drawable to be
@@ -7222,7 +7222,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_levels_stretch(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_levels_stretch(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Automatically modifies intensity levels in the specified drawable.
         
         This procedure allows intensity levels in the specified drawable to be
@@ -7235,7 +7235,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_mask_bounds(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_drawable_mask_bounds(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection in relation to the
         specified drawable.
         
@@ -7275,7 +7275,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_mask_intersect(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_drawable_mask_intersect(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection in relation to the
         specified drawable.
         
@@ -7305,7 +7305,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_merge_shadow(self, drawable: Union[Gimp.Drawable, GObject.GValue], undo: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_merge_shadow(self, drawable: Gimp.Drawable, undo: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Merge the shadow buffer with the specified drawable.
         
         This procedure combines the contents of the drawable's shadow buffer
@@ -7322,7 +7322,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_offset(self, drawable: Union[Gimp.Drawable, GObject.GValue], wrap_around: Union[bool, GObject.GValue], fill_type: Union[Gimp.OffsetType, GObject.GValue], offset_x: Union[int, GObject.GValue], offset_y: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_offset(self, drawable: Gimp.Drawable, wrap_around: bool, fill_type: Gimp.OffsetType, offset_x: int, offset_y: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Offset the drawable by the specified amounts in the X and Y
         directions.
         
@@ -7350,7 +7350,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_attach(self, item: Union[Gimp.Item, GObject.GValue], parasite: Union[Gimp.Parasite, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_parasite_attach(self, item: Gimp.Item, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a parasite to an item.
         
         This procedure attaches a parasite to an item. It has no return values.
@@ -7363,7 +7363,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_detach(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_parasite_detach(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Removes a parasite from an item.
         
         This procedure detaches a parasite from an item. It has no return
@@ -7377,7 +7377,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_find(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_drawable_parasite_find(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
         """Look up a parasite in an item.
         
         Finds and returns the parasite that is attached to an item.
@@ -7394,7 +7394,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_list(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_drawable_parasite_list(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """List all parasites.
         
         Returns a list of all parasites currently attached the an item.
@@ -7409,7 +7409,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_posterize(self, drawable: Union[Gimp.Drawable, GObject.GValue], levels: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_posterize(self, drawable: Gimp.Drawable, levels: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Posterize the specified drawable.
         
         This procedures reduces the number of shades allows in each intensity
@@ -7423,7 +7423,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_set_name(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -7436,7 +7436,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_set_tattoo(self, item: Union[Gimp.Item, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -7451,7 +7451,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_set_visible(self, item: Union[Gimp.Item, GObject.GValue], visible: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -7464,7 +7464,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_shadows_highlights(self, drawable: Union[Gimp.Drawable, GObject.GValue], shadows: Union[float, GObject.GValue], highlights: Union[float, GObject.GValue], whitepoint: Union[float, GObject.GValue], radius: Union[float, GObject.GValue], compress: Union[float, GObject.GValue], shadows_ccorrect: Union[float, GObject.GValue], highlights_ccorrect: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_shadows_highlights(self, drawable: Gimp.Drawable, shadows: float, highlights: float, whitepoint: float, radius: float, compress: float, shadows_ccorrect: float, highlights_ccorrect: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Perform shadows and highlights correction.
         
         This filter allows adjusting shadows and highlights in the image
@@ -7493,7 +7493,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_sub_thumbnail(self, drawable: Union[Gimp.Drawable, GObject.GValue], src_x: Union[int, GObject.GValue], src_y: Union[int, GObject.GValue], src_width: Union[int, GObject.GValue], src_height: Union[int, GObject.GValue], dest_width: Union[int, GObject.GValue], dest_height: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_drawable_sub_thumbnail(self, drawable: Gimp.Drawable, src_x: int, src_y: int, src_width: int, src_height: int, dest_width: int, dest_height: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Get a thumbnail of a sub-area of a drawable drawable.
         
         This function gets data from which a thumbnail of a drawable preview can
@@ -7529,7 +7529,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_threshold(self, drawable: Union[Gimp.Drawable, GObject.GValue], channel: Union[Gimp.HistogramChannel, GObject.GValue], low_threshold: Union[float, GObject.GValue], high_threshold: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_threshold(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, low_threshold: float, high_threshold: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Threshold the specified drawable.
         
         This procedures generates a threshold map of the specified drawable. All
@@ -7551,7 +7551,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_thumbnail(self, drawable: Union[Gimp.Drawable, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_drawable_thumbnail(self, drawable: Gimp.Drawable, width: int, height: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Get a thumbnail of a drawable.
         
         This function gets data from which a thumbnail of a drawable preview can
@@ -7579,7 +7579,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_type(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageType:
+    def gimp_drawable_type(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageType:
         """Returns the drawable's type.
         
         This procedure returns the drawable's type.
@@ -7595,7 +7595,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_type_with_alpha(self, drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageType:
+    def gimp_drawable_type_with_alpha(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageType:
         """Returns the drawable's type with alpha.
         
         This procedure returns the drawable's type as if had an alpha channel.
@@ -7614,7 +7614,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_update(self, drawable: Union[Gimp.Drawable, GObject.GValue], x: Union[int, GObject.GValue], y: Union[int, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_update(self, drawable: Gimp.Drawable, x: int, y: int, width: int, height: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Update the specified region of the drawable.
         
         This procedure updates the specified region of the drawable. The (x, y)
@@ -7636,7 +7636,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dynamics_get_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_dynamics_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve the list of loaded paint dynamics.
         
         This procedure returns a list of the paint dynamics that are currently
@@ -7661,7 +7661,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_copy(self, num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_edit_copy(self, num_drawables: int, drawables: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Copy from the specified drawables.
         
         If there is a selection in the image, then the area specified by the
@@ -7687,7 +7687,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_copy_visible(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_edit_copy_visible(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Copy from the projection.
         
         If there is a selection in the image, then the area specified by the
@@ -7707,7 +7707,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_cut(self, num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_edit_cut(self, num_drawables: int, drawables: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Cut from the specified drawables.
         
         If there is a selection in the image, then the area specified by the
@@ -7733,7 +7733,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_copy(self, num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_edit_named_copy(self, num_drawables: int, drawables: Gimp.ObjectArray, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Copy into a named buffer.
         
         This procedure works like 'gimp-edit-copy', but additionally stores the
@@ -7756,7 +7756,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_copy_visible(self, image: Union[Gimp.Image, GObject.GValue], buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_edit_named_copy_visible(self, image: Gimp.Image, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Copy from the projection into a named buffer.
         
         This procedure works like 'gimp-edit-copy-visible', but additionally
@@ -7777,7 +7777,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_cut(self, num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_edit_named_cut(self, num_drawables: int, drawables: Gimp.ObjectArray, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Cut into a named buffer.
         
         This procedure works like 'gimp-edit-cut', but additionally stores the
@@ -7800,7 +7800,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_paste(self, drawable: Union[Gimp.Drawable, GObject.GValue], buffer_name: Union[str, GObject.GValue], paste_into: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_edit_named_paste(self, drawable: Gimp.Drawable, buffer_name: str, paste_into: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Paste named buffer to the specified drawable.
         
         This procedure works like 'gimp-edit-paste' but pastes a named buffer
@@ -7820,7 +7820,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_paste_as_new(self, buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_edit_named_paste_as_new(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Paste named buffer to a new image.
         
         This procedure works like 'gimp-edit-paste-as-new-image' but pastes a
@@ -7836,7 +7836,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_paste_as_new_image(self, buffer_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_edit_named_paste_as_new_image(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Paste named buffer to a new image.
         
         This procedure works like 'gimp-edit-paste-as-new-image' but pastes a
@@ -7852,7 +7852,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_paste(self, drawable: Union[Gimp.Drawable, GObject.GValue], paste_into: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_edit_paste(self, drawable: Gimp.Drawable, paste_into: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Paste buffer to the specified drawable.
         
         This procedure pastes a copy of the internal GIMP edit buffer to the
@@ -7916,7 +7916,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_eraser(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], hardness: Union[Gimp.BrushApplicationMode, GObject.GValue], method: Union[Gimp.PaintApplicationMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_eraser(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, hardness: Gimp.BrushApplicationMode, method: Gimp.PaintApplicationMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Erase using the current brush.
         
         This tool erases using the current brush mask. If the specified drawable
@@ -7944,7 +7944,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_eraser_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_eraser_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Erase using the current brush.
         
         This tool erases using the current brush mask. This function performs
@@ -7965,7 +7965,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_file_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads an image file by invoking the right load handler.
         
         This procedure invokes the correct file load handler using magic if
@@ -7982,7 +7982,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load_layer(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_file_load_layer(self, image: Gimp.Image, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Loads an image file as a layer for an existing image.
         
         This procedure behaves like the file-load procedure but opens the
@@ -8002,7 +8002,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load_layers(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_file_load_layers(self, image: Gimp.Image, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Loads an image file as layers for an existing image.
         
         This procedure behaves like the file-load procedure but opens the
@@ -8024,7 +8024,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load_thumbnail(self, file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, GLib.Bytes]:
+    def gimp_file_load_thumbnail(self, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, GLib.Bytes]:
         """Loads the thumbnail for a file.
         
         This procedure tries to load a thumbnail that belongs to the given file.
@@ -8047,7 +8047,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_save(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_file_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves a file by extension.
         
         This procedure invokes the correct file save handler according to the
@@ -8065,7 +8065,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_save_thumbnail(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_file_save_thumbnail(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves a thumbnail for the given image.
         
         This procedure saves a thumbnail for the given image according to the
@@ -8083,7 +8083,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_anchor(self, floating_sel: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_anchor(self, floating_sel: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Anchor the specified floating selection to its associated drawable.
         
         This procedure anchors the floating selection to its associated
@@ -8097,7 +8097,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_attach(self, layer: Union[Gimp.Layer, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_attach(self, layer: Gimp.Layer, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Attach the specified layer as floating to the specified drawable.
         
         This procedure attaches the layer as floating selection to the drawable.
@@ -8110,7 +8110,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_remove(self, floating_sel: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_remove(self, floating_sel: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the specified floating selection from its associated drawable.
         
         This procedure removes the floating selection completely, without any
@@ -8122,7 +8122,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_to_layer(self, floating_sel: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_to_layer(self, floating_sel: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Transforms the specified floating selection into a layer.
         
         This procedure transforms the specified floating selection into a layer
@@ -8141,7 +8141,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_font_get_by_name(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Font:
+    def gimp_font_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Font:
         """Returns the font with the given name.
         
         Returns the font with the given name.
@@ -8156,7 +8156,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_close_popup(self, font_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_fonts_close_popup(self, font_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Close the font selection dialog.
         
         Closes an open font selection dialog.
@@ -8168,7 +8168,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_get_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_fonts_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve the list of loaded fonts.
         
         This procedure returns a list of the fonts that are currently available.
@@ -8183,7 +8183,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_popup(self, font_callback: Union[str, GObject.GValue], popup_title: Union[str, GObject.GValue], initial_font_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_fonts_popup(self, font_callback: str, popup_title: str, initial_font_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Invokes the Gimp font selection dialog.
         
         Opens a dialog letting a user choose a font.
@@ -8208,7 +8208,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_set_popup(self, font_callback: Union[str, GObject.GValue], font_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_fonts_set_popup(self, font_callback: str, font_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the current font in a font selection dialog.
         
         Sets the current font in a font selection dialog.
@@ -8296,7 +8296,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_parasite(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_get_parasite(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
         """Look up a global parasite.
         
         Finds and returns the global parasite that was previously attached.
@@ -8333,7 +8333,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gimprc_query(self, token: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_gimprc_query(self, token: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Queries the gimprc file parser for information on a specified token.
         
         This procedure is used to locate additional information contained in the
@@ -8357,7 +8357,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gimprc_set(self, token: Union[str, GObject.GValue], value: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gimprc_set(self, token: str, value: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets a gimprc token to a value and saves it in the gimprc.
         
         This procedure is used to add or change additional information in the
@@ -8374,7 +8374,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_by_name(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def gimp_gradient_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
         """Returns the gradient with the given name.
         
         Returns the gradient with the given name.
@@ -8389,7 +8389,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_custom_samples(self, gradient: Union[Gimp.Gradient, GObject.GValue], num_samples: Union[int, GObject.GValue], positions: Union[Gimp.FloatArray, GObject.GValue], reverse: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray]:
+    def gimp_gradient_get_custom_samples(self, gradient: Gimp.Gradient, num_samples: int, positions: Gimp.FloatArray, reverse: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray]:
         """Sample the gradient in custom positions.
         
         Samples the color of the gradient at positions from a list. The left
@@ -8417,7 +8417,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_number_of_segments(self, gradient: Union[Gimp.Gradient, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_gradient_get_number_of_segments(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Gets the number of segments of the gradient.
         
         Gets the number of segments of the gradient.
@@ -8432,7 +8432,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_uniform_samples(self, gradient: Union[Gimp.Gradient, GObject.GValue], num_samples: Union[int, GObject.GValue], reverse: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray]:
+    def gimp_gradient_get_uniform_samples(self, gradient: Gimp.Gradient, num_samples: int, reverse: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray]:
         """Sample the gradient in uniform parts.
         
         Samples colors uniformly across the gradient. It returns a list of
@@ -8461,7 +8461,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_new(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def gimp_gradient_new(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
         """Creates a new gradient.
         
         Creates a new gradient having no segments.
@@ -8476,7 +8476,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_blending_function(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GradientSegmentType:
+    def gimp_gradient_segment_get_blending_function(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GradientSegmentType:
         """Gets the gradient segment's blending function.
         
         Gets the blending function of the segment at the index. Returns an error
@@ -8496,7 +8496,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_coloring_type(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GradientSegmentColor:
+    def gimp_gradient_segment_get_coloring_type(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GradientSegmentColor:
         """Gets the gradient segment's coloring type.
         
         Gets the coloring type of the segment at the index. Returns an error
@@ -8516,7 +8516,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_left_color(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.RGB, float]:
+    def gimp_gradient_segment_get_left_color(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.RGB, float]:
         """Gets the left endpoint color of the segment.
         
         Gets the left endpoint color of the indexed segment of the gradient.
@@ -8536,7 +8536,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_left_pos(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_get_left_pos(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Gets the left endpoint position of a segment.
         
         Gets the position of the left endpoint of the segment of the gradient.
@@ -8554,7 +8554,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_middle_pos(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_get_middle_pos(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Gets the midpoint position of the segment.
         
         Gets the position of the midpoint of the segment of the gradient.
@@ -8572,7 +8572,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_right_color(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.RGB, float]:
+    def gimp_gradient_segment_get_right_color(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.RGB, float]:
         """Gets the right endpoint color of the segment.
         
         Gets the color of the right endpoint color of the segment of the
@@ -8593,7 +8593,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_right_pos(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_get_right_pos(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Gets the right endpoint position of the segment.
         
         Gets the position of the right endpoint of the segment of the gradient.
@@ -8611,7 +8611,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_blend_colors(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_blend_colors(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Blend the colors of the segment range.
         
         Blends the colors (but not the opacity) of the range of segments. The
@@ -8631,7 +8631,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_blend_opacity(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_blend_opacity(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Blend the opacity of the segment range.
         
         Blends the opacity (but not the colors) of the range of segments. The
@@ -8651,7 +8651,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_delete(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_delete(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Delete the segment range.
         
         Deletes a range of segments. Returns an error when a segment index is
@@ -8670,7 +8670,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_flip(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_flip(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Flip the segment range.
         
         Reverses the order of segments in a range, and swaps the left and right
@@ -8690,7 +8690,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_move(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], delta: Union[float, GObject.GValue], control_compress: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_range_move(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, delta: float, control_compress: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Move the position of an entire segment range by a delta.
         
         Moves the position of an entire segment range by a delta. The actual
@@ -8721,7 +8721,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_redistribute_handles(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_redistribute_handles(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Uniformly redistribute the segment range's handles.
         
         Redistributes the handles of the segment range of the gradient, so
@@ -8741,7 +8741,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_replicate(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], replicate_times: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_replicate(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, replicate_times: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Replicate the segment range.
         
         Replicates a segment range a given number of times. Instead of the
@@ -8764,7 +8764,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_set_blending_function(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], blending_function: Union[Gimp.GradientSegmentType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_set_blending_function(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, blending_function: Gimp.GradientSegmentType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the blending function of a range of segments.
         
         Sets the blending function of a range of segments. Returns an error when
@@ -8785,7 +8785,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_set_coloring_type(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], coloring_type: Union[Gimp.GradientSegmentColor, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_set_coloring_type(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, coloring_type: Gimp.GradientSegmentColor, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the coloring type of a range of segments.
         
         Sets the coloring type of a range of segments. Returns an error when a
@@ -8806,7 +8806,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_split_midpoint(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_split_midpoint(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Splits each segment in the segment range at midpoint.
         
         Splits each segment in the segment range at its midpoint. Returns an
@@ -8825,7 +8825,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_split_uniform(self, gradient: Union[Gimp.Gradient, GObject.GValue], start_segment: Union[int, GObject.GValue], end_segment: Union[int, GObject.GValue], split_parts: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_split_uniform(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, split_parts: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Splits each segment in the segment range uniformly.
         
         Splits each segment in the segment range uniformly into to the number of
@@ -8847,7 +8847,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_left_color(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], opacity: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_set_left_color(self, gradient: Gimp.Gradient, segment: int, color: Gimp.RGB, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the left endpoint color of a segment.
         
         Sets the color of the left endpoint the indexed segment of the gradient.
@@ -8866,7 +8866,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_left_pos(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], pos: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_set_left_pos(self, gradient: Gimp.Gradient, segment: int, pos: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Sets the left endpoint position of the segment.
         
         Sets the position of the left endpoint of the segment of the gradient.
@@ -8889,7 +8889,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_middle_pos(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], pos: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_set_middle_pos(self, gradient: Gimp.Gradient, segment: int, pos: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Sets the midpoint position of the segment.
         
         Sets the midpoint position of the segment of the gradient. The final
@@ -8911,7 +8911,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_right_color(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], opacity: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_set_right_color(self, gradient: Gimp.Gradient, segment: int, color: Gimp.RGB, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the right endpoint color of the segment.
         
         Sets the right endpoint color of the segment of the gradient. Returns an
@@ -8930,7 +8930,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_right_pos(self, gradient: Union[Gimp.Gradient, GObject.GValue], segment: Union[int, GObject.GValue], pos: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_set_right_pos(self, gradient: Gimp.Gradient, segment: int, pos: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Sets the right endpoint position of the segment.
         
         Sets the right endpoint position of the segment of the gradient. The
@@ -8953,7 +8953,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_close_popup(self, gradient_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_close_popup(self, gradient_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Close the gradient selection dialog.
         
         Closes an open gradient selection dialog.
@@ -8987,7 +8987,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_get_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_gradients_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve the list of loaded gradients.
         
         This procedure returns a list of the gradients that are currently
@@ -9004,7 +9004,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_popup(self, gradient_callback: Union[str, GObject.GValue], popup_title: Union[str, GObject.GValue], initial_gradient_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_popup(self, gradient_callback: str, popup_title: str, initial_gradient_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Invokes the Gimp gradients selection dialog.
         
         Opens a dialog letting a user choose a gradient.
@@ -9028,7 +9028,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_set_active(self, gradient: Union[Gimp.Gradient, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_set_active(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the active gradient.
         
         Sets the active gradient in the current context. The gradient will be
@@ -9042,7 +9042,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_set_gradient(self, gradient: Union[Gimp.Gradient, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_set_gradient(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the active gradient.
         
         Sets the active gradient in the current context. The gradient will be
@@ -9056,7 +9056,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_set_popup(self, gradient_callback: Union[str, GObject.GValue], gradient_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_set_popup(self, gradient_callback: str, gradient_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the current gradient in a gradient selection dialog.
         
         Sets the current gradient in a gradient selection dialog.
@@ -9070,7 +9070,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_heal(self, drawable: Union[Gimp.Drawable, GObject.GValue], src_drawable: Union[Gimp.Drawable, GObject.GValue], src_x: Union[float, GObject.GValue], src_y: Union[float, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_heal(self, drawable: Gimp.Drawable, src_drawable: Gimp.Drawable, src_x: float, src_y: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Heal from the source to the dest drawable using the current brush.
         
         This tool heals the source drawable starting at the specified source
@@ -9098,7 +9098,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_heal_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_heal_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Heal from the source to the dest drawable using the current brush.
         
         This tool heals from the source drawable starting at the specified
@@ -9120,7 +9120,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help(self, help_domain: Union[str, GObject.GValue], help_id: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help(self, help_domain: str, help_id: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Load a help page.
         
         This procedure loads the specified help page into the helpbrowser or
@@ -9202,7 +9202,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_add_hguide(self, image: Union[Gimp.Image, GObject.GValue], yposition: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_add_hguide(self, image: Gimp.Image, yposition: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Add a horizontal guide to an image.
         
         This procedure adds a horizontal guide to an image. It takes the input
@@ -9221,7 +9221,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_add_sample_point(self, image: Union[Gimp.Image, GObject.GValue], position_x: Union[int, GObject.GValue], position_y: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_add_sample_point(self, image: Gimp.Image, position_x: int, position_y: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Add a sample point to an image.
         
         This procedure adds a sample point to an image. It takes the input image
@@ -9244,7 +9244,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_add_vguide(self, image: Union[Gimp.Image, GObject.GValue], xposition: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_add_vguide(self, image: Gimp.Image, xposition: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Add a vertical guide to an image.
         
         This procedure adds a vertical guide to an image. It takes the input
@@ -9263,7 +9263,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_attach_parasite(self, image: Union[Gimp.Image, GObject.GValue], parasite: Union[Gimp.Parasite, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_attach_parasite(self, image: Gimp.Image, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a parasite to an image.
         
         This procedure attaches a parasite to an image. It has no return values.
@@ -9276,7 +9276,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_clean_all(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_clean_all(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the image dirty count to 0.
         
         This procedure sets the specified image's dirty count to 0, allowing
@@ -9293,7 +9293,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_color_profile(self, image: Union[Gimp.Image, GObject.GValue], color_profile: Union[GLib.Bytes, GObject.GValue], intent: Union[Gimp.ColorRenderingIntent, GObject.GValue], bpc: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_color_profile(self, image: Gimp.Image, color_profile: GLib.Bytes, intent: Gimp.ColorRenderingIntent, bpc: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert the image's layers to a color profile.
         
         This procedure converts from the image's color profile (or the default
@@ -9314,7 +9314,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_color_profile_from_file(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], intent: Union[Gimp.ColorRenderingIntent, GObject.GValue], bpc: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_color_profile_from_file(self, image: Gimp.Image, file: Gio.File, intent: Gimp.ColorRenderingIntent, bpc: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert the image's layers to a color profile.
         
         This procedure converts from the image's color profile (or the default
@@ -9335,7 +9335,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_grayscale(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_grayscale(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert specified image to grayscale.
         
         This procedure converts the specified image to grayscale. This process
@@ -9347,7 +9347,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_indexed(self, image: Union[Gimp.Image, GObject.GValue], dither_type: Union[Gimp.ConvertDitherType, GObject.GValue], palette_type: Union[Gimp.ConvertPaletteType, GObject.GValue], num_cols: Union[int, GObject.GValue], alpha_dither: Union[bool, GObject.GValue], remove_unused: Union[bool, GObject.GValue], palette: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_indexed(self, image: Gimp.Image, dither_type: Gimp.ConvertDitherType, palette_type: Gimp.ConvertPaletteType, num_cols: int, alpha_dither: bool, remove_unused: bool, palette: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert specified image to and Indexed image.
         
         This procedure converts the specified image to 'indexed' color. This
@@ -9389,7 +9389,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_precision(self, image: Union[Gimp.Image, GObject.GValue], precision: Union[Gimp.Precision, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_precision(self, image: Gimp.Image, precision: Gimp.Precision, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert the image to the specified precision.
         
         This procedure converts the image to the specified precision. Note that
@@ -9405,7 +9405,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_rgb(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_rgb(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert specified image to RGB color.
         
         This procedure converts the specified image to RGB color. This process
@@ -9419,7 +9419,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_set_dither_matrix(self, width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], matrix: Union[GLib.Bytes, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_set_dither_matrix(self, width: int, height: int, matrix: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set dither matrix for conversion to indexed.
         
         This procedure sets the dither matrix used when converting images to
@@ -9437,7 +9437,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_crop(self, image: Union[Gimp.Image, GObject.GValue], new_width: Union[int, GObject.GValue], new_height: Union[int, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_crop(self, image: Gimp.Image, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Crop the image to the specified extents.
         
         This procedure crops the image so that it's new width and height are
@@ -9462,7 +9462,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_delete(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_delete(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Delete the specified image.
         
         If there are no displays associated with this image it will be deleted.
@@ -9478,7 +9478,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_delete_guide(self, image: Union[Gimp.Image, GObject.GValue], guide: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_delete_guide(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Deletes a guide from an image.
         
         This procedure takes an image and a guide ID as input and removes the
@@ -9492,7 +9492,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_delete_sample_point(self, image: Union[Gimp.Image, GObject.GValue], sample_point: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_delete_sample_point(self, image: Gimp.Image, sample_point: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Deletes a sample point from an image.
         
         This procedure takes an image and a sample point ID as input and removes
@@ -9507,7 +9507,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_detach_parasite(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_detach_parasite(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Removes a parasite from an image.
         
         This procedure detaches a parasite from an image. It has no return
@@ -9521,7 +9521,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_duplicate(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_image_duplicate(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Duplicate the specified image.
         
         This procedure duplicates the specified image, copying all layers,
@@ -9537,7 +9537,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_find_next_guide(self, image: Union[Gimp.Image, GObject.GValue], guide: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_find_next_guide(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Find next guide on an image.
         
         This procedure takes an image and a guide ID as input and finds the
@@ -9559,7 +9559,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_find_next_sample_point(self, image: Union[Gimp.Image, GObject.GValue], sample_point: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_find_next_sample_point(self, image: Gimp.Image, sample_point: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Find next sample point on an image.
         
         This procedure takes an image and a sample point ID as input and finds
@@ -9582,7 +9582,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_flatten(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_flatten(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Flatten all visible layers into a single layer. Discard all invisible
         layers.
         
@@ -9601,7 +9601,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_flip(self, image: Union[Gimp.Image, GObject.GValue], flip_type: Union[Gimp.OrientationType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_flip(self, image: Gimp.Image, flip_type: Gimp.OrientationType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Flips the image horizontally or vertically.
         
         This procedure flips (mirrors) the image.
@@ -9615,7 +9615,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_floating_sel_attached_to(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Drawable:
+    def gimp_image_floating_sel_attached_to(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Drawable:
         """Return the drawable the floating selection is attached to.
         
         This procedure returns the drawable the image's floating selection is
@@ -9632,7 +9632,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_floating_selection(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_floating_selection(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Return the floating selection of the image.
         
         This procedure returns the image's floating selection, if it exists. If
@@ -9648,7 +9648,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_freeze_channels(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_freeze_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Freeze the image's channel list.
         
         This procedure freezes the channel list of the image, suppressing any
@@ -9666,7 +9666,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_freeze_layers(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_freeze_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Freeze the image's layer list.
         
         This procedure freezes the layer list of the image, suppressing any
@@ -9684,7 +9684,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_freeze_vectors(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_freeze_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Freeze the image's vectors list.
         
         This procedure freezes the vectors list of the image, suppressing any
@@ -9702,7 +9702,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_base_type(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageBaseType:
+    def gimp_image_get_base_type(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageBaseType:
         """Get the base type of the image.
         
         This procedure returns the image's base type. Layers in the image must
@@ -9719,7 +9719,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channel_by_name(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_image_get_channel_by_name(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
         """Find a channel with a given name in an image.
         
         This procedure returns the channel with the given name in the specified
@@ -9737,7 +9737,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channel_by_tattoo(self, image: Union[Gimp.Image, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_image_get_channel_by_tattoo(self, image: Gimp.Image, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
         """Find a channel with a given tattoo in an image.
         
         This procedure returns the channel with the given tattoo in the
@@ -9755,7 +9755,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channel_position(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_channel_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -9776,7 +9776,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channels(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the list of channels contained in the specified image.
         
         This procedure returns the list of channels contained in the specified
@@ -9798,7 +9798,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_cmap(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_cmap(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
         """Returns the image's colormap.
         
         This procedure returns an actual pointer to the image's colormap, as
@@ -9817,7 +9817,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_color_profile(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_color_profile(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
         """Returns the image's color profile.
         
         This procedure returns the image's color profile, or NULL if the image
@@ -9833,7 +9833,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_colormap(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_colormap(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
         """Returns the image's colormap.
         
         This procedure returns an actual pointer to the image's colormap, as
@@ -9852,7 +9852,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_component_active(self, image: Union[Gimp.Image, GObject.GValue], component: Union[Gimp.ChannelType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_get_component_active(self, image: Gimp.Image, component: Gimp.ChannelType, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns if the specified image's image component is active.
         
         This procedure returns if the specified image's image component (i.e.
@@ -9874,7 +9874,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_component_visible(self, image: Union[Gimp.Image, GObject.GValue], component: Union[Gimp.ChannelType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_get_component_visible(self, image: Gimp.Image, component: Gimp.ChannelType, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns if the specified image's image component is visible.
         
         This procedure returns if the specified image's image component (i.e.
@@ -9895,7 +9895,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_default_new_layer_mode(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
+    def gimp_image_get_default_new_layer_mode(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
         """Get the default mode for newly created layers of this image.
         
         Returns the default mode for newly created layers of this image.
@@ -9911,7 +9911,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_effective_color_profile(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_effective_color_profile(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
         """Returns the color profile that is used for the image.
         
         This procedure returns the color profile that is actually used for this
@@ -9930,7 +9930,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_exported_file(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_exported_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
         """Returns the exported file for the specified image.
         
         This procedure returns the file associated with the specified image if
@@ -9947,7 +9947,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_file(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
         """Returns the file for the specified image.
         
         This procedure returns the file associated with the specified image. The
@@ -9968,7 +9968,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_floating_sel(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_get_floating_sel(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Return the floating selection of the image.
         
         This procedure returns the image's floating selection, if it exists. If
@@ -9984,7 +9984,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_guide_orientation(self, image: Union[Gimp.Image, GObject.GValue], guide: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.OrientationType:
+    def gimp_image_get_guide_orientation(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.OrientationType:
         """Get orientation of a guide on an image.
         
         This procedure takes an image and a guide ID as input and returns the
@@ -10003,7 +10003,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_guide_position(self, image: Union[Gimp.Image, GObject.GValue], guide: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_guide_position(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get position of a guide on an image.
         
         This procedure takes an image and a guide ID as input and returns the
@@ -10022,7 +10022,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_height(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_height(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Return the height of the image.
         
         This procedure returns the image's height. This value is independent of
@@ -10038,7 +10038,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_imported_file(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_imported_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
         """Returns the imported file for the specified image.
         
         This procedure returns the file associated with the specified image if
@@ -10056,7 +10056,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_item_position(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_item_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -10077,7 +10077,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layer_by_name(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_get_layer_by_name(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Find a layer with a given name in an image.
         
         This procedure returns the layer with the given name in the specified
@@ -10095,7 +10095,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layer_by_tattoo(self, image: Union[Gimp.Image, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_get_layer_by_tattoo(self, image: Gimp.Image, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Find a layer with a given tattoo in an image.
         
         This procedure returns the layer with the given tattoo in the specified
@@ -10113,7 +10113,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layer_position(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_layer_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -10134,7 +10134,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layers(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the list of root layers contained in the specified image.
         
         This procedure returns the list of root layers contained in the
@@ -10159,7 +10159,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_metadata(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_image_get_metadata(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the image's metadata.
         
         Returns exif/iptc/xmp metadata from the image.
@@ -10174,7 +10174,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_name(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_image_get_name(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the specified image's name.
         
         This procedure returns the image's name. If the image has a filename or
@@ -10195,7 +10195,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_parasite(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_image_get_parasite(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
         """Look up a parasite in an image.
         
         Finds and returns the parasite that was previously attached to an image.
@@ -10212,7 +10212,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_parasite_list(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_image_get_parasite_list(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """List all parasites.
         
         Returns a list of the names of all currently attached parasites. These
@@ -10229,7 +10229,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_precision(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Precision:
+    def gimp_image_get_precision(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Precision:
         """Get the precision of the image.
         
         This procedure returns the image's precision.
@@ -10245,7 +10245,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_resolution(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_image_get_resolution(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
         """Returns the specified image's resolution.
         
         This procedure returns the specified image's resolution in dots per
@@ -10266,7 +10266,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_sample_point_position(self, image: Union[Gimp.Image, GObject.GValue], sample_point: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int]:
+    def gimp_image_get_sample_point_position(self, image: Gimp.Image, sample_point: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int]:
         """Get position of a sample point on an image.
         
         This procedure takes an image and a sample point ID as input and returns
@@ -10289,7 +10289,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_channels(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the specified image's selected channels.
         
         This procedure returns the list of selected channels in the specified
@@ -10308,7 +10308,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_drawables(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_drawables(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Get the image's selected drawables.
         
         This procedure returns the list of selected drawable in the specified
@@ -10331,7 +10331,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_layers(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the specified image's selected layers.
         
         This procedure returns the list of selected layers in the specified
@@ -10350,7 +10350,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_vectors(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the specified image's selected vectors.
         
         This procedure returns the list of selected vectors in the specified
@@ -10369,7 +10369,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selection(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Selection:
+    def gimp_image_get_selection(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Selection:
         """Returns the specified image's selection.
         
         This will always return a valid ID for a selection -- which is
@@ -10385,7 +10385,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_simulation_bpc(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_get_simulation_bpc(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the image has Black Point Compensation enabled for
         its simulation.
         
@@ -10402,7 +10402,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_simulation_intent(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ColorRenderingIntent:
+    def gimp_image_get_simulation_intent(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ColorRenderingIntent:
         """Returns the image's simulation rendering intent.
         
         This procedure returns the image's simulation rendering intent.
@@ -10419,7 +10419,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_simulation_profile(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_simulation_profile(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
         """Returns the image's simulation color profile.
         
         This procedure returns the image's simulation color profile, or NULL if
@@ -10435,7 +10435,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_tattoo_state(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_tattoo_state(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the tattoo state associated with the image.
         
         This procedure returns the tattoo state of the image. Use only by
@@ -10453,7 +10453,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_unit(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
+    def gimp_image_get_unit(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
         """Returns the specified image's unit.
         
         This procedure returns the specified image's unit. This value is
@@ -10471,7 +10471,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the list of vectors contained in the specified image.
         
         This procedure returns the list of vectors contained in the specified
@@ -10490,7 +10490,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors_by_name(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_image_get_vectors_by_name(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
         """Find a vectors with a given name in an image.
         
         This procedure returns the vectors with the given name in the specified
@@ -10508,7 +10508,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors_by_tattoo(self, image: Union[Gimp.Image, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_image_get_vectors_by_tattoo(self, image: Gimp.Image, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
         """Find a vectors with a given tattoo in an image.
         
         This procedure returns the vectors with the given tattoo in the
@@ -10526,7 +10526,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors_position(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_vectors_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -10547,7 +10547,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_width(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_width(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Return the width of the image.
         
         This procedure returns the image's width. This value is independent of
@@ -10563,7 +10563,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_xcf_file(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_xcf_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
         """Returns the XCF file for the specified image.
         
         This procedure returns the XCF file associated with the image. If there
@@ -10579,7 +10579,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_background_color(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_image_grid_get_background_color(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Sets the background color of an image's grid.
         
         This procedure gets the background color of an image's grid.
@@ -10594,7 +10594,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_foreground_color(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_image_grid_get_foreground_color(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Sets the foreground color of an image's grid.
         
         This procedure gets the foreground color of an image's grid.
@@ -10609,7 +10609,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_offset(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_image_grid_get_offset(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
         """Gets the offset of an image's grid.
         
         This procedure retrieves the horizontal and vertical offset of an
@@ -10627,7 +10627,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_spacing(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_image_grid_get_spacing(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
         """Gets the spacing of an image's grid.
         
         This procedure retrieves the horizontal and vertical spacing of an
@@ -10645,7 +10645,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_style(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GridStyle:
+    def gimp_image_grid_get_style(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GridStyle:
         """Gets the style of an image's grid.
         
         This procedure retrieves the style of an image's grid.
@@ -10661,7 +10661,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_background_color(self, image: Union[Gimp.Image, GObject.GValue], bgcolor: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_background_color(self, image: Gimp.Image, bgcolor: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Gets the background color of an image's grid.
         
         This procedure sets the background color of an image's grid.
@@ -10674,7 +10674,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_foreground_color(self, image: Union[Gimp.Image, GObject.GValue], fgcolor: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_foreground_color(self, image: Gimp.Image, fgcolor: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Gets the foreground color of an image's grid.
         
         This procedure sets the foreground color of an image's grid.
@@ -10687,7 +10687,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_offset(self, image: Union[Gimp.Image, GObject.GValue], xoffset: Union[float, GObject.GValue], yoffset: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_offset(self, image: Gimp.Image, xoffset: float, yoffset: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the offset of an image's grid.
         
         This procedure sets the horizontal and vertical offset of an image's
@@ -10703,7 +10703,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_spacing(self, image: Union[Gimp.Image, GObject.GValue], xspacing: Union[float, GObject.GValue], yspacing: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_spacing(self, image: Gimp.Image, xspacing: float, yspacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the spacing of an image's grid.
         
         This procedure sets the horizontal and vertical spacing of an image's
@@ -10719,7 +10719,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_style(self, image: Union[Gimp.Image, GObject.GValue], style: Union[Gimp.GridStyle, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_style(self, image: Gimp.Image, style: Gimp.GridStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the style unit of an image's grid.
         
         This procedure sets the style of an image's grid. It takes the image and
@@ -10734,7 +10734,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_id_is_valid(self, image_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_id_is_valid(self, image_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns TRUE if the image ID is valid.
         
         This procedure checks if the given image ID is valid and refers to an
@@ -10750,7 +10750,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_insert_channel(self, image: Union[Gimp.Image, GObject.GValue], channel: Union[Gimp.Channel, GObject.GValue], parent: Union[Gimp.Channel, GObject.GValue], position: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_insert_channel(self, image: Gimp.Image, channel: Gimp.Channel, parent: Gimp.Channel, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add the specified channel to the image.
         
         This procedure adds the specified channel to the image at the given
@@ -10772,7 +10772,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_insert_layer(self, image: Union[Gimp.Image, GObject.GValue], layer: Union[Gimp.Layer, GObject.GValue], parent: Union[Gimp.Layer, GObject.GValue], position: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_insert_layer(self, image: Gimp.Image, layer: Gimp.Layer, parent: Gimp.Layer, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add the specified layer to the image.
         
         This procedure adds the specified layer to the image at the given
@@ -10800,7 +10800,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_insert_vectors(self, image: Union[Gimp.Image, GObject.GValue], vectors: Union[Gimp.Vectors, GObject.GValue], parent: Union[Gimp.Vectors, GObject.GValue], position: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_insert_vectors(self, image: Gimp.Image, vectors: Gimp.Vectors, parent: Gimp.Vectors, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add the specified vectors to the image.
         
         This procedure adds the specified vectors to the image at the given
@@ -10822,7 +10822,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_is_dirty(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_is_dirty(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Checks if the image has unsaved changes.
         
         This procedure checks the specified image's dirty count to see if it
@@ -10841,7 +10841,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_channel(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_channel(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10855,7 +10855,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_item(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_item(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10869,7 +10869,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_item_to_bottom(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_item_to_bottom(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Lower the specified item to the bottom of its level in its item tree.
         
         This procedure lowers the specified item to bottom of its level in the
@@ -10884,7 +10884,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_layer(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_layer(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10898,7 +10898,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_layer_to_bottom(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_layer_to_bottom(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Lower the specified item to the bottom of its level in its item tree.
         
         This procedure lowers the specified item to bottom of its level in the
@@ -10913,7 +10913,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_vectors(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_vectors(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10927,7 +10927,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_vectors_to_bottom(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_vectors_to_bottom(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Lower the specified item to the bottom of its level in its item tree.
         
         This procedure lowers the specified item to bottom of its level in the
@@ -10942,7 +10942,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_merge_down(self, image: Union[Gimp.Image, GObject.GValue], merge_layer: Union[Gimp.Layer, GObject.GValue], merge_type: Union[Gimp.MergeType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_merge_down(self, image: Gimp.Image, merge_layer: Gimp.Layer, merge_type: Gimp.MergeType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Merge the layer passed and the first visible layer below.
         
         This procedure combines the passed layer and the first visible layer
@@ -10968,7 +10968,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_merge_layer_group(self, image: Union[Gimp.Image, GObject.GValue], layer_group: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_merge_layer_group(self, image: Gimp.Image, layer_group: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Merge the passed layer group's layers into one normal layer.
         
         This procedure combines the layers of the passed layer group into a
@@ -10986,7 +10986,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_merge_visible_layers(self, image: Union[Gimp.Image, GObject.GValue], merge_type: Union[Gimp.MergeType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_merge_visible_layers(self, image: Gimp.Image, merge_type: Gimp.MergeType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Merge the visible image layers into one.
         
         This procedure combines the visible layers into a single layer using the
@@ -11009,7 +11009,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_new(self, width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], type: Union[Gimp.ImageBaseType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_image_new(self, width: int, height: int, type: Gimp.ImageBaseType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Creates a new image with the specified width, height, and type.
         
         Creates a new image, undisplayed, with the specified extents and type. A
@@ -11038,7 +11038,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_new_with_precision(self, width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], type: Union[Gimp.ImageBaseType, GObject.GValue], precision: Union[Gimp.Precision, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_image_new_with_precision(self, width: int, height: int, type: Gimp.ImageBaseType, precision: Gimp.Precision, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Creates a new image with the specified width, height, type and
         precision.
         
@@ -11065,7 +11065,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_attach(self, image: Union[Gimp.Image, GObject.GValue], parasite: Union[Gimp.Parasite, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_parasite_attach(self, image: Gimp.Image, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a parasite to an image.
         
         This procedure attaches a parasite to an image. It has no return values.
@@ -11078,7 +11078,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_detach(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_parasite_detach(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Removes a parasite from an image.
         
         This procedure detaches a parasite from an image. It has no return
@@ -11092,7 +11092,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_find(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_image_parasite_find(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
         """Look up a parasite in an image.
         
         Finds and returns the parasite that was previously attached to an image.
@@ -11109,7 +11109,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_list(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_image_parasite_list(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """List all parasites.
         
         Returns a list of the names of all currently attached parasites. These
@@ -11126,7 +11126,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_pick_color(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], sample_merged: Union[bool, GObject.GValue], sample_average: Union[bool, GObject.GValue], average_radius: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_image_pick_color(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, x: float, y: float, sample_merged: bool, sample_average: bool, average_radius: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Determine the color at the given coordinates.
         
         This tool determines the color at the specified coordinates. The
@@ -11170,7 +11170,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_pick_correlate_layer(self, image: Union[Gimp.Image, GObject.GValue], x: Union[int, GObject.GValue], y: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_pick_correlate_layer(self, image: Gimp.Image, x: int, y: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Find the layer visible at the specified coordinates.
         
         This procedure finds the layer which is visible at the specified
@@ -11193,7 +11193,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_policy_color_profile(self, image: Union[Gimp.Image, GObject.GValue], interactive: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_policy_color_profile(self, image: Gimp.Image, interactive: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Execute the color profile conversion policy.
         
         Process the image according to the color profile policy as set in
@@ -11221,7 +11221,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_policy_rotate(self, image: Union[Gimp.Image, GObject.GValue], interactive: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_policy_rotate(self, image: Gimp.Image, interactive: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Execute the "Orientation" metadata policy.
         
         Process the image according to the rotation policy as set in
@@ -11247,7 +11247,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_channel(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_channel(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11261,7 +11261,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_item(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_item(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11275,7 +11275,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_item_to_top(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_item_to_top(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Raise the specified item to the top of its level in its item tree.
         
         This procedure raises the specified item to top of its level in the item
@@ -11289,7 +11289,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_layer(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_layer(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11303,7 +11303,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_layer_to_top(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_layer_to_top(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Raise the specified item to the top of its level in its item tree.
         
         This procedure raises the specified item to top of its level in the item
@@ -11317,7 +11317,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_vectors(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_vectors(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11331,7 +11331,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_vectors_to_top(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_vectors_to_top(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Raise the specified item to the top of its level in its item tree.
         
         This procedure raises the specified item to top of its level in the item
@@ -11345,7 +11345,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_remove_channel(self, image: Union[Gimp.Image, GObject.GValue], channel: Union[Gimp.Channel, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_remove_channel(self, image: Gimp.Image, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the specified channel from the image.
         
         This procedure removes the specified channel from the image. If the
@@ -11359,7 +11359,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_remove_layer(self, image: Union[Gimp.Image, GObject.GValue], layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_remove_layer(self, image: Gimp.Image, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the specified layer from the image.
         
         This procedure removes the specified layer from the image. If the layer
@@ -11376,7 +11376,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_remove_vectors(self, image: Union[Gimp.Image, GObject.GValue], vectors: Union[Gimp.Vectors, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_remove_vectors(self, image: Gimp.Image, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the specified path from the image.
         
         This procedure removes the specified path from the image. If the path
@@ -11390,7 +11390,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_reorder_item(self, image: Union[Gimp.Image, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], parent: Union[Gimp.Item, GObject.GValue], position: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_reorder_item(self, image: Gimp.Image, item: Gimp.Item, parent: Gimp.Item, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Reorder the specified item within its item tree.
         
         This procedure reorders the specified item within its item tree.
@@ -11407,7 +11407,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_resize(self, image: Union[Gimp.Image, GObject.GValue], new_width: Union[int, GObject.GValue], new_height: Union[int, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_resize(self, image: Gimp.Image, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Resize the image to the specified extents.
         
         This procedure resizes the image so that it's new width and height are
@@ -11434,7 +11434,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_resize_to_layers(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_resize_to_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Resize the image to fit all layers.
         
         This procedure resizes the image to the bounding box of all layers of
@@ -11448,7 +11448,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_rotate(self, image: Union[Gimp.Image, GObject.GValue], rotate_type: Union[Gimp.RotationType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_rotate(self, image: Gimp.Image, rotate_type: Gimp.RotationType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Rotates the image by the specified degrees.
         
         This procedure rotates the image.
@@ -11462,7 +11462,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_scale(self, image: Union[Gimp.Image, GObject.GValue], new_width: Union[int, GObject.GValue], new_height: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_scale(self, image: Gimp.Image, new_width: int, new_height: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Scale the image using the default interpolation method.
         
         This procedure scales the image so that its new width and height are
@@ -11481,7 +11481,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_color(self, image: Union[Gimp.Image, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_color(self, image: Gimp.Image, operation: Gimp.ChannelOps, drawable: Gimp.Drawable, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a selection by selecting all pixels (in the specified
         drawable) with the same (or similar) color to that specified.
         
@@ -11517,7 +11517,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_contiguous_color(self, image: Union[Gimp.Image, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_contiguous_color(self, image: Gimp.Image, operation: Gimp.ChannelOps, drawable: Gimp.Drawable, x: float, y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a selection by selecting all pixels around specified
         coordinates with the same (or similar) color to that at the
         coordinates.
@@ -11565,7 +11565,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_ellipse(self, image: Union[Gimp.Image, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], width: Union[float, GObject.GValue], height: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_ellipse(self, image: Gimp.Image, operation: Gimp.ChannelOps, x: float, y: float, width: float, height: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an elliptical selection over the specified image.
         
         This tool creates an elliptical selection over the specified image. The
@@ -11595,7 +11595,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_item(self, image: Union[Gimp.Image, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_item(self, image: Gimp.Image, operation: Gimp.ChannelOps, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Transforms the specified item into a selection.
         
         This procedure renders the item's outline into the current selection of
@@ -11619,7 +11619,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_polygon(self, image: Union[Gimp.Image, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], num_segs: Union[int, GObject.GValue], segs: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_polygon(self, image: Gimp.Image, operation: Gimp.ChannelOps, num_segs: int, segs: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a polygonal selection over the specified image.
         
         This tool creates a polygonal selection over the specified image. The
@@ -11650,7 +11650,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_rectangle(self, image: Union[Gimp.Image, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], width: Union[float, GObject.GValue], height: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_rectangle(self, image: Gimp.Image, operation: Gimp.ChannelOps, x: float, y: float, width: float, height: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a rectangular selection over the specified image;.
         
         This tool creates a rectangular selection over the specified image. The
@@ -11677,7 +11677,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_round_rectangle(self, image: Union[Gimp.Image, GObject.GValue], operation: Union[Gimp.ChannelOps, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], width: Union[float, GObject.GValue], height: Union[float, GObject.GValue], corner_radius_x: Union[float, GObject.GValue], corner_radius_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_round_rectangle(self, image: Gimp.Image, operation: Gimp.ChannelOps, x: float, y: float, width: float, height: float, corner_radius_x: float, corner_radius_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a rectangular selection with round corners over the specified
         image;.
         
@@ -11709,7 +11709,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_cmap(self, image: Union[Gimp.Image, GObject.GValue], colormap: Union[GLib.Bytes, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_cmap(self, image: Gimp.Image, colormap: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the entries in the image's colormap.
         
         This procedure sets the entries in the specified image's colormap. The
@@ -11726,7 +11726,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_color_profile(self, image: Union[Gimp.Image, GObject.GValue], color_profile: Union[GLib.Bytes, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_color_profile(self, image: Gimp.Image, color_profile: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the image's color profile.
         
         This procedure sets the image's color profile, or unsets it if NULL is
@@ -11743,7 +11743,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_color_profile_from_file(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_color_profile_from_file(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the image's color profile from an ICC file.
         
         This procedure sets the image's color profile from a file containing an
@@ -11761,7 +11761,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_colormap(self, image: Union[Gimp.Image, GObject.GValue], colormap: Union[GLib.Bytes, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_colormap(self, image: Gimp.Image, colormap: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the entries in the image's colormap.
         
         This procedure sets the entries in the specified image's colormap. The
@@ -11778,7 +11778,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_component_active(self, image: Union[Gimp.Image, GObject.GValue], component: Union[Gimp.ChannelType, GObject.GValue], active: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_component_active(self, image: Gimp.Image, component: Gimp.ChannelType, active: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets if the specified image's image component is active.
         
         This procedure sets if the specified image's image component (i.e. Red,
@@ -11797,7 +11797,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_component_visible(self, image: Union[Gimp.Image, GObject.GValue], component: Union[Gimp.ChannelType, GObject.GValue], visible: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_component_visible(self, image: Gimp.Image, component: Gimp.ChannelType, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets if the specified image's image component is visible.
         
         This procedure sets if the specified image's image component (i.e. Red,
@@ -11816,7 +11816,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_file(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_file(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the specified XCF image's file.
         
         This procedure sets the specified image's file. This is to set the XCF
@@ -11832,7 +11832,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_metadata(self, image: Union[Gimp.Image, GObject.GValue], metadata_string: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_metadata(self, image: Gimp.Image, metadata_string: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the image's metadata.
         
         Sets exif/iptc/xmp metadata on the image.
@@ -11845,7 +11845,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_resolution(self, image: Union[Gimp.Image, GObject.GValue], xresolution: Union[float, GObject.GValue], yresolution: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_resolution(self, image: Gimp.Image, xresolution: float, yresolution: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the specified image's resolution.
         
         This procedure sets the specified image's resolution in dots per inch.
@@ -11864,7 +11864,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_selected_channels(self, image: Union[Gimp.Image, GObject.GValue], num_channels: Union[int, GObject.GValue], channels: Union[Gimp.ObjectArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_selected_channels(self, image: Gimp.Image, num_channels: int, channels: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the specified image's selected channels.
         
         The channels are set as the selected channels in the image. Any previous
@@ -11882,7 +11882,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_selected_layers(self, image: Union[Gimp.Image, GObject.GValue], num_layers: Union[int, GObject.GValue], layers: Union[Gimp.ObjectArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_selected_layers(self, image: Gimp.Image, num_layers: int, layers: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the specified image's selected layers.
         
         The layers are set as the selected layers in the image. Any previous
@@ -11900,7 +11900,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_selected_vectors(self, image: Union[Gimp.Image, GObject.GValue], num_vectors: Union[int, GObject.GValue], vectors: Union[Gimp.ObjectArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_selected_vectors(self, image: Gimp.Image, num_vectors: int, vectors: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the specified image's selected vectors.
         
         The vectors are set as the selected vectors in the image.
@@ -11915,7 +11915,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_bpc(self, image: Union[Gimp.Image, GObject.GValue], bpc: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_bpc(self, image: Gimp.Image, bpc: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets whether the image has Black Point Compensation enabled for its
         simulation.
         
@@ -11930,7 +11930,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_intent(self, image: Union[Gimp.Image, GObject.GValue], intent: Union[Gimp.ColorRenderingIntent, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_intent(self, image: Gimp.Image, intent: Gimp.ColorRenderingIntent, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the image's simulation rendering intent.
         
         This procedure sets the image's simulation rendering intent.
@@ -11945,7 +11945,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_profile(self, image: Union[Gimp.Image, GObject.GValue], color_profile: Union[GLib.Bytes, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_profile(self, image: Gimp.Image, color_profile: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the image's simulation color profile.
         
         This procedure sets the image's simulation color profile, or unsets it
@@ -11960,7 +11960,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_profile_from_file(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_profile_from_file(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the image's simulation color profile from an ICC file.
         
         This procedure sets the image's simulation color profile from a file
@@ -11975,7 +11975,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_tattoo_state(self, image: Union[Gimp.Image, GObject.GValue], tattoo_state: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_tattoo_state(self, image: Gimp.Image, tattoo_state: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the tattoo state associated with the image.
         
         This procedure sets the tattoo state of the image. Use only by save/load
@@ -11999,7 +11999,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_unit(self, image: Union[Gimp.Image, GObject.GValue], unit: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_unit(self, image: Gimp.Image, unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the specified image's unit.
         
         This procedure sets the specified image's unit. No scaling or resizing
@@ -12015,7 +12015,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thaw_channels(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_thaw_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Thaw the image's channel list.
         
         This procedure thaws the channel list of the image, re-enabling updates
@@ -12030,7 +12030,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thaw_layers(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_thaw_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Thaw the image's layer list.
         
         This procedure thaws the layer list of the image, re-enabling updates to
@@ -12045,7 +12045,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thaw_vectors(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_thaw_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Thaw the image's vectors list.
         
         This procedure thaws the vectors list of the image, re-enabling updates
@@ -12060,7 +12060,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thumbnail(self, image: Union[Gimp.Image, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_image_thumbnail(self, image: Gimp.Image, width: int, height: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Get a thumbnail of an image.
         
         This function gets data from which a thumbnail of an image preview can
@@ -12088,7 +12088,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_disable(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_disable(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Disable the image's undo stack.
         
         This procedure disables the image's undo stack, allowing subsequent
@@ -12108,7 +12108,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_enable(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_enable(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Enable the image's undo stack.
         
         This procedure enables the image's undo stack, allowing subsequent
@@ -12126,7 +12126,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_freeze(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_freeze(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Freeze the image's undo stack.
         
         This procedure freezes the image's undo stack, allowing subsequent
@@ -12152,7 +12152,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_group_end(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_undo_group_end(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Finish a group undo.
         
         This function must be called once for each 'gimp-image-undo-group-start'
@@ -12164,7 +12164,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_group_start(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_undo_group_start(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Starts a group undo.
         
         This function is used to start a group undo--necessary for logically
@@ -12178,7 +12178,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_is_enabled(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_is_enabled(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Check if the image's undo stack is enabled.
         
         This procedure checks if the image's undo stack is currently enabled or
@@ -12196,7 +12196,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_thaw(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_thaw(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Thaw the image's undo stack.
         
         This procedure thaws the image's undo stack, allowing subsequent
@@ -12220,7 +12220,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_unset_active_channel(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_unset_active_channel(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Unsets the active channel in the specified image.
         
         If an active channel exists, it is unset. There then exists no active
@@ -12234,7 +12234,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_attach_parasite(self, item: Union[Gimp.Item, GObject.GValue], parasite: Union[Gimp.Parasite, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_attach_parasite(self, item: Gimp.Item, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a parasite to an item.
         
         This procedure attaches a parasite to an item. It has no return values.
@@ -12247,7 +12247,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_delete(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -12262,7 +12262,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_detach_parasite(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_detach_parasite(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Removes a parasite from an item.
         
         This procedure detaches a parasite from an item. It has no return
@@ -12276,7 +12276,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_children(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_item_get_children(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the item's list of children.
         
         This procedure returns the list of items which are children of the
@@ -12294,7 +12294,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_color_tag(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ColorTag:
+    def gimp_item_get_color_tag(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ColorTag:
         """Get the color tag of the specified item.
         
         This procedure returns the specified item's color tag.
@@ -12310,7 +12310,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_expanded(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_expanded(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item is expanded.
         
         This procedure returns TRUE if the specified item is expanded.
@@ -12326,7 +12326,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_image(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_item_get_image(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Returns the item's image.
         
         This procedure returns the item's image.
@@ -12341,7 +12341,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_lock_content(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_lock_content(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the 'lock content' state of the specified item.
         
         This procedure returns the specified item's lock content state.
@@ -12357,7 +12357,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_lock_position(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_lock_position(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the 'lock position' state of the specified item.
         
         This procedure returns the specified item's lock position state.
@@ -12373,7 +12373,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_lock_visibility(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_lock_visibility(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the 'lock visibility' state of the specified item.
         
         This procedure returns the specified item's lock visibility state.
@@ -12389,7 +12389,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_name(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_item_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -12404,7 +12404,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_parasite(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_item_get_parasite(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
         """Look up a parasite in an item.
         
         Finds and returns the parasite that is attached to an item.
@@ -12421,7 +12421,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_parasite_list(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_item_get_parasite_list(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """List all parasites.
         
         Returns a list of all parasites currently attached the an item.
@@ -12436,7 +12436,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_parent(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_get_parent(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Returns the item's parent item.
         
         This procedure returns the item's parent item, if any.
@@ -12451,7 +12451,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_tattoo(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_item_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -12468,7 +12468,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_visible(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -12483,7 +12483,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_channel(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_channel(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item ID is a channel.
         
         This procedure returns TRUE if the specified item ID is a channel.
@@ -12499,7 +12499,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_drawable(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_drawable(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item ID is a drawable.
         
         This procedure returns TRUE if the specified item ID is a drawable.
@@ -12515,7 +12515,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_layer(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_layer(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item ID is a layer.
         
         This procedure returns TRUE if the specified item ID is a layer.
@@ -12531,7 +12531,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_layer_mask(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_layer_mask(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item ID is a layer mask.
         
         This procedure returns TRUE if the specified item ID is a layer mask.
@@ -12547,7 +12547,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_selection(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_selection(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item ID is a selection.
         
         This procedure returns TRUE if the specified item ID is a selection.
@@ -12563,7 +12563,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_text_layer(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_text_layer(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item ID is a text layer.
         
         This procedure returns TRUE if the specified item ID is a text layer.
@@ -12579,7 +12579,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_valid(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_valid(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns TRUE if the item ID is valid.
         
         This procedure checks if the given item ID is valid and refers to an
@@ -12595,7 +12595,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_vectors(self, item_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_vectors(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item ID is a vectors.
         
         This procedure returns TRUE if the specified item ID is a vectors.
@@ -12611,7 +12611,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_is_group(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_is_group(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the item is a group item.
         
         This procedure returns TRUE if the specified item is a group item which
@@ -12628,7 +12628,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_color_tag(self, item: Union[Gimp.Item, GObject.GValue], color_tag: Union[Gimp.ColorTag, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_color_tag(self, item: Gimp.Item, color_tag: Gimp.ColorTag, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the color tag of the specified item.
         
         This procedure sets the specified item's color tag.
@@ -12642,7 +12642,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_expanded(self, item: Union[Gimp.Item, GObject.GValue], expanded: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_expanded(self, item: Gimp.Item, expanded: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the expanded state of the item.
         
         This procedure expands or collapses the item.
@@ -12656,7 +12656,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_lock_content(self, item: Union[Gimp.Item, GObject.GValue], lock_content: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_lock_content(self, item: Gimp.Item, lock_content: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the 'lock content' state of the specified item.
         
         This procedure sets the specified item's lock content state.
@@ -12669,7 +12669,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_lock_position(self, item: Union[Gimp.Item, GObject.GValue], lock_position: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_lock_position(self, item: Gimp.Item, lock_position: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the 'lock position' state of the specified item.
         
         This procedure sets the specified item's lock position state.
@@ -12682,7 +12682,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_lock_visibility(self, item: Union[Gimp.Item, GObject.GValue], lock_visibility: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_lock_visibility(self, item: Gimp.Item, lock_visibility: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the 'lock visibility' state of the specified item.
         
         This procedure sets the specified item's lock visibility state.
@@ -12696,7 +12696,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_name(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -12709,7 +12709,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_tattoo(self, item: Union[Gimp.Item, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -12724,7 +12724,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_visible(self, item: Union[Gimp.Item, GObject.GValue], visible: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -12737,7 +12737,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_2d(self, item: Union[Gimp.Item, GObject.GValue], source_x: Union[float, GObject.GValue], source_y: Union[float, GObject.GValue], scale_x: Union[float, GObject.GValue], scale_y: Union[float, GObject.GValue], angle: Union[float, GObject.GValue], dest_x: Union[float, GObject.GValue], dest_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_2d(self, item: Gimp.Item, source_x: float, source_y: float, scale_x: float, scale_y: float, angle: float, dest_x: float, dest_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Transform the specified item in 2d.
         
         This procedure transforms the specified item.
@@ -12786,7 +12786,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_flip(self, item: Union[Gimp.Item, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], x1: Union[float, GObject.GValue], y1: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_flip(self, item: Gimp.Item, x0: float, y0: float, x1: float, y1: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Flip the specified item around a given line.
         
         This procedure flips the specified item.
@@ -12825,7 +12825,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_flip_simple(self, item: Union[Gimp.Item, GObject.GValue], flip_type: Union[Gimp.OrientationType, GObject.GValue], auto_center: Union[bool, GObject.GValue], axis: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_flip_simple(self, item: Gimp.Item, flip_type: Gimp.OrientationType, auto_center: bool, axis: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Flip the specified item either vertically or horizontally.
         
         This procedure flips the specified item.
@@ -12864,7 +12864,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_matrix(self, item: Union[Gimp.Item, GObject.GValue], coeff_0_0: Union[float, GObject.GValue], coeff_0_1: Union[float, GObject.GValue], coeff_0_2: Union[float, GObject.GValue], coeff_1_0: Union[float, GObject.GValue], coeff_1_1: Union[float, GObject.GValue], coeff_1_2: Union[float, GObject.GValue], coeff_2_0: Union[float, GObject.GValue], coeff_2_1: Union[float, GObject.GValue], coeff_2_2: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_matrix(self, item: Gimp.Item, coeff_0_0: float, coeff_0_1: float, coeff_0_2: float, coeff_1_0: float, coeff_1_1: float, coeff_1_2: float, coeff_2_0: float, coeff_2_1: float, coeff_2_2: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Transform the specified item in 2d.
         
         This procedure transforms the specified item.
@@ -12924,7 +12924,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_perspective(self, item: Union[Gimp.Item, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], x1: Union[float, GObject.GValue], y1: Union[float, GObject.GValue], x2: Union[float, GObject.GValue], y2: Union[float, GObject.GValue], x3: Union[float, GObject.GValue], y3: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_perspective(self, item: Gimp.Item, x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Perform a possibly non-affine transformation on the specified item.
         
         This procedure performs a possibly non-affine transformation on the
@@ -12987,7 +12987,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_rotate(self, item: Union[Gimp.Item, GObject.GValue], angle: Union[float, GObject.GValue], auto_center: Union[bool, GObject.GValue], center_x: Union[float, GObject.GValue], center_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_rotate(self, item: Gimp.Item, angle: float, auto_center: bool, center_x: float, center_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Rotate the specified item about given coordinates through the
         specified angle.
         
@@ -13033,7 +13033,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_rotate_simple(self, item: Union[Gimp.Item, GObject.GValue], rotate_type: Union[Gimp.RotationType, GObject.GValue], auto_center: Union[bool, GObject.GValue], center_x: Union[float, GObject.GValue], center_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_rotate_simple(self, item: Gimp.Item, rotate_type: Gimp.RotationType, auto_center: bool, center_x: float, center_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Rotate the specified item about given coordinates through the
         specified angle.
         
@@ -13078,7 +13078,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_scale(self, item: Union[Gimp.Item, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], x1: Union[float, GObject.GValue], y1: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_scale(self, item: Gimp.Item, x0: float, y0: float, x1: float, y1: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Scale the specified item.
         
         This procedure scales the specified item.
@@ -13122,7 +13122,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_shear(self, item: Union[Gimp.Item, GObject.GValue], shear_type: Union[Gimp.OrientationType, GObject.GValue], magnitude: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_shear(self, item: Gimp.Item, shear_type: Gimp.OrientationType, magnitude: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Shear the specified item about its center by the specified magnitude.
         
         This procedure shears the specified item.
@@ -13161,7 +13161,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_translate(self, item: Union[Gimp.Item, GObject.GValue], off_x: Union[float, GObject.GValue], off_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_translate(self, item: Gimp.Item, off_x: float, off_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
         """Translate the item by the specified offsets.
         
         This procedure translates the item by the amounts specified in the off_x
@@ -13183,7 +13183,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_add_alpha(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_add_alpha(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add an alpha channel to the layer if it doesn't already have one.
         
         This procedure adds an additional component to the specified layer if it
@@ -13198,7 +13198,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_add_mask(self, layer: Union[Gimp.Layer, GObject.GValue], mask: Union[Gimp.LayerMask, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_add_mask(self, layer: Gimp.Layer, mask: Gimp.LayerMask, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a layer mask to the specified layer.
         
         This procedure adds a layer mask to the specified layer. Layer masks
@@ -13217,7 +13217,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_copy(self, layer: Union[Gimp.Layer, GObject.GValue], add_alpha: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_copy(self, layer: Gimp.Layer, add_alpha: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Copy a layer.
         
         This procedure copies the specified layer and returns the copy. The
@@ -13240,7 +13240,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_create_mask(self, layer: Union[Gimp.Layer, GObject.GValue], mask_type: Union[Gimp.AddMaskType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
+    def gimp_layer_create_mask(self, layer: Gimp.Layer, mask_type: Gimp.AddMaskType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
         """Create a layer mask for the specified layer.
         
         This procedure creates a layer mask for the specified layer. Layer masks
@@ -13274,7 +13274,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_delete(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -13289,7 +13289,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_flatten(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_flatten(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the alpha channel from the layer if it has one.
         
         This procedure removes the alpha channel from a layer, blending all
@@ -13303,7 +13303,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_from_mask(self, mask: Union[Gimp.LayerMask, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_from_mask(self, mask: Gimp.LayerMask, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Get the specified mask's layer.
         
         This procedure returns the specified mask's layer , or -1 if none
@@ -13319,7 +13319,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_apply_mask(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_apply_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the apply mask setting of the specified layer.
         
         This procedure returns the specified layer's apply mask setting. If the
@@ -13336,7 +13336,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_blend_space(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerColorSpace:
+    def gimp_layer_get_blend_space(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerColorSpace:
         """Get the blend space of the specified layer.
         
         This procedure returns the specified layer's blend space.
@@ -13352,7 +13352,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_composite_mode(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerCompositeMode:
+    def gimp_layer_get_composite_mode(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerCompositeMode:
         """Get the composite mode of the specified layer.
         
         This procedure returns the specified layer's composite mode.
@@ -13368,7 +13368,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_composite_space(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerColorSpace:
+    def gimp_layer_get_composite_space(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerColorSpace:
         """Get the composite space of the specified layer.
         
         This procedure returns the specified layer's composite space.
@@ -13384,7 +13384,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_edit_mask(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_edit_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the edit mask setting of the specified layer.
         
         This procedure returns the specified layer's edit mask setting. If the
@@ -13401,7 +13401,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_lock_alpha(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_lock_alpha(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the lock alpha channel setting of the specified layer.
         
         This procedure returns the specified layer's lock alpha channel setting.
@@ -13417,7 +13417,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_mask(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
+    def gimp_layer_get_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
         """Get the specified layer's mask if it exists.
         
         This procedure returns the specified layer's mask, or -1 if none exists.
@@ -13432,7 +13432,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_mode(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
+    def gimp_layer_get_mode(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
         """Get the combination mode of the specified layer.
         
         This procedure returns the specified layer's combination mode.
@@ -13448,7 +13448,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_name(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_layer_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -13463,7 +13463,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_opacity(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_layer_get_opacity(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Get the opacity of the specified layer.
         
         This procedure returns the specified layer's opacity.
@@ -13478,7 +13478,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_preserve_trans(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_preserve_trans(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the lock alpha channel setting of the specified layer.
         
         This procedure returns the specified layer's lock alpha channel setting.
@@ -13494,7 +13494,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_show_mask(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_show_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the show mask setting of the specified layer.
         
         This procedure returns the specified layer's show mask setting. This
@@ -13512,7 +13512,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_tattoo(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_layer_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -13529,7 +13529,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_visible(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -13544,7 +13544,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_group_new(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_group_new(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Create a new layer group.
         
         This procedure creates a new layer group. Attributes such as layer mode
@@ -13564,7 +13564,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_is_floating_sel(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_is_floating_sel(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Is the specified layer a floating selection?.
         
         This procedure returns whether the layer is a floating selection.
@@ -13582,7 +13582,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_mask(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
+    def gimp_layer_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
         """Get the specified layer's mask if it exists.
         
         This procedure returns the specified layer's mask, or -1 if none exists.
@@ -13597,7 +13597,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_new(self, image: Union[Gimp.Image, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], type: Union[Gimp.ImageType, GObject.GValue], name: Union[str, GObject.GValue], opacity: Union[float, GObject.GValue], mode: Union[Gimp.LayerMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_new(self, image: Gimp.Image, width: int, height: int, type: Gimp.ImageType, name: str, opacity: float, mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Create a new layer.
         
         This procedure creates a new layer with the specified width, height, and
@@ -13631,7 +13631,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_new_from_drawable(self, drawable: Union[Gimp.Drawable, GObject.GValue], dest_image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_new_from_drawable(self, drawable: Gimp.Drawable, dest_image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Create a new layer by copying an existing drawable.
         
         This procedure creates a new layer as a copy of the specified drawable.
@@ -13653,7 +13653,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_new_from_visible(self, image: Union[Gimp.Image, GObject.GValue], dest_image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_new_from_visible(self, image: Gimp.Image, dest_image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Create a new layer from what is visible in an image.
         
         This procedure creates a new layer from what is visible in the given
@@ -13677,7 +13677,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_remove_mask(self, layer: Union[Gimp.Layer, GObject.GValue], mode: Union[Gimp.MaskApplyMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_remove_mask(self, layer: Gimp.Layer, mode: Gimp.MaskApplyMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the specified layer mask from the layer.
         
         This procedure removes the specified layer mask from the layer. If the
@@ -13692,7 +13692,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_resize(self, layer: Union[Gimp.Layer, GObject.GValue], new_width: Union[int, GObject.GValue], new_height: Union[int, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_resize(self, layer: Gimp.Layer, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Resize the layer to the specified extents.
         
         This procedure resizes the layer so that its new width and height are
@@ -13717,7 +13717,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_resize_to_image_size(self, layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_resize_to_image_size(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Resize a layer to the image size.
         
         This procedure resizes the layer so that it's new width and height are
@@ -13729,7 +13729,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_scale(self, layer: Union[Gimp.Layer, GObject.GValue], new_width: Union[int, GObject.GValue], new_height: Union[int, GObject.GValue], local_origin: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_scale(self, layer: Gimp.Layer, new_width: int, new_height: int, local_origin: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Scale the layer using the default interpolation method.
         
         This procedure scales the layer so that its new width and height are
@@ -13752,7 +13752,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_apply_mask(self, layer: Union[Gimp.Layer, GObject.GValue], apply_mask: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_apply_mask(self, layer: Gimp.Layer, apply_mask: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the apply mask setting of the specified layer.
         
         This procedure sets the specified layer's apply mask setting. This
@@ -13768,7 +13768,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_blend_space(self, layer: Union[Gimp.Layer, GObject.GValue], blend_space: Union[Gimp.LayerColorSpace, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_blend_space(self, layer: Gimp.Layer, blend_space: Gimp.LayerColorSpace, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the blend space of the specified layer.
         
         This procedure sets the specified layer's blend space.
@@ -13782,7 +13782,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_composite_mode(self, layer: Union[Gimp.Layer, GObject.GValue], composite_mode: Union[Gimp.LayerCompositeMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_composite_mode(self, layer: Gimp.Layer, composite_mode: Gimp.LayerCompositeMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the composite mode of the specified layer.
         
         This procedure sets the specified layer's composite mode.
@@ -13796,7 +13796,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_composite_space(self, layer: Union[Gimp.Layer, GObject.GValue], composite_space: Union[Gimp.LayerColorSpace, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_composite_space(self, layer: Gimp.Layer, composite_space: Gimp.LayerColorSpace, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the composite space of the specified layer.
         
         This procedure sets the specified layer's composite space.
@@ -13810,7 +13810,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_edit_mask(self, layer: Union[Gimp.Layer, GObject.GValue], edit_mask: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_edit_mask(self, layer: Gimp.Layer, edit_mask: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the edit mask setting of the specified layer.
         
         This procedure sets the specified layer's edit mask setting. This
@@ -13826,7 +13826,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_lock_alpha(self, layer: Union[Gimp.Layer, GObject.GValue], lock_alpha: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_lock_alpha(self, layer: Gimp.Layer, lock_alpha: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the lock alpha channel setting of the specified layer.
         
         This procedure sets the specified layer's lock alpha channel setting.
@@ -13840,7 +13840,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_mode(self, layer: Union[Gimp.Layer, GObject.GValue], mode: Union[Gimp.LayerMode, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_mode(self, layer: Gimp.Layer, mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the combination mode of the specified layer.
         
         This procedure sets the specified layer's combination mode.
@@ -13854,7 +13854,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_name(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -13867,7 +13867,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_offsets(self, layer: Union[Gimp.Layer, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_offsets(self, layer: Gimp.Layer, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the layer offsets.
         
         This procedure sets the offsets for the specified layer. The offsets are
@@ -13885,7 +13885,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_opacity(self, layer: Union[Gimp.Layer, GObject.GValue], opacity: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_opacity(self, layer: Gimp.Layer, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the opacity of the specified layer.
         
         This procedure sets the specified layer's opacity.
@@ -13898,7 +13898,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_preserve_trans(self, layer: Union[Gimp.Layer, GObject.GValue], lock_alpha: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_preserve_trans(self, layer: Gimp.Layer, lock_alpha: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the lock alpha channel setting of the specified layer.
         
         This procedure sets the specified layer's lock alpha channel setting.
@@ -13912,7 +13912,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_show_mask(self, layer: Union[Gimp.Layer, GObject.GValue], show_mask: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_show_mask(self, layer: Gimp.Layer, show_mask: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the show mask setting of the specified layer.
         
         This procedure sets the specified layer's show mask setting. This
@@ -13928,7 +13928,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_tattoo(self, item: Union[Gimp.Item, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -13943,7 +13943,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_visible(self, item: Union[Gimp.Item, GObject.GValue], visible: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -13956,7 +13956,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_message(self, message: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_message(self, message: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Displays a dialog box with a message.
         
         Displays a dialog box with a message. Useful for status or error
@@ -13982,7 +13982,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_message_set_handler(self, handler: Union[Gimp.MessageHandlerType, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_message_set_handler(self, handler: Gimp.MessageHandlerType, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Controls where warning messages are displayed.
         
         This procedure controls how g_message warnings are displayed. They can
@@ -14044,7 +14044,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_paintbrush(self, drawable: Union[Gimp.Drawable, GObject.GValue], fade_out: Union[float, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], method: Union[Gimp.PaintApplicationMode, GObject.GValue], gradient_length: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_paintbrush(self, drawable: Gimp.Drawable, fade_out: float, num_strokes: int, strokes: Gimp.FloatArray, method: Gimp.PaintApplicationMode, gradient_length: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Paint in the current brush with optional fade out parameter and pull
         colors from a gradient.
         
@@ -14078,7 +14078,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_paintbrush_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_paintbrush_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Paint in the current brush. The fade out parameter and pull colors
         from a gradient parameter are set from the paintbrush options
         dialog. If this dialog has not been activated then the dialog
@@ -14108,7 +14108,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_add_entry(self, palette: Union[Gimp.Palette, GObject.GValue], entry_name: Union[str, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_palette_add_entry(self, palette: Gimp.Palette, entry_name: str, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Appends an entry to the palette.
         
         Appends an entry to the palette. Neither color nor name must be unique
@@ -14130,7 +14130,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_delete_entry(self, palette: Union[Gimp.Palette, GObject.GValue], entry_num: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_delete_entry(self, palette: Gimp.Palette, entry_num: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Deletes an entry from the palette.
         
         Deletes an entry from the palette. Returns an error if the index is out
@@ -14144,7 +14144,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_get_color(self, palette: Union[Gimp.Palette, GObject.GValue], entry_num: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_palette_entry_get_color(self, palette: Gimp.Palette, entry_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Gets the color of an entry in the palette.
         
         Returns the color of the entry at the given zero-based index into the
@@ -14162,7 +14162,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_get_name(self, palette: Union[Gimp.Palette, GObject.GValue], entry_num: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_palette_entry_get_name(self, palette: Gimp.Palette, entry_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Gets the name of an entry in the palette.
         
         Gets the name of the entry at the zero-based index into the palette.
@@ -14180,7 +14180,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_set_color(self, palette: Union[Gimp.Palette, GObject.GValue], entry_num: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_entry_set_color(self, palette: Gimp.Palette, entry_num: int, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the color of an entry in the palette.
         
         Sets the color of the entry at the zero-based index into the palette.
@@ -14197,7 +14197,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_set_name(self, palette: Union[Gimp.Palette, GObject.GValue], entry_num: Union[int, GObject.GValue], entry_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_entry_set_name(self, palette: Gimp.Palette, entry_num: int, entry_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the name of an entry in the palette.
         
         Sets the name of the entry at the zero-based index into the palette.
@@ -14214,7 +14214,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_css(self, dirname: Union[Gio.File, GObject.GValue], string: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_css(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export the active palette as a CSS stylesheet with the color entry
         name as their class name, and the color itself as the color
         attribute.
@@ -14231,7 +14231,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_java(self, dirname: Union[Gio.File, GObject.GValue], string: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_java(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export the active palette as a java.util.Hashtable<String, Color>.
         
         Menu label: J_ava map...
@@ -14246,7 +14246,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_php(self, dirname: Union[Gio.File, GObject.GValue], string: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_php(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export the active palette as a PHP dictionary (name => color).
         
         Menu label: P_HP dictionary...
@@ -14261,7 +14261,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_python(self, dirname: Union[Gio.File, GObject.GValue], string: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_python(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Export the active palette as a Python dictionary (name: color).
         
         Menu label: _Python dictionary
@@ -14276,7 +14276,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_text(self, dirname: Union[Gio.File, GObject.GValue], string: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_text(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Write all the colors in a palette to a text file, one hexadecimal
         value per line (no names).
         
@@ -14305,7 +14305,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_by_name(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def gimp_palette_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
         """Returns the palette with the given name.
         
         Returns the palette with the given name.
@@ -14320,7 +14320,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_color_count(self, palette: Union[Gimp.Palette, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_palette_get_color_count(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get the count of colors in the palette.
         
         Returns the number of colors in the palette.
@@ -14335,7 +14335,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_colors(self, palette: Union[Gimp.Palette, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.RGBArray]:
+    def gimp_palette_get_colors(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.RGBArray]:
         """Gets colors in the palette.
         
         Returns an array of colors in the palette.
@@ -14352,7 +14352,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_columns(self, palette: Union[Gimp.Palette, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_palette_get_columns(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Gets the number of columns used to display the palette.
         
         Gets the preferred number of columns to display the palette.
@@ -14381,7 +14381,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_new(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def gimp_palette_new(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
         """Creates a new palette.
         
         Creates a new palette. The new palette has no color entries. You must
@@ -14407,7 +14407,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_background(self, background: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_set_background(self, background: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the current GIMP background color.
         
         Sets the current GIMP background color. After this is set, operations
@@ -14420,7 +14420,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_columns(self, palette: Union[Gimp.Palette, GObject.GValue], columns: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_set_columns(self, palette: Gimp.Palette, columns: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the number of columns used to display the palette.
         
         Set the number of colors shown per row when the palette is displayed.
@@ -14444,7 +14444,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_foreground(self, foreground: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_set_foreground(self, foreground: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the current GIMP foreground color.
         
         Sets the current GIMP foreground color. After this is set, operations
@@ -14466,7 +14466,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_close_popup(self, palette_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_close_popup(self, palette_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Close the palette selection dialog.
         
         Closes an open palette selection dialog.
@@ -14478,7 +14478,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_get_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_palettes_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieves a list of all of the available palettes.
         
         This procedure returns a complete listing of available palettes. Each
@@ -14495,7 +14495,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_popup(self, palette_callback: Union[str, GObject.GValue], popup_title: Union[str, GObject.GValue], initial_palette_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_popup(self, palette_callback: str, popup_title: str, initial_palette_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Invokes the Gimp palette selection dialog.
         
         Opens a dialog letting a user choose a palette.
@@ -14520,7 +14520,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_set_palette(self, palette: Union[Gimp.Palette, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_set_palette(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active palette.
         
         Sets the active palette in the current context. The palette will be used
@@ -14534,7 +14534,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_set_popup(self, palette_callback: Union[str, GObject.GValue], palette_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_set_popup(self, palette_callback: str, palette_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the current palette in a palette selection dialog.
         
         Sets the current palette in a palette selection dialog.
@@ -14548,7 +14548,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_parasite_attach(self, parasite: Union[Gimp.Parasite, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_parasite_attach(self, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a global parasite.
         
         This procedure attaches a global parasite. It has no return values.
@@ -14559,7 +14559,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_parasite_detach(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_parasite_detach(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Removes a global parasite.
         
         This procedure detaches a global parasite from. It has no return values.
@@ -14570,7 +14570,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_parasite_find(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_parasite_find(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
         """Look up a global parasite.
         
         Finds and returns the global parasite that was previously attached.
@@ -14596,7 +14596,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pattern_get_by_name(self, name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Pattern:
+    def gimp_pattern_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Pattern:
         """Returns the pattern with the given name.
         
         Returns the pattern with the given name.
@@ -14611,7 +14611,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pattern_get_info(self, pattern: Union[Gimp.Pattern, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int]:
+    def gimp_pattern_get_info(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int]:
         """Gets information about the pattern.
         
         Gets information about the pattern: the pattern extents (width and
@@ -14631,7 +14631,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pattern_get_pixels(self, pattern: Union[Gimp.Pattern, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_pattern_get_pixels(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Gets information about the pattern (including pixels).
         
         Gets information about the pattern: the pattern extents (width and
@@ -14654,7 +14654,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_close_popup(self, pattern_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_close_popup(self, pattern_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Close the pattern selection dialog.
         
         Closes an open pattern selection dialog.
@@ -14666,7 +14666,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_get_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_patterns_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve a complete listing of the available patterns.
         
         This procedure returns a complete listing of available GIMP patterns.
@@ -14683,7 +14683,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_list(self, filter: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_patterns_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Retrieve a complete listing of the available patterns.
         
         This procedure returns a complete listing of available GIMP patterns.
@@ -14700,7 +14700,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_popup(self, pattern_callback: Union[str, GObject.GValue], popup_title: Union[str, GObject.GValue], initial_pattern_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_popup(self, pattern_callback: str, popup_title: str, initial_pattern_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Invokes the Gimp pattern selection.
         
         Opens the pattern selection dialog.
@@ -14725,7 +14725,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_set_pattern(self, pattern: Union[Gimp.Pattern, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_set_pattern(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the active pattern.
         
         Sets the active pattern in the current context. The pattern will be used
@@ -14739,7 +14739,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_set_popup(self, pattern_callback: Union[str, GObject.GValue], pattern_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_set_popup(self, pattern_callback: str, pattern_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the current pattern in a pattern selection dialog.
         
         Sets the current pattern in a pattern selection dialog.
@@ -14753,7 +14753,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_add_proc_menu_path(self, procedure_name: Union[str, GObject.GValue], menu_path: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_add_proc_menu_path(self, procedure_name: str, menu_path: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Register an additional menu path for a plug-in procedure.
         
         This procedure installs an additional menu entry for the given
@@ -14767,7 +14767,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_dump(self, file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_dump(self, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Dumps the current contents of the procedural database.
         
         This procedure dumps the contents of the procedural database to the
@@ -14780,7 +14780,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_data(self, identifier: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_pdb_get_data(self, identifier: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
         """Returns data associated with the specified identifier.
         
         This procedure returns any data which may have been associated with the
@@ -14798,7 +14798,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_data_size(self, identifier: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_pdb_get_data_size(self, identifier: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns size of data associated with the specified identifier.
         
         This procedure returns the size of any data which may have been
@@ -14815,7 +14815,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_argument(self, procedure_name: Union[str, GObject.GValue], arg_num: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GObject.ParamSpec:
+    def gimp_pdb_get_proc_argument(self, procedure_name: str, arg_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> GObject.ParamSpec:
         """Queries the procedural database for information on the specified
         procedure's argument.
         
@@ -14833,7 +14833,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_attribution(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[str, str, str]:
+    def gimp_pdb_get_proc_attribution(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[str, str, str]:
         """Queries the procedural database for attribution information on the
         specified procedure.
         
@@ -14855,7 +14855,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_documentation(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[str, str, str]:
+    def gimp_pdb_get_proc_documentation(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[str, str, str]:
         """Queries the procedural database for documentation on the specified
         procedure.
         
@@ -14876,7 +14876,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_image_types(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_pdb_get_proc_image_types(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Queries the procedural database for the image types supported by the
         specified procedure.
         
@@ -14893,7 +14893,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_info(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.PDBProcType, int, int]:
+    def gimp_pdb_get_proc_info(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.PDBProcType, int, int]:
         """Queries the procedural database for information on the specified
         procedure.
         
@@ -14918,7 +14918,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_menu_label(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_pdb_get_proc_menu_label(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Queries the procedural database for the procedure's menu label.
         
         This procedure returns the menu label of the specified procedure.
@@ -14933,7 +14933,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_menu_paths(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_pdb_get_proc_menu_paths(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Queries the procedural database for the procedure's menu paths.
         
         This procedure returns the menu paths of the specified procedure.
@@ -14948,7 +14948,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_return_value(self, procedure_name: Union[str, GObject.GValue], val_num: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> GObject.ParamSpec:
+    def gimp_pdb_get_proc_return_value(self, procedure_name: str, val_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> GObject.ParamSpec:
         """Queries the procedural database for information on the specified
         procedure's return value.
         
@@ -14966,7 +14966,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_proc_exists(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_pdb_proc_exists(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Checks if the specified procedure exists in the procedural database.
         
         This procedure checks if the specified procedure is registered in the
@@ -14983,7 +14983,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_query(self, name: Union[str, GObject.GValue], blurb: Union[str, GObject.GValue], help: Union[str, GObject.GValue], authors: Union[str, GObject.GValue], copyright: Union[str, GObject.GValue], date: Union[str, GObject.GValue], proc_type: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_pdb_query(self, name: str, blurb: str, help: str, authors: str, copyright: str, date: str, proc_type: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """Queries the procedural database for its contents using regular
         expression matching.
         
@@ -15024,7 +15024,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_batch_interpreter(self, procedure_name: Union[str, GObject.GValue], interpreter_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_batch_interpreter(self, procedure_name: str, interpreter_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Registers a batch interpreter procedure.
         
         Registers a procedural database procedure to be called with the command
@@ -15040,7 +15040,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_data(self, identifier: Union[str, GObject.GValue], data: Union[GLib.Bytes, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_data(self, identifier: str, data: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Associates the specified identifier with the supplied data.
         
         This procedure associates the supplied data with the provided
@@ -15055,7 +15055,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_handles_raw(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_handles_raw(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Registers a file handler procedure as capable of handling raw camera
         files.
         
@@ -15070,7 +15070,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_handles_remote(self, procedure_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_handles_remote(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Registers a file handler procedure as capable of handling remote
         URIs.
         
@@ -15085,7 +15085,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_load_handler(self, procedure_name: Union[str, GObject.GValue], extensions: Union[str, GObject.GValue], prefixes: Union[str, GObject.GValue], magics: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_load_handler(self, procedure_name: str, extensions: str, prefixes: str, magics: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Registers a file load handler procedure.
         
         Registers a procedural database procedure to be called to load files of
@@ -15106,7 +15106,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_mime_types(self, procedure_name: Union[str, GObject.GValue], mime_types: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_mime_types(self, procedure_name: str, mime_types: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Associates MIME types with a file handler procedure.
         
         Registers MIME types for a file handler procedure. This allows GIMP to
@@ -15126,7 +15126,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_priority(self, procedure_name: Union[str, GObject.GValue], priority: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_priority(self, procedure_name: str, priority: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the priority of a file handler procedure.
         
         Sets the priority of a file handler procedure. When more than one
@@ -15143,7 +15143,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_save_handler(self, procedure_name: Union[str, GObject.GValue], extensions: Union[str, GObject.GValue], prefixes: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_save_handler(self, procedure_name: str, extensions: str, prefixes: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Registers a file save handler procedure.
         
         Registers a procedural database procedure to be called to save files in
@@ -15161,7 +15161,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_thumbnail_loader(self, load_proc: Union[str, GObject.GValue], thumb_proc: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_thumbnail_loader(self, load_proc: str, thumb_proc: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Associates a thumbnail loader with a file load procedure.
         
         Some file formats allow for embedded thumbnails, other file formats
@@ -15179,7 +15179,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_attribution(self, procedure_name: Union[str, GObject.GValue], authors: Union[str, GObject.GValue], copyright: Union[str, GObject.GValue], date: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_attribution(self, procedure_name: str, authors: str, copyright: str, date: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the attribution for a plug-in procedure.
         
         This procedure sets the attribution for the given procedure.
@@ -15196,7 +15196,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_documentation(self, procedure_name: Union[str, GObject.GValue], blurb: Union[str, GObject.GValue], help: Union[str, GObject.GValue], help_id: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_documentation(self, procedure_name: str, blurb: str, help: str, help_id: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the documentation for a plug-in procedure.
         
         This procedure sets the documentation for the given procedure.
@@ -15213,7 +15213,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_icon(self, procedure_name: Union[str, GObject.GValue], icon_type: Union[Gimp.IconType, GObject.GValue], icon_data: Union[GLib.Bytes, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_icon(self, procedure_name: str, icon_type: Gimp.IconType, icon_data: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Register an icon for a plug-in procedure.
         
         This procedure installs an icon for the given procedure.
@@ -15230,7 +15230,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_image_types(self, procedure_name: Union[str, GObject.GValue], image_types: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_image_types(self, procedure_name: str, image_types: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the supported image types for a plug-in procedure.
         
         This procedure sets the supported images types for the given procedure.
@@ -15243,7 +15243,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_menu_label(self, procedure_name: Union[str, GObject.GValue], menu_label: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_menu_label(self, procedure_name: str, menu_label: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the menu label for a plug-in procedure.
         
         This procedure sets the menu label for the given procedure.
@@ -15256,7 +15256,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_sensitivity_mask(self, procedure_name: Union[str, GObject.GValue], mask: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_sensitivity_mask(self, procedure_name: str, mask: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the sensitivity mask for a plug-in procedure.
         
         This procedure sets the sensitivity mask for the given procedure.
@@ -15281,7 +15281,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pencil(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pencil(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Paint in the current brush without sub-pixel sampling.
         
         This tool is the standard pencil. It draws linearly interpolated lines
@@ -15318,7 +15318,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_in_help_register(self, domain_name: Union[str, GObject.GValue], domain_file: Union[Gio.File, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_plug_in_help_register(self, domain_name: str, domain_file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Register a help path for a plug-in.
         
         This procedure registers user documentation for the calling plug-in with
@@ -15335,7 +15335,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_in_menu_branch_register(self, menu_path: Union[str, GObject.GValue], menu_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_plug_in_menu_branch_register(self, menu_path: str, menu_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Register a sub-menu.
         
         This procedure installs a sub-menu which does not belong to any
@@ -15351,7 +15351,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_in_set_pdb_error_handler(self, handler: Union[Gimp.PDBErrorHandler, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_plug_in_set_pdb_error_handler(self, handler: Gimp.PDBErrorHandler, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets an error handler for procedure calls.
         
         This procedure changes the way that errors in procedure calls are
@@ -15371,7 +15371,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_ins_query(self, search_string: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[List[str], List[str], List[str], int, Gimp.Int32Array]:
+    def gimp_plug_ins_query(self, search_string: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[List[str], List[str], List[str], int, Gimp.Int32Array]:
         """Queries the plug-in database for its contents.
         
         This procedure queries the contents of the plug-in database.
@@ -15396,7 +15396,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_cancel(self, progress_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_cancel(self, progress_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Cancels a running progress.
         
         This function cancels the currently running progress.
@@ -15430,7 +15430,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_init(self, message: Union[str, GObject.GValue], gdisplay: Union[Gimp.Display, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_init(self, message: str, gdisplay: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Initializes the progress bar for the current plug-in.
         
         Initializes the progress bar for the current plug-in. It is only valid
@@ -15445,7 +15445,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_install(self, progress_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_install(self, progress_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Installs a progress callback for the current plug-in.
         
         This function installs a temporary PDB procedure which will handle all
@@ -15470,7 +15470,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_set_text(self, message: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_set_text(self, message: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Changes the text in the progress bar for the current plug-in.
         
         This function changes the text in the progress bar for the current
@@ -15483,7 +15483,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_uninstall(self, progress_callback: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_uninstall(self, progress_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Uninstalls the progress callback for the current plug-in.
         
         This function uninstalls any progress callback installed with
@@ -15496,7 +15496,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_update(self, percentage: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_update(self, percentage: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Updates the progress bar for the current plug-in.
         
         Updates the progress bar for the current plug-in. It is only valid to
@@ -15509,7 +15509,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_quit(self, force: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_quit(self, force: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Causes GIMP to exit gracefully.
         
         If there are unsaved images in an interactive GIMP session, the user
@@ -15550,7 +15550,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_brush(self, resource_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_brush(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the resource ID is a brush.
         
         This procedure returns TRUE if the specified resource ID is a brush.
@@ -15566,7 +15566,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_font(self, resource_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_font(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the resource ID is a font.
         
         This procedure returns TRUE if the specified resource ID is a font.
@@ -15582,7 +15582,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_gradient(self, resource_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_gradient(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the resource ID is a gradient.
         
         This procedure returns TRUE if the specified resource ID is a gradient.
@@ -15598,7 +15598,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_palette(self, resource_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_palette(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the resource ID is a palette.
         
         This procedure returns TRUE if the specified resource ID is a palette.
@@ -15614,7 +15614,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_pattern(self, resource_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_pattern(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns whether the resource ID is a pattern.
         
         This procedure returns TRUE if the specified resource ID is a pattern.
@@ -15630,7 +15630,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_valid(self, resource_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_valid(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns TRUE if the resource ID is valid.
         
         This procedure checks if the given resource ID is valid and refers to an
@@ -15657,7 +15657,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_rename(self, new_name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_resource_rename(self, new_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Renames a resource. When the name is in use, renames to a unique
         name.
         
@@ -15670,7 +15670,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_all(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_all(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Select all of the image.
         
         This procedure sets the selection mask to completely encompass the
@@ -15682,7 +15682,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_border(self, image: Union[Gimp.Image, GObject.GValue], radius: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_border(self, image: Gimp.Image, radius: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Border the image's selection.
         
         This procedure borders the selection. Bordering creates a new selection
@@ -15697,7 +15697,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_bounds(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_selection_bounds(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection.
         
         This procedure returns whether there is a selection for the specified
@@ -15731,7 +15731,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_clear(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_clear(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Deselect the entire image.
         
         This procedure deselects the entire image. Every pixel in the selection
@@ -15743,7 +15743,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_feather(self, image: Union[Gimp.Image, GObject.GValue], radius: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_feather(self, image: Gimp.Image, radius: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Feather the image's selection.
         
         This procedure feathers the selection. Feathering is implemented using a
@@ -15757,7 +15757,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_float(self, num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_selection_float(self, num_drawables: int, drawables: Gimp.ObjectArray, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Float the selection from the specified drawable with initial offsets
         as specified.
         
@@ -15783,7 +15783,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_flood(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_flood(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove holes from the image's selection.
         
         This procedure removes holes from the selection, that can come from
@@ -15797,7 +15797,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_grow(self, image: Union[Gimp.Image, GObject.GValue], steps: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_grow(self, image: Gimp.Image, steps: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Grow the image's selection.
         
         This procedure grows the selection. Growing involves expanding the
@@ -15811,7 +15811,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_invert(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_invert(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Invert the selection mask.
         
         This procedure inverts the selection mask. For every pixel in the
@@ -15824,7 +15824,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_is_empty(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_selection_is_empty(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Determine whether the selection is empty.
         
         This procedure returns TRUE if the selection for the specified image is
@@ -15840,7 +15840,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_none(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_none(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Deselect the entire image.
         
         This procedure deselects the entire image. Every pixel in the selection
@@ -15852,7 +15852,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_save(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_selection_save(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
         """Copy the selection mask to a new channel.
         
         This procedure copies the selection mask and stores the content in a new
@@ -15869,7 +15869,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_sharpen(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_sharpen(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sharpen the selection mask.
         
         This procedure sharpens the selection mask. For every pixel in the
@@ -15883,7 +15883,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_shrink(self, image: Union[Gimp.Image, GObject.GValue], steps: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_shrink(self, image: Gimp.Image, steps: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Shrink the image's selection.
         
         This procedure shrinks the selection. Shrinking involves trimming the
@@ -15898,7 +15898,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_translate(self, image: Union[Gimp.Image, GObject.GValue], offx: Union[int, GObject.GValue], offy: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_translate(self, image: Gimp.Image, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Translate the selection by the specified offsets.
         
         This procedure actually translates the selection for the specified image
@@ -15917,7 +15917,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_value(self, image: Union[Gimp.Image, GObject.GValue], x: Union[int, GObject.GValue], y: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_selection_value(self, image: Gimp.Image, x: int, y: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Find the value of the selection at the specified coordinates.
         
         This procedure returns the value of the selection at the specified
@@ -15938,7 +15938,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_smudge(self, drawable: Union[Gimp.Drawable, GObject.GValue], pressure: Union[float, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_smudge(self, drawable: Gimp.Drawable, pressure: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Smudge image with varying pressure.
         
         This tool simulates a smudge using the current brush. High pressure
@@ -15959,7 +15959,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_smudge_default(self, drawable: Union[Gimp.Drawable, GObject.GValue], num_strokes: Union[int, GObject.GValue], strokes: Union[Gimp.FloatArray, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_smudge_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Smudge image with varying pressure.
         
         This tool simulates a smudge using the current brush. It behaves exactly
@@ -15979,7 +15979,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_temp_file(self, extension: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_temp_file(self, extension: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
         """Generates a unique temporary file.
         
         Generates a unique file using the temp path supplied in the user's
@@ -15995,7 +15995,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_fontname(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], x: Union[float, GObject.GValue], y: Union[float, GObject.GValue], text: Union[str, GObject.GValue], border: Union[int, GObject.GValue], antialias: Union[bool, GObject.GValue], size: Union[float, GObject.GValue], size_type: Union[Gimp.SizeType, GObject.GValue], fontname: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_text_fontname(self, image: Gimp.Image, drawable: Gimp.Drawable, x: float, y: float, text: str, border: int, antialias: bool, size: float, size_type: Gimp.SizeType, fontname: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Add text at the specified location as a floating selection or a new
         layer.
         
@@ -16044,7 +16044,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_get_extents_fontname(self, text: Union[str, GObject.GValue], size: Union[float, GObject.GValue], size_type: Union[Gimp.SizeType, GObject.GValue], fontname: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, int]:
+    def gimp_text_get_extents_fontname(self, text: str, size: float, size_type: Gimp.SizeType, fontname: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, int]:
         """Get extents of the bounding box for the specified text.
         
         This tool returns the width and height of a bounding box for the
@@ -16078,7 +16078,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_antialias(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_text_layer_get_antialias(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Check if antialiasing is used in the text layer.
         
         This procedure checks if antialiasing is enabled in the specified text
@@ -16095,7 +16095,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_base_direction(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextDirection:
+    def gimp_text_layer_get_base_direction(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextDirection:
         """Get the base direction used for rendering the text layer.
         
         This procedure returns the base direction used for rendering the text in
@@ -16113,7 +16113,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_color(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_text_layer_get_color(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Get the color of the text in a text layer.
         
         This procedure returns the color of the text in a text layer.
@@ -16128,7 +16128,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_font(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_font(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the font from a text layer as string.
         
         This procedure returns the name of the font from a text layer.
@@ -16143,7 +16143,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_font_size(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, Gimp.Unit]:
+    def gimp_text_layer_get_font_size(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, Gimp.Unit]:
         """Get the font size from a text layer.
         
         This procedure returns the size of the font which is used in a text
@@ -16162,7 +16162,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_hint_style(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextHintStyle:
+    def gimp_text_layer_get_hint_style(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextHintStyle:
         """Get information about hinting in the specified text layer.
         
         This procedure provides information about the hinting that is being used
@@ -16181,7 +16181,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_indent(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_text_layer_get_indent(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Get the line indentation of text layer.
         
         This procedure returns the indentation of the first line in a text
@@ -16197,7 +16197,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_justification(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextJustification:
+    def gimp_text_layer_get_justification(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextJustification:
         """Get the text justification information of the text layer.
         
         This procedure returns the alignment of the lines in the text layer
@@ -16215,7 +16215,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_kerning(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_text_layer_get_kerning(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Check if kerning is used in the text layer.
         
         This procedure checks if kerning is enabled in the specified text layer.
@@ -16231,7 +16231,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_language(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_language(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the language used in the text layer.
         
         This procedure returns the language string which is set for the text in
@@ -16247,7 +16247,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_letter_spacing(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_text_layer_get_letter_spacing(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Get the letter spacing used in a text layer.
         
         This procedure returns the additional spacing between the single glyphs
@@ -16263,7 +16263,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_line_spacing(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_text_layer_get_line_spacing(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Get the spacing between lines of text.
         
         This procedure returns the line-spacing between lines of text in a text
@@ -16279,7 +16279,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_markup(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_markup(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the markup from a text layer as string.
         
         This procedure returns the markup of the styles from a text layer. The
@@ -16298,7 +16298,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_text(self, layer: Union[Gimp.TextLayer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_text(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the text from a text layer as string.
         
         This procedure returns the text from a text layer as a string.
@@ -16313,7 +16313,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_new(self, image: Union[Gimp.Image, GObject.GValue], text: Union[str, GObject.GValue], fontname: Union[str, GObject.GValue], size: Union[float, GObject.GValue], unit: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextLayer:
+    def gimp_text_layer_new(self, image: Gimp.Image, text: str, fontname: str, size: float, unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextLayer:
         """Creates a new text layer.
         
         This procedure creates a new text layer. The arguments are kept as
@@ -16341,7 +16341,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_resize(self, layer: Union[Gimp.TextLayer, GObject.GValue], width: Union[float, GObject.GValue], height: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_resize(self, layer: Gimp.TextLayer, width: float, height: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Resize the box of a text layer.
         
         This procedure changes the width and height of a text layer while
@@ -16358,7 +16358,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_antialias(self, layer: Union[Gimp.TextLayer, GObject.GValue], antialias: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_antialias(self, layer: Gimp.TextLayer, antialias: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Enable/disable anti-aliasing in a text layer.
         
         This procedure enables or disables anti-aliasing of the text in a text
@@ -16373,7 +16373,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_base_direction(self, layer: Union[Gimp.TextLayer, GObject.GValue], direction: Union[Gimp.TextDirection, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_base_direction(self, layer: Gimp.TextLayer, direction: Gimp.TextDirection, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the base direction in the text layer.
         
         This procedure sets the base direction used in applying the Unicode
@@ -16388,7 +16388,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_color(self, layer: Union[Gimp.TextLayer, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_color(self, layer: Gimp.TextLayer, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the color of the text in the text layer.
         
         This procedure sets the text color in the text layer 'layer'.
@@ -16401,7 +16401,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_font(self, layer: Union[Gimp.TextLayer, GObject.GValue], font: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_font(self, layer: Gimp.TextLayer, font: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the font of a text layer.
         
         This procedure modifies the font used in the specified text layer.
@@ -16414,7 +16414,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_font_size(self, layer: Union[Gimp.TextLayer, GObject.GValue], font_size: Union[float, GObject.GValue], unit: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_font_size(self, layer: Gimp.TextLayer, font_size: float, unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the font size.
         
         This procedure changes the font size of a text layer. The size of your
@@ -16430,7 +16430,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_hint_style(self, layer: Union[Gimp.TextLayer, GObject.GValue], style: Union[Gimp.TextHintStyle, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_hint_style(self, layer: Gimp.TextLayer, style: Gimp.TextHintStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Control how font outlines are hinted in a text layer.
         
         This procedure sets the hint style for font outlines in a text layer.
@@ -16446,7 +16446,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_indent(self, layer: Union[Gimp.TextLayer, GObject.GValue], indent: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_indent(self, layer: Gimp.TextLayer, indent: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the indentation of the first line in a text layer.
         
         This procedure sets the indentation of the first line in the text layer.
@@ -16459,7 +16459,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_justification(self, layer: Union[Gimp.TextLayer, GObject.GValue], justify: Union[Gimp.TextJustification, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_justification(self, layer: Gimp.TextLayer, justify: Gimp.TextJustification, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the justification of the text in a text layer.
         
         This procedure sets the alignment of the lines in the text layer
@@ -16474,7 +16474,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_kerning(self, layer: Union[Gimp.TextLayer, GObject.GValue], kerning: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_kerning(self, layer: Gimp.TextLayer, kerning: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Enable/disable kerning in a text layer.
         
         This procedure enables or disables kerning in a text layer.
@@ -16487,7 +16487,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_language(self, layer: Union[Gimp.TextLayer, GObject.GValue], language: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_language(self, layer: Gimp.TextLayer, language: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the language of the text layer.
         
         This procedure sets the language of the text in text layer. For some
@@ -16502,7 +16502,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_letter_spacing(self, layer: Union[Gimp.TextLayer, GObject.GValue], letter_spacing: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_letter_spacing(self, layer: Gimp.TextLayer, letter_spacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Adjust the letter spacing in a text layer.
         
         This procedure sets the additional spacing between the single glyphs in
@@ -16517,7 +16517,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_line_spacing(self, layer: Union[Gimp.TextLayer, GObject.GValue], line_spacing: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_line_spacing(self, layer: Gimp.TextLayer, line_spacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Adjust the line spacing in a text layer.
         
         This procedure sets the additional spacing used between lines a text
@@ -16532,7 +16532,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_markup(self, layer: Union[Gimp.TextLayer, GObject.GValue], markup: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_markup(self, layer: Gimp.TextLayer, markup: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the markup for a text layer from a string.
         
         This procedure sets the markup of the styles for a text layer. The
@@ -16550,7 +16550,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_text(self, layer: Union[Gimp.TextLayer, GObject.GValue], text: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_text(self, layer: Gimp.TextLayer, text: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the text of a text layer.
         
         This procedure changes the text of a text layer.
@@ -16563,7 +16563,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_undo_push_group_end(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_undo_push_group_end(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Finish a group undo.
         
         This function must be called once for each 'gimp-image-undo-group-start'
@@ -16575,7 +16575,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_undo_push_group_start(self, image: Union[Gimp.Image, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_undo_push_group_start(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Starts a group undo.
         
         This function is used to start a group undo--necessary for logically
@@ -16589,7 +16589,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_abbreviation(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_abbreviation(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the abbreviation of the unit.
         
         This procedure returns the abbreviation of the unit ("in" for inches).
@@ -16604,7 +16604,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_deletion_flag(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_unit_get_deletion_flag(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Returns the deletion flag of the unit.
         
         This procedure returns the deletion flag of the unit. If this value is
@@ -16621,7 +16621,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_digits(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_unit_get_digits(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Returns the number of digits of the unit.
         
         This procedure returns the number of digits you should provide in input
@@ -16639,7 +16639,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_factor(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_unit_get_factor(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Returns the factor of the unit.
         
         This procedure returns the unit's factor which indicates how many units
@@ -16656,7 +16656,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_identifier(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_identifier(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the textual identifier of the unit.
         
         This procedure returns the textual identifier of the unit. For built-in
@@ -16695,7 +16695,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_plural(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_plural(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the plural form of the unit.
         
         This procedure returns the plural form of the unit.
@@ -16710,7 +16710,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_singular(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_singular(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the singular form of the unit.
         
         This procedure returns the singular form of the unit.
@@ -16725,7 +16725,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_symbol(self, unit_id: Union[Gimp.Unit, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_symbol(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Returns the symbol of the unit.
         
         This procedure returns the symbol of the unit ("''" for inches).
@@ -16740,7 +16740,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_new(self, identifier: Union[str, GObject.GValue], factor: Union[float, GObject.GValue], digits: Union[int, GObject.GValue], symbol: Union[str, GObject.GValue], abbreviation: Union[str, GObject.GValue], singular: Union[str, GObject.GValue], plural: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
+    def gimp_unit_new(self, identifier: str, factor: float, digits: int, symbol: str, abbreviation: str, singular: str, plural: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
         """Creates a new unit and returns it's integer ID.
         
         This procedure creates a new unit and returns it's integer ID. Note that
@@ -16770,7 +16770,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_set_deletion_flag(self, unit_id: Union[Gimp.Unit, GObject.GValue], deletion_flag: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_unit_set_deletion_flag(self, unit_id: Gimp.Unit, deletion_flag: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Sets the deletion flag of a unit.
         
         This procedure sets the unit's deletion flag. If the deletion flag of a
@@ -16785,7 +16785,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_conicto(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], x1: Union[float, GObject.GValue], y1: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_bezier_stroke_conicto(self, vectors: Gimp.Vectors, stroke_id: int, x0: float, y0: float, x1: float, y1: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Extends a bezier stroke with a conic bezier spline.
         
         Extends a bezier stroke with a conic bezier spline. Actually a cubic
@@ -16808,7 +16808,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_cubicto(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], x1: Union[float, GObject.GValue], y1: Union[float, GObject.GValue], x2: Union[float, GObject.GValue], y2: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_bezier_stroke_cubicto(self, vectors: Gimp.Vectors, stroke_id: int, x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Extends a bezier stroke with a cubic bezier spline.
         
         Extends a bezier stroke with a cubic bezier spline.
@@ -16833,7 +16833,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_lineto(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_bezier_stroke_lineto(self, vectors: Gimp.Vectors, stroke_id: int, x0: float, y0: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Extends a bezier stroke with a lineto.
         
         Extends a bezier stroke with a lineto.
@@ -16850,7 +16850,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_new_ellipse(self, vectors: Union[Gimp.Vectors, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], radius_x: Union[float, GObject.GValue], radius_y: Union[float, GObject.GValue], angle: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_bezier_stroke_new_ellipse(self, vectors: Gimp.Vectors, x0: float, y0: float, radius_x: float, radius_y: float, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Adds a bezier stroke describing an ellipse the vectors object.
         
         Adds a bezier stroke describing an ellipse the vectors object.
@@ -16876,7 +16876,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_new_moveto(self, vectors: Union[Gimp.Vectors, GObject.GValue], x0: Union[float, GObject.GValue], y0: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_bezier_stroke_new_moveto(self, vectors: Gimp.Vectors, x0: float, y0: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Adds a bezier stroke with a single moveto to the vectors object.
         
         Adds a bezier stroke with a single moveto to the vectors object.
@@ -16895,7 +16895,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_copy(self, vectors: Union[Gimp.Vectors, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_vectors_copy(self, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
         """Copy a vectors object.
         
         This procedure copies the specified vectors object and returns the copy.
@@ -16910,7 +16910,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_export_to_file(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], vectors: Union[Gimp.Vectors, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_export_to_file(self, image: Gimp.Image, file: Gio.File, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Save a path as an SVG file.
         
         This procedure creates an SVG file to save a Vectors object, that is, a
@@ -16929,7 +16929,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_export_to_string(self, image: Union[Gimp.Image, GObject.GValue], vectors: Union[Gimp.Vectors, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_vectors_export_to_string(self, image: Gimp.Image, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Save a path as an SVG string.
         
         This procedure works like 'gimp-vectors-export-to-file' but creates a
@@ -16950,7 +16950,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_image(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_vectors_get_image(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Returns the item's image.
         
         This procedure returns the item's image.
@@ -16965,7 +16965,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_name(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_vectors_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -16980,7 +16980,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_strokes(self, vectors: Union[Gimp.Vectors, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.Int32Array]:
+    def gimp_vectors_get_strokes(self, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.Int32Array]:
         """List the strokes associated with the passed path.
         
         Returns an Array with the stroke-IDs associated with the passed path.
@@ -16997,7 +16997,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_tattoo(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -17014,7 +17014,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_visible(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_vectors_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -17029,7 +17029,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_import_from_file(self, image: Union[Gimp.Image, GObject.GValue], file: Union[Gio.File, GObject.GValue], merge: Union[bool, GObject.GValue], scale: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_vectors_import_from_file(self, image: Gimp.Image, file: Gio.File, merge: bool, scale: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Import paths from an SVG file.
         
         This procedure imports paths from an SVG file. SVG elements other than
@@ -17053,7 +17053,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_import_from_string(self, image: Union[Gimp.Image, GObject.GValue], string: Union[str, GObject.GValue], length: Union[int, GObject.GValue], merge: Union[bool, GObject.GValue], scale: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_vectors_import_from_string(self, image: Gimp.Image, string: str, length: int, merge: bool, scale: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Import paths from an SVG string.
         
         This procedure works like 'gimp-vectors-import-from-file' but takes a
@@ -17081,7 +17081,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_new(self, image: Union[Gimp.Image, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_vectors_new(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
         """Creates a new empty vectors object.
         
         Creates a new empty vectors object. The vectors object needs to be added
@@ -17100,7 +17100,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_new_from_text_layer(self, image: Union[Gimp.Image, GObject.GValue], layer: Union[Gimp.Layer, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_vectors_new_from_text_layer(self, image: Gimp.Image, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
         """Creates a new vectors object from a text layer.
         
         Creates a new vectors object from a text layer. The vectors object needs
@@ -17118,7 +17118,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_attach(self, item: Union[Gimp.Item, GObject.GValue], parasite: Union[Gimp.Parasite, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_parasite_attach(self, item: Gimp.Item, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a parasite to an item.
         
         This procedure attaches a parasite to an item. It has no return values.
@@ -17131,7 +17131,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_detach(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_parasite_detach(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Removes a parasite from an item.
         
         This procedure detaches a parasite from an item. It has no return
@@ -17145,7 +17145,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_find(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_vectors_parasite_find(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
         """Look up a parasite in an item.
         
         Finds and returns the parasite that is attached to an item.
@@ -17162,7 +17162,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_list(self, item: Union[Gimp.Item, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_vectors_parasite_list(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
         """List all parasites.
         
         Returns a list of all parasites currently attached the an item.
@@ -17177,7 +17177,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_remove_stroke(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_remove_stroke(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the stroke from a vectors object.
         
         Remove the stroke from a vectors object.
@@ -17190,7 +17190,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_set_name(self, item: Union[Gimp.Item, GObject.GValue], name: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -17203,7 +17203,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_set_tattoo(self, item: Union[Gimp.Item, GObject.GValue], tattoo: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -17218,7 +17218,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_set_visible(self, item: Union[Gimp.Item, GObject.GValue], visible: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -17231,7 +17231,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_close(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_close(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Closes the specified stroke.
         
         Closes the specified stroke.
@@ -17244,7 +17244,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_flip(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], flip_type: Union[Gimp.OrientationType, GObject.GValue], axis: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_flip(self, vectors: Gimp.Vectors, stroke_id: int, flip_type: Gimp.OrientationType, axis: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Flips the given stroke.
         
         Rotates the given stroke around given center by angle (in degrees).
@@ -17264,7 +17264,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_flip_free(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], x1: Union[float, GObject.GValue], y1: Union[float, GObject.GValue], x2: Union[float, GObject.GValue], y2: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_flip_free(self, vectors: Gimp.Vectors, stroke_id: int, x1: float, y1: float, x2: float, y2: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Flips the given stroke about an arbitrary axis.
         
         Flips the given stroke about an arbitrary axis. Axis is defined by two
@@ -17291,7 +17291,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_get_length(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], precision: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_vectors_stroke_get_length(self, vectors: Gimp.Vectors, stroke_id: int, precision: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
         """Measure the length of the given stroke.
         
         Measure the length of the given stroke.
@@ -17311,7 +17311,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_get_point_at_dist(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], dist: Union[float, GObject.GValue], precision: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float, float, bool]:
+    def gimp_vectors_stroke_get_point_at_dist(self, vectors: Gimp.Vectors, stroke_id: int, dist: float, precision: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float, float, bool]:
         """Get point at a specified distance along the stroke.
         
         This will return the x,y position of a point at a given distance along
@@ -17344,7 +17344,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_get_points(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.VectorsStrokeType, int, Gimp.FloatArray, bool]:
+    def gimp_vectors_stroke_get_points(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.VectorsStrokeType, int, Gimp.FloatArray, bool]:
         """Returns the control points of a stroke.
         
         Returns the control points of a stroke. The interpretation of the
@@ -17373,7 +17373,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_interpolate(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], precision: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray, bool]:
+    def gimp_vectors_stroke_interpolate(self, vectors: Gimp.Vectors, stroke_id: int, precision: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray, bool]:
         """Returns polygonal approximation of the stroke.
         
         Returns polygonal approximation of the stroke.
@@ -17396,7 +17396,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_new_from_points(self, vectors: Union[Gimp.Vectors, GObject.GValue], type: Union[Gimp.VectorsStrokeType, GObject.GValue], num_points: Union[int, GObject.GValue], controlpoints: Union[Gimp.FloatArray, GObject.GValue], closed: Union[bool, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_stroke_new_from_points(self, vectors: Gimp.Vectors, type: Gimp.VectorsStrokeType, num_points: int, controlpoints: Gimp.FloatArray, closed: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
         """Adds a stroke of a given type to the vectors object.
         
         Adds a stroke of a given type to the vectors object. The coordinates of
@@ -17431,7 +17431,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_reverse(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_reverse(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Reverses the specified stroke.
         
         Reverses the specified stroke.
@@ -17444,7 +17444,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_rotate(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], center_x: Union[float, GObject.GValue], center_y: Union[float, GObject.GValue], angle: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_rotate(self, vectors: Gimp.Vectors, stroke_id: int, center_x: float, center_y: float, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Rotates the given stroke.
         
         Rotates the given stroke around given center by angle (in degrees).
@@ -17463,7 +17463,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_scale(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], scale_x: Union[float, GObject.GValue], scale_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_scale(self, vectors: Gimp.Vectors, stroke_id: int, scale_x: float, scale_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Scales the given stroke.
         
         Scale the given stroke.
@@ -17480,7 +17480,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_translate(self, vectors: Union[Gimp.Vectors, GObject.GValue], stroke_id: Union[int, GObject.GValue], off_x: Union[float, GObject.GValue], off_y: Union[float, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_translate(self, vectors: Gimp.Vectors, stroke_id: int, off_x: float, off_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Translate the given stroke.
         
         Translate the given stroke.
@@ -17508,7 +17508,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_xcf_load(self, file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_xcf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Loads file saved in the .xcf file format.
         
         The XCF file format has been designed specifically for loading and
@@ -17525,7 +17525,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_xcf_save(self, image: Union[Gimp.Image, GObject.GValue], n_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_xcf_save(self, image: Gimp.Image, n_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Saves file in the .xcf file format.
         
         The XCF file format has been designed specifically for loading and
@@ -17544,7 +17544,7 @@ class _PyPDB:
         """
         pass
 
-    def gradient_save_as_css(self, gradient: Union[Gimp.Gradient, GObject.GValue], file: Union[Gio.File, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gradient_save_as_css(self, gradient: Gimp.Gradient, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Creates a new palette from a given gradient.
         
         Menu label: Save as CSS...
@@ -17560,7 +17560,7 @@ class _PyPDB:
         """
         pass
 
-    def histogram_export(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], file: Union[Gio.File, GObject.GValue], bucket_size: Union[float, GObject.GValue], sample_average: Union[bool, GObject.GValue], output_format: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def histogram_export(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, bucket_size: float, sample_average: bool, output_format: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exports the image histogram to a text file (CSV).
         
         Image types: *
@@ -17602,7 +17602,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_alienmap2(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], redfrequency: Union[float, GObject.GValue], redangle: Union[float, GObject.GValue], greenfrequency: Union[float, GObject.GValue], greenangle: Union[float, GObject.GValue], bluefrequency: Union[float, GObject.GValue], blueangle: Union[float, GObject.GValue], colormodel: Union[int, GObject.GValue], redmode: Union[int, GObject.GValue], greenmode: Union[int, GObject.GValue], bluemode: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_alienmap2(self, image: Gimp.Image, drawable: Gimp.Drawable, redfrequency: float, redangle: float, greenfrequency: float, greenangle: float, bluefrequency: float, blueangle: float, colormodel: int, redmode: int, greenmode: int, bluemode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Alter colors in various psychedelic ways.
         
         No help yet. Just try it and you'll see!.
@@ -17642,7 +17642,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_align_layers(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], horizontal_style: Union[int, GObject.GValue], horizontal_base: Union[int, GObject.GValue], vertical_style: Union[int, GObject.GValue], vertical_base: Union[int, GObject.GValue], grid_size: Union[int, GObject.GValue], ignore_bottom_layer: Union[bool, GObject.GValue], use_bottom_layer: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_align_layers(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, horizontal_style: int, horizontal_base: int, vertical_style: int, vertical_base: int, grid_size: int, ignore_bottom_layer: bool, use_bottom_layer: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Align all visible layers of the image.
         
         Image types: *
@@ -17681,7 +17681,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationoptimize(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_animationoptimize(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Modify image to reduce size when saved as GIF animation.
         
         Image types: *
@@ -17710,7 +17710,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationoptimize_diff(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_animationoptimize_diff(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Reduce file size where combining layers is possible.
         
         Image types: *
@@ -17737,7 +17737,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationplay(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_animationplay(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Preview a GIMP layer-based animation.
         
         Image types: *
@@ -17754,7 +17754,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationunoptimize(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_animationunoptimize(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Remove optimization to make editing easier.
         
         Image types: *
@@ -17779,7 +17779,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_antialias(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_antialias(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Antialias using the Scale3X edge-extrapolation algorithm.
         
         No more help.
@@ -17792,7 +17792,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_apply_canvas(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], direction: Union[int, GObject.GValue], depth: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_apply_canvas(self, image: Gimp.Image, drawable: Gimp.Drawable, direction: int, depth: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a canvas texture to the image.
         
         This function applies a canvas texture map to the drawable.
@@ -17809,7 +17809,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_applylens(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], refraction: Union[float, GObject.GValue], keep_surroundings: Union[bool, GObject.GValue], set_background: Union[bool, GObject.GValue], set_transparent: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_applylens(self, image: Gimp.Image, drawable: Gimp.Drawable, refraction: float, keep_surroundings: bool, set_background: bool, set_transparent: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate an elliptical lens over the image.
         
         This plug-in uses Snell's law to draw an ellipsoid lens over the image.
@@ -17831,7 +17831,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_autocrop(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_autocrop(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove empty borders from the image.
         
         Remove empty borders from the image.
@@ -17844,7 +17844,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_autocrop_layer(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_autocrop_layer(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Crop the selected layers based on empty borders of the input
         drawable.
         
@@ -17863,7 +17863,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_autostretch_hsv(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_autostretch_hsv(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Stretch contrast to cover the maximum possible range.
         
         This simple plug-in does an automatic contrast stretch. For each channel
@@ -17882,7 +17882,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_blinds(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], angle_displacement: Union[int, GObject.GValue], num_segments: Union[int, GObject.GValue], orientation: Union[int, GObject.GValue], bg_transparent: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_blinds(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, angle_displacement: int, num_segments: int, orientation: int, bg_transparent: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate an image painted on window blinds.
         
         Image types: RGB*, GRAY*
@@ -17909,7 +17909,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_borderaverage(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], thickness: Union[int, GObject.GValue], bucket_exponent: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def plug_in_borderaverage(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, thickness: int, bucket_exponent: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
         """Set foreground to the average color of the image border.
         
         Image types: RGB*
@@ -17935,7 +17935,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_bump_map(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], bumpmap: Union[Gimp.Drawable, GObject.GValue], azimuth: Union[float, GObject.GValue], elevation: Union[float, GObject.GValue], depth: Union[int, GObject.GValue], xofs: Union[int, GObject.GValue], yofs: Union[int, GObject.GValue], waterlevel: Union[float, GObject.GValue], ambient: Union[float, GObject.GValue], compensate: Union[bool, GObject.GValue], invert: Union[bool, GObject.GValue], type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_bump_map(self, image: Gimp.Image, drawable: Gimp.Drawable, bumpmap: Gimp.Drawable, azimuth: float, elevation: float, depth: int, xofs: int, yofs: int, waterlevel: float, ambient: float, compensate: bool, invert: bool, type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an embossing effect using a bump map.
         
         This plug-in uses the algorithm described by John Schlag, "Fast
@@ -17975,7 +17975,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_bump_map_tiled(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], bumpmap: Union[Gimp.Drawable, GObject.GValue], azimuth: Union[float, GObject.GValue], elevation: Union[float, GObject.GValue], depth: Union[int, GObject.GValue], xofs: Union[int, GObject.GValue], yofs: Union[int, GObject.GValue], waterlevel: Union[float, GObject.GValue], ambient: Union[float, GObject.GValue], compensate: Union[bool, GObject.GValue], invert: Union[bool, GObject.GValue], type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_bump_map_tiled(self, image: Gimp.Image, drawable: Gimp.Drawable, bumpmap: Gimp.Drawable, azimuth: float, elevation: float, depth: int, xofs: int, yofs: int, waterlevel: float, ambient: float, compensate: bool, invert: bool, type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an embossing effect using a tiled image as a bump map.
         
         This plug-in uses the algorithm described by John Schlag, "Fast
@@ -18016,7 +18016,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_busy_dialog(self, read_fd: Union[int, GObject.GValue], write_fd: Union[int, GObject.GValue], message: Union[str, GObject.GValue], cancelable: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_busy_dialog(self, read_fd: int, write_fd: int, message: str, cancelable: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Show a dialog while waiting for an operation to finish.
         
         Used by GIMP to display a dialog, containing a spinner and a custom
@@ -18036,7 +18036,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_c_astretch(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_c_astretch(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Stretch contrast to cover the maximum possible range.
         
         This simple plug-in does an automatic contrast stretch. For each channel
@@ -18053,7 +18053,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_cartoon(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], mask_radius: Union[float, GObject.GValue], pct_black: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_cartoon(self, image: Gimp.Image, drawable: Gimp.Drawable, mask_radius: float, pct_black: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate a cartoon by enhancing edges.
         
         Propagates dark values in an image based on each pixel's relative
@@ -18090,7 +18090,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_checkerboard(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], psychobily: Union[bool, GObject.GValue], check_size: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_checkerboard(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, psychobily: bool, check_size: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a checkerboard pattern.
         
         Image types: RGB*, GRAY*
@@ -18113,7 +18113,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_cml_explorer(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], parameter_uri: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_cml_explorer(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, parameter_uri: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create abstract Coupled-Map Lattice patterns.
         
         Image types: RGB*, GRAY*
@@ -18138,7 +18138,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_colormap_remap(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], map: Union[GLib.Bytes, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colormap_remap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, map: GLib.Bytes, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Rearrange the colormap.
         
         Image types: INDEXED*
@@ -18160,7 +18160,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_colormap_swap(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], index1: Union[int, GObject.GValue], index2: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colormap_swap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, index1: int, index2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Swap two colors in the colormap.
         
         Image types: INDEXED*
@@ -18183,7 +18183,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_colors_channel_mixer(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], monochrome: Union[int, GObject.GValue], rr_gain: Union[float, GObject.GValue], rg_gain: Union[float, GObject.GValue], rb_gain: Union[float, GObject.GValue], gr_gain: Union[float, GObject.GValue], gg_gain: Union[float, GObject.GValue], gb_gain: Union[float, GObject.GValue], br_gain: Union[float, GObject.GValue], bg_gain: Union[float, GObject.GValue], bb_gain: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colors_channel_mixer(self, image: Gimp.Image, drawable: Gimp.Drawable, monochrome: int, rr_gain: float, rg_gain: float, rb_gain: float, gr_gain: float, gg_gain: float, gb_gain: float, br_gain: float, bg_gain: float, bb_gain: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Alter colors by mixing RGB Channels.
         
         This plug-in mixes the RGB channels.
@@ -18216,7 +18216,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_colortoalpha(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colortoalpha(self, image: Gimp.Image, drawable: Gimp.Drawable, color: Gimp.RGB, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert a specified color to transparency.
         
         This replaces as much of a given color as possible in each pixel with a
@@ -18233,7 +18233,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_compose(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], image_2: Union[Gimp.Image, GObject.GValue], image_3: Union[Gimp.Image, GObject.GValue], image_4: Union[Gimp.Image, GObject.GValue], compose_type: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_compose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, image_2: Gimp.Image, image_3: Gimp.Image, image_4: Gimp.Image, compose_type: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Create an image using multiple gray images as color channels.
         
         Image types: GRAY*
@@ -18267,7 +18267,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_convmatrix(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], argc_matrix: Union[int, GObject.GValue], matrix: Union[Gimp.FloatArray, GObject.GValue], alpha_alg: Union[bool, GObject.GValue], divisor: Union[float, GObject.GValue], offset: Union[float, GObject.GValue], argc_channels: Union[int, GObject.GValue], channels: Union[Gimp.Int32Array, GObject.GValue], bmode: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_convmatrix(self, image: Gimp.Image, drawable: Gimp.Drawable, argc_matrix: int, matrix: Gimp.FloatArray, alpha_alg: bool, divisor: float, offset: float, argc_channels: int, channels: Gimp.Int32Array, bmode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Apply a generic 5x5 convolution matrix.
         
         Apply a generic 5x5 convolution matrix.
@@ -18299,7 +18299,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_cubism(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], tile_size: Union[float, GObject.GValue], tile_saturation: Union[float, GObject.GValue], bg_color: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_cubism(self, image: Gimp.Image, drawable: Gimp.Drawable, tile_size: float, tile_saturation: float, bg_color: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert the image into randomly rotated square blobs.
         
         Convert the image into randomly rotated square blobs.
@@ -18319,7 +18319,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_curve_bend(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], rotation: Union[float, GObject.GValue], smoothing: Union[bool, GObject.GValue], antialias: Union[bool, GObject.GValue], work_on_copy: Union[bool, GObject.GValue], curve_type: Union[int, GObject.GValue], argc_upper_point_x: Union[int, GObject.GValue], upper_point_x: Union[Gimp.FloatArray, GObject.GValue], argc_upper_point_y: Union[int, GObject.GValue], upper_point_y: Union[Gimp.FloatArray, GObject.GValue], argc_lower_point_x: Union[int, GObject.GValue], lower_point_x: Union[Gimp.FloatArray, GObject.GValue], argc_lower_point_y: Union[int, GObject.GValue], lower_point_y: Union[Gimp.FloatArray, GObject.GValue], upper_val_y: Union[GLib.Bytes, GObject.GValue], lower_val_y: Union[GLib.Bytes, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def plug_in_curve_bend(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, rotation: float, smoothing: bool, antialias: bool, work_on_copy: bool, curve_type: int, argc_upper_point_x: int, upper_point_x: Gimp.FloatArray, argc_upper_point_y: int, upper_point_y: Gimp.FloatArray, argc_lower_point_x: int, lower_point_x: Gimp.FloatArray, argc_lower_point_y: int, lower_point_y: Gimp.FloatArray, upper_val_y: GLib.Bytes, lower_val_y: GLib.Bytes, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Bend the image using two control curves.
         
         Image types: RGB*, GRAY*
@@ -18398,7 +18398,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_decompose(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], decompose_type: Union[str, GObject.GValue], layers_mode: Union[bool, GObject.GValue], use_registration: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Image, Gimp.Image, Gimp.Image]:
+    def plug_in_decompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, decompose_type: str, layers_mode: bool, use_registration: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Image, Gimp.Image, Gimp.Image]:
         """Decompose an image into separate colorspace components.
         
         Image types: RGB*
@@ -18443,7 +18443,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_deinterlace(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], evenodd: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_deinterlace(self, image: Gimp.Image, drawable: Gimp.Drawable, evenodd: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Fix images where every other row is missing.
         
         Deinterlace is useful for processing images from video capture cards.
@@ -18462,7 +18462,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_depth_merge(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], source_1: Union[Gimp.Drawable, GObject.GValue], source_2: Union[Gimp.Drawable, GObject.GValue], depth_map_1: Union[Gimp.Drawable, GObject.GValue], depth_map_2: Union[Gimp.Drawable, GObject.GValue], overlap: Union[float, GObject.GValue], offset: Union[float, GObject.GValue], scale_1: Union[float, GObject.GValue], scale_2: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_depth_merge(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, source_1: Gimp.Drawable, source_2: Gimp.Drawable, depth_map_1: Gimp.Drawable, depth_map_2: Gimp.Drawable, overlap: float, offset: float, scale_1: float, scale_2: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Combine two images using depth maps (z-buffers).
         
         Image types: RGB*, GRAY*
@@ -18499,7 +18499,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_despeckle(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], radius: Union[int, GObject.GValue], type: Union[int, GObject.GValue], black: Union[int, GObject.GValue], white: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_despeckle(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, radius: int, type: int, black: int, white: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove speckle noise from the image.
         
         Image types: RGB*, GRAY*
@@ -18528,7 +18528,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_destripe(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], avg_width: Union[int, GObject.GValue], create_histogram: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_destripe(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, avg_width: int, create_histogram: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove vertical stripe artifacts from the image.
         
         Image types: RGB*, GRAY*
@@ -18551,7 +18551,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_diffraction(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], lam_r: Union[float, GObject.GValue], lam_g: Union[float, GObject.GValue], lam_b: Union[float, GObject.GValue], contour_r: Union[float, GObject.GValue], contour_g: Union[float, GObject.GValue], contour_b: Union[float, GObject.GValue], edges_r: Union[float, GObject.GValue], edges_g: Union[float, GObject.GValue], edges_b: Union[float, GObject.GValue], brightness: Union[float, GObject.GValue], scattering: Union[float, GObject.GValue], polarization: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_diffraction(self, image: Gimp.Image, drawable: Gimp.Drawable, lam_r: float, lam_g: float, lam_b: float, contour_r: float, contour_g: float, contour_b: float, edges_r: float, edges_g: float, edges_b: float, brightness: float, scattering: float, polarization: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Generate diffraction patterns.
         
         Help? What help?.
@@ -18589,7 +18589,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_dilate(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], propagate_mode: Union[int, GObject.GValue], propagating_channel: Union[int, GObject.GValue], propagating_rate: Union[float, GObject.GValue], direction_mask: Union[int, GObject.GValue], lower_limit: Union[int, GObject.GValue], upper_limit: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_dilate(self, image: Gimp.Image, drawable: Gimp.Drawable, propagate_mode: int, propagating_channel: int, propagating_rate: float, direction_mask: int, lower_limit: int, upper_limit: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Grow lighter areas of the image.
         
         Dilate image.
@@ -18617,7 +18617,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_displace(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], amount_x: Union[float, GObject.GValue], amount_y: Union[float, GObject.GValue], do_x: Union[bool, GObject.GValue], do_y: Union[bool, GObject.GValue], displace_map_x: Union[Gimp.Drawable, GObject.GValue], displace_map_y: Union[Gimp.Drawable, GObject.GValue], displace_type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_displace(self, image: Gimp.Image, drawable: Gimp.Drawable, amount_x: float, amount_y: float, do_x: bool, do_y: bool, displace_map_x: Gimp.Drawable, displace_map_y: Gimp.Drawable, displace_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Displace pixels as indicated by displacement maps.
         
         Displaces the contents of the specified drawable by the amounts
@@ -18648,7 +18648,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_displace_polar(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], amount_x: Union[float, GObject.GValue], amount_y: Union[float, GObject.GValue], do_x: Union[bool, GObject.GValue], do_y: Union[bool, GObject.GValue], displace_map_x: Union[Gimp.Drawable, GObject.GValue], displace_map_y: Union[Gimp.Drawable, GObject.GValue], displace_type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_displace_polar(self, image: Gimp.Image, drawable: Gimp.Drawable, amount_x: float, amount_y: float, do_x: bool, do_y: bool, displace_map_x: Gimp.Drawable, displace_map_y: Gimp.Drawable, displace_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Displace pixels as indicated by displacement maps.
         
         Just like plug-in-displace but working in polar coordinates. The
@@ -18679,7 +18679,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_dog(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], inner: Union[float, GObject.GValue], outer: Union[float, GObject.GValue], normalize: Union[bool, GObject.GValue], invert: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_dog(self, image: Gimp.Image, drawable: Gimp.Drawable, inner: float, outer: float, normalize: bool, invert: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Edge detection with control of edge thickness.
         
         Applies two Gaussian blurs to the drawable, and subtracts the results.
@@ -18701,7 +18701,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_drawable_compose(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], drawable_2: Union[Gimp.Drawable, GObject.GValue], drawable_3: Union[Gimp.Drawable, GObject.GValue], drawable_4: Union[Gimp.Drawable, GObject.GValue], compose_type: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_drawable_compose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, drawable_2: Gimp.Drawable, drawable_3: Gimp.Drawable, drawable_4: Gimp.Drawable, compose_type: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Compose an image from multiple drawables of gray images.
         
         Image types: GRAY*
@@ -18734,7 +18734,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_edge(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], amount: Union[float, GObject.GValue], warpmode: Union[int, GObject.GValue], edgemode: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_edge(self, image: Gimp.Image, drawable: Gimp.Drawable, amount: float, warpmode: int, edgemode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Several simple methods for detecting edges.
         
         Perform edge detection on the contents of the specified drawable. AMOUNT
@@ -18760,7 +18760,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_emboss(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], azimuth: Union[float, GObject.GValue], elevation: Union[float, GObject.GValue], depth: Union[int, GObject.GValue], emboss: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_emboss(self, image: Gimp.Image, drawable: Gimp.Drawable, azimuth: float, elevation: float, depth: int, emboss: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate an image created by embossing.
         
         Emboss or Bumpmap the given drawable, specifying the angle and elevation
@@ -18782,7 +18782,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_engrave(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], height: Union[int, GObject.GValue], limit: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_engrave(self, image: Gimp.Image, drawable: Gimp.Drawable, height: int, limit: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate an antique engraving.
         
         Creates a black-and-white 'engraved' version of an image as seen in old
@@ -18800,7 +18800,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_erode(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], propagate_mode: Union[int, GObject.GValue], propagating_channel: Union[int, GObject.GValue], propagating_rate: Union[float, GObject.GValue], direction_mask: Union[int, GObject.GValue], lower_limit: Union[int, GObject.GValue], upper_limit: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_erode(self, image: Gimp.Image, drawable: Gimp.Drawable, propagate_mode: int, propagating_channel: int, propagating_rate: float, direction_mask: int, lower_limit: int, upper_limit: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Shrink lighter areas of the image.
         
         Erode image.
@@ -18828,7 +18828,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_exchange(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], from_red: Union[int, GObject.GValue], from_green: Union[int, GObject.GValue], from_blue: Union[int, GObject.GValue], to_red: Union[int, GObject.GValue], to_green: Union[int, GObject.GValue], to_blue: Union[int, GObject.GValue], red_threshold: Union[int, GObject.GValue], green_threshold: Union[int, GObject.GValue], blue_threshold: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_exchange(self, image: Gimp.Image, drawable: Gimp.Drawable, from_red: int, from_green: int, from_blue: int, to_red: int, to_green: int, to_blue: int, red_threshold: int, green_threshold: int, blue_threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Swap one color with another.
         
         Exchange one color with another, optionally setting a threshold to
@@ -18860,7 +18860,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_film(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], film_height: Union[int, GObject.GValue], film_color: Union[Gimp.RGB, GObject.GValue], number_start: Union[int, GObject.GValue], number_font: Union[Gimp.Font, GObject.GValue], number_color: Union[Gimp.RGB, GObject.GValue], at_top: Union[bool, GObject.GValue], at_bottom: Union[bool, GObject.GValue], num_images: Union[int, GObject.GValue], images: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_film(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, film_height: int, film_color: Gimp.RGB, number_start: int, number_font: Gimp.Font, number_color: Gimp.RGB, at_top: bool, at_bottom: bool, num_images: int, images: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Combine several images on a film strip.
         
         Image types: *
@@ -18901,7 +18901,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_flame(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_flame(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create cosmic recursive fractal flames.
         
         Image types: RGB*
@@ -18920,7 +18920,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_flarefx(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], pos_x: Union[int, GObject.GValue], pos_y: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_flarefx(self, image: Gimp.Image, drawable: Gimp.Drawable, pos_x: int, pos_y: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a lens flare effect.
         
         Adds a lens flare effects. Makes your image look like it was snapped
@@ -18938,7 +18938,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_fractal_trace(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], xmin: Union[float, GObject.GValue], xmax: Union[float, GObject.GValue], ymin: Union[float, GObject.GValue], ymax: Union[float, GObject.GValue], depth: Union[int, GObject.GValue], outside_type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_fractal_trace(self, image: Gimp.Image, drawable: Gimp.Drawable, xmin: float, xmax: float, ymin: float, ymax: float, depth: int, outside_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Transform image with the Mandelbrot Fractal.
         
         Transform image with the Mandelbrot Fractal.
@@ -18964,7 +18964,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_fractalexplorer(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], fractal_type: Union[int, GObject.GValue], xmin: Union[float, GObject.GValue], xmax: Union[float, GObject.GValue], ymin: Union[float, GObject.GValue], ymax: Union[float, GObject.GValue], iter: Union[float, GObject.GValue], cx: Union[float, GObject.GValue], cy: Union[float, GObject.GValue], color_mode: Union[int, GObject.GValue], red_stretch: Union[float, GObject.GValue], green_stretch: Union[float, GObject.GValue], blues_tretch: Union[float, GObject.GValue], red_mode: Union[int, GObject.GValue], green_mode: Union[int, GObject.GValue], blue_mode: Union[int, GObject.GValue], red_invert: Union[bool, GObject.GValue], green_invert: Union[bool, GObject.GValue], blue_invert: Union[bool, GObject.GValue], n_colors: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_fractalexplorer(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, fractal_type: int, xmin: float, xmax: float, ymin: float, ymax: float, iter: float, cx: float, cy: float, color_mode: int, red_stretch: float, green_stretch: float, blues_tretch: float, red_mode: int, green_mode: int, blue_mode: int, red_invert: bool, green_invert: bool, blue_invert: bool, n_colors: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Render fractal art.
         
         Image types: RGB*, GRAY*
@@ -19026,7 +19026,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], horizontal: Union[float, GObject.GValue], vertical: Union[float, GObject.GValue], method: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: float, vertical: float, method: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simplest, most commonly used way of blurring.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19052,7 +19052,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_iir(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], radius: Union[float, GObject.GValue], horizontal: Union[bool, GObject.GValue], vertical: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_iir(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, horizontal: bool, vertical: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19075,7 +19075,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_iir2(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], horizontal: Union[float, GObject.GValue], vertical: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_iir2(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: float, vertical: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19098,7 +19098,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_rle(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], radius: Union[float, GObject.GValue], horizontal: Union[bool, GObject.GValue], vertical: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_rle(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, horizontal: bool, vertical: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19121,7 +19121,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_rle2(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], horizontal: Union[float, GObject.GValue], vertical: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_rle2(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: float, vertical: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19144,7 +19144,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gfig(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gfig(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create geometric shapes.
         
         Image types: RGB*, GRAY*
@@ -19168,7 +19168,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gflare(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], gflare_name: Union[str, GObject.GValue], center_x: Union[int, GObject.GValue], center_y: Union[int, GObject.GValue], radius: Union[float, GObject.GValue], rotation: Union[float, GObject.GValue], hue: Union[float, GObject.GValue], vector_angle: Union[float, GObject.GValue], vector_length: Union[float, GObject.GValue], use_asupsample: Union[bool, GObject.GValue], asupsample_max_depth: Union[int, GObject.GValue], asupsample_threshold: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gflare(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, gflare_name: str, center_x: int, center_y: int, radius: float, rotation: float, hue: float, vector_angle: float, vector_length: float, use_asupsample: bool, asupsample_max_depth: int, asupsample_threshold: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Produce a lense flare effect using gradients.
         
         Image types: RGB*, GRAY*
@@ -19219,7 +19219,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gimpressionist(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], preset: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gimpressionist(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, preset: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Performs various artistic operations.
         
         Image types: RGB*, GRAY*
@@ -19240,7 +19240,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_glasstile(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], tilex: Union[int, GObject.GValue], tiley: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_glasstile(self, image: Gimp.Image, drawable: Gimp.Drawable, tilex: int, tiley: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate distortion caused by square glass tiles.
         
         Divide the image into square glassblocks in which the image is
@@ -19258,7 +19258,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_c(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_c(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exercise a goat in the C language.
         
         Image types: *
@@ -19277,7 +19277,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_lua(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_lua(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exercise a goat in the Lua language.
         
         Image types: *
@@ -19296,7 +19296,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_python(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_python(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exercise a goat in the Python 3 language.
         
         Image types: *
@@ -19315,7 +19315,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_vala(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_vala(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Exercise a goat in the Vala language.
         
         Image types: RGB*, INDEXED*, GRAY*
@@ -19334,7 +19334,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gradmap(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gradmap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Recolor the image using colors from the active gradient.
         
         Image types: RGB*, GRAY*
@@ -19359,7 +19359,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_grid(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], hwidth: Union[int, GObject.GValue], hspace: Union[int, GObject.GValue], hoffset: Union[int, GObject.GValue], hcolor: Union[Gimp.RGB, GObject.GValue], vwidth: Union[int, GObject.GValue], vspace: Union[int, GObject.GValue], voffset: Union[int, GObject.GValue], vcolor: Union[Gimp.RGB, GObject.GValue], iwidth: Union[int, GObject.GValue], ispace: Union[int, GObject.GValue], ioffset: Union[int, GObject.GValue], icolor: Union[Gimp.RGB, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_grid(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, hwidth: int, hspace: int, hoffset: int, hcolor: Gimp.RGB, vwidth: int, vspace: int, voffset: int, vcolor: Gimp.RGB, iwidth: int, ispace: int, ioffset: int, icolor: Gimp.RGB, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Draw a grid on the image.
         
         Image types: *
@@ -19403,7 +19403,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_guillotine(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def plug_in_guillotine(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Slice the image into subimages using guides.
         
         Image types: *
@@ -19429,7 +19429,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_hot(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], mode: Union[int, GObject.GValue], action: Union[int, GObject.GValue], new_layer: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_hot(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, mode: int, action: int, new_layer: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Find and fix pixels that may be unsafely bright.
         
         Image types: RGB
@@ -19459,7 +19459,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_hsv_noise(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], holdness: Union[int, GObject.GValue], hue_distance: Union[int, GObject.GValue], saturation_distance: Union[int, GObject.GValue], value_distance: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_hsv_noise(self, image: Gimp.Image, drawable: Gimp.Drawable, holdness: int, hue_distance: int, saturation_distance: int, value_distance: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Randomize hue, saturation and value independently.
         
         Scattering pixel values in HSV space.
@@ -19481,7 +19481,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_ifscompose(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_ifscompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an Iterated Function System (IFS) fractal.
         
         Image types: *
@@ -19506,7 +19506,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_illusion(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], division: Union[int, GObject.GValue], type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_illusion(self, image: Gimp.Image, drawable: Gimp.Drawable, division: int, type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Superimpose many altered copies of the image.
         
         Produce illusion.
@@ -19523,7 +19523,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_imagemap(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_imagemap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a clickable imagemap.
         
         Image types: *
@@ -19540,7 +19540,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_jigsaw(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], x: Union[int, GObject.GValue], y: Union[int, GObject.GValue], style: Union[int, GObject.GValue], blend_lines: Union[int, GObject.GValue], blend_amount: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_jigsaw(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, x: int, y: int, style: int, blend_lines: int, blend_amount: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a jigsaw-puzzle pattern to the image.
         
         Image types: RGB*
@@ -19571,7 +19571,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_laplace(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_laplace(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """High-resolution edge detection.
         
         This plug-in creates one-pixel wide edges from the image, with the value
@@ -19588,7 +19588,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_lens_distortion(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], offset_x: Union[float, GObject.GValue], offset_y: Union[float, GObject.GValue], main_adjust: Union[float, GObject.GValue], edge_adjust: Union[float, GObject.GValue], rescale: Union[float, GObject.GValue], brighten: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_lens_distortion(self, image: Gimp.Image, drawable: Gimp.Drawable, offset_x: float, offset_y: float, main_adjust: float, edge_adjust: float, rescale: float, brighten: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Corrects lens distortion.
         
         Corrects barrel or pincushion lens distortion.
@@ -19613,7 +19613,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_lic(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_lic(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Special effects that nobody understands.
         
         Image types: RGB*
@@ -19632,7 +19632,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_lighting(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], bump_drawable: Union[Gimp.Drawable, GObject.GValue], env_drawable: Union[Gimp.Drawable, GObject.GValue], do_bumpmap: Union[bool, GObject.GValue], do_envmap: Union[bool, GObject.GValue], bumpmap_type: Union[int, GObject.GValue], light_type: Union[int, GObject.GValue], light_color: Union[Gimp.RGB, GObject.GValue], light_position_x: Union[float, GObject.GValue], light_position_y: Union[float, GObject.GValue], light_position_z: Union[float, GObject.GValue], light_direction_x: Union[float, GObject.GValue], light_direction_y: Union[float, GObject.GValue], light_direction_z: Union[float, GObject.GValue], ambient_intensity: Union[float, GObject.GValue], diffuse_intensity: Union[float, GObject.GValue], diffuse_reflectivity: Union[float, GObject.GValue], specular_reflectivity: Union[float, GObject.GValue], highlight: Union[float, GObject.GValue], antialiasing: Union[bool, GObject.GValue], new_image: Union[bool, GObject.GValue], transparent_background: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_lighting(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, bump_drawable: Gimp.Drawable, env_drawable: Gimp.Drawable, do_bumpmap: bool, do_envmap: bool, bumpmap_type: int, light_type: int, light_color: Gimp.RGB, light_position_x: float, light_position_y: float, light_position_z: float, light_direction_x: float, light_direction_y: float, light_direction_z: float, ambient_intensity: float, diffuse_intensity: float, diffuse_reflectivity: float, specular_reflectivity: float, highlight: float, antialiasing: bool, new_image: bool, transparent_background: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Apply various lighting effects to an image.
         
         Image types: RGB*
@@ -19698,7 +19698,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_make_seamless(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_make_seamless(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Alters edges to make the image seamlessly tileable.
         
         This plug-in creates a seamless tileable from the input drawable.
@@ -19711,7 +19711,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_map_object(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], map_type: Union[int, GObject.GValue], viewpoint_x: Union[float, GObject.GValue], viewpoint_y: Union[float, GObject.GValue], viewpoint_z: Union[float, GObject.GValue], position_x: Union[float, GObject.GValue], position_y: Union[float, GObject.GValue], position_z: Union[float, GObject.GValue], first_axis_x: Union[float, GObject.GValue], first_axis_y: Union[float, GObject.GValue], first_axis_z: Union[float, GObject.GValue], second_axis_x: Union[float, GObject.GValue], second_axis_y: Union[float, GObject.GValue], second_axis_z: Union[float, GObject.GValue], rotation_angle_x: Union[float, GObject.GValue], rotation_angle_y: Union[float, GObject.GValue], rotation_angle_z: Union[float, GObject.GValue], light_type: Union[int, GObject.GValue], light_color: Union[Gimp.RGB, GObject.GValue], light_position_x: Union[float, GObject.GValue], light_position_y: Union[float, GObject.GValue], light_position_z: Union[float, GObject.GValue], light_direction_x: Union[float, GObject.GValue], light_direction_y: Union[float, GObject.GValue], light_direction_z: Union[float, GObject.GValue], ambient_intensity: Union[float, GObject.GValue], diffuse_intensity: Union[float, GObject.GValue], diffuse_reflectivity: Union[float, GObject.GValue], specular_reflectivity: Union[float, GObject.GValue], highlight: Union[float, GObject.GValue], antialiasing: Union[bool, GObject.GValue], tiled: Union[bool, GObject.GValue], new_image: Union[bool, GObject.GValue], transparent_background: Union[bool, GObject.GValue], radius: Union[float, GObject.GValue], x_scale: Union[float, GObject.GValue], y_scale: Union[float, GObject.GValue], z_scale: Union[float, GObject.GValue], cylinder_length: Union[float, GObject.GValue], box_front_drawable: Union[Gimp.Drawable, GObject.GValue], box_back_drawable: Union[Gimp.Drawable, GObject.GValue], box_top_drawable: Union[Gimp.Drawable, GObject.GValue], box_bottom_drawable: Union[Gimp.Drawable, GObject.GValue], box_left_drawable: Union[Gimp.Drawable, GObject.GValue], box_right_drawable: Union[Gimp.Drawable, GObject.GValue], cyl_top_drawable: Union[Gimp.Drawable, GObject.GValue], cyl_bottom_drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_map_object(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, map_type: int, viewpoint_x: float, viewpoint_y: float, viewpoint_z: float, position_x: float, position_y: float, position_z: float, first_axis_x: float, first_axis_y: float, first_axis_z: float, second_axis_x: float, second_axis_y: float, second_axis_z: float, rotation_angle_x: float, rotation_angle_y: float, rotation_angle_z: float, light_type: int, light_color: Gimp.RGB, light_position_x: float, light_position_y: float, light_position_z: float, light_direction_x: float, light_direction_y: float, light_direction_z: float, ambient_intensity: float, diffuse_intensity: float, diffuse_reflectivity: float, specular_reflectivity: float, highlight: float, antialiasing: bool, tiled: bool, new_image: bool, transparent_background: bool, radius: float, x_scale: float, y_scale: float, z_scale: float, cylinder_length: float, box_front_drawable: Gimp.Drawable, box_back_drawable: Gimp.Drawable, box_top_drawable: Gimp.Drawable, box_bottom_drawable: Gimp.Drawable, box_left_drawable: Gimp.Drawable, box_right_drawable: Gimp.Drawable, cyl_top_drawable: Gimp.Drawable, cyl_bottom_drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Map the image to an object (plane, sphere, box or cylinder).
         
         Image types: RGB*
@@ -19829,7 +19829,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_maze(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], tileable: Union[int, GObject.GValue], algorithm: Union[int, GObject.GValue], seed: Union[int, GObject.GValue], multiple: Union[int, GObject.GValue], offset: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_maze(self, image: Gimp.Image, drawable: Gimp.Drawable, width: int, height: int, tileable: int, algorithm: int, seed: int, multiple: int, offset: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Draw a labyrinth.
         
         Generates a maze using either the depth-first search method or Prim's
@@ -19858,7 +19858,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_mblur(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], type: Union[int, GObject.GValue], length: Union[float, GObject.GValue], angle: Union[float, GObject.GValue], center_x: Union[float, GObject.GValue], center_y: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_mblur(self, image: Gimp.Image, drawable: Gimp.Drawable, type: int, length: float, angle: float, center_x: float, center_y: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate movement using directional blur.
         
         This plug-in simulates the effect seen when photographing a moving
@@ -19884,7 +19884,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_mblur_inward(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], type: Union[int, GObject.GValue], length: Union[float, GObject.GValue], angle: Union[float, GObject.GValue], center_x: Union[float, GObject.GValue], center_y: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_mblur_inward(self, image: Gimp.Image, drawable: Gimp.Drawable, type: int, length: float, angle: float, center_x: float, center_y: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate movement using directional blur.
         
         This procedure is equivalent to plug-in-mblur but performs the zoom blur
@@ -19909,7 +19909,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_median_blur(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], radius: Union[int, GObject.GValue], percentile: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_median_blur(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: int, percentile: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Blur using the median color near each pixel.
         
         Blur resulting from computing the median color in the neighborhood of
@@ -19928,7 +19928,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_metadata_editor(self, image: Union[Gimp.Image, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_metadata_editor(self, image: Gimp.Image, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Edit metadata (IPTC, EXIF, XMP).
         
         Image types: *
@@ -19945,7 +19945,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_metadata_viewer(self, image: Union[Gimp.Image, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_metadata_viewer(self, image: Gimp.Image, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """View metadata (Exif, IPTC, XMP).
         
         Image types: *
@@ -19961,7 +19961,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_mosaic(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], tile_size: Union[float, GObject.GValue], tile_height: Union[float, GObject.GValue], tile_spacing: Union[float, GObject.GValue], tile_neatness: Union[float, GObject.GValue], tile_allow_split: Union[int, GObject.GValue], light_dir: Union[float, GObject.GValue], color_variation: Union[float, GObject.GValue], antialiasing: Union[int, GObject.GValue], color_averaging: Union[int, GObject.GValue], tile_type: Union[int, GObject.GValue], tile_surface: Union[int, GObject.GValue], grout_color: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_mosaic(self, image: Gimp.Image, drawable: Gimp.Drawable, tile_size: float, tile_height: float, tile_spacing: float, tile_neatness: float, tile_allow_split: int, light_dir: float, color_variation: float, antialiasing: int, color_averaging: int, tile_type: int, tile_surface: int, grout_color: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert the image into irregular tiles.
         
         Mosaic is a filter which transforms an image into what appears to be a
@@ -20010,7 +20010,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_neon(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], radius: Union[float, GObject.GValue], amount: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_neon(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, amount: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate the glowing boundary of a neon light.
         
         This filter works in a manner similar to the edge plug-in, but uses the
@@ -20031,7 +20031,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_newsprint(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], cell_width: Union[int, GObject.GValue], colorspace: Union[int, GObject.GValue], k_pullout: Union[int, GObject.GValue], gry_ang: Union[float, GObject.GValue], gry_spotfn: Union[int, GObject.GValue], red_ang: Union[float, GObject.GValue], red_spotfn: Union[int, GObject.GValue], grn_ang: Union[float, GObject.GValue], grn_spotfn: Union[int, GObject.GValue], blu_ang: Union[float, GObject.GValue], blu_spotfn: Union[int, GObject.GValue], oversample: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_newsprint(self, image: Gimp.Image, drawable: Gimp.Drawable, cell_width: int, colorspace: int, k_pullout: int, gry_ang: float, gry_spotfn: int, red_ang: float, red_spotfn: int, grn_ang: float, grn_spotfn: int, blu_ang: float, blu_spotfn: int, oversample: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Halftone the image to give newspaper-like effect.
         
         Halftone the image to give newspaper-like effect.
@@ -20075,7 +20075,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_nl_filter(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], alpha: Union[float, GObject.GValue], radius: Union[float, GObject.GValue], filter: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_nl_filter(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, alpha: float, radius: float, filter: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Nonlinear swiss army knife filter.
         
         Image types: RGB, GRAY
@@ -20103,7 +20103,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_noisify(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], independent: Union[bool, GObject.GValue], noise_1: Union[float, GObject.GValue], noise_2: Union[float, GObject.GValue], noise_3: Union[float, GObject.GValue], noise_4: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_noisify(self, image: Gimp.Image, drawable: Gimp.Drawable, independent: bool, noise_1: float, noise_2: float, noise_3: float, noise_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Adds random noise to image channels.
         
         Add normally distributed random values to image channels. For color
@@ -20129,7 +20129,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_normalize(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_normalize(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Stretch brightness values to cover the full range.
         
         This plug-in performs almost the same operation as the 'contrast
@@ -20148,7 +20148,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_nova(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], xcenter: Union[int, GObject.GValue], ycenter: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], radius: Union[int, GObject.GValue], nspoke: Union[int, GObject.GValue], randomhue: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_nova(self, image: Gimp.Image, drawable: Gimp.Drawable, xcenter: int, ycenter: int, color: Gimp.RGB, radius: int, nspoke: int, randomhue: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a starburst to the image.
         
         This plug-in produces an effect like a supernova burst. The amount of
@@ -20175,7 +20175,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_oilify(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], mask_size: Union[int, GObject.GValue], mode: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_oilify(self, image: Gimp.Image, drawable: Gimp.Drawable, mask_size: int, mode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Smear colors to simulate an oil painting.
         
         This function performs the well-known oil-paint effect on the specified
@@ -20193,7 +20193,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_oilify_enhanced(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], mode: Union[int, GObject.GValue], mask_size: Union[int, GObject.GValue], mask_size_map: Union[Gimp.Drawable, GObject.GValue], exponent: Union[int, GObject.GValue], exponent_map: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_oilify_enhanced(self, image: Gimp.Image, drawable: Gimp.Drawable, mode: int, mask_size: int, mask_size_map: Gimp.Drawable, exponent: int, exponent_map: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Smear colors to simulate an oil painting.
         
         This function performs the well-known oil-paint effect on the specified
@@ -20217,7 +20217,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_pagecurl(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], colors: Union[int, GObject.GValue], edge: Union[int, GObject.GValue], orientation: Union[int, GObject.GValue], shade: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def plug_in_pagecurl(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, colors: int, edge: int, orientation: int, shade: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
         """Curl up one of the image corners.
         
         Image types: RGB*, GRAY*
@@ -20250,7 +20250,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_palettemap(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_palettemap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Recolor the image using colors from the active palette.
         
         Image types: RGB*, GRAY*
@@ -20274,7 +20274,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_papertile(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], tile_size: Union[int, GObject.GValue], move_max: Union[float, GObject.GValue], fractional_type: Union[int, GObject.GValue], wrap_around: Union[bool, GObject.GValue], centering: Union[bool, GObject.GValue], background_type: Union[int, GObject.GValue], background_color: Union[Gimp.RGB, GObject.GValue], background_alpha: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_papertile(self, image: Gimp.Image, drawable: Gimp.Drawable, tile_size: int, move_max: float, fractional_type: int, wrap_around: bool, centering: bool, background_type: int, background_color: Gimp.RGB, background_alpha: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Cut image into paper tiles, and slide them.
         
         This plug-in cuts an image into paper tiles and slides each paper tile.
@@ -20305,7 +20305,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_photocopy(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], mask_radius: Union[float, GObject.GValue], sharpness: Union[float, GObject.GValue], pct_black: Union[float, GObject.GValue], pct_white: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_photocopy(self, image: Gimp.Image, drawable: Gimp.Drawable, mask_radius: float, sharpness: float, pct_black: float, pct_white: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate color distortion produced by a copy machine.
         
         Propagates dark values in an image based on each pixel's relative
@@ -20348,7 +20348,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_pixelize(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], pixel_width: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_pixelize(self, image: Gimp.Image, drawable: Gimp.Drawable, pixel_width: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simplify image into an array of solid-colored squares.
         
         Pixelize the contents of the specified drawable with specified
@@ -20364,7 +20364,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_pixelize2(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], pixel_width: Union[int, GObject.GValue], pixel_height: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_pixelize2(self, image: Gimp.Image, drawable: Gimp.Drawable, pixel_width: int, pixel_height: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simplify image into an array of solid-colored rectangles.
         
         Pixelize the contents of the specified drawable with specified
@@ -20384,7 +20384,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_plasma(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], seed: Union[int, GObject.GValue], turbulence: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_plasma(self, image: Gimp.Image, drawable: Gimp.Drawable, seed: int, turbulence: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a random plasma texture.
         
         This plug-in produces plasma fractal images.
@@ -20414,7 +20414,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_polar_coords(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], circle: Union[float, GObject.GValue], angle: Union[float, GObject.GValue], backwards: Union[bool, GObject.GValue], inverse: Union[bool, GObject.GValue], polrec: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_polar_coords(self, image: Gimp.Image, drawable: Gimp.Drawable, circle: float, angle: float, backwards: bool, inverse: bool, polrec: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert image to or from polar coordinates.
         
         Remaps and image from rectangular coordinates to polar coordinates or
@@ -20438,7 +20438,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_qbist(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_qbist(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Generate a huge variety of abstract patterns.
         
         Image types: RGB*
@@ -20459,7 +20459,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_randomize_hurl(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], rndm_pct: Union[float, GObject.GValue], rndm_rcount: Union[float, GObject.GValue], randomize: Union[bool, GObject.GValue], seed: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_randomize_hurl(self, image: Gimp.Image, drawable: Gimp.Drawable, rndm_pct: float, rndm_rcount: float, randomize: bool, seed: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Completely randomize a fraction of pixels.
         
         This plug-in "hurls" randomly-valued pixels onto the selection or image.
@@ -20482,7 +20482,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_randomize_pick(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], rndm_pct: Union[float, GObject.GValue], rndm_rcount: Union[float, GObject.GValue], randomize: Union[bool, GObject.GValue], seed: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_randomize_pick(self, image: Gimp.Image, drawable: Gimp.Drawable, rndm_pct: float, rndm_rcount: float, randomize: bool, seed: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Randomly interchange some pixels with neighbors.
         
         This plug-in replaces a pixel with a random adjacent pixel. You may
@@ -20505,7 +20505,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_randomize_slur(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], rndm_pct: Union[float, GObject.GValue], rndm_rcount: Union[float, GObject.GValue], randomize: Union[bool, GObject.GValue], seed: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_randomize_slur(self, image: Gimp.Image, drawable: Gimp.Drawable, rndm_pct: float, rndm_rcount: float, randomize: bool, seed: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Randomly slide some pixels downward (similar to melting.
         
         This plug-in "slurs" (melts like a bunch of icicles) an image. You may
@@ -20528,7 +20528,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_recompose(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_recompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Recompose an image that was previously decomposed.
         
         Image types: GRAY*
@@ -20549,7 +20549,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_red_eye_removal(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], threshold: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_red_eye_removal(self, image: Gimp.Image, drawable: Gimp.Drawable, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove the red eye effect caused by camera flashes.
         
         This procedure removes the red eye effect caused by camera flashes by
@@ -20567,7 +20567,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_retinex(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], scale: Union[int, GObject.GValue], nscales: Union[int, GObject.GValue], scales_mode: Union[int, GObject.GValue], cvar: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_retinex(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, scale: int, nscales: int, scales_mode: int, cvar: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Enhance contrast using the Retinex method.
         
         Image types: RGB*
@@ -20599,7 +20599,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_rgb_noise(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], independent: Union[bool, GObject.GValue], correlated: Union[bool, GObject.GValue], noise_1: Union[float, GObject.GValue], noise_2: Union[float, GObject.GValue], noise_3: Union[float, GObject.GValue], noise_4: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_rgb_noise(self, image: Gimp.Image, drawable: Gimp.Drawable, independent: bool, correlated: bool, noise_1: float, noise_2: float, noise_3: float, noise_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Distort colors by random amounts.
         
         Add normally distributed (zero mean) random values to image channels.
@@ -20629,7 +20629,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_ripple(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], period: Union[float, GObject.GValue], amplitude: Union[float, GObject.GValue], orientation: Union[int, GObject.GValue], edges: Union[int, GObject.GValue], waveform: Union[int, GObject.GValue], antialias: Union[bool, GObject.GValue], tile: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_ripple(self, image: Gimp.Image, drawable: Gimp.Drawable, period: float, amplitude: float, orientation: int, edges: int, waveform: int, antialias: bool, tile: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Displace pixels in a ripple pattern.
         
         Ripples the pixels of the specified drawable. Each row or column will be
@@ -20660,7 +20660,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_rotate(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], angle: Union[int, GObject.GValue], everything: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_rotate(self, image: Gimp.Image, drawable: Gimp.Drawable, angle: int, everything: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Rotates a layer or the whole image by 90, 180 or 270 degrees.
         
         This plug-in does rotate the active layer or the whole image clockwise
@@ -20679,7 +20679,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sample_colorize(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], sample_drawable: Union[Gimp.Drawable, GObject.GValue], hold_inten: Union[bool, GObject.GValue], orig_inten: Union[bool, GObject.GValue], rnd_subcolors: Union[bool, GObject.GValue], guess_missing: Union[bool, GObject.GValue], in_low: Union[int, GObject.GValue], in_high: Union[int, GObject.GValue], gamma: Union[float, GObject.GValue], out_low: Union[int, GObject.GValue], ouz_high: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sample_colorize(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, sample_drawable: Gimp.Drawable, hold_inten: bool, orig_inten: bool, rnd_subcolors: bool, guess_missing: bool, in_low: int, in_high: int, gamma: float, out_low: int, ouz_high: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Colorize image using a sample image as a guide.
         
         Image types: RGB*, GRAY*
@@ -20756,7 +20756,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_screenshot(self, shoot_type: Union[int, GObject.GValue], x1: Union[int, GObject.GValue], y1: Union[int, GObject.GValue], x2: Union[int, GObject.GValue], y2: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_screenshot(self, shoot_type: int, x1: int, y1: int, x2: int, y2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
         """Create an image from an area of the screen.
         
         Menu label: _Screenshot...
@@ -20803,7 +20803,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_script_fu_eval(self, script: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_script_fu_eval(self, script: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Evaluate scheme code.
         
         Evaluate the code under the scheme interpreter (primarily for batch
@@ -20816,7 +20816,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_script_fu_server(self, ip: Union[str, GObject.GValue], port: Union[int, GObject.GValue], logfile: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_script_fu_server(self, ip: str, port: int, logfile: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Server for remote Script-Fu operation.
         
         Menu label: _Start Server...
@@ -20845,7 +20845,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sel_gauss(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], radius: Union[float, GObject.GValue], max_delta: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sel_gauss(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, max_delta: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Blur neighboring pixels, but only in low-contrast areas.
         
         This filter functions similar to the regular gaussian blur filter except
@@ -20866,7 +20866,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sel2path(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], align_threshold: Union[float, GObject.GValue], corner_always_threshold: Union[float, GObject.GValue], corner_surround: Union[int, GObject.GValue], corner_threshold: Union[float, GObject.GValue], error_threshold: Union[float, GObject.GValue], filter_alternative_surround: Union[int, GObject.GValue], filter_epsilon: Union[float, GObject.GValue], filter_iteration_count: Union[int, GObject.GValue], filter_percent: Union[float, GObject.GValue], filter_secondary_surround: Union[int, GObject.GValue], filter_surround: Union[int, GObject.GValue], keep_knees: Union[bool, GObject.GValue], line_reversion_threshold: Union[float, GObject.GValue], line_threshold: Union[float, GObject.GValue], reparametrize_improvement: Union[float, GObject.GValue], reparametrize_threshold: Union[float, GObject.GValue], subdivide_search: Union[float, GObject.GValue], subdivide_surround: Union[int, GObject.GValue], subdivide_threshold: Union[float, GObject.GValue], tangent_surround: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sel2path(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, align_threshold: float, corner_always_threshold: float, corner_surround: int, corner_threshold: float, error_threshold: float, filter_alternative_surround: int, filter_epsilon: float, filter_iteration_count: int, filter_percent: float, filter_secondary_surround: int, filter_surround: int, keep_knees: bool, line_reversion_threshold: float, line_threshold: float, reparametrize_improvement: float, reparametrize_threshold: float, subdivide_search: float, subdivide_surround: int, subdivide_threshold: float, tangent_surround: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Converts a selection to a path.
         
         Image types: *
@@ -20925,7 +20925,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_semiflatten(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_semiflatten(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Replace partial transparency with the current background color.
         
         This plug-in flattens pixels in an RGBA image that aren't completely
@@ -20939,7 +20939,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_shift(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], shift_amount: Union[int, GObject.GValue], orientation: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_shift(self, image: Gimp.Image, drawable: Gimp.Drawable, shift_amount: int, orientation: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Shift each row or column of pixels by a random amount.
         
         Shifts the pixels of the specified drawable. Each row or column will be
@@ -20958,7 +20958,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sinus(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], xscale: Union[float, GObject.GValue], yscale: Union[float, GObject.GValue], complex: Union[float, GObject.GValue], seed: Union[int, GObject.GValue], tiling: Union[bool, GObject.GValue], perturb: Union[bool, GObject.GValue], colors: Union[int, GObject.GValue], col1: Union[Gimp.RGB, GObject.GValue], col2: Union[Gimp.RGB, GObject.GValue], alpha1: Union[float, GObject.GValue], alpha2: Union[float, GObject.GValue], blend: Union[int, GObject.GValue], blend_power: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sinus(self, image: Gimp.Image, drawable: Gimp.Drawable, xscale: float, yscale: float, complex: float, seed: int, tiling: bool, perturb: bool, colors: int, col1: Gimp.RGB, col2: Gimp.RGB, alpha1: float, alpha2: float, blend: int, blend_power: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Generate complex sinusoidal textures.
         
         FIXME: sinus help.
@@ -21001,7 +21001,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_small_tiles(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], num_tiles: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_small_tiles(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, num_tiles: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Tile image into smaller versions of the original.
         
         Image types: RGB*, GRAY*
@@ -21022,7 +21022,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_smooth_palette(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], width: Union[int, GObject.GValue], height: Union[int, GObject.GValue], n_tries: Union[int, GObject.GValue], show_image: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Layer]:
+    def plug_in_smooth_palette(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, width: int, height: int, n_tries: int, show_image: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Layer]:
         """Derive a smooth color palette from the image.
         
         Image types: RGB*
@@ -21055,7 +21055,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sobel(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], horizontal: Union[bool, GObject.GValue], vertical: Union[bool, GObject.GValue], keep_sign: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sobel(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: bool, vertical: bool, keep_sign: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Specialized direction-dependent edge detection.
         
         This plug-in calculates the gradient with a sobel operator. The user can
@@ -21081,7 +21081,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_softglow(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], glow_radius: Union[float, GObject.GValue], brightness: Union[float, GObject.GValue], sharpness: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_softglow(self, image: Gimp.Image, drawable: Gimp.Drawable, glow_radius: float, brightness: float, sharpness: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate glow by making highlights intense and fuzzy.
         
         Gives an image a softglow effect by intensifying the highlights in the
@@ -21110,7 +21110,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_solid_noise(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], tileable: Union[bool, GObject.GValue], turbulent: Union[bool, GObject.GValue], seed: Union[int, GObject.GValue], detail: Union[int, GObject.GValue], xsize: Union[float, GObject.GValue], ysize: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_solid_noise(self, image: Gimp.Image, drawable: Gimp.Drawable, tileable: bool, turbulent: bool, seed: int, detail: int, xsize: float, ysize: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a random cloud-like texture.
         
         Generates 2D textures using Perlin's classic solid noise function.
@@ -21135,7 +21135,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sparkle(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], lum_threshold: Union[float, GObject.GValue], flare_inten: Union[float, GObject.GValue], spike_len: Union[int, GObject.GValue], spike_points: Union[int, GObject.GValue], spike_angle: Union[int, GObject.GValue], density: Union[float, GObject.GValue], transparency: Union[float, GObject.GValue], random_hue: Union[float, GObject.GValue], random_saturation: Union[float, GObject.GValue], preserve_luminosity: Union[bool, GObject.GValue], inverse: Union[bool, GObject.GValue], border: Union[bool, GObject.GValue], color_type: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sparkle(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, lum_threshold: float, flare_inten: float, spike_len: int, spike_points: int, spike_angle: int, density: float, transparency: float, random_hue: float, random_saturation: float, preserve_luminosity: bool, inverse: bool, border: bool, color_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Turn bright spots into starry sparkles.
         
         Image types: RGB*, GRAY*
@@ -21186,7 +21186,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_spheredesigner(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_spheredesigner(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an image of a textured sphere.
         
         Image types: RGB*, GRAY*
@@ -21207,7 +21207,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_spread(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], spread_amount_x: Union[float, GObject.GValue], spread_amount_y: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_spread(self, image: Gimp.Image, drawable: Gimp.Drawable, spread_amount_x: float, spread_amount_y: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Move pixels around randomly.
         
         Spreads the pixels of the specified drawable. Pixels are randomly moved
@@ -21226,7 +21226,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_spyrogimp(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], curve_type: Union[int, GObject.GValue], shape: Union[int, GObject.GValue], sides: Union[int, GObject.GValue], morph: Union[float, GObject.GValue], fixed_teeth: Union[int, GObject.GValue], moving_teeth: Union[int, GObject.GValue], hole_percent: Union[float, GObject.GValue], margin: Union[int, GObject.GValue], equal_w_h: Union[bool, GObject.GValue], pattern_rotation: Union[float, GObject.GValue], shape_rotation: Union[float, GObject.GValue], tool: Union[int, GObject.GValue], long_gradient: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_spyrogimp(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, curve_type: int, shape: int, sides: int, morph: float, fixed_teeth: int, moving_teeth: int, hole_percent: float, margin: int, equal_w_h: bool, pattern_rotation: float, shape_rotation: float, tool: int, long_gradient: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Draw spyrographs using current tool settings and selection.
         
         Image types: *
@@ -21280,7 +21280,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_threshold_alpha(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], threshold: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_threshold_alpha(self, image: Gimp.Image, drawable: Gimp.Drawable, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Make transparency all-or-nothing.
         
         Make transparency all-or-nothing.
@@ -21295,7 +21295,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_tile(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], new_width: Union[int, GObject.GValue], new_height: Union[int, GObject.GValue], new_image: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Layer]:
+    def plug_in_tile(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, new_width: int, new_height: int, new_image: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Layer]:
         """Create an array of copies of the image.
         
         Image types: *
@@ -21341,7 +21341,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_unsharp_mask(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], radius: Union[float, GObject.GValue], amount: Union[float, GObject.GValue], threshold: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_unsharp_mask(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, amount: float, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """The most widely useful method for sharpening an image.
         
         The unsharp mask is a sharpening filter that works by comparing using
@@ -21363,7 +21363,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_video(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], pattern_number: Union[int, GObject.GValue], additive: Union[bool, GObject.GValue], rotated: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_video(self, image: Gimp.Image, drawable: Gimp.Drawable, pattern_number: int, additive: bool, rotated: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simulate distortion produced by a fuzzy or low-res monitor.
         
         This function simulates the degradation of being on an old low-dotpitch
@@ -21385,7 +21385,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_vinvert(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_vinvert(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Invert the brightness of each pixel.
         
         This function takes an indexed/RGB image and inverts its 'value' in HSV
@@ -21403,7 +21403,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_vpropagate(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], propagate_mode: Union[int, GObject.GValue], propagating_channel: Union[int, GObject.GValue], propagating_rate: Union[float, GObject.GValue], direction_mask: Union[int, GObject.GValue], lower_limit: Union[int, GObject.GValue], upper_limit: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_vpropagate(self, image: Gimp.Image, drawable: Gimp.Drawable, propagate_mode: int, propagating_channel: int, propagating_rate: float, direction_mask: int, lower_limit: int, upper_limit: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Propagate certain colors to neighboring pixels.
         
         Propagate values of the layer.
@@ -21431,7 +21431,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_warp(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], amount: Union[float, GObject.GValue], warp_map: Union[Gimp.Drawable, GObject.GValue], iter: Union[int, GObject.GValue], dither: Union[float, GObject.GValue], angle: Union[float, GObject.GValue], wrap_type: Union[int, GObject.GValue], mag_map: Union[Gimp.Drawable, GObject.GValue], mag_use: Union[bool, GObject.GValue], substeps: Union[int, GObject.GValue], grad_map: Union[Gimp.Drawable, GObject.GValue], grad_scale: Union[float, GObject.GValue], vector_map: Union[Gimp.Drawable, GObject.GValue], vector_scale: Union[float, GObject.GValue], vector_angle: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_warp(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, amount: float, warp_map: Gimp.Drawable, iter: int, dither: float, angle: float, wrap_type: int, mag_map: Gimp.Drawable, mag_use: bool, substeps: int, grad_map: Gimp.Drawable, grad_scale: float, vector_map: Gimp.Drawable, vector_scale: float, vector_angle: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Twist or smear image in many different ways.
         
         Image types: RGB*, GRAY*
@@ -21483,7 +21483,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_wavelet_decompose(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], scales: Union[int, GObject.GValue], create_group: Union[bool, GObject.GValue], create_masks: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_wavelet_decompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, scales: int, create_group: bool, create_masks: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Wavelet decompose.
         
         Image types: RGB*, GRAY*
@@ -21510,7 +21510,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_waves(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], amplitude: Union[float, GObject.GValue], phase: Union[float, GObject.GValue], wavelength: Union[float, GObject.GValue], type: Union[bool, GObject.GValue], reflective: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_waves(self, image: Gimp.Image, drawable: Gimp.Drawable, amplitude: float, phase: float, wavelength: float, type: bool, reflective: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Distort the image with waves.
         
         Distort the image with waves.
@@ -21533,7 +21533,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_web_browser(self, url: Union[str, GObject.GValue], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_web_browser(self, url: str, *, config: Optional[Gimp.ProcedureConfig]=None):
         """Open an URL in the user specified web browser.
         
         Opens the given URL in the user specified web browser.
@@ -21544,7 +21544,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_whirl_pinch(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], whirl: Union[float, GObject.GValue], pinch: Union[float, GObject.GValue], radius: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_whirl_pinch(self, image: Gimp.Image, drawable: Gimp.Drawable, whirl: float, pinch: float, radius: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Distort an image by whirling and pinching.
         
         Distorts the image by whirling and pinching, which are two common
@@ -21568,7 +21568,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_wind(self, image: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], threshold: Union[int, GObject.GValue], direction: Union[int, GObject.GValue], strength: Union[int, GObject.GValue], algorithm: Union[int, GObject.GValue], edge: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_wind(self, image: Gimp.Image, drawable: Gimp.Drawable, threshold: int, direction: int, strength: int, algorithm: int, edge: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Smear image to give windblown effect.
         
         Renders a wind effect.
@@ -21593,7 +21593,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_zealouscrop(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_zealouscrop(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Autocrop unused space from edges and middle.
         
         Image types: *
@@ -21620,7 +21620,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_eval(self, script: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def python_fu_eval(self, script: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Evaluate Python code.
         
         Evaluate python code under the python interpreter (primarily for batch
@@ -21633,7 +21633,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_foggify(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], name: Union[str, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], turbulence: Union[float, GObject.GValue], opacity: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def python_fu_foggify(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, name: str, color: Gimp.RGB, turbulence: float, opacity: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a layer of fog.
         
         Image types: RGB*, GRAY*
@@ -21660,7 +21660,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_offset(self, palette: Union[Gimp.Palette, GObject.GValue], amount: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def python_fu_palette_offset(self, palette: Gimp.Palette, amount: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
         """Offset the colors in a palette.
         
         Menu label: _Offset Palette...
@@ -21683,7 +21683,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_sort(self, palette: Union[Gimp.Palette, GObject.GValue], selections: Union[int, GObject.GValue], slice_expr: Union[str, GObject.GValue], channel1: Union[int, GObject.GValue], ascending1: Union[bool, GObject.GValue], channel2: Union[int, GObject.GValue], ascending2: Union[bool, GObject.GValue], quantize: Union[float, GObject.GValue], pchannel: Union[int, GObject.GValue], pquantize: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def python_fu_palette_sort(self, palette: Gimp.Palette, selections: int, slice_expr: str, channel1: int, ascending1: bool, channel2: int, ascending2: bool, quantize: float, pchannel: int, pquantize: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
         """Sort the colors in a palette.
         
         Menu label: _Sort Palette...
@@ -21741,7 +21741,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_to_gradient(self, palette: Union[Gimp.Palette, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def python_fu_palette_to_gradient(self, palette: Gimp.Palette, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
         """Create a gradient using colors from the palette.
         
         Menu label: Palette to _Gradient
@@ -21759,7 +21759,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_to_gradient_repeating(self, palette: Union[Gimp.Palette, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def python_fu_palette_to_gradient_repeating(self, palette: Gimp.Palette, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
         """Create a repeating gradient using colors from the palette.
         
         Menu label: Palette to _Repeating Gradient
@@ -21777,7 +21777,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_test_dialog(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], brush: Union[Gimp.Brush, GObject.GValue], font: Union[Gimp.Font, GObject.GValue], gradient: Union[Gimp.Gradient, GObject.GValue], palette: Union[Gimp.Palette, GObject.GValue], pattern: Union[Gimp.Pattern, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def python_fu_test_dialog(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, brush: Gimp.Brush, font: Gimp.Font, gradient: Gimp.Gradient, palette: Gimp.Palette, pattern: Gimp.Pattern, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Test dialog.
         
         Menu label: Test dialog...
@@ -21805,7 +21805,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_add_bevel(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], toggle_2: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_add_bevel(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, toggle_2: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a beveled border to an image.
         
         Image types: RGB*
@@ -21826,7 +21826,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_addborder(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], adjustment_3: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_addborder(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, color: Gimp.RGB, adjustment_3: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a border around an image.
         
         Image types: *
@@ -21849,7 +21849,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_blend_anim(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_blend_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create intermediate layers to blend two or more layers over a
         background as an animation.
         
@@ -21871,7 +21871,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_burn_in_anim(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], toggle: Union[bool, GObject.GValue], value: Union[str, GObject.GValue], value_2: Union[str, GObject.GValue], value_3: Union[str, GObject.GValue], toggle_2: Union[bool, GObject.GValue], toggle_3: Union[bool, GObject.GValue], value_4: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_burn_in_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, color: Gimp.RGB, toggle: bool, value: str, value_2: str, value_3: str, toggle_2: bool, toggle_3: bool, value_4: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create intermediate layers to produce an animated 'burn-in'
         transition between two layers.
         
@@ -21903,7 +21903,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_carve_it(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], drawable_2: Union[Gimp.Drawable, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_carve_it(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, drawable_2: Gimp.Drawable, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Use the specified drawable as a stencil to carve from the specified
         image.
         
@@ -21923,7 +21923,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_circuit(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], toggle_2: Union[bool, GObject.GValue], toggle_3: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_circuit(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, toggle: bool, toggle_2: bool, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Fill the selected region (or alpha) with traces like those on a
         circuit board.
         
@@ -21949,7 +21949,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_clothify(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[float, GObject.GValue], adjustment_4: Union[float, GObject.GValue], adjustment_5: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_clothify(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: float, adjustment_4: float, adjustment_5: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a cloth-like texture to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -21974,7 +21974,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_clothify_v3(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[float, GObject.GValue], adjustment_4: Union[float, GObject.GValue], adjustment_5: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_clothify_v3(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, adjustment: int, adjustment_2: int, adjustment_3: float, adjustment_4: float, adjustment_5: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a cloth-like texture to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -22001,7 +22001,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_coffee_stain(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_coffee_stain(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add realistic looking coffee stains to the image.
         
         Image types: RGB*
@@ -22020,7 +22020,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_contactsheet(self, dirname: Union[Gio.File, GObject.GValue], option: Union[int, GObject.GValue], font: Union[Gimp.Font, GObject.GValue], font_2: Union[Gimp.Font, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], color_2: Union[Gimp.RGB, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_contactsheet(self, dirname: Gio.File, option: int, font: Gimp.Font, font_2: Gimp.Font, color: Gimp.RGB, color_2: Gimp.RGB, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a series of images containing thumbnail sized versions of all
         of the images in a specified directory.
         
@@ -22043,7 +22043,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_copy_visible(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_copy_visible(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """This procedure is deprecated! Use 'gimp-edit-copy-visible' instead.
         
         Image types: RGB* INDEXED* GRAY*
@@ -22057,7 +22057,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_difference_clouds(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_difference_clouds(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Solid noise applied with Difference layer mode.
         
         Image types: RGB* GRAY*
@@ -22072,7 +22072,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_distress_selection(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[int, GObject.GValue], adjustment_4: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], toggle_2: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_distress_selection(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: int, adjustment_4: int, toggle: bool, toggle_2: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Distress the selection.
         
         Image types: RGB*,GRAY*
@@ -22099,7 +22099,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_drop_shadow(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], adjustment_4: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_drop_shadow(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: int, color: Gimp.RGB, adjustment_4: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a drop shadow to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -22126,7 +22126,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_erase_nth_rows(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], option: Union[int, GObject.GValue], adjustment: Union[int, GObject.GValue], option_2: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_erase_nth_rows(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, adjustment: int, option_2: int, adjustment_2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Erase every nth row or column.
         
         Image types: RGB* GRAY* INDEXED*
@@ -22148,7 +22148,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_erase_rows(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], option: Union[int, GObject.GValue], option_2: Union[int, GObject.GValue], option_3: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_erase_rows(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, option_2: int, option_3: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Erase every other row or column.
         
         Image types: RGB* GRAY* INDEXED*
@@ -22168,7 +22168,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_font_map(self, string: Union[str, GObject.GValue], toggle: Union[bool, GObject.GValue], toggle_2: Union[bool, GObject.GValue], string_2: Union[str, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], option: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_font_map(self, string: str, toggle: bool, toggle_2: bool, string_2: str, adjustment: int, adjustment_2: int, option: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an image filled with previews of fonts matching a fontname
         filter.
         
@@ -22193,7 +22193,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_fuzzy_border(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], adjustment_2: Union[float, GObject.GValue], toggle_2: Union[bool, GObject.GValue], adjustment_3: Union[int, GObject.GValue], toggle_3: Union[bool, GObject.GValue], toggle_4: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_fuzzy_border(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, color: Gimp.RGB, adjustment: int, toggle: bool, adjustment_2: float, toggle_2: bool, adjustment_3: int, toggle_3: bool, toggle_4: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a jagged, fuzzy border to an image.
         
         Image types: RGB* GRAY*
@@ -22224,7 +22224,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_gradient_example(self, adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_gradient_example(self, adjustment: int, adjustment_2: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an image filled with an example of the current gradient.
         
         Menu label: Custom _Gradient...
@@ -22240,7 +22240,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_grid_system(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], value: Union[str, GObject.GValue], value_2: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_grid_system(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, value: str, value_2: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Draw a grid as specified by the lists of X and Y locations using the
         current brush.
         
@@ -22259,7 +22259,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_guide_new(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], option: Union[int, GObject.GValue], adjustment: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guide_new(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, adjustment: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a guide at the orientation and position specified (in pixels).
         
         Image types: *
@@ -22278,7 +22278,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_guide_new_percent(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], option: Union[int, GObject.GValue], adjustment: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guide_new_percent(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a guide at the position specified as a percentage of the image
         size.
         
@@ -22298,7 +22298,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_guides_from_selection(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guides_from_selection(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create four guides around the bounding box of the current selection.
         
         Image types: *
@@ -22313,7 +22313,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_guides_remove(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guides_remove(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Remove all horizontal and vertical guides.
         
         Image types: *
@@ -22328,7 +22328,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_lava(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[int, GObject.GValue], gradient: Union[Gimp.Gradient, GObject.GValue], toggle: Union[bool, GObject.GValue], toggle_2: Union[bool, GObject.GValue], toggle_3: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_lava(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: int, gradient: Gimp.Gradient, toggle: bool, toggle_2: bool, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Fill the current selection with lava.
         
         Image types: RGB* GRAY*
@@ -22357,7 +22357,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_line_nova(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[float, GObject.GValue], adjustment_3: Union[int, GObject.GValue], adjustment_4: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_line_nova(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: float, adjustment_3: int, adjustment_4: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Fill a layer with rays emanating outward from its center using the
         foreground color.
         
@@ -22381,7 +22381,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_make_brush_elliptical(self, string: Union[str, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_elliptical(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an elliptical brush.
         
         Menu label: _Elliptical...
@@ -22399,7 +22399,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_make_brush_elliptical_feathered(self, string: Union[str, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[int, GObject.GValue], adjustment_4: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_elliptical_feathered(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: int, adjustment_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an elliptical brush with feathered edges.
         
         Menu label: Elli_ptical, Feathered...
@@ -22419,7 +22419,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_make_brush_rectangular(self, string: Union[str, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_rectangular(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a rectangular brush.
         
         Menu label: _Rectangular...
@@ -22437,7 +22437,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_make_brush_rectangular_feathered(self, string: Union[str, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[int, GObject.GValue], adjustment_4: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_rectangular_feathered(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: int, adjustment_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a rectangular brush with feathered edges.
         
         Menu label: Re_ctangular, Feathered...
@@ -22457,7 +22457,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_old_photo(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], toggle: Union[bool, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle_2: Union[bool, GObject.GValue], toggle_3: Union[bool, GObject.GValue], toggle_4: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_old_photo(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, toggle: bool, adjustment: int, toggle_2: bool, toggle_3: bool, toggle_4: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Make an image look like an old photo.
         
         Image types: RGB* GRAY*
@@ -22482,7 +22482,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_paste_as_brush(self, string: Union[str, GObject.GValue], string_2: Union[str, GObject.GValue], adjustment: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_paste_as_brush(self, string: str, string_2: str, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Paste the clipboard contents into a new brush.
         
         Menu label: Paste as New _Brush...
@@ -22498,7 +22498,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_paste_as_pattern(self, string: Union[str, GObject.GValue], string_2: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_paste_as_pattern(self, string: str, string_2: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Paste the clipboard contents into a new pattern.
         
         Menu label: Paste as New _Pattern...
@@ -22512,7 +22512,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_perspective_shadow(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[float, GObject.GValue], adjustment_2: Union[float, GObject.GValue], adjustment_3: Union[float, GObject.GValue], adjustment_4: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], adjustment_5: Union[int, GObject.GValue], enum: Union[Gimp.InterpolationType, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_perspective_shadow(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: float, adjustment_3: float, adjustment_4: int, color: Gimp.RGB, adjustment_5: int, enum: Gimp.InterpolationType, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a perspective shadow to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -22554,7 +22554,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_reverse_layers(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_reverse_layers(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Reverse the order of layers in the image.
         
         Image types: *
@@ -22569,7 +22569,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_ripply_anim(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[float, GObject.GValue], adjustment_2: Union[int, GObject.GValue], option: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_ripply_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: int, option: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a multi-layer image by adding a ripple effect to the current
         layer.
         
@@ -22591,7 +22591,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_round_corners(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[int, GObject.GValue], adjustment_4: Union[int, GObject.GValue], toggle_2: Union[bool, GObject.GValue], toggle_3: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_round_corners(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, adjustment_2: int, adjustment_3: int, adjustment_4: int, toggle_2: bool, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Round the corners of an image and optionally add a drop-shadow and
         background.
         
@@ -22621,7 +22621,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_round(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_selection_round(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """This procedure is deprecated! Use
         'script-fu-selection-rounded-rectangle' instead.
         
@@ -22637,7 +22637,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_rounded_rectangle(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_selection_rounded_rectangle(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Round the corners of the current selection.
         
         Image types: *
@@ -22656,7 +22656,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_to_brush(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], string: Union[str, GObject.GValue], string_2: Union[str, GObject.GValue], adjustment: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_selection_to_brush(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, string: str, string_2: str, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert a selection to a brush.
         
         Image types: RGB* GRAY*
@@ -22676,7 +22676,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_to_image(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_selection_to_image(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert a selection to an image.
         
         Image types: RGB* GRAY*
@@ -22690,7 +22690,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_to_pattern(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], string: Union[str, GObject.GValue], string_2: Union[str, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_selection_to_pattern(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, string: str, string_2: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Convert a selection to a pattern.
         
         Image types: RGB* GRAY*
@@ -22708,7 +22708,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_set_cmap(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], palette: Union[Gimp.Palette, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_set_cmap(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, palette: Gimp.Palette, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Change the colormap of an image to the colors in a specified palette.
         
         Image types: INDEXED*
@@ -22725,7 +22725,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_slide(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], string: Union[str, GObject.GValue], string_2: Union[str, GObject.GValue], font: Union[Gimp.Font, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_slide(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, string: str, string_2: str, font: Gimp.Font, color: Gimp.RGB, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a slide-film like frame, sprocket holes, and labels to an image.
         
         Image types: RGB GRAY
@@ -22750,7 +22750,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_sota_chrome_it(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], adjustment_3: Union[float, GObject.GValue], filename: Union[Gio.File, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], color_2: Union[Gimp.RGB, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_sota_chrome_it(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: float, filename: Gio.File, color: Gimp.RGB, color_2: Gimp.RGB, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a chrome effect to the selected region (or alpha) using a
         specified (grayscale) stencil.
         
@@ -22780,7 +22780,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_spinning_globe(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], toggle_2: Union[bool, GObject.GValue], adjustment_2: Union[int, GObject.GValue], toggle_3: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_spinning_globe(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, toggle_2: bool, adjustment_2: int, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create an animation by mapping the current image onto a spinning
         sphere.
         
@@ -22806,7 +22806,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_test_sphere(self, adjustment: Union[int, GObject.GValue], adjustment_2: Union[float, GObject.GValue], toggle: Union[bool, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], color_2: Union[Gimp.RGB, GObject.GValue], brush: Union[Gimp.Brush, GObject.GValue], string: Union[str, GObject.GValue], text: Union[str, GObject.GValue], pattern: Union[Gimp.Pattern, GObject.GValue], gradient: Union[Gimp.Gradient, GObject.GValue], toggle_2: Union[bool, GObject.GValue], font: Union[Gimp.Font, GObject.GValue], adjustment_3: Union[int, GObject.GValue], palette: Union[Gimp.Palette, GObject.GValue], filename: Union[Gio.File, GObject.GValue], option: Union[int, GObject.GValue], enum: Union[Gimp.InterpolationType, GObject.GValue], dirname: Union[Gio.File, GObject.GValue], otherImage: Union[Gimp.Image, GObject.GValue], layer: Union[Gimp.Layer, GObject.GValue], channel: Union[Gimp.Channel, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], vectors: Union[Gimp.Vectors, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_test_sphere(self, adjustment: int, adjustment_2: float, toggle: bool, color: Gimp.RGB, color_2: Gimp.RGB, brush: Gimp.Brush, string: str, text: str, pattern: Gimp.Pattern, gradient: Gimp.Gradient, toggle_2: bool, font: Gimp.Font, adjustment_3: int, palette: Gimp.Palette, filename: Gio.File, option: int, enum: Gimp.InterpolationType, dirname: Gio.File, otherImage: Gimp.Image, layer: Gimp.Layer, channel: Gimp.Channel, drawable: Gimp.Drawable, vectors: Gimp.Vectors, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Simple script to test and show the usage of the new Script-Fu API
         extensions.
         
@@ -22864,7 +22864,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_tile_blur(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], toggle_2: Union[bool, GObject.GValue], option: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_tile_blur(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, toggle_2: bool, option: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Blur the edges of an image so the result tiles seamlessly.
         
         Image types: RGB*
@@ -22887,7 +22887,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_unsharp_mask(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_unsharp_mask(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Make a new image from the current layer by applying the unsharp mask
         method.
         
@@ -22905,7 +22905,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_waves_anim(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[float, GObject.GValue], adjustment_2: Union[float, GObject.GValue], adjustment_3: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_waves_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: float, adjustment_3: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a multi-layer image with an effect like a stone was thrown
         into the current image.
         
@@ -22929,7 +22929,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_weave(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[float, GObject.GValue], adjustment_2: Union[float, GObject.GValue], adjustment_3: Union[float, GObject.GValue], adjustment_4: Union[float, GObject.GValue], adjustment_5: Union[float, GObject.GValue], adjustment_6: Union[float, GObject.GValue], adjustment_7: Union[float, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_weave(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: float, adjustment_3: float, adjustment_4: float, adjustment_5: float, adjustment_6: float, adjustment_7: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Create a new layer filled with a weave effect to be used as an
         overlay or bump map.
         
@@ -22959,7 +22959,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_xach_effect(self, otherImage: Union[Gimp.Image, GObject.GValue], drawable: Union[Gimp.Drawable, GObject.GValue], adjustment: Union[int, GObject.GValue], adjustment_2: Union[int, GObject.GValue], color: Union[Gimp.RGB, GObject.GValue], adjustment_3: Union[int, GObject.GValue], color_2: Union[Gimp.RGB, GObject.GValue], adjustment_4: Union[int, GObject.GValue], adjustment_5: Union[int, GObject.GValue], adjustment_6: Union[int, GObject.GValue], adjustment_7: Union[int, GObject.GValue], toggle: Union[bool, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_xach_effect(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, color: Gimp.RGB, adjustment_3: int, color_2: Gimp.RGB, adjustment_4: int, adjustment_5: int, adjustment_6: int, adjustment_7: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
         """Add a subtle translucent 3D effect to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -22994,7 +22994,7 @@ class _PyPDB:
         """
         pass
 
-    def twain_acquire(self, image: Union[Gimp.Image, GObject.GValue], num_drawables: Union[int, GObject.GValue], drawables: Union[Gimp.ObjectArray, GObject.GValue], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def twain_acquire(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
         """Capture an image from a TWAIN datasource.
         
         Image types: *
@@ -23040,5 +23040,8 @@ class PyPDBProcedure:
         pass
 
     def _get_has_run_mode(self):
+        pass
+
+    def _process_args(self, args, run_mode):
         pass
 pdb = _PyPDB()

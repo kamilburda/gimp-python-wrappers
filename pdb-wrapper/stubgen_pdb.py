@@ -67,9 +67,8 @@ def _add_imports(root_node):
   new_import_nodes = ast.parse(
     '\n'
     + '\n'.join([
-      'from typing import List, Union, Tuple',
+      'from typing import List, Tuple',
       'from gi.repository import Gegl',
-      'from gi.repository import GObject',
       'from gi.repository import GLib',
       'from gi.repository import Gio',
     ])
@@ -158,9 +157,9 @@ def _get_pdb_argument_type_hint(proc_arg):
   # Use dummy code with the desired annotation. It is more convenient to create
   # an annotation node this way.
   if arg_type_name is not None:
-    dummy_func_with_type_hint = f'def foo(arg: Union[{arg_type_name}, GObject.GValue]): pass'
+    dummy_func_with_type_hint = f'def foo(arg: {arg_type_name}): pass'
   else:
-    dummy_func_with_type_hint = f'def foo(arg: GObject.GValue): pass'
+    dummy_func_with_type_hint = f'def foo(arg: GObject.Value): pass'
 
   node = ast.parse(dummy_func_with_type_hint)
 

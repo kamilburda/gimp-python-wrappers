@@ -76,13 +76,23 @@ from gi.repository import Gimp
 
 def run_plugin(run_mode, image, drawable, num_drawables, args, data):
     ...
-    Gimp.get_pdb().run_procedure('plug-in-gauss', [Gimp.RunMode.NONINTERACTIVE, image, drawable, 5.0, 4.0, 1])
+    Gimp.get_pdb().run_procedure(
+        'plug-in-gauss',
+        [
+            Gimp.RunMode.NONINTERACTIVE,
+            GObject.Value(Gimp.Image, image),
+            GObject.Value(Gimp.Drawable, drawable),
+            GObject.Value(GObject.TYPE_DOUBLE, 5.0),
+            GObject.Value(GObject.TYPE_DOUBLE, 4.0),
+            GObject.Value(GObject.TYPE_INT, 1)
+        ])
     ...
 ```
 
-You no longer need to explicitly specify `run-mode` as the first argument.
-It is automatically filled with the value `Gimp.RunMode.NONINTERACTIVE`.
+You no longer need to explicitly specify `run-mode` as the first argument as it is automatically filled with the value `Gimp.RunMode.NONINTERACTIVE`.
 You can adjust the run mode by passing the `run_mode=` keyword argument (after specifying positional arguments).
+
+Each argument is automatically wrapped with `GObject.Value()` using the appropriate GObject type.
 
 Instead of passing arguments, you may pass a single [config object](https://developer.gimp.org/api/3.0/libgimp/class.ProcedureConfig.html) via the `config=` keyword argument.
 This is equivalent to calling `Gimp.get_pdb().run_procedure_config('some-procedure-name', config)`.
