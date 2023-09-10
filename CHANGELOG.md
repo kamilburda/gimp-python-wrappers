@@ -1,3 +1,9 @@
+1.3
+===
+
+* Arguments to PDB procedures are now automatically wrapped with `GObject.Value()`.
+* Updated the stub file to remove `GObject.Value` as an accepted type for PDB arguments.
+
 1.2
 ===
 
