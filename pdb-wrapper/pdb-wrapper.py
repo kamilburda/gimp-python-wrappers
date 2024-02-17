@@ -17,8 +17,8 @@ from gi.repository import GLib
 import stubgen_pdb
 
 
-def generate_pdb_stubs(procedure, run_mode, config):
-  config_status = Gimp.PDBStatusType.SUCCESS
+def generate_pdb_stubs(procedure, config, _data):
+  run_mode = config.get_property('run-mode')
 
   if run_mode == Gimp.RunMode.INTERACTIVE:
     GimpUi.init('generate-pdb-stubs')
@@ -39,7 +39,7 @@ def generate_pdb_stubs(procedure, run_mode, config):
 
   stubgen_pdb.generate_pdb_stubs(output_dirpath)
 
-  return config_status
+  return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
 
 
 class PdbStubGenerator(Gimp.PlugIn):
@@ -66,7 +66,7 @@ class PdbStubGenerator(Gimp.PlugIn):
       self,
       name,
       Gimp.PDBProcType.PLUGIN,
-      self.run,
+      generate_pdb_stubs,
       None)
 
     procedure.set_image_types('')
@@ -87,20 +87,6 @@ class PdbStubGenerator(Gimp.PlugIn):
     procedure.add_argument_from_property(self, 'output-dirpath')
 
     return procedure
-
-  @staticmethod
-  def run(procedure, args, data):
-    run_mode = args.index(0)
-
-    config = procedure.create_config()
-    config.begin_run(None, run_mode, args)
-    config.get_values(args)
-
-    config_status = generate_pdb_stubs(procedure, run_mode, config)
-
-    config.end_run(config_status)
-
-    return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
 
 
 Gimp.main(PdbStubGenerator.__gtype__, sys.argv)
