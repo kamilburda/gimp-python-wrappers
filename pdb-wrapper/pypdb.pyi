@@ -2,11 +2,12 @@ from typing import List, Tuple
 from gi.repository import Gegl
 from gi.repository import GLib
 from gi.repository import Gio
-from typing import Optional
+from gi.repository import GObject
+'Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures.'
 import gi
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
-from gi.repository import GObject
+__all__ = ['pdb', 'PyPDBProcedure', 'PDBProcedureError']
 
 class _PyPDB:
 
@@ -30,6 +31,9 @@ class _PyPDB:
     def __contains__(self, name):
         pass
 
+    def remove_from_cache(self, name):
+        pass
+
     def _get_proc_by_name(self, proc_name):
         pass
 
@@ -37,7 +41,7 @@ class _PyPDB:
     def _procedure_exists(proc_name):
         pass
 
-    def extension_gimp_help(self, domain_names: List[str], domain_uris: List[str], *, config: Optional[Gimp.ProcedureConfig]=None):
+    def extension_gimp_help(self, domain_names: List[str]=None, domain_uris: List[str]=None):
         """Parameters:
         
         * domain_names - Domain names.
@@ -46,14 +50,14 @@ class _PyPDB:
         """
         pass
 
-    def extension_script_fu(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def extension_script_fu(self):
         """A scheme interpreter for scripting GIMP operations.
         
         More help here later.
         """
         pass
 
-    def file_aa_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, file_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_aa_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, file_type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves grayscale image in various text formats.
         
         Image types: *
@@ -76,7 +80,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ani_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_ani_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of Windows ANI file format.
         
         Menu label: Microsoft Windows animated cursor
@@ -93,7 +97,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ani_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ani_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a Windows ANI files.
         
         Parameters:
@@ -119,7 +123,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ani_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, cursor_name: str, author_name: str, default_delay: int, n_hot_spot_x: int, hot_spot_x: Gimp.Int32Array, n_hot_spot_y: int, hot_spot_y: Gimp.Int32Array, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ani_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, cursor_name: str=None, author_name: str=None, default_delay: int=None, n_hot_spot_x: int=None, hot_spot_x: Gimp.Int32Array=None, n_hot_spot_y: int=None, hot_spot_y: Gimp.Int32Array=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in Windows ANI file format.
         
         Image types: *
@@ -154,7 +158,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bmp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_bmp_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of Windows BMP file format.
         
         Menu label: Windows BMP image
@@ -171,7 +175,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bmp_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, use_rle: bool, write_color_space: bool, rgb_format: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_bmp_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, use_rle: bool=None, write_color_space: bool=None, rgb_format: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in Windows BMP file format.
         
         Image types: INDEXED, GRAY, RGB*
@@ -201,7 +205,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bz2_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_bz2_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files compressed with bzip2.
         
         Menu label: bzip archive
@@ -218,7 +222,7 @@ class _PyPDB:
         """
         pass
 
-    def file_bz2_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_bz2_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files compressed with bzip2.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -238,7 +242,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cel_load(self, file: Gio.File, palette_filename: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_cel_load(self, file: Gio.File=None, palette_file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in KISS CEL file format.
         
         Menu label: KISS CEL
@@ -249,7 +253,7 @@ class _PyPDB:
         
         * file - The file to load.
         
-        * palette_filename - Filename to load palette from.
+        * palette_file - KCF file to load palette from.
         
         Returns:
         
@@ -257,7 +261,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cel_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, palette_filename: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_cel_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, palette_file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in KISS CEL file format.
         
         Image types: RGB*, INDEXED*
@@ -275,11 +279,11 @@ class _PyPDB:
         
         * file - The file to save to.
         
-        * palette_filename - Filename to save palette to.
+        * palette_file - File to save palette to.
         """
         pass
 
-    def file_colorxhtml_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, source_file: bool, characters: str, font_size: int, separate: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_colorxhtml_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, source_file: bool=None, characters: str=None, font_size: int=None, separate: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Save as colored HTML text.
         
         Image types: RGB
@@ -309,7 +313,7 @@ class _PyPDB:
         """
         pass
 
-    def file_csource_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_csource_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Dump image data in RGB(A) format for C source.
         
         Image types: *
@@ -329,7 +333,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cur_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_cur_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of Windows CUR file format.
         
         Menu label: Microsoft Windows cursor
@@ -346,7 +350,7 @@ class _PyPDB:
         """
         pass
 
-    def file_cur_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, n_hot_spot_x: int, hot_spot_x: Gimp.Int32Array, n_hot_spot_y: int, hot_spot_y: Gimp.Int32Array, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_cur_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, n_hot_spot_x: int=None, hot_spot_x: Gimp.Int32Array=None, n_hot_spot_y: int=None, hot_spot_y: Gimp.Int32Array=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in Windows CUR file format.
         
         Image types: *
@@ -374,7 +378,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dcx_load(self, file: Gio.File, override_palette: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_dcx_load(self, file: Gio.File=None, override_palette: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in Zsoft DCX file format.
         
         Menu label: ZSoft DCX image
@@ -394,7 +398,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dds_load(self, file: Gio.File, load_mipmaps: bool, decode_images: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_dds_load(self, file: Gio.File=None, load_mipmaps: bool=None, flip_image: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in DDS image format.
         
         Menu label: DDS image
@@ -407,8 +411,7 @@ class _PyPDB:
         
         * load_mipmaps (default: True) - Load mipmaps if present.
         
-        * decode_images (default: True) - Decode YCoCg/AExp images when
-          detected.
+        * flip_image (default: False) - Flip the image vertically on import.
         
         Returns:
         
@@ -416,7 +419,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dds_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, compression_format: int, mipmaps: int, save_type: int, format: int, flip_image: bool, transparent_color: bool, transparent_index: int, mipmap_filter: int, mipmap_wrap: int, gamma_correct: bool, srgb: bool, gamma: float, perceptual_metric: bool, preserve_alpha_coverage: bool, alpha_test_threshold: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_dds_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, compression_format: str=None, perceptual_metric: bool=None, format: str=None, save_type: str=None, flip_image: bool=None, transparent_color: bool=None, transparent_index: int=None, mipmaps: str=None, mipmap_filter: str=None, mipmap_wrap: str=None, gamma_correct: bool=None, srgb: bool=None, gamma: float=None, preserve_alpha_coverage: bool=None, alpha_test_threshold: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in DDS image format.
         
         Image types: INDEXED, GRAY, RGB
@@ -434,26 +437,14 @@ class _PyPDB:
         
         * file - The file to save to.
         
-        * compression_format (default: 0) - Compression format (0 = None, 1 =
-          BC1/DXT1, 2 = BC2/DXT3, 3 = BC3/DXT5, 4 = BC3n/DXT5nm, 5 =
-          BC4/ATI1N, 6 = BC5/ATI2N, 7 = RXGB (DXT5), 8 = Alpha
-          Exponent (DXT5), 9 = YCoCg (DXT5), 10 = YCoCg scaled
-          (DXT5)).
+        * compression_format - Compression format.
         
-        * mipmaps (default: 0) - How to handle mipmaps (0 = No mipmaps, 1 =
-          Generate mipmaps, 2 = Use existing mipmaps (layers).
+        * perceptual_metric (default: False) - Use a perceptual error metric
+          during compression.
         
-        * save_type (default: 0) - How to save the image (0 = selected layer,
-          1 = cube map, 2 = volume map, 3 = texture array, 4 = all
-          visible layers).
+        * format - Pixel format.
         
-        * format (default: 0) - Pixel format (0 = default, 1 =
-          DDS_FORMAT_RGB8, 2 = DDS_FORMAT_RGBA8, 3 = DDS_FORMAT_BGR8,
-          4 = DDS_FORMAT_ABGR8, 5 = DDS_FORMAT_R5G6B5, 6 =
-          DDS_FORMAT_RGBA4, 7 = DDS_FORMAT_RGB5A1, 8 =
-          DDS_FORMAT_RGB10A2, 9 = DDS_FORMAT_R3G3B2, 10 =
-          DDS_FORMAT_A8, 11 = DDS_FORMAT_L8, 12 = DDS_FORMAT_L8A8, 13
-          = DDS_FORMAT_AEXP, 14 = DDS_FORMAT_YCOCG).
+        * save_type - How to save the image.
         
         * flip_image (default: False) - Flip the image vertically on export.
         
@@ -463,33 +454,28 @@ class _PyPDB:
         * transparent_index (default: 0) - Index of transparent color or -1 to
           disable (for indexed images only).
         
-        * mipmap_filter (default: 0) - Filtering to use when generating
-          mipmaps (0 = default, 1 = nearest, 2 = box, 3 = triangle, 4
-          = quadratic, 5 = bspline, 6 = mitchell, 7 = lanczos, 8 =
-          kaiser).
+        * mipmaps - How to handle mipmaps.
         
-        * mipmap_wrap (default: 0) - Wrap mode to use when generating mipmaps
-          (0 = default, 1 = mirror, 2 = repeat, 3 = clamp).
+        * mipmap_filter - Filtering to use when generating mipmaps.
+        
+        * mipmap_wrap - Wrap mode to use when generating mipmaps.
         
         * gamma_correct (default: False) - Use gamma correct mipmap filtering.
         
         * srgb (default: False) - Use sRGB colorspace for gamma correction.
         
-        * gamma (default: 0.0) - Gamma value to use for gamma correction (i.e.
+        * gamma (default: 0.0) - Gamma value to use for gamma correction (e.g.
           2.2).
         
-        * perceptual_metric (default: False) - Use a perceptual error metric
-          during compression.
-        
         * preserve_alpha_coverage (default: False) - Preserve alpha test
-          converage for alpha channel maps.
+          coverage for alpha channel maps.
         
         * alpha_test_threshold (default: 0.5) - Alpha test threshold value for
-          which alpha test converage should be preserved.
+          which alpha test coverage should be preserved.
         """
         pass
 
-    def file_desktop_link_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_desktop_link_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Follows a link to an image in a .desktop file.
         
         Menu label: Desktop Link
@@ -507,7 +493,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dicom_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_dicom_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of the dicom file format.
         
         Menu label: DICOM image
@@ -526,7 +512,7 @@ class _PyPDB:
         """
         pass
 
-    def file_dicom_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_dicom_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Save file in the DICOM file format.
         
         Image types: RGB, GRAY
@@ -550,7 +536,7 @@ class _PyPDB:
         """
         pass
 
-    def file_eps_load(self, file: Gio.File, resolution: int, width: int, height: int, check_bbox: bool, pages: str, coloring: int, text_alpha_bits: int, graphoc_alpha_bits: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_eps_load(self, file: Gio.File=None, resolution: int=None, width: int=None, height: int=None, check_bbox: bool=None, pages: str=None, coloring: int=None, text_alpha_bits: int=None, graphoc_alpha_bits: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load Encapsulated PostScript images.
         
         Menu label: Encapsulated PostScript image
@@ -585,7 +571,7 @@ class _PyPDB:
         """
         pass
 
-    def file_eps_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, width: float, height: float, x_offset: float, y_offset: float, unit: int, keep_ratio: bool, rotation: int, level: bool, eps_flag: bool, show_preview: bool, preview: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_eps_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, width: float=None, height: float=None, x_offset: float=None, y_offset: float=None, unit: int=None, keep_ratio: bool=None, rotation: int=None, level: bool=None, eps_flag: bool=None, show_preview: bool=None, preview: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export image as Encapsulated PostScript image.
         
         Image types: RGB, GRAY, INDEXED
@@ -634,7 +620,7 @@ class _PyPDB:
         """
         pass
 
-    def file_exr_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_exr_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in the OpenEXR file format.
         
         Menu label: OpenEXR image
@@ -651,7 +637,7 @@ class _PyPDB:
         """
         pass
 
-    def file_exr_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_exr_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in the OpenEXR file format.
         
         Image types: *
@@ -671,7 +657,44 @@ class _PyPDB:
         """
         pass
 
-    def file_faxg3_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_farbfeld_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
+        """Load file in the Farbfeld file format.
+        
+        Menu label: Farbfeld
+        
+        Load file in the Farbfeld file format.
+        
+        Parameters:
+        
+        * file - The file to load.
+        
+        Returns:
+        
+        * image - Output image.
+        """
+        pass
+
+    def file_farbfeld_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Export image in the Farbfeld file format.
+        
+        Image types: *
+        Menu label: Farbfeld
+        
+        Export image in the Farbfeld file format.
+        
+        Parameters:
+        
+        * image - The image to save.
+        
+        * num_drawables (default: 1) - Number of drawables to be saved.
+        
+        * drawables - The drawables to save.
+        
+        * file - The file to save to.
+        """
+        pass
+
+    def file_faxg3_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads g3 fax files.
         
         Menu label: G3 fax image
@@ -688,7 +711,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fits_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_fits_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load file of the FITS file format.
         
         Menu label: Flexible Image Transport System
@@ -705,7 +728,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fits_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_fits_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export file in the FITS file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -725,7 +748,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fli_info(self, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int]:
+    def file_fli_info(self, file: Gio.File=None) -> Tuple[int, int, int]:
         """Get information about a Fli movie.
         
         This is an experimental plug-in to handle FLI movies.
@@ -744,7 +767,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fli_load(self, file: Gio.File, from_frame: int, to_frame: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_fli_load(self, file: Gio.File=None, from_frame: int=None, to_frame: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load FLI-movies.
         
         Menu label: AutoDesk FLIC animation
@@ -765,7 +788,7 @@ class _PyPDB:
         """
         pass
 
-    def file_fli_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, from_frame: int, to_frame: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_fli_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, from_frame: int=None, to_frame: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export FLI-movies.
         
         Image types: INDEXED, GRAY
@@ -790,7 +813,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gbr_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gbr_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads GIMP brushes.
         
         Loads GIMP brushes (1 or 4 bpp and old .gpb format).
@@ -805,7 +828,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gbr_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, spacing: int, description: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gbr_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, spacing: int=None, description: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the GIMP brush file format.
         
         Image types: *
@@ -829,7 +852,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gbr_save_internal(self, image: Gimp.Image, drawable: Gimp.Drawable, file: Gio.File, spacing: int, name: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gbr_save_internal(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, spacing: int=None, name: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports Gimp brush file (.GBR).
         
         Exports Gimp brush file (.GBR).
@@ -838,7 +861,9 @@ class _PyPDB:
         
         * image - Input image.
         
-        * drawable - Active drawable of input image.
+        * num_drawables (default: 1) - Number of drawables.
+        
+        * drawables - Selected drawables.
         
         * file - The file to export.
         
@@ -848,7 +873,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gex_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def file_gex_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> str:
         """Loads GIMP extension.
         
         Loads GIMP extension.
@@ -863,12 +888,10 @@ class _PyPDB:
         """
         pass
 
-    def file_gif_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gif_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of Compuserve GIF file format.
         
         Menu label: GIF image
-        
-        FIXME: write help for gif_load.
         
         Parameters:
         
@@ -880,7 +903,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gif_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_gif_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads only the first frame of a GIF image, to be used as a thumbnail.
         
         Parameters:
@@ -906,7 +929,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gif_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, interlace: bool, loop: bool, number_of_repeats: int, default_delay: int, default_dispose: int, as_animation: bool, force_delay: bool, force_dispose: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gif_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, interlace: bool=None, loop: bool=None, number_of_repeats: int=None, default_delay: int=None, default_dispose: int=None, as_animation: bool=None, force_delay: bool=None, force_dispose: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in GIF file format.
         
         Image types: INDEXED*, GRAY*
@@ -952,7 +975,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gih_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gih_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads GIMP animated brushes.
         
         This procedure loads a GIMP brush pipe as an image.
@@ -967,7 +990,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gih_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, spacing: int, description: str, cell_width: int, cell_height: int, display_cols: int, display_rows: int, rank: GLib.Bytes, dimension_2: int, sel: List[str], *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gih_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, spacing: int=None, description: str=None, cell_width: int=None, cell_height: int=None, num_cells: int=None, ranks: GLib.Bytes=None, selection_modes: List[str]=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports images in GIMP brush pipe format.
         
         Image types: RGB*, GRAY*
@@ -989,29 +1012,24 @@ class _PyPDB:
         
         * file - The file to save to.
         
-        * spacing (default: 10) - Spacing of the brush.
+        * spacing (default: 20) - Spacing of the brush.
         
-        * description (default: GIMP Gihtern) - Short description of the
-          gihtern.
+        * description (default: GIMP Brush Pipe) - Short description of the
+          GIH brush pipe.
         
-        * cell_width (default: 10) - Width of the brush cells.
+        * cell_width (default: 1) - Width of the brush cells in pixels.
         
-        * cell_height (default: 10) - Height of the brush cells.
+        * cell_height (default: 1) - Height of the brush cells in pixels.
         
-        * display_cols (default: 1) - Display column number.
+        * num_cells (default: 1) - Number of cells to cut up.
         
-        * display_rows (default: 1) - Display row number.
+        * ranks - Ranks of the dimensions.
         
-        * rank - Ranks of the dimensions.
-        
-        * dimension_2 (default: 1) - Dimension of the brush pipe (same as
-          dimension).
-        
-        * sel - Selection modes.
+        * selection_modes - Selection modes.
         """
         pass
 
-    def file_gih_save_internal(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, spacing: int, name: str, params: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gih_save_internal(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, spacing: int=None, name: str=None, params: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports Gimp animated brush file (.gih).
         
         Exports Gimp animated brush file (.gih).
@@ -1034,7 +1052,7 @@ class _PyPDB:
         """
         pass
 
-    def file_glob(self, pattern: str, filename_encoding: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def file_glob(self, pattern: str=None, filename_encoding: bool=None) -> List[str]:
         """Returns a list of matching filenames.
         
         This can be useful in scripts and other plug-ins (e.g.,
@@ -1055,7 +1073,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gz_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_gz_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files compressed with gzip.
         
         Menu label: gzip archive
@@ -1072,7 +1090,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gz_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_gz_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files compressed with gzip.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -1092,7 +1110,7 @@ class _PyPDB:
         """
         pass
 
-    def file_header_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_header_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files as C unsigned character array.
         
         Image types: INDEXED, RGB
@@ -1112,7 +1130,7 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_av1_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_heif_av1_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads AVIF images.
         
         Menu label: HEIF/AVIF
@@ -1129,7 +1147,7 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_av1_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, quality: int, lossless: bool, save_bit_depth: int, pixel_format: int, encoder_speed: int, save_exif: bool, save_xmp: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_heif_av1_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, quality: int=None, lossless: bool=None, save_bit_depth: int=None, pixel_format: int=None, encoder_speed: int=None, save_exif: bool=None, save_xmp: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports AVIF images.
         
         Image types: RGB*
@@ -1163,7 +1181,24 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_heif_hej2_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
+        """Loads HEJ2 images.
+        
+        Menu label: JPEG 2000 encapsulated in HEIF
+        
+        Load JPEG 2000 image encapsulated in HEIF (HEJ2).
+        
+        Parameters:
+        
+        * file - The file to load.
+        
+        Returns:
+        
+        * image - Output image.
+        """
+        pass
+
+    def file_heif_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads HEIF images.
         
         Menu label: HEIF/HEIC
@@ -1181,7 +1216,7 @@ class _PyPDB:
         """
         pass
 
-    def file_heif_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, quality: int, lossless: bool, save_bit_depth: int, pixel_format: int, encoder_speed: int, save_exif: bool, save_xmp: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_heif_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, quality: int=None, lossless: bool=None, save_bit_depth: int=None, pixel_format: int=None, encoder_speed: int=None, save_exif: bool=None, save_xmp: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports HEIF images.
         
         Image types: RGB*
@@ -1215,7 +1250,7 @@ class _PyPDB:
         """
         pass
 
-    def file_hgt_load(self, file: Gio.File, sample_spacing: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_hgt_load(self, file: Gio.File=None, sample_spacing: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load HGT data as images.
         
         Menu label: Digital Elevation Model data
@@ -1240,7 +1275,7 @@ class _PyPDB:
         """
         pass
 
-    def file_html_table_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_html_table_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """GIMP Table Magic.
         
         Image types: *
@@ -1260,7 +1295,7 @@ class _PyPDB:
         """
         pass
 
-    def file_icns_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_icns_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in Apple Icon Image format.
         
         Menu label: Icns
@@ -1277,7 +1312,7 @@ class _PyPDB:
         """
         pass
 
-    def file_icns_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_icns_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from an Apple Icon Image file.
         
         Parameters:
@@ -1303,7 +1338,7 @@ class _PyPDB:
         """
         pass
 
-    def file_icns_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_icns_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in Apple Icon Image file format.
         
         Image types: *
@@ -1323,7 +1358,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ico_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_ico_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of Windows ICO file format.
         
         Menu label: Microsoft Windows icon
@@ -1340,7 +1375,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ico_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ico_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a Windows ICO or CUR files.
         
         Parameters:
@@ -1366,7 +1401,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ico_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ico_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in Windows ICO file format.
         
         Image types: *
@@ -1386,7 +1421,24 @@ class _PyPDB:
         """
         pass
 
-    def file_j2k_load(self, file: Gio.File, colorspace: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_iff_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
+        """Load file in the IFF file format.
+        
+        Menu label: Amiga IFF
+        
+        Load file in the IFF file format.
+        
+        Parameters:
+        
+        * file - The file to load.
+        
+        Returns:
+        
+        * image - Output image.
+        """
+        pass
+
+    def file_j2k_load(self, file: Gio.File=None, colorspace: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads JPEG 2000 codestream.
         
         Menu label: JPEG 2000 codestream
@@ -1409,7 +1461,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jp2_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_jp2_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads JPEG 2000 images.
         
         Menu label: JPEG 2000 image
@@ -1426,7 +1478,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpeg_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_jpeg_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in the JPEG file format.
         
         Menu label: JPEG image
@@ -1443,7 +1495,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpeg_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_jpeg_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a thumbnail from a JPEG image.
         
         Loads a thumbnail from a JPEG image, if one exists.
@@ -1471,7 +1523,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpeg_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, quality: float, smoothing: float, optimize: bool, progressive: bool, cmyk: bool, sub_sampling: int, baseline: bool, restart: int, dct: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_jpeg_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, quality: float=None, smoothing: float=None, optimize: bool=None, progressive: bool=None, cmyk: bool=None, sub_sampling: int=None, baseline: bool=None, restart: int=None, dct: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in the JPEG file format.
         
         Image types: RGB*, GRAY*
@@ -1516,7 +1568,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpegxl_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_jpegxl_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in the JPEG XL file format.
         
         Menu label: JPEG XL image
@@ -1533,7 +1585,7 @@ class _PyPDB:
         """
         pass
 
-    def file_jpegxl_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, lossless: bool, compression: float, save_bit_depth: int, speed: int, uses_original_profile: bool, cmyk: bool, save_exif: bool, save_xmp: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_jpegxl_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, lossless: bool=None, compression: float=None, save_bit_depth: int=None, speed: int=None, uses_original_profile: bool=None, cmyk: bool=None, save_exif: bool=None, save_xmp: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in the JPEG XL file format.
         
         Image types: RGB*, GRAY*
@@ -1572,7 +1624,7 @@ class _PyPDB:
         """
         pass
 
-    def file_load_rgbe(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_load_rgbe(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the RGBE file format.
         
         Menu label: Radiance RGBE
@@ -1589,7 +1641,7 @@ class _PyPDB:
         """
         pass
 
-    def file_mng_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, interlaced: bool, png_compression: int, jpeg_quality: float, jpeg_smoothing: float, loop: bool, default_delay: int, default_chunks: int, default_dispose: int, bkgd: bool, gama: bool, phys: bool, time: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_mng_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, interlaced: bool=None, png_compression: int=None, jpeg_quality: float=None, jpeg_smoothing: float=None, loop: bool=None, default_delay: int=None, default_chunks: int=None, default_dispose: int=None, bkgd: bool=None, gama: bool=None, phys: bool=None, time: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves images in the MNG file format.
         
         Image types: *
@@ -1640,7 +1692,7 @@ class _PyPDB:
         """
         pass
 
-    def file_openraster_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_openraster_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load an OpenRaster (.ora) file.
         
         Menu label: OpenRaster
@@ -1657,7 +1709,7 @@ class _PyPDB:
         """
         pass
 
-    def file_openraster_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_openraster_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a thumbnail from an OpenRaster (.ora) file.
         
         Loads a thumbnail from an OpenRaster (.ora) file.
@@ -1685,7 +1737,7 @@ class _PyPDB:
         """
         pass
 
-    def file_openraster_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_openraster_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Save an OpenRaster (.ora) file.
         
         Image types: *
@@ -1705,7 +1757,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pam_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pam_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the PAM file format.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -1725,7 +1777,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pat_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pat_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads GIMP patterns.
         
         Loads GIMP patterns.
@@ -1740,7 +1792,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pat_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, description: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pat_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, description: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports GIMP pattern file (.PAT).
         
         Image types: *
@@ -1764,7 +1816,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pat_save_internal(self, image: Gimp.Image, n_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, name: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pat_save_internal(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, name: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports Gimp pattern file (.PAT).
         
         Exports Gimp pattern file (.PAT).
@@ -1773,7 +1825,7 @@ class _PyPDB:
         
         * image - Input image.
         
-        * n_drawables (default: 1) - Number of drawables.
+        * num_drawables (default: 1) - Number of drawables.
         
         * drawables - Selected drawables.
         
@@ -1783,7 +1835,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pbm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pbm_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, raw: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the PBM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -1805,7 +1857,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pcx_load(self, file: Gio.File, override_palette: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pcx_load(self, file: Gio.File=None, override_palette: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in Zsoft PCX file format.
         
         Menu label: ZSoft PCX image
@@ -1825,7 +1877,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pcx_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pcx_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in ZSoft PCX file format.
         
         Image types: INDEXED, RGB, GRAY
@@ -1845,7 +1897,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_load(self, file: Gio.File, password: str, reverse_order: bool, n_pages: int, pages: Gimp.Int32Array, antialias: bool, white_background: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pdf_load(self, file: Gio.File=None, password: str=None, reverse_order: bool=None, n_pages: int=None, pages: Gimp.Int32Array=None, antialias: bool=None, white_background: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load file in PDF format.
         
         Menu label: Portable Document Format
@@ -1877,7 +1929,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_pdf_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a PDF file.
         
         Loads a small preview of the first page of the PDF format file. Uses the
@@ -1906,7 +1958,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, vectorize: bool, ignore_hidden: bool, apply_masks: bool, layers_as_pages: bool, reverse_order: bool, root_layers_only: bool, convert_text_layers: bool, fill_background_color: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pdf_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, vectorize: bool=None, ignore_hidden: bool=None, apply_masks: bool=None, layers_as_pages: bool=None, reverse_order: bool=None, root_layers_only: bool=None, convert_text_layers: bool=None, fill_background_color: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Save files in PDF format.
         
         Image types: *
@@ -1934,7 +1986,7 @@ class _PyPDB:
         
         * apply_masks (default: True) - Apply layer masks before saving
           (Keeping the mask will not change the output, only the PDF
-          structure),.
+          structure).
         
         * layers_as_pages (default: False) - Layers as pages (bottom layers
           first).
@@ -1953,7 +2005,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_save_multi(self, count: int, images: Gimp.Int32Array, vectorize: bool, ignore_hidden: bool, apply_masks: bool, fill_background_color: bool, uri: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pdf_save_multi(self, count: int=None, images: Gimp.Int32Array=None, vectorize: bool=None, ignore_hidden: bool=None, apply_masks: bool=None, fill_background_color: bool=None, uri: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Save files in PDF format.
         
         Image types: *
@@ -1987,7 +2039,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pfm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pfm_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the PFM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2007,7 +2059,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pgm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pgm_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, raw: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the PGM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2029,12 +2081,12 @@ class _PyPDB:
         """
         pass
 
-    def file_pix_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
-        """Loads files of the Alias|Wavefront Pix file format.
+    def file_pix_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
+        """Loads files of the Alias|Wavefront or Esm Software Pix file format.
         
         Menu label: Alias Pix image
         
-        Loads files of the Alias|Wavefront Pix file format.
+        Loads files of the Alias|Wavefront or Esm Software Pix file format.
         
         Parameters:
         
@@ -2046,7 +2098,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pix_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pix_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export file in the Alias|Wavefront pix/matte file format.
         
         Image types: *
@@ -2066,7 +2118,7 @@ class _PyPDB:
         """
         pass
 
-    def file_png_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_png_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in PNG file format.
         
         Menu label: PNG image
@@ -2083,7 +2135,7 @@ class _PyPDB:
         """
         pass
 
-    def file_png_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, interlaced: bool, compression: int, bkgd: bool, offs: bool, phys: bool, time: bool, save_transparent: bool, optimize_palette: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_png_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, interlaced: bool=None, compression: int=None, bkgd: bool=None, offs: bool=None, phys: bool=None, time: bool=None, save_transparent: bool=None, optimize_palette: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in PNG file format.
         
         Image types: *
@@ -2122,7 +2174,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pnm_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_pnm_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in the PNM file format.
         
         Menu label: PNM Image
@@ -2139,7 +2191,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pnm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_pnm_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, raw: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the PNM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2161,7 +2213,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ppm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, raw: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ppm_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, raw: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the PPM file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -2183,12 +2235,12 @@ class _PyPDB:
         """
         pass
 
-    def file_print_gtk(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_print_gtk(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Print the image.
         
         Image types: *
         Menu label: _Print...
-        Menu path: <Image>/File
+        Menu path: <Image>/File/[Send]
         
         Print the image using the GTK+ Print API.
         
@@ -2202,12 +2254,12 @@ class _PyPDB:
         """
         pass
 
-    def file_print_gtk_page_setup(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_print_gtk_page_setup(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Adjust page size and orientation for printing.
         
         Image types: *
         Menu label: Page Set_up...
-        Menu path: <Image>/File
+        Menu path: <Image>/File/[Send]
         
         Adjust page size and orientation for printing the image using the GTK+
         Print API.
@@ -2222,7 +2274,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ps_load(self, file: Gio.File, resolution: int, width: int, height: int, check_bbox: bool, pages: str, coloring: int, text_alpha_bits: int, graphoc_alpha_bits: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_ps_load(self, file: Gio.File=None, resolution: int=None, width: int=None, height: int=None, check_bbox: bool=None, pages: str=None, coloring: int=None, text_alpha_bits: int=None, graphoc_alpha_bits: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load PostScript documents.
         
         Menu label: PostScript document
@@ -2257,7 +2309,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ps_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ps_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a small preview from a PostScript or PDF document.
         
         Parameters:
@@ -2283,7 +2335,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ps_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, width: float, height: float, x_offset: float, y_offset: float, unit: int, keep_ratio: bool, rotation: int, level: bool, eps_flag: bool, show_preview: bool, preview: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_ps_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, width: float=None, height: float=None, x_offset: float=None, y_offset: float=None, unit: int=None, keep_ratio: bool=None, rotation: int=None, level: bool=None, eps_flag: bool=None, show_preview: bool=None, preview: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export image as PostScript document.
         
         Image types: RGB, GRAY, INDEXED
@@ -2332,7 +2384,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psd_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads images from the Photoshop PSD and PSB file formats.
         
         Menu label: Photoshop image
@@ -2350,7 +2402,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load_merged(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psd_load_merged(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads images from the Photoshop PSD and PSB file formats.
         
         Menu label: Photoshop image (merged)
@@ -2368,7 +2420,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load_metadata(self, file: Gio.File, size: int, image: Gimp.Image, metadata_type: bool, cmyk: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psd_load_metadata(self, file: Gio.File=None, size: int=None, image: Gimp.Image=None, metadata_type: bool=None, cmyk: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads Photoshop-format metadata from other file formats.
         
         Loads Photoshop-format metadata from other file formats.
@@ -2393,7 +2445,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_psd_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads thumbnails from the Photoshop PSD file format.
         
         This plug-in loads thumbnail images from Adobe Photoshop (TM) native PSD
@@ -2422,7 +2474,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psd_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, clippingpath: bool, clippingpathname: str, clippingpathflatness: float, cmyk: bool, duotone: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_psd_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, clippingpath: bool=None, clippingpathname: str=None, clippingpathflatness: float=None, cmyk: bool=None, duotone: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in the Photoshop(tm) PSD file format.
         
         Image types: *
@@ -2459,7 +2511,7 @@ class _PyPDB:
         """
         pass
 
-    def file_psp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_psp_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads images from the Paint Shop Pro PSP file format.
         
         Menu label: Paint Shop Pro image
@@ -2478,7 +2530,7 @@ class _PyPDB:
         """
         pass
 
-    def file_qoi_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_qoi_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load file in the QOI file format.
         
         Menu label: Quite OK Image
@@ -2495,7 +2547,7 @@ class _PyPDB:
         """
         pass
 
-    def file_qoi_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_qoi_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export image in the QOI file format.
         
         Image types: *
@@ -2515,7 +2567,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_load(self, file: Gio.File, width: int, height: int, offset: int, pixel_format: int, data_type: int, endianness: int, planar_configuration: int, palette_offset: int, palette_type: int, palette_file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_load(self, file: Gio.File=None, width: int=None, height: int=None, offset: int=None, pixel_format: int=None, data_type: int=None, endianness: int=None, planar_configuration: int=None, palette_offset: int=None, palette_type: int=None, palette_file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load raw images, specifying image information.
         
         Menu label: Raw image data
@@ -2549,7 +2601,7 @@ class _PyPDB:
           palette file.
         
         * palette_type (default: 0) - The layout for the palette's color
-          channels{ RAW_PALETTE_RGB (0), RAW_PALETTE_BGR (1) }.
+          channels { RAW_PALETTE_RGB (0), RAW_PALETTE_BGR (1) }.
         
         * palette_file - The file containing palette data.
         
@@ -2559,7 +2611,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_ari_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_ari_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the ARI raw format via placeholder.
         
         This plug-in loads files in Arriflex' raw ARI format by calling
@@ -2575,7 +2627,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_bay_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_bay_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the BAY raw format via placeholder.
         
         This plug-in loads files in Casio's raw BAY format by calling
@@ -2591,7 +2643,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_canon_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_canon_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Canon raw formats via placeholder.
         
         This plug-in loads files in Canon's raw formats by calling placeholder.
@@ -2606,7 +2658,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_cine_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_cine_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the CINE raw format via placeholder.
         
         This plug-in loads files in Phantom Software's raw CINE format by
@@ -2622,7 +2674,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_dng_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_dng_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the DNG raw format via placeholder.
         
         This plug-in loads files in the Adobe Digital Negative DNG format by
@@ -2638,7 +2690,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_erf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_erf_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the ERF raw format via placeholder.
         
         This plug-in loads files in Epson's raw ERF format by calling
@@ -2654,7 +2706,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_hasselblad_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_hasselblad_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Hasselblad raw formats via placeholder.
         
         This plug-in loads files in Hasselblad's raw formats by calling
@@ -2670,7 +2722,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_kodak_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_kodak_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Kodak raw formats via placeholder.
         
         This plug-in loads files in Kodak's raw formats by calling placeholder.
@@ -2685,7 +2737,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_mef_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_mef_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the MEF raw format via placeholder.
         
         This plug-in loads files in Mamiya's raw MEF format by calling
@@ -2701,7 +2753,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_minolta_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_minolta_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Minolta raw formats via placeholder.
         
         This plug-in loads files in Minolta's raw formats by calling
@@ -2717,7 +2769,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_mos_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_mos_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the MOS raw format via placeholder.
         
         This plug-in loads files in Leaf's raw MOS format by calling
@@ -2733,7 +2785,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_nikon_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_nikon_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Nikon raw formats via placeholder.
         
         This plug-in loads files in Nikon's raw formats by calling placeholder.
@@ -2748,7 +2800,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_orf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_orf_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the ORF raw format via placeholder.
         
         This plug-in loads files in Olympus' raw ORF format by calling
@@ -2764,7 +2816,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_panasonic_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_panasonic_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Panasonic raw formats via placeholder.
         
         This plug-in loads files in Panasonic's raw formats by calling
@@ -2780,7 +2832,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_pef_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_pef_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the PEF raw format via placeholder.
         
         This plug-in loads files in Pentax' raw PEF format by calling
@@ -2796,7 +2848,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_phaseone_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_phaseone_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Phase One raw formats via placeholder.
         
         This plug-in loads files in Phase One's raw formats by calling
@@ -2812,7 +2864,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_pxn_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_pxn_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the PXN raw format via placeholder.
         
         This plug-in loads files in Logitech's raw PXN format by calling
@@ -2828,7 +2880,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_qtk_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_qtk_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the QTK raw format via placeholder.
         
         This plug-in loads files in Apple's QuickTake QTK raw format by calling
@@ -2844,7 +2896,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_raf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_raf_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the RAF raw format via placeholder.
         
         This plug-in loads files in Fujifilm's raw RAF format by calling
@@ -2860,7 +2912,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_rdc_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_rdc_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the RDC raw format via placeholder.
         
         This plug-in loads files in Digital Foto Maker's raw RDC format by
@@ -2876,7 +2928,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_rwl_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_rwl_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the RWL raw format via placeholder.
         
         This plug-in loads files in Leica's raw RWL format by calling
@@ -2892,7 +2944,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_sinar_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_sinar_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Sinar raw formats via placeholder.
         
         This plug-in loads files in Sinar's raw formats by calling placeholder.
@@ -2907,7 +2959,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_sony_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_sony_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the Sony raw formats via placeholder.
         
         This plug-in loads files in Sony's raw formats by calling placeholder.
@@ -2922,7 +2974,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_srw_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_srw_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the SRW raw format via placeholder.
         
         This plug-in loads files in Samsung's raw SRW format by calling
@@ -2938,7 +2990,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_placeholder_x3f_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_raw_placeholder_x3f_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in the X3F raw format via placeholder.
         
         This plug-in loads files in Sigma's raw X3F format by calling
@@ -2954,7 +3006,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, planar_configuration: int, palette_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_raw_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, planar_configuration: int=None, palette_type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Dump images to disk in raw format.
         
         Image types: INDEXED, GRAY, RGB, RGBA
@@ -2976,11 +3028,11 @@ class _PyPDB:
           { RAW_PLANAR_CONTIGUOUS (0), RAW_PLANAR_SEPARATE (1) }.
         
         * palette_type (default: 0) - The layout for the palette's color
-          channels{ RAW_PALETTE_RGB (0), RAW_PALETTE_BGR (1) }.
+          channels { RAW_PALETTE_RGB (0), RAW_PALETTE_BGR (1) }.
         """
         pass
 
-    def file_save_rgbe(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_save_rgbe(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in the RGBE file format.
         
         Image types: *
@@ -3000,7 +3052,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sgi_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_sgi_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in SGI image file format.
         
         Menu label: Silicon Graphics IRIS image
@@ -3017,7 +3069,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sgi_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, compression: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_sgi_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, compression: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in SGI image file format.
         
         Image types: *
@@ -3040,7 +3092,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sunras_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_sunras_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load file of the SunRaster file format.
         
         Menu label: SUN Rasterfile image
@@ -3057,7 +3109,7 @@ class _PyPDB:
         """
         pass
 
-    def file_sunras_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, rle: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_sunras_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, rle: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export file in the SunRaster file format.
         
         Image types: RGB, GRAY, INDEXED
@@ -3081,7 +3133,7 @@ class _PyPDB:
         """
         pass
 
-    def file_svg_load(self, file: Gio.File, resolution: float, width: int, height: int, paths: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_svg_load(self, file: Gio.File=None, resolution: float=None, width: int=None, height: int=None, paths: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in the SVG file format.
         
         Menu label: SVG image
@@ -3092,7 +3144,7 @@ class _PyPDB:
         
         * file - The file to load.
         
-        * resolution (default: 90.0) - Resolution to use for rendering the
+        * resolution (default: 300.0) - Resolution to use for rendering the
           SVG.
         
         * width (default: 0) - Width (in pixels) to load the SVG in. (0 for
@@ -3103,8 +3155,8 @@ class _PyPDB:
           original height, a negative height to specify a maximum
           height).
         
-        * paths (default: 0) - (0) don't import paths, (1) paths individually,
-          (2) paths merged.
+        * paths - Whether and how to import paths so that they can be used
+          with the path tool.
         
         Returns:
         
@@ -3112,7 +3164,7 @@ class _PyPDB:
         """
         pass
 
-    def file_svg_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_svg_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Generates a thumbnail of an SVG image.
         
         Renders a thumbnail of an SVG file using librsvg.
@@ -3140,7 +3192,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tga_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_tga_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of Targa file format.
         
         Menu label: TarGA image
@@ -3157,7 +3209,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tga_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, rle: bool, origin: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_tga_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, rle: bool=None, origin: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the Targa file format.
         
         Image types: *
@@ -3181,7 +3233,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tiff_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_tiff_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of the TIFF and BigTIFF file formats.
         
         Menu label: TIFF or BigTIFF image
@@ -3199,7 +3251,7 @@ class _PyPDB:
         """
         pass
 
-    def file_tiff_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, bigtiff: bool, compression: int, save_transparent_pixels: bool, cmyk: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_tiff_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, bigtiff: bool=None, compression: str=None, save_transparent_pixels: bool=None, cmyk: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the TIFF or BigTIFF file formats.
         
         Image types: *
@@ -3221,9 +3273,7 @@ class _PyPDB:
         * bigtiff (default: False) - The BigTIFF variant file format uses
           64-bit offsets, hence supporting over 4GiB files and bigger.
         
-        * compression (default: 0) - Compression type: { NONE (0), LZW (1),
-          PACKBITS (2), DEFLATE (3), JPEG (4), CCITT G3 Fax (5), CCITT
-          G4 Fax (6) }.
+        * compression - Compression type.
         
         * save_transparent_pixels (default: True) - Keep the color data masked
           by an alpha channel intact (do not store premultiplied
@@ -3234,7 +3284,7 @@ class _PyPDB:
         """
         pass
 
-    def file_wbmp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_wbmp_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files of Wireless BMP file format.
         
         Menu label: Wireless BMP image
@@ -3251,7 +3301,7 @@ class _PyPDB:
         """
         pass
 
-    def file_webp_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_webp_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads images in the WebP file format.
         
         Menu label: WebP image
@@ -3268,7 +3318,7 @@ class _PyPDB:
         """
         pass
 
-    def file_webp_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, preset: int, lossless: bool, quality: float, alpha_quality: float, use_sharp_yuv: bool, animation_loop: bool, minimize_size: bool, keyframe_distance: int, default_delay: int, force_delay: bool, animation: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_webp_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, preset: int=None, lossless: bool=None, quality: float=None, alpha_quality: float=None, use_sharp_yuv: bool=None, animation_loop: bool=None, minimize_size: bool=None, keyframe_distance: int=None, default_delay: int=None, force_delay: bool=None, animation: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files in the WebP image format.
         
         Image types: *
@@ -3315,7 +3365,7 @@ class _PyPDB:
         """
         pass
 
-    def file_wmf_load(self, file: Gio.File, resolution: float, width: int, height: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_wmf_load(self, file: Gio.File=None, resolution: float=None, width: int=None, height: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in the WMF file format.
         
         Menu label: Microsoft WMF file
@@ -3326,7 +3376,7 @@ class _PyPDB:
         
         * file - The file to load.
         
-        * resolution (default: 90.0) - Resolution to use for rendering the
+        * resolution (default: 300.0) - Resolution to use for rendering the
           WMF.
         
         * width (default: 0) - Width (in pixels) to load the WMF in, 0 for
@@ -3341,7 +3391,7 @@ class _PyPDB:
         """
         pass
 
-    def file_wmf_load_thumb(self, file: Gio.File, thumb_size: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_wmf_load_thumb(self, file: Gio.File=None, thumb_size: int=None) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a small preview from a WMF image.
         
         Parameters:
@@ -3367,7 +3417,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xbm_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xbm_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load a file in X10 or X11 bitmap (XBM) file format.
         
         Menu label: X BitMap image
@@ -3385,7 +3435,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xbm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, save_comment: bool, gimp_comment: str, x10_format: bool, use_hot_spot: bool, hot_spot_x: int, hot_spot_y: int, prefix: str, write_mask: bool, mask_suffix: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xbm_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, save_comment: bool=None, gimp_comment: str=None, x10_format: bool=None, use_hot_spot: bool=None, hot_spot_x: int=None, hot_spot_y: int=None, prefix: str=None, write_mask: bool=None, mask_suffix: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export a file in X10 or X11 bitmap (XBM) file format.
         
         Image types: INDEXED
@@ -3427,7 +3477,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xpm_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xpm_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Load files in XPM (X11 Pixmap) format.
         
         Menu label: X PixMap image
@@ -3448,7 +3498,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xpm_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xpm_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, threshold: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export files in XPM (X11 Pixmap) format.
         
         Image types: *
@@ -3474,7 +3524,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xwd_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xwd_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files in the XWD (X Window Dump) format.
         
         Menu label: X window dump
@@ -3493,7 +3543,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xwd_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xwd_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports files in the XWD (X Window Dump) format.
         
         Image types: RGB, GRAY, INDEXED
@@ -3513,7 +3563,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xz_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def file_xz_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads files compressed with xz.
         
         Menu label: xz archive
@@ -3530,7 +3580,7 @@ class _PyPDB:
         """
         pass
 
-    def file_xz_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def file_xz_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves files compressed with xz.
         
         Image types: RGB*, GRAY*, INDEXED*
@@ -3550,7 +3600,29 @@ class _PyPDB:
         """
         pass
 
-    def gimp_airbrush(self, drawable: Gimp.Drawable, pressure: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def generate_pdb_stubs(self, output_dirpath: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Generates a stub file for the GIMP procedural database (PDB) for
+        Python plug-ins named "pypdb.pyi".
+        
+        Menu label: Generate GIMP PDB Stubs for Python
+        Menu path: <Image>/Filters/Development/Python-Fu
+        
+        The "pypdb.py" file provides a convenience wrapper to simplify calls to
+        GIMP PDB procedures from Python plug-ins. The generated
+        "pypdb.pyi" stub file can then be used in integrated development
+        environments (IDEs) to display code completion suggestions for
+        GIMP PDB procedures.
+        
+        Parameters:
+        
+        * output_dirpath (default: C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\gi
+          mp-python-pdb-wrapper\\pdb-wrapper) - Output directory path
+          (default: "C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\gimp-pyt
+          hon-pdb-wrapper\\pdb-wrapper").
+        """
+        pass
+
+    def gimp_airbrush(self, drawable: Gimp.Drawable=None, pressure: float=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Paint in the current brush with varying pressure. Paint application
         is time-dependent.
         
@@ -3573,7 +3645,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_airbrush_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_airbrush_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Paint in the current brush with varying pressure. Paint application
         is time-dependent.
         
@@ -3594,7 +3666,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_attach_parasite(self, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_attach_parasite(self, parasite: Gimp.Parasite=None):
         """Add a global parasite.
         
         This procedure attaches a global parasite. It has no return values.
@@ -3605,7 +3677,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_angle(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_angle(self, brush: Gimp.Brush=None) -> float:
         """Gets the rotation angle of a generated brush.
         
         Gets the angle of rotation for a generated brush. Returns an error when
@@ -3621,7 +3693,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_aspect_ratio(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_aspect_ratio(self, brush: Gimp.Brush=None) -> float:
         """Gets the aspect ratio of a generated brush.
         
         Gets the aspect ratio of a generated brush. Returns an error when called
@@ -3638,10 +3710,11 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Brush:
+    def gimp_brush_get_by_name(self, name: str=None) -> Gimp.Brush:
         """Returns the brush with the given name.
         
-        Returns the brush with the given name.
+        Search and return an existing brush with the name in argument, or
+        nothing if no brush has this name.
         
         Parameters:
         
@@ -3653,7 +3726,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_hardness(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_hardness(self, brush: Gimp.Brush=None) -> float:
         """Gets the hardness of a generated brush.
         
         Gets the hardness of a generated brush. The hardness of a brush is the
@@ -3671,7 +3744,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_info(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, int]:
+    def gimp_brush_get_info(self, brush: Gimp.Brush=None) -> Tuple[int, int, int, int]:
         """Gets information about the brush.
         
         Gets information about the brush: brush extents (width and height),
@@ -3694,7 +3767,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_pixels(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes, int, GLib.Bytes]:
+    def gimp_brush_get_pixels(self, brush: Gimp.Brush=None) -> Tuple[int, int, int, GLib.Bytes, int, GLib.Bytes]:
         """Gets information about the brush.
         
         Gets information about the brush: the brush extents (width and height)
@@ -3721,7 +3794,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_radius(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_get_radius(self, brush: Gimp.Brush=None) -> float:
         """Gets the radius of a generated brush.
         
         Gets the radius of a generated brush. Returns an error when called for a
@@ -3737,7 +3810,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_shape(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.BrushGeneratedShape:
+    def gimp_brush_get_shape(self, brush: Gimp.Brush=None) -> Gimp.BrushGeneratedShape:
         """Gets the shape of a generated brush.
         
         Gets the shape of a generated brush. Returns an error when called for a
@@ -3758,7 +3831,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_spacing(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_brush_get_spacing(self, brush: Gimp.Brush=None) -> int:
         """Gets the brush spacing, the stamping frequency.
         
         Returns the spacing setting for the brush. Spacing is an integer between
@@ -3776,7 +3849,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_spikes(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_brush_get_spikes(self, brush: Gimp.Brush=None) -> int:
         """Gets the number of spikes for a generated brush.
         
         Gets the number of spikes for a generated brush. Returns an error when
@@ -3792,7 +3865,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_is_generated(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_brush_is_generated(self, brush: Gimp.Brush=None) -> bool:
         """Whether the brush is generated (parametric versus raster).
         
         Returns TRUE when brush is parametric.
@@ -3807,7 +3880,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_new(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Brush:
+    def gimp_brush_new(self, name: str=None) -> Gimp.Brush:
         """Create a new generated brush having default parameters.
         
         Creates a new, parametric brush.
@@ -3822,7 +3895,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_angle(self, brush: Gimp.Brush, angle_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_angle(self, brush: Gimp.Brush=None, angle_in: float=None) -> float:
         """Sets the rotation angle of a generated brush.
         
         Sets the rotation angle for a generated brush. Sets the angle modulo
@@ -3843,7 +3916,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_aspect_ratio(self, brush: Gimp.Brush, aspect_ratio_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_aspect_ratio(self, brush: Gimp.Brush=None, aspect_ratio_in: float=None) -> float:
         """Sets the aspect ratio of a generated brush.
         
         Sets the aspect ratio for a generated brush. Clamps aspect ratio to
@@ -3863,7 +3936,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_hardness(self, brush: Gimp.Brush, hardness_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_hardness(self, brush: Gimp.Brush=None, hardness_in: float=None) -> float:
         """Sets the hardness of a generated brush.
         
         Sets the hardness for a generated brush. Clamps hardness to [0.0, 1.0].
@@ -3882,7 +3955,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_radius(self, brush: Gimp.Brush, radius_in: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brush_set_radius(self, brush: Gimp.Brush=None, radius_in: float=None) -> float:
         """Sets the radius of a generated brush.
         
         Sets the radius for a generated brush. Clamps radius to [0.0, 32767.0].
@@ -3901,7 +3974,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_shape(self, brush: Gimp.Brush, shape_in: Gimp.BrushGeneratedShape, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.BrushGeneratedShape:
+    def gimp_brush_set_shape(self, brush: Gimp.Brush=None, shape_in: Gimp.BrushGeneratedShape=None) -> Gimp.BrushGeneratedShape:
         """Sets the shape of a generated brush.
         
         Sets the shape of a generated brush. Returns an error when brush is
@@ -3925,7 +3998,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_spacing(self, brush: Gimp.Brush, spacing: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brush_set_spacing(self, brush: Gimp.Brush=None, spacing: int=None):
         """Sets the brush spacing.
         
         Set the spacing for the brush. The spacing must be an integer between 0
@@ -3941,7 +4014,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_set_spikes(self, brush: Gimp.Brush, spikes_in: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_brush_set_spikes(self, brush: Gimp.Brush=None, spikes_in: int=None) -> int:
         """Sets the number of spikes for a generated brush.
         
         Sets the number of spikes for a generated brush. Clamps spikes to
@@ -3960,7 +4033,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_close_popup(self, brush_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_close_popup(self, brush_callback: str=None):
         """Close the brush selection dialog.
         
         Closes an open brush selection dialog.
@@ -3972,7 +4045,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_brushes_get_list(self, filter: str=None) -> List[str]:
         """Retrieve a complete listing of the available brushes.
         
         This procedure returns a complete listing of available GIMP brushes.
@@ -3989,7 +4062,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_get_opacity(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_brushes_get_opacity(self) -> float:
         """Get the opacity.
         
         Returns the opacity setting. The return value is a floating point number
@@ -4001,7 +4074,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_get_paint_mode(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
+    def gimp_brushes_get_paint_mode(self) -> Gimp.LayerMode:
         """Get the paint mode.
         
         Returns the paint-mode setting. The return value is an integer which
@@ -4014,7 +4087,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_brushes_list(self, filter: str=None) -> List[str]:
         """Retrieve a complete listing of the available brushes.
         
         This procedure returns a complete listing of available GIMP brushes.
@@ -4031,7 +4104,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_popup(self, brush_callback: str, popup_title: str, initial_brush_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_popup(self, brush_callback: str=None, popup_title: str=None, initial_brush: Gimp.Brush=None, parent_window: GLib.Bytes=None):
         """Invokes the GIMP brush selection dialog.
         
         Opens a dialog letting a user choose a brush.
@@ -4043,12 +4116,14 @@ class _PyPDB:
         
         * popup_title - Title of the brush selection dialog.
         
-        * initial_brush_name - The name of the brush to set as the initial
-          choice.
+        * initial_brush - The brush to set as the initial choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
         """
         pass
 
-    def gimp_brushes_refresh(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_refresh(self):
         """Refresh current brushes. This function always succeeds.
         
         This procedure retrieves all brushes currently in the user's brush path
@@ -4056,7 +4131,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_brush(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_brush(self, brush: Gimp.Brush=None):
         """Set the active brush.
         
         Sets the active brush in the current context. The brush will be used in
@@ -4070,7 +4145,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_opacity(self, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_opacity(self, opacity: float=None):
         """Set the opacity.
         
         Modifies the opacity setting. The value should be a floating point
@@ -4082,7 +4157,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_paint_mode(self, paint_mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_paint_mode(self, paint_mode: Gimp.LayerMode=None):
         """Set the paint mode.
         
         Modifies the paint_mode setting.
@@ -4094,7 +4169,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_set_popup(self, brush_callback: str, brush_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_brushes_set_popup(self, brush_callback: str=None, brush: Gimp.Brush=None):
         """Sets the selected brush in a brush selection dialog.
         
         Sets the selected brush in a brush selection dialog.
@@ -4104,11 +4179,11 @@ class _PyPDB:
         * brush_callback - The name of the callback registered for this
           pop-up.
         
-        * brush_name - The name of the brush to set as selected.
+        * brush - The brush to set as selected.
         """
         pass
 
-    def gimp_buffer_delete(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_buffer_delete(self, buffer_name: str=None):
         """Deletes a named buffer.
         
         This procedure deletes a named buffer.
@@ -4119,7 +4194,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_bytes(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_buffer_get_bytes(self, buffer_name: str=None) -> int:
         """Retrieves the specified buffer's bytes.
         
         This procedure retrieves the specified named buffer's bytes.
@@ -4134,7 +4209,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_height(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_buffer_get_height(self, buffer_name: str=None) -> int:
         """Retrieves the specified buffer's height.
         
         This procedure retrieves the specified named buffer's height.
@@ -4149,7 +4224,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_image_type(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageBaseType:
+    def gimp_buffer_get_image_type(self, buffer_name: str=None) -> Gimp.ImageBaseType:
         """Retrieves the specified buffer's image type.
         
         This procedure retrieves the specified named buffer's image type.
@@ -4165,7 +4240,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_get_width(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_buffer_get_width(self, buffer_name: str=None) -> int:
         """Retrieves the specified buffer's width.
         
         This procedure retrieves the specified named buffer's width.
@@ -4180,7 +4255,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffer_rename(self, buffer_name: str, new_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_buffer_rename(self, buffer_name: str=None, new_name: str=None) -> str:
         """Renames a named buffer.
         
         This procedure renames a named buffer.
@@ -4197,7 +4272,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffers_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_buffers_get_list(self, filter: str=None) -> List[str]:
         """Retrieve a complete listing of the available buffers.
         
         This procedure returns a complete listing of available named buffers.
@@ -4212,7 +4287,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_combine_masks(self, channel1: Gimp.Channel, channel2: Gimp.Channel, operation: Gimp.ChannelOps, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_combine_masks(self, channel1: Gimp.Channel=None, channel2: Gimp.Channel=None, operation: Gimp.ChannelOps=None, offx: int=None, offy: int=None):
         """Combine two channel masks.
         
         This procedure combines two channel masks. The result is stored in the
@@ -4235,7 +4310,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_copy(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_channel_copy(self, channel: Gimp.Channel=None) -> Gimp.Channel:
         """Copy a channel.
         
         This procedure copies the specified channel and returns the copy. The
@@ -4252,7 +4327,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_delete(self, item: Gimp.Item=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -4267,7 +4342,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_color(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_channel_get_color(self, channel: Gimp.Channel=None) -> Gegl.Color:
         """Get the compositing color of the specified channel.
         
         This procedure returns the specified channel's compositing color.
@@ -4282,7 +4357,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_channel_get_name(self, item: Gimp.Item=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -4297,7 +4372,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_opacity(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_channel_get_opacity(self, channel: Gimp.Channel=None) -> float:
         """Get the opacity of the specified channel.
         
         This procedure returns the specified channel's opacity.
@@ -4312,7 +4387,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_show_masked(self, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_channel_get_show_masked(self, channel: Gimp.Channel=None) -> bool:
         """Get the composite method of the specified channel.
         
         This procedure returns the specified channel's composite method. If it
@@ -4329,7 +4404,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_channel_get_tattoo(self, item: Gimp.Item=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -4346,7 +4421,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_channel_get_visible(self, item: Gimp.Item=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -4361,7 +4436,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_new(self, image: Gimp.Image, width: int, height: int, name: str, opacity: float, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_channel_new(self, image: Gimp.Image=None, width: int=None, height: int=None, name: str=None, opacity: float=None, color: Gegl.Color=None) -> Gimp.Channel:
         """Create a new channel.
         
         This procedure creates a new channel with the specified width, height,
@@ -4391,7 +4466,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_new_from_component(self, image: Gimp.Image, component: Gimp.ChannelType, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_channel_new_from_component(self, image: Gimp.Image=None, component: Gimp.ChannelType=None, name: str=None) -> Gimp.Channel:
         """Create a new channel from a color component.
         
         This procedure creates a new channel from a color component. The new
@@ -4415,7 +4490,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_ops_duplicate(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_channel_ops_duplicate(self, image: Gimp.Image=None) -> Gimp.Image:
         """Duplicate the specified image.
         
         This procedure duplicates the specified image, copying all layers,
@@ -4431,7 +4506,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_ops_offset(self, drawable: Gimp.Drawable, wrap_around: bool, fill_type: Gimp.OffsetType, offset_x: int, offset_y: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_ops_offset(self, drawable: Gimp.Drawable=None, wrap_around: bool=None, fill_type: Gimp.OffsetType=None, offset_x: int=None, offset_y: int=None):
         """Offset the drawable by the specified amounts in the X and Y
         directions.
         
@@ -4459,7 +4534,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_color(self, channel: Gimp.Channel, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_color(self, channel: Gimp.Channel=None, color: Gegl.Color=None):
         """Set the compositing color of the specified channel.
         
         This procedure sets the specified channel's compositing color.
@@ -4472,7 +4547,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_name(self, item: Gimp.Item=None, name: str=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -4485,7 +4560,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_opacity(self, channel: Gimp.Channel, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_opacity(self, channel: Gimp.Channel=None, opacity: float=None):
         """Set the opacity of the specified channel.
         
         This procedure sets the specified channel's opacity.
@@ -4498,7 +4573,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_show_masked(self, channel: Gimp.Channel, show_masked: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_show_masked(self, channel: Gimp.Channel=None, show_masked: bool=None):
         """Set the composite method of the specified channel.
         
         This procedure sets the specified channel's composite method. If it is
@@ -4513,7 +4588,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_tattoo(self, item: Gimp.Item=None, tattoo: int=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -4528,7 +4603,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_channel_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_channel_set_visible(self, item: Gimp.Item=None, visible: bool=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -4541,7 +4616,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_clone(self, drawable: Gimp.Drawable, src_drawable: Gimp.Drawable, clone_type: Gimp.CloneType, src_x: float, src_y: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_clone(self, drawable: Gimp.Drawable=None, src_drawable: Gimp.Drawable=None, clone_type: Gimp.CloneType=None, src_x: float=None, src_y: float=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Clone from the source to the dest drawable using the current brush.
         
         This tool clones (copies) from the source drawable starting at the
@@ -4578,7 +4653,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_clone_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_clone_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Clone from the source to the dest drawable using the current brush.
         
         This tool clones (copies) from the source drawable starting at the
@@ -4600,7 +4675,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_color_picker(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, x: float, y: float, sample_merged: bool, sample_average: bool, average_radius: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_color_picker(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, x: float=None, y: float=None, sample_merged: bool=None, sample_average: bool=None, average_radius: float=None) -> Gegl.Color:
         """Determine the color at the given coordinates.
         
         This tool determines the color at the specified coordinates. The
@@ -4644,7 +4719,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_are_dynamics_enabled(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_context_are_dynamics_enabled(self) -> bool:
         """Whether the currently active paint dynamics will be applied to
         painting.
         
@@ -4657,7 +4732,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_enable_dynamics(self, enable: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_enable_dynamics(self, enable: bool=None):
         """Enables paint dynamics using the active paint dynamics.
         
         Enables the active paint dynamics to be used in all subsequent paint
@@ -4669,7 +4744,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_antialias(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_context_get_antialias(self) -> bool:
         """Get the antialias setting.
         
         Returns the antialias setting.
@@ -4680,7 +4755,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_background(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_context_get_background(self) -> Gegl.Color:
         """Get the current GIMP background color.
         
         Returns the current GIMP background color. The background color is used
@@ -4693,7 +4768,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_brush(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Brush:
+    def gimp_context_get_brush(self) -> Gimp.Brush:
         """Get the currently active brush.
         
         Returns the currently active brush. All paint and stroke operations use
@@ -4705,7 +4780,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_brush_angle(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_brush_angle(self) -> float:
         """Get brush angle in degrees.
         
         Set the angle in degrees for brush based paint tools.
@@ -4716,7 +4791,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_brush_aspect_ratio(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_brush_aspect_ratio(self) -> float:
         """Get brush aspect ratio.
         
         Set the aspect ratio for brush based paint tools.
@@ -4727,7 +4802,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_brush_force(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_brush_force(self) -> float:
         """Get brush force in paint options.
         
         Get the brush application force for brush based paint tools.
@@ -4738,7 +4813,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_brush_hardness(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_brush_hardness(self) -> float:
         """Get brush hardness in paint options.
         
         Get the brush hardness for brush based paint tools.
@@ -4749,7 +4824,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_brush_size(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_brush_size(self) -> float:
         """Get brush size in pixels.
         
         Get the brush size in pixels for brush based paint tools.
@@ -4760,7 +4835,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_brush_spacing(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_brush_spacing(self) -> float:
         """Get brush spacing as percent of size.
         
         Get the brush spacing as percent of size for brush based paint tools.
@@ -4771,7 +4846,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_diagonal_neighbors(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_context_get_diagonal_neighbors(self) -> bool:
         """Get the diagonal neighbors setting.
         
         Returns the diagonal neighbors setting.
@@ -4783,7 +4858,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_distance_metric(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gegl.DistanceMetric:
+    def gimp_context_get_distance_metric(self) -> Gegl.DistanceMetric:
         """Get the distance metric used in some computations.
         
         Returns the distance metric in the current context. See
@@ -4796,7 +4871,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_dynamics(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_context_get_dynamics(self) -> str:
         """Get the currently active paint dynamics.
         
         Returns the name of the currently active paint dynamics. If enabled, all
@@ -4812,7 +4887,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_feather(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_context_get_feather(self) -> bool:
         """Get the feather setting.
         
         Returns the feather setting.
@@ -4823,7 +4898,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_feather_radius(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_context_get_feather_radius(self) -> Tuple[float, float]:
         """Get the feather radius setting.
         
         Returns the feather radius setting.
@@ -4836,7 +4911,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_font(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Font:
+    def gimp_context_get_font(self) -> Gimp.Font:
         """Get the currently active font.
         
         Returns the currently active font.
@@ -4847,7 +4922,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_foreground(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_context_get_foreground(self) -> Gegl.Color:
         """Get the current GIMP foreground color.
         
         Returns the current GIMP foreground color. The foreground color is used
@@ -4860,7 +4935,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_gradient(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def gimp_context_get_gradient(self) -> Gimp.Gradient:
         """Get the currently active gradient.
         
         Returns the currently active gradient.
@@ -4871,7 +4946,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_gradient_blend_color_space(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GradientBlendColorSpace:
+    def gimp_context_get_gradient_blend_color_space(self) -> Gimp.GradientBlendColorSpace:
         """Get the gradient blend color space.
         
         Get the gradient blend color space for paint tools and the gradient
@@ -4884,7 +4959,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_gradient_repeat_mode(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RepeatMode:
+    def gimp_context_get_gradient_repeat_mode(self) -> Gimp.RepeatMode:
         """Get the gradient repeat mode.
         
         Get the gradient repeat mode for paint tools and the gradient tool.
@@ -4896,7 +4971,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_gradient_reverse(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_context_get_gradient_reverse(self) -> bool:
         """Get the gradient reverse setting.
         
         Get the gradient reverse setting for paint tools and the gradient tool.
@@ -4907,7 +4982,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_angle(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_ink_angle(self) -> float:
         """Get ink angle in degrees.
         
         Get the ink angle in degrees for ink tool.
@@ -4918,7 +4993,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_blob_angle(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_ink_blob_angle(self) -> float:
         """Get ink blob angle in degrees.
         
         Get the ink blob angle in degrees for ink tool.
@@ -4929,7 +5004,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_blob_aspect_ratio(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_ink_blob_aspect_ratio(self) -> float:
         """Get ink blob aspect ratio.
         
         Get the ink blob aspect ratio for ink tool.
@@ -4940,7 +5015,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_blob_type(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.InkBlobType:
+    def gimp_context_get_ink_blob_type(self) -> Gimp.InkBlobType:
         """Get ink blob type.
         
         Get the ink blob type for ink tool.
@@ -4952,7 +5027,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_size(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_ink_size(self) -> float:
         """Get ink blob size in pixels.
         
         Get the ink blob size in pixels for ink tool.
@@ -4963,7 +5038,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_size_sensitivity(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_ink_size_sensitivity(self) -> float:
         """Get ink size sensitivity.
         
         Get the ink size sensitivity for ink tool.
@@ -4974,7 +5049,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_speed_sensitivity(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_ink_speed_sensitivity(self) -> float:
         """Get ink speed sensitivity.
         
         Get the ink speed sensitivity for ink tool.
@@ -4985,7 +5060,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_ink_tilt_sensitivity(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_ink_tilt_sensitivity(self) -> float:
         """Get ink tilt sensitivity.
         
         Get the ink tilt sensitivity for ink tool.
@@ -4996,7 +5071,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_interpolation(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.InterpolationType:
+    def gimp_context_get_interpolation(self) -> Gimp.InterpolationType:
         """Get the interpolation type.
         
         Returns the interpolation setting. The return value is an integer which
@@ -5012,7 +5087,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_line_cap_style(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.CapStyle:
+    def gimp_context_get_line_cap_style(self) -> Gimp.CapStyle:
         """Get the line cap style setting.
         
         Returns the line cap style setting.
@@ -5024,7 +5099,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_line_dash_offset(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_line_dash_offset(self) -> float:
         """Get the line dash offset setting.
         
         Returns the line dash offset setting.
@@ -5035,7 +5110,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_line_dash_pattern(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray]:
+    def gimp_context_get_line_dash_pattern(self) -> Tuple[int, Gimp.FloatArray]:
         """Get the line dash pattern setting.
         
         Returns the line dash pattern setting.
@@ -5049,7 +5124,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_line_join_style(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.JoinStyle:
+    def gimp_context_get_line_join_style(self) -> Gimp.JoinStyle:
         """Get the line join style setting.
         
         Returns the line join style setting.
@@ -5061,7 +5136,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_line_miter_limit(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_line_miter_limit(self) -> float:
         """Get the line miter limit setting.
         
         Returns the line miter limit setting.
@@ -5072,7 +5147,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_line_width(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_line_width(self) -> float:
         """Get the line width setting.
         
         Returns the line width setting.
@@ -5083,7 +5158,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_line_width_unit(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
+    def gimp_context_get_line_width_unit(self) -> Gimp.Unit:
         """Get the line width unit setting.
         
         Returns the line width unit setting.
@@ -5094,7 +5169,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_mypaint_brush(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_context_get_mypaint_brush(self) -> str:
         """Get the currently active MyPaint brush.
         
         Returns the name of the currently active MyPaint brush.
@@ -5105,7 +5180,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_opacity(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_opacity(self) -> float:
         """Get the opacity.
         
         Returns the opacity setting. The return value is a floating point number
@@ -5117,7 +5192,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_paint_method(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_context_get_paint_method(self) -> str:
         """Get the currently active paint method.
         
         Returns the name of the currently active paint method.
@@ -5128,7 +5203,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_paint_mode(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
+    def gimp_context_get_paint_mode(self) -> Gimp.LayerMode:
         """Get the paint mode.
         
         Returns the paint-mode setting. The return value is an integer which
@@ -5141,7 +5216,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_palette(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def gimp_context_get_palette(self) -> Gimp.Palette:
         """Get the currently active palette.
         
         Returns the currently active palette.
@@ -5152,7 +5227,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_pattern(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Pattern:
+    def gimp_context_get_pattern(self) -> Gimp.Pattern:
         """Get the currently active pattern.
         
         Returns the active pattern in the current context. All clone and
@@ -5165,7 +5240,22 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_sample_criterion(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.SelectCriterion:
+    def gimp_context_get_resource(self, type_name: str=None) -> Gimp.Resource:
+        """Get the currently active resource for a type.
+        
+        Returns the currently active resource for the given type name.
+        
+        Parameters:
+        
+        * type_name - The name of the resource type.
+        
+        Returns:
+        
+        * resource - The active resource.
+        """
+        pass
+
+    def gimp_context_get_sample_criterion(self) -> Gimp.SelectCriterion:
         """Get the sample criterion setting.
         
         Returns the sample criterion setting.
@@ -5177,7 +5267,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_sample_merged(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_context_get_sample_merged(self) -> bool:
         """Get the sample merged setting.
         
         Returns the sample merged setting.
@@ -5188,7 +5278,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_sample_threshold(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_context_get_sample_threshold(self) -> float:
         """Get the sample threshold setting.
         
         Returns the sample threshold setting.
@@ -5199,7 +5289,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_sample_threshold_int(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_context_get_sample_threshold_int(self) -> int:
         """Get the sample threshold setting as an integer value.
         
         Returns the sample threshold setting as an integer value. See
@@ -5211,7 +5301,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_sample_transparent(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_context_get_sample_transparent(self) -> bool:
         """Get the sample transparent setting.
         
         Returns the sample transparent setting.
@@ -5223,7 +5313,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_stroke_method(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.StrokeMethod:
+    def gimp_context_get_stroke_method(self) -> Gimp.StrokeMethod:
         """Get the currently active stroke method.
         
         Returns the currently active stroke method.
@@ -5235,7 +5325,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_transform_direction(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TransformDirection:
+    def gimp_context_get_transform_direction(self) -> Gimp.TransformDirection:
         """Get the transform direction.
         
         Returns the transform direction. The return value is an integer which
@@ -5248,7 +5338,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_transform_resize(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TransformResize:
+    def gimp_context_get_transform_resize(self) -> Gimp.TransformResize:
         """Get the transform resize type.
         
         Returns the transform resize setting. The return value is an integer
@@ -5262,7 +5352,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_list_paint_methods(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_context_list_paint_methods(self) -> List[str]:
         """Lists the available paint methods.
         
         Lists the names of the available paint methods. Any of the names can be
@@ -5274,7 +5364,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_pop(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_pop(self):
         """Pops the topmost context from the plug-in's context stack.
         
         Removes the topmost context from the plug-in's context stack. The next
@@ -5284,7 +5374,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_push(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_push(self):
         """Pushes a context onto the top of the plug-in's context stack.
         
         Creates a new context by copying the current context. The copy becomes
@@ -5293,7 +5383,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_antialias(self, antialias: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_antialias(self, antialias: bool=None):
         """Set the antialias setting.
         
         Modifies the antialias setting. If antialiasing is turned on, the edges
@@ -5316,7 +5406,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_background(self, background: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_background(self, background: Gegl.Color=None):
         """Set the current GIMP background color.
         
         Sets the current GIMP background color. After this is set, operations
@@ -5329,7 +5419,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush(self, brush: Gimp.Brush, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush(self, brush: Gimp.Brush=None):
         """Set the active brush.
         
         Sets the active brush in the current context. The brush will be used in
@@ -5343,7 +5433,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_angle(self, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_angle(self, angle: float=None):
         """Set brush angle in degrees.
         
         Set the angle in degrees for brush based paint tools.
@@ -5354,7 +5444,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_aspect_ratio(self, aspect: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_aspect_ratio(self, aspect: float=None):
         """Set brush aspect ratio.
         
         Set the aspect ratio for brush based paint tools.
@@ -5365,7 +5455,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_default_hardness(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_default_hardness(self):
         """Set brush spacing to its default.
         
         Set the brush spacing to the default for paintbrush, airbrush, or pencil
@@ -5373,7 +5463,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_default_size(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_default_size(self):
         """Set brush size to its default.
         
         Set the brush size to the default (max of width and height) for
@@ -5381,7 +5471,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_default_spacing(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_default_spacing(self):
         """Set brush spacing to its default.
         
         Set the brush spacing to the default for paintbrush, airbrush, or pencil
@@ -5389,7 +5479,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_force(self, force: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_force(self, force: float=None):
         """Set brush application force.
         
         Set the brush application force for brush based paint tools.
@@ -5400,7 +5490,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_hardness(self, hardness: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_hardness(self, hardness: float=None):
         """Set brush hardness.
         
         Set the brush hardness for brush based paint tools.
@@ -5411,7 +5501,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_size(self, size: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_size(self, size: float=None):
         """Set brush size in pixels.
         
         Set the brush size in pixels for brush based paint tools.
@@ -5422,7 +5512,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_brush_spacing(self, spacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_brush_spacing(self, spacing: float=None):
         """Set brush spacing as percent of size.
         
         Set the brush spacing as percent of size for brush based paint tools.
@@ -5433,7 +5523,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_default_colors(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_default_colors(self):
         """Set the current GIMP foreground and background colors to black and
         white.
         
@@ -5442,7 +5532,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_defaults(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_defaults(self):
         """Reset context settings to their default values.
         
         Resets context settings used by various procedures to their default
@@ -5452,7 +5542,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_diagonal_neighbors(self, diagonal_neighbors: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_diagonal_neighbors(self, diagonal_neighbors: bool=None):
         """Set the diagonal neighbors setting.
         
         Modifies the diagonal neighbors setting. If the affected region of an
@@ -5473,7 +5563,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_distance_metric(self, metric: Gegl.DistanceMetric, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_distance_metric(self, metric: Gegl.DistanceMetric=None):
         """Set the distance metric used in some computations.
         
         Modifies the distance metric used in some computations, such as
@@ -5491,7 +5581,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_dynamics(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_dynamics(self, name: str=None):
         """Set the active paint dynamics.
         
         Sets the active paint dynamics. The paint dynamics will be used in all
@@ -5505,7 +5595,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_feather(self, feather: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_feather(self, feather: bool=None):
         """Set the feather setting.
         
         Modifies the feather setting. If the feather option is enabled,
@@ -5526,7 +5616,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_feather_radius(self, feather_radius_x: float, feather_radius_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_feather_radius(self, feather_radius_x: float=None, feather_radius_y: float=None):
         """Set the feather radius setting.
         
         Modifies the feather radius setting.
@@ -5542,7 +5632,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_font(self, font: Gimp.Font, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_font(self, font: Gimp.Font=None):
         """Set the active font.
         
         Sets the active font in the current context. The font will be used in
@@ -5555,7 +5645,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_foreground(self, foreground: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_foreground(self, foreground: Gegl.Color=None):
         """Set the current GIMP foreground color.
         
         Sets the current GIMP foreground color. After this is set, operations
@@ -5568,7 +5658,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient(self, gradient: Gimp.Gradient=None):
         """Sets the active gradient.
         
         Sets the active gradient in the current context. The gradient will be
@@ -5582,7 +5672,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_blend_color_space(self, blend_color_space: Gimp.GradientBlendColorSpace, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_blend_color_space(self, blend_color_space: Gimp.GradientBlendColorSpace=None):
         """Set the gradient blend color space.
         
         Set the gradient blend color space for paint tools and the gradient
@@ -5595,7 +5685,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_fg_bg_hsv_ccw(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_fg_bg_hsv_ccw(self):
         """Sets the built-in FG-BG HSV (ccw) gradient as the active gradient.
         
         Sets the built-in FG-BG HSV (ccw) gradient as the active gradient. The
@@ -5603,7 +5693,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_fg_bg_hsv_cw(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_fg_bg_hsv_cw(self):
         """Sets the built-in FG-BG HSV (cw) gradient as the active gradient.
         
         Sets the built-in FG-BG HSV (cw) gradient as the active gradient. The
@@ -5611,7 +5701,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_fg_bg_rgb(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_fg_bg_rgb(self):
         """Sets the built-in FG-BG RGB gradient as the active gradient.
         
         Sets the built-in FG-BG RGB gradient as the active gradient. The
@@ -5619,7 +5709,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_fg_transparent(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_fg_transparent(self):
         """Sets the built-in FG-Transparent gradient as the active gradient.
         
         Sets the built-in FG-Transparent gradient as the active gradient. The
@@ -5627,7 +5717,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_repeat_mode(self, repeat_mode: Gimp.RepeatMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_repeat_mode(self, repeat_mode: Gimp.RepeatMode=None):
         """Set the gradient repeat mode.
         
         Set the gradient repeat mode for paint tools and the gradient tool.
@@ -5639,7 +5729,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_gradient_reverse(self, reverse: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_gradient_reverse(self, reverse: bool=None):
         """Set the gradient reverse setting.
         
         Set the gradient reverse setting for paint tools and the gradient tool.
@@ -5650,7 +5740,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_angle(self, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_angle(self, angle: float=None):
         """Set ink angle in degrees.
         
         Set the ink angle in degrees for ink tool.
@@ -5661,7 +5751,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_blob_angle(self, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_blob_angle(self, angle: float=None):
         """Set ink blob angle in degrees.
         
         Set the ink blob angle in degrees for ink tool.
@@ -5672,7 +5762,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_blob_aspect_ratio(self, aspect: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_blob_aspect_ratio(self, aspect: float=None):
         """Set ink blob aspect ratio.
         
         Set the ink blob aspect ratio for ink tool.
@@ -5683,7 +5773,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_blob_type(self, type: Gimp.InkBlobType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_blob_type(self, type: Gimp.InkBlobType=None):
         """Set ink blob type.
         
         Set the ink blob type for ink tool.
@@ -5695,7 +5785,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_size(self, size: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_size(self, size: float=None):
         """Set ink blob size in pixels.
         
         Set the ink blob size in pixels for ink tool.
@@ -5706,7 +5796,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_size_sensitivity(self, size: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_size_sensitivity(self, size: float=None):
         """Set ink size sensitivity.
         
         Set the ink size sensitivity for ink tool.
@@ -5717,7 +5807,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_speed_sensitivity(self, speed: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_speed_sensitivity(self, speed: float=None):
         """Set ink speed sensitivity.
         
         Set the ink speed sensitivity for ink tool.
@@ -5728,7 +5818,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_ink_tilt_sensitivity(self, tilt: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_ink_tilt_sensitivity(self, tilt: float=None):
         """Set ink tilt sensitivity.
         
         Set the ink tilt sensitivity for ink tool.
@@ -5739,7 +5829,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_interpolation(self, interpolation: Gimp.InterpolationType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_interpolation(self, interpolation: Gimp.InterpolationType=None):
         """Set the interpolation type.
         
         Modifies the interpolation setting.
@@ -5758,7 +5848,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_cap_style(self, cap_style: Gimp.CapStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_cap_style(self, cap_style: Gimp.CapStyle=None):
         """Set the line cap style setting.
         
         Modifies the line cap style setting for stroking lines.
@@ -5774,7 +5864,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_dash_offset(self, dash_offset: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_dash_offset(self, dash_offset: float=None):
         """Set the line dash offset setting.
         
         Modifies the line dash offset setting for stroking lines.
@@ -5789,7 +5879,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_dash_pattern(self, num_dashes: int, dashes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_dash_pattern(self, num_dashes: int=None, dashes: Gimp.FloatArray=None):
         """Set the line dash pattern setting.
         
         Modifies the line dash pattern setting for stroking lines.
@@ -5811,7 +5901,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_join_style(self, join_style: Gimp.JoinStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_join_style(self, join_style: Gimp.JoinStyle=None):
         """Set the line join style setting.
         
         Modifies the line join style setting for stroking lines. This setting
@@ -5826,7 +5916,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_miter_limit(self, miter_limit: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_miter_limit(self, miter_limit: float=None):
         """Set the line miter limit setting.
         
         Modifies the line miter limit setting for stroking lines. A mitered join
@@ -5842,7 +5932,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_width(self, line_width: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_width(self, line_width: float=None):
         """Set the line width setting.
         
         Modifies the line width setting for stroking lines.
@@ -5857,7 +5947,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_line_width_unit(self, line_width_unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_line_width_unit(self, line_width_unit: Gimp.Unit=None):
         """Set the line width unit setting.
         
         Modifies the line width unit setting for stroking lines.
@@ -5872,7 +5962,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_mypaint_brush(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_mypaint_brush(self, name: str=None):
         """Set a MyPaint brush as the active MyPaint brush.
         
         Sets the active MyPaint brush to the named MyPaint brush. The brush will
@@ -5886,7 +5976,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_opacity(self, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_opacity(self, opacity: float=None):
         """Set the opacity.
         
         Modifies the opacity setting. The value should be a floating point
@@ -5898,7 +5988,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_paint_method(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_paint_method(self, name: str=None):
         """Set the active paint method.
         
         Sets the active paint method to the named paint method. The paint method
@@ -5912,7 +6002,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_paint_mode(self, paint_mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_paint_mode(self, paint_mode: Gimp.LayerMode=None):
         """Set the paint mode.
         
         Modifies the paint_mode setting.
@@ -5924,7 +6014,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_palette(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_palette(self, palette: Gimp.Palette=None):
         """Set the active palette.
         
         Sets the active palette in the current context. The palette will be used
@@ -5938,7 +6028,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_pattern(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_pattern(self, pattern: Gimp.Pattern=None):
         """Set the active pattern.
         
         Sets the active pattern in the current context. The pattern will be used
@@ -5952,7 +6042,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_criterion(self, sample_criterion: Gimp.SelectCriterion, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_criterion(self, sample_criterion: Gimp.SelectCriterion=None):
         """Set the sample criterion setting.
         
         Modifies the sample criterion setting. If an operation depends on the
@@ -5971,7 +6061,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_merged(self, sample_merged: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_merged(self, sample_merged: bool=None):
         """Set the sample merged setting.
         
         Modifies the sample merged setting. If an operation depends on the
@@ -5992,7 +6082,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_threshold(self, sample_threshold: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_threshold(self, sample_threshold: float=None):
         """Set the sample threshold setting.
         
         Modifies the sample threshold setting. If an operation depends on the
@@ -6012,7 +6102,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_threshold_int(self, sample_threshold: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_threshold_int(self, sample_threshold: int=None):
         """Set the sample threshold setting as an integer value.
         
         Modifies the sample threshold setting as an integer value. See
@@ -6024,7 +6114,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_sample_transparent(self, sample_transparent: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_sample_transparent(self, sample_transparent: bool=None):
         """Set the sample transparent setting.
         
         Modifies the sample transparent setting. If an operation depends on the
@@ -6044,7 +6134,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_stroke_method(self, stroke_method: Gimp.StrokeMethod, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_stroke_method(self, stroke_method: Gimp.StrokeMethod=None):
         """Set the active stroke method.
         
         Sets the active stroke method. The method will be used in all subsequent
@@ -6057,7 +6147,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_transform_direction(self, transform_direction: Gimp.TransformDirection, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_transform_direction(self, transform_direction: Gimp.TransformDirection=None):
         """Set the transform direction.
         
         Modifies the transform direction setting.
@@ -6075,7 +6165,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_set_transform_resize(self, transform_resize: Gimp.TransformResize, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_set_transform_resize(self, transform_resize: Gimp.TransformResize=None):
         """Set the transform resize type.
         
         Modifies the transform resize setting. When transforming pixels, if the
@@ -6097,7 +6187,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_swap_colors(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_context_swap_colors(self):
         """Swap the current GIMP foreground and background colors.
         
         Swaps the current GIMP foreground and background colors, so that the new
@@ -6106,7 +6196,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convert_grayscale(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convert_grayscale(self, image: Gimp.Image=None):
         """Convert specified image to grayscale.
         
         This procedure converts the specified image to grayscale. This process
@@ -6118,7 +6208,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convert_indexed(self, image: Gimp.Image, dither_type: Gimp.ConvertDitherType, palette_type: Gimp.ConvertPaletteType, num_cols: int, alpha_dither: bool, remove_unused: bool, palette: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convert_indexed(self, image: Gimp.Image=None, dither_type: Gimp.ConvertDitherType=None, palette_type: Gimp.ConvertPaletteType=None, num_cols: int=None, alpha_dither: bool=None, remove_unused: bool=None, palette: str=None):
         """Convert specified image to and Indexed image.
         
         This procedure converts the specified image to 'indexed' color. This
@@ -6160,7 +6250,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convert_rgb(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convert_rgb(self, image: Gimp.Image=None):
         """Convert specified image to RGB color.
         
         This procedure converts the specified image to RGB color. This process
@@ -6174,7 +6264,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convolve(self, drawable: Gimp.Drawable, pressure: float, convolve_type: Gimp.ConvolveType, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convolve(self, drawable: Gimp.Drawable=None, pressure: float=None, convolve_type: Gimp.ConvolveType=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Convolve (Blur, Sharpen) using the current brush.
         
         This tool convolves the specified drawable with either a sharpening or
@@ -6199,7 +6289,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_convolve_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_convolve_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Convolve (Blur, Sharpen) using the current brush.
         
         This tool convolves the specified drawable with either a sharpening or
@@ -6220,7 +6310,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_crop(self, image: Gimp.Image, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_crop(self, image: Gimp.Image=None, new_width: int=None, new_height: int=None, offx: int=None, offy: int=None):
         """Crop the image to the specified extents.
         
         This procedure crops the image so that it's new width and height are
@@ -6245,7 +6335,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_debug_timer_end(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_debug_timer_end(self) -> float:
         """Finishes measuring elapsed time.
         
         This procedure stops the timer started by a previous
@@ -6263,7 +6353,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_debug_timer_start(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_debug_timer_start(self):
         """Starts measuring elapsed time.
         
         This procedure starts a timer, measuring the elapsed time since the
@@ -6278,7 +6368,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_detach_parasite(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_detach_parasite(self, name: str=None):
         """Removes a global parasite.
         
         This procedure detaches a global parasite from. It has no return values.
@@ -6289,7 +6379,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_delete(self, display: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_display_delete(self, display: Gimp.Display=None):
         """Delete the specified display.
         
         This procedure removes the specified display. If this is the last
@@ -6304,14 +6394,16 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_get_window_handle(self, display: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_display_get_window_handle(self, display: Gimp.Display=None) -> GLib.Bytes:
         """Get a handle to the native window for an image display.
         
         This procedure returns a handle to the native window for a given image
-        display. For example in the X backend of GDK, a native window
-        handle is an Xlib XID. A value of 0 is returned for an invalid
-        display or if this function is unimplemented for the windowing
-        system that is being used.
+        display. It can be different types of data depending on the
+        platform you are running on. For example in the X backend of
+        GDK, a native window handle is an Xlib XID whereas on Wayland,
+        it is a string handle. A value of NULL is returned for an
+        invalid display or if this function is unimplemented for the
+        windowing system that is being used.
         
         Parameters:
         
@@ -6319,11 +6411,11 @@ class _PyPDB:
         
         Returns:
         
-        * window (default: 0) - The native window handle or 0.
+        * handle - The native window handle or NULL.
         """
         pass
 
-    def gimp_display_id_is_valid(self, display_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_display_id_is_valid(self, display_id: int=None) -> bool:
         """Returns TRUE if the display ID is valid.
         
         This procedure checks if the given display ID is valid and refers to an
@@ -6339,7 +6431,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_new(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Display:
+    def gimp_display_new(self, image: Gimp.Image=None) -> Gimp.Display:
         """Create a new display for the specified image.
         
         Creates a new display for the specified image. If the image already has
@@ -6360,7 +6452,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_display_present(self, display: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_display_present(self, display: Gimp.Display=None):
         """Present the specified display.
         
         This procedure presents the specified display at the top of the display
@@ -6372,7 +6464,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_displays_flush(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_displays_flush(self):
         """Flush all internal changes to the user interface.
         
         This procedure takes no arguments and returns nothing except a success
@@ -6382,7 +6474,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_displays_reconnect(self, old_image: Gimp.Image, new_image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_displays_reconnect(self, old_image: Gimp.Image=None, new_image: Gimp.Image=None):
         """Reconnect displays from one image to another image.
         
         This procedure connects all displays of the old_image to the new_image.
@@ -6398,7 +6490,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dodgeburn(self, drawable: Gimp.Drawable, exposure: float, dodgeburn_type: Gimp.DodgeBurnType, dodgeburn_mode: Gimp.TransferMode, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_dodgeburn(self, drawable: Gimp.Drawable=None, exposure: float=None, dodgeburn_type: Gimp.DodgeBurnType=None, dodgeburn_mode: Gimp.TransferMode=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Dodgeburn image with varying exposure.
         
         Dodgeburn. More details here later.
@@ -6423,7 +6515,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dodgeburn_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_dodgeburn_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Dodgeburn image with varying exposure. This is the same as the
         gimp_dodgeburn() function except that the exposure, type and
         mode are taken from the tools option dialog. If the dialog
@@ -6444,7 +6536,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_brightness_contrast(self, drawable: Gimp.Drawable, brightness: float, contrast: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_brightness_contrast(self, drawable: Gimp.Drawable=None, brightness: float=None, contrast: float=None):
         """Modify brightness/contrast in the specified drawable.
         
         This procedures allows the brightness and contrast of the specified
@@ -6461,7 +6553,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_color_balance(self, drawable: Gimp.Drawable, transfer_mode: Gimp.TransferMode, preserve_lum: bool, cyan_red: float, magenta_green: float, yellow_blue: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_color_balance(self, drawable: Gimp.Drawable=None, transfer_mode: Gimp.TransferMode=None, preserve_lum: bool=None, cyan_red: float=None, magenta_green: float=None, yellow_blue: float=None):
         """Modify the color balance of the specified drawable.
         
         Modify the color balance of the specified drawable. There are three axis
@@ -6491,7 +6583,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_colorize_hsl(self, drawable: Gimp.Drawable, hue: float, saturation: float, lightness: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_colorize_hsl(self, drawable: Gimp.Drawable=None, hue: float=None, saturation: float=None, lightness: float=None):
         """Render the drawable as a grayscale image seen through a colored
         glass.
         
@@ -6511,7 +6603,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_curves_explicit(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, num_values: int, values: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_curves_explicit(self, drawable: Gimp.Drawable=None, channel: Gimp.HistogramChannel=None, num_values: int=None, values: Gimp.FloatArray=None):
         """Modifies the intensity curve(s) for specified drawable.
         
         Modifies the intensity mapping for one channel in the specified
@@ -6534,7 +6626,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_curves_spline(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, num_points: int, points: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_curves_spline(self, drawable: Gimp.Drawable=None, channel: Gimp.HistogramChannel=None, num_points: int=None, points: Gimp.FloatArray=None):
         """Modifies the intensity curve(s) for specified drawable.
         
         Modifies the intensity mapping for one channel in the specified
@@ -6560,7 +6652,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_delete(self, item: Gimp.Item=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -6575,7 +6667,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_desaturate(self, drawable: Gimp.Drawable, desaturate_mode: Gimp.DesaturateMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_desaturate(self, drawable: Gimp.Drawable=None, desaturate_mode: Gimp.DesaturateMode=None):
         """Desaturate the contents of the specified drawable, with the specified
         formula.
         
@@ -6592,7 +6684,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_bucket_fill(self, drawable: Gimp.Drawable, fill_type: Gimp.FillType, x: float, y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_bucket_fill(self, drawable: Gimp.Drawable=None, fill_type: Gimp.FillType=None, x: float=None, y: float=None):
         """Fill the area by a seed fill starting at the specified coordinates.
         
         This procedure does a seed fill at the specified coordinates, using
@@ -6625,7 +6717,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_clear(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_clear(self, drawable: Gimp.Drawable=None):
         """Clear selected area of drawable.
         
         This procedure clears the specified drawable. If the drawable has an
@@ -6643,7 +6735,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_fill(self, drawable: Gimp.Drawable, fill_type: Gimp.FillType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_fill(self, drawable: Gimp.Drawable=None, fill_type: Gimp.FillType=None):
         """Fill selected area of drawable.
         
         This procedure fills the specified drawable according to fill mode. This
@@ -6665,7 +6757,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_gradient_fill(self, drawable: Gimp.Drawable, gradient_type: Gimp.GradientType, offset: float, supersample: bool, supersample_max_depth: int, supersample_threshold: float, dither: bool, x1: float, y1: float, x2: float, y2: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_gradient_fill(self, drawable: Gimp.Drawable=None, gradient_type: Gimp.GradientType=None, offset: float=None, supersample: bool=None, supersample_max_depth: int=None, supersample_threshold: float=None, dither: bool=None, x1: float=None, y1: float=None, x2: float=None, y2: float=None):
         """Draw a gradient between the starting and ending coordinates with the
         specified gradient type.
         
@@ -6715,7 +6807,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_stroke_item(self, drawable: Gimp.Drawable, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_stroke_item(self, drawable: Gimp.Drawable=None, item: Gimp.Item=None):
         """Stroke the specified item.
         
         This procedure strokes the specified item, painting along its outline
@@ -6740,7 +6832,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_edit_stroke_selection(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_edit_stroke_selection(self, drawable: Gimp.Drawable=None):
         """Stroke the current selection.
         
         This procedure strokes the current selection, painting along the
@@ -6764,7 +6856,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_equalize(self, drawable: Gimp.Drawable, mask_only: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_equalize(self, drawable: Gimp.Drawable=None, mask_only: bool=None):
         """Equalize the contents of the specified drawable.
         
         This procedure equalizes the contents of the specified drawable. Each
@@ -6784,7 +6876,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_extract_component(self, drawable: Gimp.Drawable, component: int, invert: bool, linear: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_extract_component(self, drawable: Gimp.Drawable=None, component: int=None, invert: bool=None, linear: bool=None):
         """Extract a color model component.
         
         Extract a color model component.
@@ -6808,7 +6900,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_fill(self, drawable: Gimp.Drawable, fill_type: Gimp.FillType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_fill(self, drawable: Gimp.Drawable=None, fill_type: Gimp.FillType=None):
         """Fill the drawable with the specified fill mode.
         
         This procedure fills the drawable. If the fill mode is foreground the
@@ -6832,7 +6924,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_foreground_extract(self, drawable: Gimp.Drawable, mode: Gimp.ForegroundExtractMode, mask: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_foreground_extract(self, drawable: Gimp.Drawable=None, mode: Gimp.ForegroundExtractMode=None, mask: Gimp.Drawable=None):
         """Extract the foreground of a drawable using a given trimap.
         
         Image Segmentation by Uniform Color Clustering, see
@@ -6849,7 +6941,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_free_shadow(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_free_shadow(self, drawable: Gimp.Drawable=None):
         """Free the specified drawable's shadow data (if it exists).
         
         This procedure is intended as a memory saving device. If any shadow
@@ -6863,7 +6955,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_bpp(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_bpp(self, drawable: Gimp.Drawable=None) -> int:
         """Returns the bytes per pixel.
         
         This procedure returns the number of bytes per pixel.
@@ -6878,7 +6970,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_format(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_drawable_get_format(self, drawable: Gimp.Drawable=None) -> str:
         """Returns the drawable's Babl format.
         
         This procedure returns the drawable's Babl format. Note that the actual
@@ -6895,7 +6987,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_height(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_height(self, drawable: Gimp.Drawable=None) -> int:
         """Returns the height of the drawable.
         
         This procedure returns the specified drawable's height in pixels.
@@ -6910,7 +7002,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_image(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_drawable_get_image(self, item: Gimp.Item=None) -> Gimp.Image:
         """Returns the item's image.
         
         This procedure returns the item's image.
@@ -6925,7 +7017,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_drawable_get_name(self, item: Gimp.Item=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -6940,7 +7032,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_offsets(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int]:
+    def gimp_drawable_get_offsets(self, drawable: Gimp.Drawable=None) -> Tuple[int, int]:
         """Returns the offsets for the drawable.
         
         This procedure returns the specified drawable's offsets. This only makes
@@ -6959,7 +7051,26 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_pixel(self, drawable: Gimp.Drawable=None, x_coord: int=None, y_coord: int=None) -> Gegl.Color:
+        """Gets the value of the pixel at the specified coordinates.
+        
+        This procedure gets the pixel value at the specified coordinates.
+        
+        Parameters:
+        
+        * drawable - The drawable.
+        
+        * x_coord (default: 0) - The x coordinate.
+        
+        * y_coord (default: 0) - The y coordinate.
+        
+        Returns:
+        
+        * color - The pixel color.
+        """
+        pass
+
+    def gimp_drawable_get_tattoo(self, item: Gimp.Item=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -6976,7 +7087,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_thumbnail_format(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_drawable_get_thumbnail_format(self, drawable: Gimp.Drawable=None) -> str:
         """Returns the drawable's thumbnail Babl format.
         
         This procedure returns the drawable's thumbnail Babl format. Thumbnails
@@ -6993,7 +7104,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_get_visible(self, item: Gimp.Item=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -7008,7 +7119,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_width(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_drawable_get_width(self, drawable: Gimp.Drawable=None) -> int:
         """Returns the width of the drawable.
         
         This procedure returns the specified drawable's width in pixels.
@@ -7023,7 +7134,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_has_alpha(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_has_alpha(self, drawable: Gimp.Drawable=None) -> bool:
         """Returns TRUE if the drawable has an alpha channel.
         
         This procedure returns whether the specified drawable has an alpha
@@ -7041,7 +7152,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_histogram(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, start_range: float, end_range: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float, float, float, float, float]:
+    def gimp_drawable_histogram(self, drawable: Gimp.Drawable=None, channel: Gimp.HistogramChannel=None, start_range: float=None, end_range: float=None) -> Tuple[float, float, float, float, float, float]:
         """Returns information on the intensity histogram for the specified
         drawable.
         
@@ -7091,7 +7202,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_hue_saturation(self, drawable: Gimp.Drawable, hue_range: Gimp.HueRange, hue_offset: float, lightness: float, saturation: float, overlap: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_hue_saturation(self, drawable: Gimp.Drawable=None, hue_range: Gimp.HueRange=None, hue_offset: float=None, lightness: float=None, saturation: float=None, overlap: float=None):
         """Modify hue, lightness, and saturation in the specified drawable.
         
         This procedure allows the hue, lightness, and saturation in the
@@ -7117,7 +7228,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_invert(self, drawable: Gimp.Drawable, linear: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_invert(self, drawable: Gimp.Drawable=None, linear: bool=None):
         """Invert the contents of the specified drawable.
         
         This procedure inverts the contents of the specified drawable. Each
@@ -7133,7 +7244,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_is_gray(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_is_gray(self, drawable: Gimp.Drawable=None) -> bool:
         """Returns whether the drawable is a grayscale type.
         
         This procedure returns TRUE if the specified drawable is of type { Gray,
@@ -7149,7 +7260,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_is_indexed(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_is_indexed(self, drawable: Gimp.Drawable=None) -> bool:
         """Returns whether the drawable is an indexed type.
         
         This procedure returns TRUE if the specified drawable is of type {
@@ -7166,7 +7277,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_is_rgb(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_drawable_is_rgb(self, drawable: Gimp.Drawable=None) -> bool:
         """Returns whether the drawable is an RGB type.
         
         This procedure returns TRUE if the specified drawable is of type { RGB,
@@ -7182,7 +7293,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_levels(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, low_input: float, high_input: float, clamp_input: bool, gamma: float, low_output: float, high_output: float, clamp_output: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_levels(self, drawable: Gimp.Drawable=None, channel: Gimp.HistogramChannel=None, low_input: float=None, high_input: float=None, clamp_input: bool=None, gamma: float=None, low_output: float=None, high_output: float=None, clamp_output: bool=None):
         """Modifies intensity levels in the specified drawable.
         
         This tool allows intensity levels in the specified drawable to be
@@ -7222,7 +7333,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_levels_stretch(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_levels_stretch(self, drawable: Gimp.Drawable=None):
         """Automatically modifies intensity levels in the specified drawable.
         
         This procedure allows intensity levels in the specified drawable to be
@@ -7235,7 +7346,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_mask_bounds(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_drawable_mask_bounds(self, drawable: Gimp.Drawable=None) -> Tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection in relation to the
         specified drawable.
         
@@ -7275,7 +7386,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_mask_intersect(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_drawable_mask_intersect(self, drawable: Gimp.Drawable=None) -> Tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection in relation to the
         specified drawable.
         
@@ -7305,7 +7416,19 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_merge_shadow(self, drawable: Gimp.Drawable, undo: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_merge_filters(self, drawable: Gimp.Drawable=None):
+        """Merge the layer effect filters to the specified drawable.
+        
+        This procedure combines the contents of the drawable's filter stack (for
+        export) with the specified drawable.
+        
+        Parameters:
+        
+        * drawable - The drawable.
+        """
+        pass
+
+    def gimp_drawable_merge_shadow(self, drawable: Gimp.Drawable=None, undo: bool=None):
         """Merge the shadow buffer with the specified drawable.
         
         This procedure combines the contents of the drawable's shadow buffer
@@ -7322,7 +7445,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_offset(self, drawable: Gimp.Drawable, wrap_around: bool, fill_type: Gimp.OffsetType, offset_x: int, offset_y: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_offset(self, drawable: Gimp.Drawable=None, wrap_around: bool=None, fill_type: Gimp.OffsetType=None, offset_x: int=None, offset_y: int=None):
         """Offset the drawable by the specified amounts in the X and Y
         directions.
         
@@ -7350,7 +7473,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_attach(self, item: Gimp.Item, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_parasite_attach(self, item: Gimp.Item=None, parasite: Gimp.Parasite=None):
         """Add a parasite to an item.
         
         This procedure attaches a parasite to an item. It has no return values.
@@ -7363,7 +7486,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_detach(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_parasite_detach(self, item: Gimp.Item=None, name: str=None):
         """Removes a parasite from an item.
         
         This procedure detaches a parasite from an item. It has no return
@@ -7377,7 +7500,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_find(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_drawable_parasite_find(self, item: Gimp.Item=None, name: str=None) -> Gimp.Parasite:
         """Look up a parasite in an item.
         
         Finds and returns the parasite that is attached to an item.
@@ -7394,7 +7517,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_parasite_list(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_drawable_parasite_list(self, item: Gimp.Item=None) -> List[str]:
         """List all parasites.
         
         Returns a list of all parasites currently attached the an item.
@@ -7409,7 +7532,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_posterize(self, drawable: Gimp.Drawable, levels: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_posterize(self, drawable: Gimp.Drawable=None, levels: int=None):
         """Posterize the specified drawable.
         
         This procedures reduces the number of shades allows in each intensity
@@ -7423,7 +7546,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_set_name(self, item: Gimp.Item=None, name: str=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -7436,7 +7559,26 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_set_pixel(self, drawable: Gimp.Drawable=None, x_coord: int=None, y_coord: int=None, color: Gegl.Color=None):
+        """Sets the value of the pixel at the specified coordinates.
+        
+        This procedure sets the pixel value at the specified coordinates. Note
+        that this function is not undoable, you should use it only on
+        drawables you just created yourself.
+        
+        Parameters:
+        
+        * drawable - The drawable.
+        
+        * x_coord (default: 0) - The x coordinate.
+        
+        * y_coord (default: 0) - The y coordinate.
+        
+        * color - The pixel color.
+        """
+        pass
+
+    def gimp_drawable_set_tattoo(self, item: Gimp.Item=None, tattoo: int=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -7451,7 +7593,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_set_visible(self, item: Gimp.Item=None, visible: bool=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -7464,7 +7606,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_shadows_highlights(self, drawable: Gimp.Drawable, shadows: float, highlights: float, whitepoint: float, radius: float, compress: float, shadows_ccorrect: float, highlights_ccorrect: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_shadows_highlights(self, drawable: Gimp.Drawable=None, shadows: float=None, highlights: float=None, whitepoint: float=None, radius: float=None, compress: float=None, shadows_ccorrect: float=None, highlights_ccorrect: float=None):
         """Perform shadows and highlights correction.
         
         This filter allows adjusting shadows and highlights in the image
@@ -7493,7 +7635,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_sub_thumbnail(self, drawable: Gimp.Drawable, src_x: int, src_y: int, src_width: int, src_height: int, dest_width: int, dest_height: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_drawable_sub_thumbnail(self, drawable: Gimp.Drawable=None, src_x: int=None, src_y: int=None, src_width: int=None, src_height: int=None, dest_width: int=None, dest_height: int=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Get a thumbnail of a sub-area of a drawable drawable.
         
         This function gets data from which a thumbnail of a drawable preview can
@@ -7529,7 +7671,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_threshold(self, drawable: Gimp.Drawable, channel: Gimp.HistogramChannel, low_threshold: float, high_threshold: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_threshold(self, drawable: Gimp.Drawable=None, channel: Gimp.HistogramChannel=None, low_threshold: float=None, high_threshold: float=None):
         """Threshold the specified drawable.
         
         This procedures generates a threshold map of the specified drawable. All
@@ -7551,7 +7693,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_thumbnail(self, drawable: Gimp.Drawable, width: int, height: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_drawable_thumbnail(self, drawable: Gimp.Drawable=None, width: int=None, height: int=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Get a thumbnail of a drawable.
         
         This function gets data from which a thumbnail of a drawable preview can
@@ -7579,7 +7721,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_type(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageType:
+    def gimp_drawable_type(self, drawable: Gimp.Drawable=None) -> Gimp.ImageType:
         """Returns the drawable's type.
         
         This procedure returns the drawable's type.
@@ -7595,7 +7737,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_type_with_alpha(self, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageType:
+    def gimp_drawable_type_with_alpha(self, drawable: Gimp.Drawable=None) -> Gimp.ImageType:
         """Returns the drawable's type with alpha.
         
         This procedure returns the drawable's type as if had an alpha channel.
@@ -7614,7 +7756,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_update(self, drawable: Gimp.Drawable, x: int, y: int, width: int, height: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_drawable_update(self, drawable: Gimp.Drawable=None, x: int=None, y: int=None, width: int=None, height: int=None):
         """Update the specified region of the drawable.
         
         This procedure updates the specified region of the drawable. The (x, y)
@@ -7636,7 +7778,52 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dynamics_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_drawables_close_popup(self, callback: str=None):
+        """Close the drawable selection dialog.
+        
+        Closes an open drawable selection dialog.
+        
+        Parameters:
+        
+        * callback - The name of the callback registered for this pop-up.
+        """
+        pass
+
+    def gimp_drawables_popup(self, callback: str=None, popup_title: str=None, drawable_type: str=None, initial_drawable: Gimp.Drawable=None, parent_window: GLib.Bytes=None):
+        """Invokes the drawable selection dialog.
+        
+        Opens a dialog letting a user choose an drawable.
+        
+        Parameters:
+        
+        * callback - The callback PDB proc to call when user chooses an
+          drawable.
+        
+        * popup_title - Title of the drawable selection dialog.
+        
+        * drawable_type - The name of the GIMP_TYPE_DRAWABLE subtype.
+        
+        * initial_drawable - The drawable to set as the initial choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
+        """
+        pass
+
+    def gimp_drawables_set_popup(self, callback: str=None, drawable: Gimp.Drawable=None):
+        """Sets the selected drawable in a drawable selection dialog.
+        
+        Sets the selected drawable in a drawable selection dialog.
+        
+        Parameters:
+        
+        * callback - The name of the callback registered for this pop-up.
+        
+        * drawable - The drawable to set as selected.
+        """
+        pass
+
+    def gimp_dynamics_get_list(self, filter: str=None) -> List[str]:
         """Retrieve the list of loaded paint dynamics.
         
         This procedure returns a list of the paint dynamics that are currently
@@ -7652,7 +7839,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dynamics_refresh(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_dynamics_refresh(self):
         """Refresh current paint dynamics. This function always succeeds.
         
         This procedure retrieves all paint dynamics currently in the user's
@@ -7661,7 +7848,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_copy(self, num_drawables: int, drawables: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_edit_copy(self, num_drawables: int=None, drawables: Gimp.ObjectArray=None) -> bool:
         """Copy from the specified drawables.
         
         If there is a selection in the image, then the area specified by the
@@ -7687,7 +7874,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_copy_visible(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_edit_copy_visible(self, image: Gimp.Image=None) -> bool:
         """Copy from the projection.
         
         If there is a selection in the image, then the area specified by the
@@ -7707,7 +7894,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_cut(self, num_drawables: int, drawables: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_edit_cut(self, num_drawables: int=None, drawables: Gimp.ObjectArray=None) -> bool:
         """Cut from the specified drawables.
         
         If there is a selection in the image, then the area specified by the
@@ -7733,7 +7920,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_copy(self, num_drawables: int, drawables: Gimp.ObjectArray, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_edit_named_copy(self, num_drawables: int=None, drawables: Gimp.ObjectArray=None, buffer_name: str=None) -> str:
         """Copy into a named buffer.
         
         This procedure works like 'gimp-edit-copy', but additionally stores the
@@ -7756,7 +7943,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_copy_visible(self, image: Gimp.Image, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_edit_named_copy_visible(self, image: Gimp.Image=None, buffer_name: str=None) -> str:
         """Copy from the projection into a named buffer.
         
         This procedure works like 'gimp-edit-copy-visible', but additionally
@@ -7777,7 +7964,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_cut(self, num_drawables: int, drawables: Gimp.ObjectArray, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_edit_named_cut(self, num_drawables: int=None, drawables: Gimp.ObjectArray=None, buffer_name: str=None) -> str:
         """Cut into a named buffer.
         
         This procedure works like 'gimp-edit-cut', but additionally stores the
@@ -7800,7 +7987,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_paste(self, drawable: Gimp.Drawable, buffer_name: str, paste_into: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_edit_named_paste(self, drawable: Gimp.Drawable=None, buffer_name: str=None, paste_into: bool=None) -> Gimp.Layer:
         """Paste named buffer to the specified drawable.
         
         This procedure works like 'gimp-edit-paste' but pastes a named buffer
@@ -7820,7 +8007,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_paste_as_new(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_edit_named_paste_as_new(self, buffer_name: str=None) -> Gimp.Image:
         """Paste named buffer to a new image.
         
         This procedure works like 'gimp-edit-paste-as-new-image' but pastes a
@@ -7836,7 +8023,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_paste_as_new_image(self, buffer_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_edit_named_paste_as_new_image(self, buffer_name: str=None) -> Gimp.Image:
         """Paste named buffer to a new image.
         
         This procedure works like 'gimp-edit-paste-as-new-image' but pastes a
@@ -7852,7 +8039,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_paste(self, drawable: Gimp.Drawable, paste_into: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_edit_paste(self, drawable: Gimp.Drawable=None, paste_into: bool=None) -> Tuple[int, Gimp.ObjectArray]:
         """Paste buffer to the specified drawable.
         
         This procedure pastes a copy of the internal GIMP edit buffer to the
@@ -7886,7 +8073,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_paste_as_new(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_edit_paste_as_new(self) -> Gimp.Image:
         """Paste buffer to a new image.
         
         This procedure pastes a copy of the internal GIMP edit buffer to a new
@@ -7901,7 +8088,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_paste_as_new_image(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_edit_paste_as_new_image(self) -> Gimp.Image:
         """Paste buffer to a new image.
         
         This procedure pastes a copy of the internal GIMP edit buffer to a new
@@ -7916,7 +8103,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_eraser(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, hardness: Gimp.BrushApplicationMode, method: Gimp.PaintApplicationMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_eraser(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None, hardness: Gimp.BrushApplicationMode=None, method: Gimp.PaintApplicationMode=None):
         """Erase using the current brush.
         
         This tool erases using the current brush mask. If the specified drawable
@@ -7944,7 +8131,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_eraser_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_eraser_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Erase using the current brush.
         
         This tool erases using the current brush mask. This function performs
@@ -7965,7 +8152,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_file_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads an image file by invoking the right load handler.
         
         This procedure invokes the correct file load handler using magic if
@@ -7982,7 +8169,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load_layer(self, image: Gimp.Image, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_file_load_layer(self, image: Gimp.Image=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Layer:
         """Loads an image file as a layer for an existing image.
         
         This procedure behaves like the file-load procedure but opens the
@@ -8002,7 +8189,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load_layers(self, image: Gimp.Image, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_file_load_layers(self, image: Gimp.Image=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Tuple[int, Gimp.ObjectArray]:
         """Loads an image file as layers for an existing image.
         
         This procedure behaves like the file-load procedure but opens the
@@ -8024,7 +8211,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load_thumbnail(self, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, GLib.Bytes]:
+    def gimp_file_load_thumbnail(self, file: Gio.File=None) -> Tuple[int, int, GLib.Bytes]:
         """Loads the thumbnail for a file.
         
         This procedure tries to load a thumbnail that belongs to the given file.
@@ -8047,7 +8234,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_save(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_file_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves a file by extension.
         
         This procedure invokes the correct file save handler according to the
@@ -8065,7 +8252,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_save_thumbnail(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_file_save_thumbnail(self, image: Gimp.Image=None, file: Gio.File=None):
         """Saves a thumbnail for the given image.
         
         This procedure saves a thumbnail for the given image according to the
@@ -8083,7 +8270,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_anchor(self, floating_sel: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_anchor(self, floating_sel: Gimp.Layer=None):
         """Anchor the specified floating selection to its associated drawable.
         
         This procedure anchors the floating selection to its associated
@@ -8097,7 +8284,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_attach(self, layer: Gimp.Layer, drawable: Gimp.Drawable, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_attach(self, layer: Gimp.Layer=None, drawable: Gimp.Drawable=None):
         """Attach the specified layer as floating to the specified drawable.
         
         This procedure attaches the layer as floating selection to the drawable.
@@ -8110,7 +8297,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_remove(self, floating_sel: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_remove(self, floating_sel: Gimp.Layer=None):
         """Remove the specified floating selection from its associated drawable.
         
         This procedure removes the floating selection completely, without any
@@ -8122,7 +8309,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_floating_sel_to_layer(self, floating_sel: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_floating_sel_to_layer(self, floating_sel: Gimp.Layer=None):
         """Transforms the specified floating selection into a layer.
         
         This procedure transforms the specified floating selection into a layer
@@ -8141,10 +8328,15 @@ class _PyPDB:
         """
         pass
 
-    def gimp_font_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Font:
-        """Returns the font with the given name.
+    def gimp_font_get_by_name(self, name: str=None) -> Gimp.Font:
+        """Returns a font with the given name.
         
-        Returns the font with the given name.
+        If several fonts are named identically, the one which is returned by
+        this function should be considered random. This can be used when
+        you know you won't have multiple fonts of this name or that you
+        don't want to choose (non-interactive scripts, etc.). If you
+        need more control, you should use 'gimp-fonts-get-by-name'
+        instead.
         
         Parameters:
         
@@ -8156,7 +8348,22 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_close_popup(self, font_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_font_get_lookup_name(self, font: Gimp.Font=None) -> str:
+        """Retrieve the font lookup name.
+        
+        Retrieve the font lookup name.
+        
+        Parameters:
+        
+        * font - GimpFont object.
+        
+        Returns:
+        
+        * lookup_name - font lookup name.
+        """
+        pass
+
+    def gimp_fonts_close_popup(self, font_callback: str=None):
         """Close the font selection dialog.
         
         Closes an open font selection dialog.
@@ -8168,7 +8375,42 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_fonts_get_by_name(self, name: str=None) -> Tuple[int, Gimp.ObjectArray]:
+        """Returns the fonts with the given name.
+        
+        Returns the fonts with the given name. There may be more than one.
+        
+        Parameters:
+        
+        * name - The name of the font.
+        
+        Returns:
+        
+        * num_fonts (default: 0) - The number of fonts with the given name.
+        
+        * fonts - The fonts with the given name.
+        """
+        pass
+
+    def gimp_fonts_get_custom_configs(self) -> Tuple[str, str, str, List[str]]:
+        """Retrieve custom configs.
+        
+        This procedure returns custom FontConfig configs along with the fonts
+        renaming config.
+        
+        Returns:
+        
+        * config - config path.
+        
+        * sysconfig - sysconfig path.
+        
+        * renaming_config - fonts renaming config.
+        
+        * dirs - custom fonts directories.
+        """
+        pass
+
+    def gimp_fonts_get_list(self, filter: str=None) -> List[str]:
         """Retrieve the list of loaded fonts.
         
         This procedure returns a list of the fonts that are currently available.
@@ -8183,7 +8425,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_popup(self, font_callback: str, popup_title: str, initial_font_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_fonts_popup(self, font_callback: str=None, popup_title: str=None, initial_font: Gimp.Font=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp font selection dialog.
         
         Opens a dialog letting a user choose a font.
@@ -8195,11 +8437,14 @@ class _PyPDB:
         
         * popup_title - Title of the font selection dialog.
         
-        * initial_font_name - The name of the initial font choice.
+        * initial_font - The name of the initial font choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
         """
         pass
 
-    def gimp_fonts_refresh(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_fonts_refresh(self):
         """Refresh current fonts. This function always succeeds.
         
         This procedure retrieves all fonts currently in the user's font path and
@@ -8208,7 +8453,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_set_popup(self, font_callback: str, font_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_fonts_set_popup(self, font_callback: str=None, font: Gimp.Font=None):
         """Sets the current font in a font selection dialog.
         
         Sets the current font in a font selection dialog.
@@ -8218,11 +8463,11 @@ class _PyPDB:
         * font_callback - The name of the callback registered in the PDB for
           the dialog.
         
-        * font_name - The name of the font to set as selected.
+        * font - The font to set as selected.
         """
         pass
 
-    def gimp_get_color_configuration(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_get_color_configuration(self) -> str:
         """Get a serialized version of the color management configuration.
         
         Returns a string that can be deserialized into a GimpColorConfig object
@@ -8234,7 +8479,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_default_comment(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_get_default_comment(self) -> str:
         """Get the default image comment as specified in the Preferences.
         
         Returns a copy of the default image comment.
@@ -8245,7 +8490,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_default_unit(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
+    def gimp_get_default_unit(self) -> Gimp.Unit:
         """Get the default unit (taken from the user's locale).
         
         Returns the default unit's integer ID.
@@ -8256,7 +8501,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_images(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_get_images(self) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the list of images currently open.
         
         This procedure returns the list of images currently open in GIMP.
@@ -8269,7 +8514,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_module_load_inhibit(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_get_module_load_inhibit(self) -> str:
         """Get the list of modules which should not be loaded.
         
         Returns a copy of the list of modules which should not be loaded.
@@ -8280,7 +8525,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_monitor_resolution(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_get_monitor_resolution(self) -> Tuple[float, float]:
         """Get the monitor resolution as specified in the Preferences.
         
         Returns the resolution of the monitor in pixels/inch. This value is
@@ -8296,7 +8541,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_parasite(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_get_parasite(self, name: str=None) -> Gimp.Parasite:
         """Look up a global parasite.
         
         Finds and returns the global parasite that was previously attached.
@@ -8311,7 +8556,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_parasite_list(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_get_parasite_list(self) -> List[str]:
         """List all parasites.
         
         Returns a list of all currently attached global parasites.
@@ -8322,7 +8567,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_getpid(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_getpid(self) -> int:
         """Returns the PID of the host GIMP process.
         
         This procedure returns the process ID of the currently running GIMP.
@@ -8333,7 +8578,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gimprc_query(self, token: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_gimprc_query(self, token: str=None) -> str:
         """Queries the gimprc file parser for information on a specified token.
         
         This procedure is used to locate additional information contained in the
@@ -8357,7 +8602,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gimprc_set(self, token: str, value: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gimprc_set(self, token: str=None, value: str=None):
         """Sets a gimprc token to a value and saves it in the gimprc.
         
         This procedure is used to add or change additional information in the
@@ -8374,7 +8619,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def gimp_gradient_get_by_name(self, name: str=None) -> Gimp.Gradient:
         """Returns the gradient with the given name.
         
         Returns the gradient with the given name.
@@ -8389,7 +8634,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_custom_samples(self, gradient: Gimp.Gradient, num_samples: int, positions: Gimp.FloatArray, reverse: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray]:
+    def gimp_gradient_get_custom_samples(self, gradient: Gimp.Gradient=None, num_samples: int=None, positions: Gimp.FloatArray=None, reverse: bool=None) -> Tuple[int, Gimp.FloatArray]:
         """Sample the gradient in custom positions.
         
         Samples the color of the gradient at positions from a list. The left
@@ -8417,7 +8662,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_number_of_segments(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_gradient_get_number_of_segments(self, gradient: Gimp.Gradient=None) -> int:
         """Gets the number of segments of the gradient.
         
         Gets the number of segments of the gradient.
@@ -8432,7 +8677,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_get_uniform_samples(self, gradient: Gimp.Gradient, num_samples: int, reverse: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray]:
+    def gimp_gradient_get_uniform_samples(self, gradient: Gimp.Gradient=None, num_samples: int=None, reverse: bool=None) -> Tuple[int, Gimp.FloatArray]:
         """Sample the gradient in uniform parts.
         
         Samples colors uniformly across the gradient. It returns a list of
@@ -8461,7 +8706,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_new(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def gimp_gradient_new(self, name: str=None) -> Gimp.Gradient:
         """Creates a new gradient.
         
         Creates a new gradient having no segments.
@@ -8476,7 +8721,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_blending_function(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GradientSegmentType:
+    def gimp_gradient_segment_get_blending_function(self, gradient: Gimp.Gradient=None, segment: int=None) -> Gimp.GradientSegmentType:
         """Gets the gradient segment's blending function.
         
         Gets the blending function of the segment at the index. Returns an error
@@ -8496,7 +8741,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_coloring_type(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GradientSegmentColor:
+    def gimp_gradient_segment_get_coloring_type(self, gradient: Gimp.Gradient=None, segment: int=None) -> Gimp.GradientSegmentColor:
         """Gets the gradient segment's coloring type.
         
         Gets the coloring type of the segment at the index. Returns an error
@@ -8516,7 +8761,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_left_color(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.RGB, float]:
+    def gimp_gradient_segment_get_left_color(self, gradient: Gimp.Gradient=None, segment: int=None) -> Gegl.Color:
         """Gets the left endpoint color of the segment.
         
         Gets the left endpoint color of the indexed segment of the gradient.
@@ -8531,12 +8776,10 @@ class _PyPDB:
         Returns:
         
         * color - The return color.
-        
-        * opacity (default: 0.0) - The opacity of the endpoint.
         """
         pass
 
-    def gimp_gradient_segment_get_left_pos(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_get_left_pos(self, gradient: Gimp.Gradient=None, segment: int=None) -> float:
         """Gets the left endpoint position of a segment.
         
         Gets the position of the left endpoint of the segment of the gradient.
@@ -8554,7 +8797,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_middle_pos(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_get_middle_pos(self, gradient: Gimp.Gradient=None, segment: int=None) -> float:
         """Gets the midpoint position of the segment.
         
         Gets the position of the midpoint of the segment of the gradient.
@@ -8572,7 +8815,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_get_right_color(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.RGB, float]:
+    def gimp_gradient_segment_get_right_color(self, gradient: Gimp.Gradient=None, segment: int=None) -> Gegl.Color:
         """Gets the right endpoint color of the segment.
         
         Gets the color of the right endpoint color of the segment of the
@@ -8588,12 +8831,10 @@ class _PyPDB:
         Returns:
         
         * color - The return color.
-        
-        * opacity (default: 0.0) - The opacity of the endpoint.
         """
         pass
 
-    def gimp_gradient_segment_get_right_pos(self, gradient: Gimp.Gradient, segment: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_get_right_pos(self, gradient: Gimp.Gradient=None, segment: int=None) -> float:
         """Gets the right endpoint position of the segment.
         
         Gets the position of the right endpoint of the segment of the gradient.
@@ -8611,7 +8852,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_blend_colors(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_blend_colors(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None):
         """Blend the colors of the segment range.
         
         Blends the colors (but not the opacity) of the range of segments. The
@@ -8631,7 +8872,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_blend_opacity(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_blend_opacity(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None):
         """Blend the opacity of the segment range.
         
         Blends the opacity (but not the colors) of the range of segments. The
@@ -8651,7 +8892,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_delete(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_delete(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None):
         """Delete the segment range.
         
         Deletes a range of segments. Returns an error when a segment index is
@@ -8670,7 +8911,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_flip(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_flip(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None):
         """Flip the segment range.
         
         Reverses the order of segments in a range, and swaps the left and right
@@ -8690,7 +8931,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_move(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, delta: float, control_compress: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_range_move(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None, delta: float=None, control_compress: bool=None) -> float:
         """Move the position of an entire segment range by a delta.
         
         Moves the position of an entire segment range by a delta. The actual
@@ -8721,7 +8962,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_redistribute_handles(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_redistribute_handles(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None):
         """Uniformly redistribute the segment range's handles.
         
         Redistributes the handles of the segment range of the gradient, so
@@ -8741,7 +8982,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_replicate(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, replicate_times: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_replicate(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None, replicate_times: int=None):
         """Replicate the segment range.
         
         Replicates a segment range a given number of times. Instead of the
@@ -8764,7 +9005,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_set_blending_function(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, blending_function: Gimp.GradientSegmentType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_set_blending_function(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None, blending_function: Gimp.GradientSegmentType=None):
         """Sets the blending function of a range of segments.
         
         Sets the blending function of a range of segments. Returns an error when
@@ -8785,7 +9026,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_set_coloring_type(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, coloring_type: Gimp.GradientSegmentColor, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_set_coloring_type(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None, coloring_type: Gimp.GradientSegmentColor=None):
         """Sets the coloring type of a range of segments.
         
         Sets the coloring type of a range of segments. Returns an error when a
@@ -8806,7 +9047,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_split_midpoint(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_split_midpoint(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None):
         """Splits each segment in the segment range at midpoint.
         
         Splits each segment in the segment range at its midpoint. Returns an
@@ -8825,7 +9066,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_range_split_uniform(self, gradient: Gimp.Gradient, start_segment: int, end_segment: int, split_parts: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_range_split_uniform(self, gradient: Gimp.Gradient=None, start_segment: int=None, end_segment: int=None, split_parts: int=None):
         """Splits each segment in the segment range uniformly.
         
         Splits each segment in the segment range uniformly into to the number of
@@ -8847,12 +9088,13 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_left_color(self, gradient: Gimp.Gradient, segment: int, color: Gimp.RGB, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_set_left_color(self, gradient: Gimp.Gradient=None, segment: int=None, color: Gegl.Color=None):
         """Sets the left endpoint color of a segment.
         
         Sets the color of the left endpoint the indexed segment of the gradient.
-        Returns an error when gradient is not editable or index is out
-        of range.
+        The alpha channel of the [class@Gegl.Color] is taken into
+        account. Returns an error when gradient is not editable or index
+        is out of range.
         
         Parameters:
         
@@ -8861,12 +9103,10 @@ class _PyPDB:
         * segment (default: 0) - The index of a segment within the gradient.
         
         * color - The color to set.
-        
-        * opacity (default: 0.0) - The opacity to set for the endpoint.
         """
         pass
 
-    def gimp_gradient_segment_set_left_pos(self, gradient: Gimp.Gradient, segment: int, pos: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_set_left_pos(self, gradient: Gimp.Gradient=None, segment: int=None, pos: float=None) -> float:
         """Sets the left endpoint position of the segment.
         
         Sets the position of the left endpoint of the segment of the gradient.
@@ -8889,7 +9129,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_middle_pos(self, gradient: Gimp.Gradient, segment: int, pos: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_set_middle_pos(self, gradient: Gimp.Gradient=None, segment: int=None, pos: float=None) -> float:
         """Sets the midpoint position of the segment.
         
         Sets the midpoint position of the segment of the gradient. The final
@@ -8911,12 +9151,13 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradient_segment_set_right_color(self, gradient: Gimp.Gradient, segment: int, color: Gimp.RGB, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradient_segment_set_right_color(self, gradient: Gimp.Gradient=None, segment: int=None, color: Gegl.Color=None):
         """Sets the right endpoint color of the segment.
         
-        Sets the right endpoint color of the segment of the gradient. Returns an
-        error when gradient is not editable or segment index is out of
-        range.
+        Sets the right endpoint color of the segment of the gradient. The alpha
+        channel of the [class@Gegl.Color] is taken into account. Returns
+        an error when gradient is not editable or segment index is out
+        of range.
         
         Parameters:
         
@@ -8925,12 +9166,10 @@ class _PyPDB:
         * segment (default: 0) - The index of a segment within the gradient.
         
         * color - The color to set.
-        
-        * opacity (default: 0.0) - The opacity to set for the endpoint.
         """
         pass
 
-    def gimp_gradient_segment_set_right_pos(self, gradient: Gimp.Gradient, segment: int, pos: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_gradient_segment_set_right_pos(self, gradient: Gimp.Gradient=None, segment: int=None, pos: float=None) -> float:
         """Sets the right endpoint position of the segment.
         
         Sets the right endpoint position of the segment of the gradient. The
@@ -8953,7 +9192,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_close_popup(self, gradient_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_close_popup(self, gradient_callback: str=None):
         """Close the gradient selection dialog.
         
         Closes an open gradient selection dialog.
@@ -8965,7 +9204,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_get_active(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def gimp_gradients_get_active(self) -> Gimp.Gradient:
         """Get the currently active gradient.
         
         Returns the currently active gradient.
@@ -8976,7 +9215,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_get_gradient(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def gimp_gradients_get_gradient(self) -> Gimp.Gradient:
         """Get the currently active gradient.
         
         Returns the currently active gradient.
@@ -8987,7 +9226,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_gradients_get_list(self, filter: str=None) -> List[str]:
         """Retrieve the list of loaded gradients.
         
         This procedure returns a list of the gradients that are currently
@@ -9004,7 +9243,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_popup(self, gradient_callback: str, popup_title: str, initial_gradient_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_popup(self, gradient_callback: str=None, popup_title: str=None, initial_gradient: Gimp.Gradient=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp gradients selection dialog.
         
         Opens a dialog letting a user choose a gradient.
@@ -9016,11 +9255,14 @@ class _PyPDB:
         
         * popup_title - Title of the gradient selection dialog.
         
-        * initial_gradient_name - The name of the initial gradient choice.
+        * initial_gradient - The initial gradient choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
         """
         pass
 
-    def gimp_gradients_refresh(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_refresh(self):
         """Refresh current gradients. This function always succeeds.
         
         This procedure retrieves all gradients currently in the user's gradient
@@ -9028,7 +9270,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_set_active(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_set_active(self, gradient: Gimp.Gradient=None):
         """Sets the active gradient.
         
         Sets the active gradient in the current context. The gradient will be
@@ -9042,7 +9284,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_set_gradient(self, gradient: Gimp.Gradient, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_set_gradient(self, gradient: Gimp.Gradient=None):
         """Sets the active gradient.
         
         Sets the active gradient in the current context. The gradient will be
@@ -9056,7 +9298,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_set_popup(self, gradient_callback: str, gradient_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_gradients_set_popup(self, gradient_callback: str=None, gradient: Gimp.Gradient=None):
         """Sets the current gradient in a gradient selection dialog.
         
         Sets the current gradient in a gradient selection dialog.
@@ -9066,11 +9308,11 @@ class _PyPDB:
         * gradient_callback - The name of the callback registered for this
           pop-up.
         
-        * gradient_name - The name of the gradient to set as selected.
+        * gradient - The gradient to set as selected.
         """
         pass
 
-    def gimp_heal(self, drawable: Gimp.Drawable, src_drawable: Gimp.Drawable, src_x: float, src_y: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_heal(self, drawable: Gimp.Drawable=None, src_drawable: Gimp.Drawable=None, src_x: float=None, src_y: float=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Heal from the source to the dest drawable using the current brush.
         
         This tool heals the source drawable starting at the specified source
@@ -9098,7 +9340,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_heal_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_heal_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Heal from the source to the dest drawable using the current brush.
         
         This tool heals from the source drawable starting at the specified
@@ -9120,7 +9362,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help(self, help_domain: str, help_id: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help(self, help_domain: str=None, help_id: str=None):
         """Load a help page.
         
         This procedure loads the specified help page into the helpbrowser or
@@ -9139,7 +9381,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help_concepts_paths(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_concepts_paths(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: Using _Paths
@@ -9147,7 +9389,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help_concepts_usage(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_concepts_usage(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: _Basic Concepts
@@ -9155,7 +9397,15 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help_using_docks(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_main(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Bookmark to the user manual.
+        
+        Menu label: _[Table of Contents]
+        Menu path: <Image>/Help/User Manual
+        """
+        pass
+
+    def gimp_help_using_docks(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: How to Use _Dialogs
@@ -9163,7 +9413,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help_using_fileformats(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_using_fileformats(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: Create, Open and Save _Files
@@ -9171,7 +9421,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help_using_photography(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_using_photography(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: _Working with Digital Camera Photos
@@ -9179,14 +9429,14 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help_using_selections(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_using_selections(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: Create and Use _Selections
         """
         pass
 
-    def gimp_help_using_simpleobjects(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_using_simpleobjects(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: Drawing _Simple Objects
@@ -9194,7 +9444,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_help_using_web(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_help_using_web(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the user manual.
         
         Menu label: _Preparing your Images for the Web
@@ -9202,7 +9452,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_add_hguide(self, image: Gimp.Image, yposition: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_add_hguide(self, image: Gimp.Image=None, yposition: int=None) -> int:
         """Add a horizontal guide to an image.
         
         This procedure adds a horizontal guide to an image. It takes the input
@@ -9221,7 +9471,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_add_sample_point(self, image: Gimp.Image, position_x: int, position_y: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_add_sample_point(self, image: Gimp.Image=None, position_x: int=None, position_y: int=None) -> int:
         """Add a sample point to an image.
         
         This procedure adds a sample point to an image. It takes the input image
@@ -9244,7 +9494,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_add_vguide(self, image: Gimp.Image, xposition: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_add_vguide(self, image: Gimp.Image=None, xposition: int=None) -> int:
         """Add a vertical guide to an image.
         
         This procedure adds a vertical guide to an image. It takes the input
@@ -9263,7 +9513,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_attach_parasite(self, image: Gimp.Image, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_attach_parasite(self, image: Gimp.Image=None, parasite: Gimp.Parasite=None):
         """Add a parasite to an image.
         
         This procedure attaches a parasite to an image. It has no return values.
@@ -9276,7 +9526,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_clean_all(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_clean_all(self, image: Gimp.Image=None):
         """Set the image dirty count to 0.
         
         This procedure sets the specified image's dirty count to 0, allowing
@@ -9293,7 +9543,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_color_profile(self, image: Gimp.Image, color_profile: GLib.Bytes, intent: Gimp.ColorRenderingIntent, bpc: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_color_profile(self, image: Gimp.Image=None, color_profile: GLib.Bytes=None, intent: Gimp.ColorRenderingIntent=None, bpc: bool=None):
         """Convert the image's layers to a color profile.
         
         This procedure converts from the image's color profile (or the default
@@ -9314,7 +9564,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_color_profile_from_file(self, image: Gimp.Image, file: Gio.File, intent: Gimp.ColorRenderingIntent, bpc: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_color_profile_from_file(self, image: Gimp.Image=None, file: Gio.File=None, intent: Gimp.ColorRenderingIntent=None, bpc: bool=None):
         """Convert the image's layers to a color profile.
         
         This procedure converts from the image's color profile (or the default
@@ -9335,7 +9585,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_grayscale(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_grayscale(self, image: Gimp.Image=None):
         """Convert specified image to grayscale.
         
         This procedure converts the specified image to grayscale. This process
@@ -9347,7 +9597,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_indexed(self, image: Gimp.Image, dither_type: Gimp.ConvertDitherType, palette_type: Gimp.ConvertPaletteType, num_cols: int, alpha_dither: bool, remove_unused: bool, palette: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_indexed(self, image: Gimp.Image=None, dither_type: Gimp.ConvertDitherType=None, palette_type: Gimp.ConvertPaletteType=None, num_cols: int=None, alpha_dither: bool=None, remove_unused: bool=None, palette: str=None):
         """Convert specified image to and Indexed image.
         
         This procedure converts the specified image to 'indexed' color. This
@@ -9389,7 +9639,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_precision(self, image: Gimp.Image, precision: Gimp.Precision, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_precision(self, image: Gimp.Image=None, precision: Gimp.Precision=None):
         """Convert the image to the specified precision.
         
         This procedure converts the image to the specified precision. Note that
@@ -9405,7 +9655,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_rgb(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_rgb(self, image: Gimp.Image=None):
         """Convert specified image to RGB color.
         
         This procedure converts the specified image to RGB color. This process
@@ -9419,7 +9669,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_convert_set_dither_matrix(self, width: int, height: int, matrix: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_convert_set_dither_matrix(self, width: int=None, height: int=None, matrix: GLib.Bytes=None):
         """Set dither matrix for conversion to indexed.
         
         This procedure sets the dither matrix used when converting images to
@@ -9437,7 +9687,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_crop(self, image: Gimp.Image, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_crop(self, image: Gimp.Image=None, new_width: int=None, new_height: int=None, offx: int=None, offy: int=None):
         """Crop the image to the specified extents.
         
         This procedure crops the image so that it's new width and height are
@@ -9462,7 +9712,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_delete(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_delete(self, image: Gimp.Image=None):
         """Delete the specified image.
         
         If there are no displays associated with this image it will be deleted.
@@ -9478,7 +9728,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_delete_guide(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_delete_guide(self, image: Gimp.Image=None, guide: int=None):
         """Deletes a guide from an image.
         
         This procedure takes an image and a guide ID as input and removes the
@@ -9492,7 +9742,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_delete_sample_point(self, image: Gimp.Image, sample_point: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_delete_sample_point(self, image: Gimp.Image=None, sample_point: int=None):
         """Deletes a sample point from an image.
         
         This procedure takes an image and a sample point ID as input and removes
@@ -9507,7 +9757,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_detach_parasite(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_detach_parasite(self, image: Gimp.Image=None, name: str=None):
         """Removes a parasite from an image.
         
         This procedure detaches a parasite from an image. It has no return
@@ -9521,7 +9771,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_duplicate(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_image_duplicate(self, image: Gimp.Image=None) -> Gimp.Image:
         """Duplicate the specified image.
         
         This procedure duplicates the specified image, copying all layers,
@@ -9537,7 +9787,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_find_next_guide(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_find_next_guide(self, image: Gimp.Image=None, guide: int=None) -> int:
         """Find next guide on an image.
         
         This procedure takes an image and a guide ID as input and finds the
@@ -9559,7 +9809,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_find_next_sample_point(self, image: Gimp.Image, sample_point: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_find_next_sample_point(self, image: Gimp.Image=None, sample_point: int=None) -> int:
         """Find next sample point on an image.
         
         This procedure takes an image and a sample point ID as input and finds
@@ -9582,7 +9832,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_flatten(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_flatten(self, image: Gimp.Image=None) -> Gimp.Layer:
         """Flatten all visible layers into a single layer. Discard all invisible
         layers.
         
@@ -9601,7 +9851,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_flip(self, image: Gimp.Image, flip_type: Gimp.OrientationType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_flip(self, image: Gimp.Image=None, flip_type: Gimp.OrientationType=None):
         """Flips the image horizontally or vertically.
         
         This procedure flips (mirrors) the image.
@@ -9615,7 +9865,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_floating_sel_attached_to(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Drawable:
+    def gimp_image_floating_sel_attached_to(self, image: Gimp.Image=None) -> Gimp.Drawable:
         """Return the drawable the floating selection is attached to.
         
         This procedure returns the drawable the image's floating selection is
@@ -9632,7 +9882,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_floating_selection(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_floating_selection(self, image: Gimp.Image=None) -> Gimp.Layer:
         """Return the floating selection of the image.
         
         This procedure returns the image's floating selection, if it exists. If
@@ -9648,7 +9898,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_freeze_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_freeze_channels(self, image: Gimp.Image=None):
         """Freeze the image's channel list.
         
         This procedure freezes the channel list of the image, suppressing any
@@ -9666,7 +9916,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_freeze_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_freeze_layers(self, image: Gimp.Image=None):
         """Freeze the image's layer list.
         
         This procedure freezes the layer list of the image, suppressing any
@@ -9684,7 +9934,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_freeze_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_freeze_vectors(self, image: Gimp.Image=None):
         """Freeze the image's vectors list.
         
         This procedure freezes the vectors list of the image, suppressing any
@@ -9702,7 +9952,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_base_type(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ImageBaseType:
+    def gimp_image_get_base_type(self, image: Gimp.Image=None) -> Gimp.ImageBaseType:
         """Get the base type of the image.
         
         This procedure returns the image's base type. Layers in the image must
@@ -9719,7 +9969,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channel_by_name(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_image_get_channel_by_name(self, image: Gimp.Image=None, name: str=None) -> Gimp.Channel:
         """Find a channel with a given name in an image.
         
         This procedure returns the channel with the given name in the specified
@@ -9737,7 +9987,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channel_by_tattoo(self, image: Gimp.Image, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_image_get_channel_by_tattoo(self, image: Gimp.Image=None, tattoo: int=None) -> Gimp.Channel:
         """Find a channel with a given tattoo in an image.
         
         This procedure returns the channel with the given tattoo in the
@@ -9755,7 +10005,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channel_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_channel_position(self, image: Gimp.Image=None, item: Gimp.Item=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -9776,7 +10026,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_channels(self, image: Gimp.Image=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the list of channels contained in the specified image.
         
         This procedure returns the list of channels contained in the specified
@@ -9798,7 +10048,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_cmap(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_cmap(self, image: Gimp.Image=None) -> GLib.Bytes:
         """Returns the image's colormap.
         
         This procedure returns an actual pointer to the image's colormap, as
@@ -9817,7 +10067,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_color_profile(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_color_profile(self, image: Gimp.Image=None) -> GLib.Bytes:
         """Returns the image's color profile.
         
         This procedure returns the image's color profile, or NULL if the image
@@ -9833,7 +10083,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_colormap(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_colormap(self, image: Gimp.Image=None) -> GLib.Bytes:
         """Returns the image's colormap.
         
         This procedure returns an actual pointer to the image's colormap, as
@@ -9852,7 +10102,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_component_active(self, image: Gimp.Image, component: Gimp.ChannelType, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_get_component_active(self, image: Gimp.Image=None, component: Gimp.ChannelType=None) -> bool:
         """Returns if the specified image's image component is active.
         
         This procedure returns if the specified image's image component (i.e.
@@ -9874,7 +10124,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_component_visible(self, image: Gimp.Image, component: Gimp.ChannelType, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_get_component_visible(self, image: Gimp.Image=None, component: Gimp.ChannelType=None) -> bool:
         """Returns if the specified image's image component is visible.
         
         This procedure returns if the specified image's image component (i.e.
@@ -9895,7 +10145,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_default_new_layer_mode(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
+    def gimp_image_get_default_new_layer_mode(self, image: Gimp.Image=None) -> Gimp.LayerMode:
         """Get the default mode for newly created layers of this image.
         
         Returns the default mode for newly created layers of this image.
@@ -9911,7 +10161,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_effective_color_profile(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_effective_color_profile(self, image: Gimp.Image=None) -> GLib.Bytes:
         """Returns the color profile that is used for the image.
         
         This procedure returns the color profile that is actually used for this
@@ -9930,7 +10180,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_exported_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_exported_file(self, image: Gimp.Image=None) -> Gio.File:
         """Returns the exported file for the specified image.
         
         This procedure returns the file associated with the specified image if
@@ -9947,7 +10197,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_file(self, image: Gimp.Image=None) -> Gio.File:
         """Returns the file for the specified image.
         
         This procedure returns the file associated with the specified image. The
@@ -9968,7 +10218,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_floating_sel(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_get_floating_sel(self, image: Gimp.Image=None) -> Gimp.Layer:
         """Return the floating selection of the image.
         
         This procedure returns the image's floating selection, if it exists. If
@@ -9984,7 +10234,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_guide_orientation(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.OrientationType:
+    def gimp_image_get_guide_orientation(self, image: Gimp.Image=None, guide: int=None) -> Gimp.OrientationType:
         """Get orientation of a guide on an image.
         
         This procedure takes an image and a guide ID as input and returns the
@@ -10003,7 +10253,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_guide_position(self, image: Gimp.Image, guide: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_guide_position(self, image: Gimp.Image=None, guide: int=None) -> int:
         """Get position of a guide on an image.
         
         This procedure takes an image and a guide ID as input and returns the
@@ -10022,7 +10272,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_height(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_height(self, image: Gimp.Image=None) -> int:
         """Return the height of the image.
         
         This procedure returns the image's height. This value is independent of
@@ -10038,7 +10288,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_imported_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_imported_file(self, image: Gimp.Image=None) -> Gio.File:
         """Returns the imported file for the specified image.
         
         This procedure returns the file associated with the specified image if
@@ -10056,7 +10306,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_item_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_item_position(self, image: Gimp.Image=None, item: Gimp.Item=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -10077,7 +10327,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layer_by_name(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_get_layer_by_name(self, image: Gimp.Image=None, name: str=None) -> Gimp.Layer:
         """Find a layer with a given name in an image.
         
         This procedure returns the layer with the given name in the specified
@@ -10095,7 +10345,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layer_by_tattoo(self, image: Gimp.Image, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_get_layer_by_tattoo(self, image: Gimp.Image=None, tattoo: int=None) -> Gimp.Layer:
         """Find a layer with a given tattoo in an image.
         
         This procedure returns the layer with the given tattoo in the specified
@@ -10113,7 +10363,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layer_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_layer_position(self, image: Gimp.Image=None, item: Gimp.Item=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -10134,7 +10384,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_layers(self, image: Gimp.Image=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the list of root layers contained in the specified image.
         
         This procedure returns the list of root layers contained in the
@@ -10159,7 +10409,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_metadata(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_image_get_metadata(self, image: Gimp.Image=None) -> str:
         """Returns the image's metadata.
         
         Returns exif/iptc/xmp metadata from the image.
@@ -10174,7 +10424,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_name(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_image_get_name(self, image: Gimp.Image=None) -> str:
         """Returns the specified image's name.
         
         This procedure returns the image's name. If the image has a filename or
@@ -10195,7 +10445,23 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_parasite(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_image_get_palette(self, image: Gimp.Image=None) -> Gimp.Palette:
+        """Returns the image's colormap.
+        
+        This procedure returns the image's colormap as a GimpPalette. If the
+        image is not in Indexed color mode, %NULL is returned.
+        
+        Parameters:
+        
+        * image - The image.
+        
+        Returns:
+        
+        * colormap - The image's colormap.
+        """
+        pass
+
+    def gimp_image_get_parasite(self, image: Gimp.Image=None, name: str=None) -> Gimp.Parasite:
         """Look up a parasite in an image.
         
         Finds and returns the parasite that was previously attached to an image.
@@ -10212,7 +10478,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_parasite_list(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_image_get_parasite_list(self, image: Gimp.Image=None) -> List[str]:
         """List all parasites.
         
         Returns a list of the names of all currently attached parasites. These
@@ -10229,7 +10495,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_precision(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Precision:
+    def gimp_image_get_precision(self, image: Gimp.Image=None) -> Gimp.Precision:
         """Get the precision of the image.
         
         This procedure returns the image's precision.
@@ -10245,7 +10511,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_resolution(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_image_get_resolution(self, image: Gimp.Image=None) -> Tuple[float, float]:
         """Returns the specified image's resolution.
         
         This procedure returns the specified image's resolution in dots per
@@ -10266,7 +10532,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_sample_point_position(self, image: Gimp.Image, sample_point: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int]:
+    def gimp_image_get_sample_point_position(self, image: Gimp.Image=None, sample_point: int=None) -> Tuple[int, int]:
         """Get position of a sample point on an image.
         
         This procedure takes an image and a sample point ID as input and returns
@@ -10289,7 +10555,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_channels(self, image: Gimp.Image=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the specified image's selected channels.
         
         This procedure returns the list of selected channels in the specified
@@ -10308,7 +10574,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_drawables(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_drawables(self, image: Gimp.Image=None) -> Tuple[int, Gimp.ObjectArray]:
         """Get the image's selected drawables.
         
         This procedure returns the list of selected drawable in the specified
@@ -10331,7 +10597,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_layers(self, image: Gimp.Image=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the specified image's selected layers.
         
         This procedure returns the list of selected layers in the specified
@@ -10350,7 +10616,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_selected_vectors(self, image: Gimp.Image=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the specified image's selected vectors.
         
         This procedure returns the list of selected vectors in the specified
@@ -10369,7 +10635,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selection(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Selection:
+    def gimp_image_get_selection(self, image: Gimp.Image=None) -> Gimp.Selection:
         """Returns the specified image's selection.
         
         This will always return a valid ID for a selection -- which is
@@ -10385,7 +10651,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_simulation_bpc(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_get_simulation_bpc(self, image: Gimp.Image=None) -> bool:
         """Returns whether the image has Black Point Compensation enabled for
         its simulation.
         
@@ -10402,7 +10668,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_simulation_intent(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ColorRenderingIntent:
+    def gimp_image_get_simulation_intent(self, image: Gimp.Image=None) -> Gimp.ColorRenderingIntent:
         """Returns the image's simulation rendering intent.
         
         This procedure returns the image's simulation rendering intent.
@@ -10419,7 +10685,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_simulation_profile(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_image_get_simulation_profile(self, image: Gimp.Image=None) -> GLib.Bytes:
         """Returns the image's simulation color profile.
         
         This procedure returns the image's simulation color profile, or NULL if
@@ -10435,7 +10701,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_tattoo_state(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_tattoo_state(self, image: Gimp.Image=None) -> int:
         """Returns the tattoo state associated with the image.
         
         This procedure returns the tattoo state of the image. Use only by
@@ -10453,7 +10719,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_unit(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
+    def gimp_image_get_unit(self, image: Gimp.Image=None) -> Gimp.Unit:
         """Returns the specified image's unit.
         
         This procedure returns the specified image's unit. This value is
@@ -10471,7 +10737,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_image_get_vectors(self, image: Gimp.Image=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the list of vectors contained in the specified image.
         
         This procedure returns the list of vectors contained in the specified
@@ -10490,7 +10756,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors_by_name(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_image_get_vectors_by_name(self, image: Gimp.Image=None, name: str=None) -> Gimp.Vectors:
         """Find a vectors with a given name in an image.
         
         This procedure returns the vectors with the given name in the specified
@@ -10508,7 +10774,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors_by_tattoo(self, image: Gimp.Image, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_image_get_vectors_by_tattoo(self, image: Gimp.Image=None, tattoo: int=None) -> Gimp.Vectors:
         """Find a vectors with a given tattoo in an image.
         
         This procedure returns the vectors with the given tattoo in the
@@ -10526,7 +10792,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_vectors_position(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_vectors_position(self, image: Gimp.Image=None, item: Gimp.Item=None) -> int:
         """Returns the position of the item in its level of its item tree.
         
         This procedure determines the position of the specified item in its
@@ -10547,7 +10813,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_width(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_image_get_width(self, image: Gimp.Image=None) -> int:
         """Return the width of the image.
         
         This procedure returns the image's width. This value is independent of
@@ -10563,7 +10829,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_xcf_file(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_image_get_xcf_file(self, image: Gimp.Image=None) -> Gio.File:
         """Returns the XCF file for the specified image.
         
         This procedure returns the XCF file associated with the image. If there
@@ -10579,7 +10845,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_background_color(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_image_grid_get_background_color(self, image: Gimp.Image=None) -> Gegl.Color:
         """Sets the background color of an image's grid.
         
         This procedure gets the background color of an image's grid.
@@ -10594,7 +10860,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_foreground_color(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_image_grid_get_foreground_color(self, image: Gimp.Image=None) -> Gegl.Color:
         """Sets the foreground color of an image's grid.
         
         This procedure gets the foreground color of an image's grid.
@@ -10609,7 +10875,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_offset(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_image_grid_get_offset(self, image: Gimp.Image=None) -> Tuple[float, float]:
         """Gets the offset of an image's grid.
         
         This procedure retrieves the horizontal and vertical offset of an
@@ -10627,7 +10893,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_spacing(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float]:
+    def gimp_image_grid_get_spacing(self, image: Gimp.Image=None) -> Tuple[float, float]:
         """Gets the spacing of an image's grid.
         
         This procedure retrieves the horizontal and vertical spacing of an
@@ -10645,7 +10911,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_style(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.GridStyle:
+    def gimp_image_grid_get_style(self, image: Gimp.Image=None) -> Gimp.GridStyle:
         """Gets the style of an image's grid.
         
         This procedure retrieves the style of an image's grid.
@@ -10661,7 +10927,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_background_color(self, image: Gimp.Image, bgcolor: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_background_color(self, image: Gimp.Image=None, bgcolor: Gegl.Color=None):
         """Gets the background color of an image's grid.
         
         This procedure sets the background color of an image's grid.
@@ -10674,7 +10940,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_foreground_color(self, image: Gimp.Image, fgcolor: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_foreground_color(self, image: Gimp.Image=None, fgcolor: Gegl.Color=None):
         """Gets the foreground color of an image's grid.
         
         This procedure sets the foreground color of an image's grid.
@@ -10687,7 +10953,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_offset(self, image: Gimp.Image, xoffset: float, yoffset: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_offset(self, image: Gimp.Image=None, xoffset: float=None, yoffset: float=None):
         """Sets the offset of an image's grid.
         
         This procedure sets the horizontal and vertical offset of an image's
@@ -10703,7 +10969,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_spacing(self, image: Gimp.Image, xspacing: float, yspacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_spacing(self, image: Gimp.Image=None, xspacing: float=None, yspacing: float=None):
         """Sets the spacing of an image's grid.
         
         This procedure sets the horizontal and vertical spacing of an image's
@@ -10719,7 +10985,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_style(self, image: Gimp.Image, style: Gimp.GridStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_grid_set_style(self, image: Gimp.Image=None, style: Gimp.GridStyle=None):
         """Sets the style unit of an image's grid.
         
         This procedure sets the style of an image's grid. It takes the image and
@@ -10734,7 +11000,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_id_is_valid(self, image_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_id_is_valid(self, image_id: int=None) -> bool:
         """Returns TRUE if the image ID is valid.
         
         This procedure checks if the given image ID is valid and refers to an
@@ -10750,7 +11016,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_insert_channel(self, image: Gimp.Image, channel: Gimp.Channel, parent: Gimp.Channel, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_insert_channel(self, image: Gimp.Image=None, channel: Gimp.Channel=None, parent: Gimp.Channel=None, position: int=None):
         """Add the specified channel to the image.
         
         This procedure adds the specified channel to the image at the given
@@ -10772,7 +11038,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_insert_layer(self, image: Gimp.Image, layer: Gimp.Layer, parent: Gimp.Layer, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_insert_layer(self, image: Gimp.Image=None, layer: Gimp.Layer=None, parent: Gimp.Layer=None, position: int=None):
         """Add the specified layer to the image.
         
         This procedure adds the specified layer to the image at the given
@@ -10800,7 +11066,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_insert_vectors(self, image: Gimp.Image, vectors: Gimp.Vectors, parent: Gimp.Vectors, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_insert_vectors(self, image: Gimp.Image=None, vectors: Gimp.Vectors=None, parent: Gimp.Vectors=None, position: int=None):
         """Add the specified vectors to the image.
         
         This procedure adds the specified vectors to the image at the given
@@ -10822,7 +11088,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_is_dirty(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_is_dirty(self, image: Gimp.Image=None) -> bool:
         """Checks if the image has unsaved changes.
         
         This procedure checks the specified image's dirty count to see if it
@@ -10841,7 +11107,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_channel(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_channel(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10855,7 +11121,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_item(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_item(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10869,7 +11135,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_item_to_bottom(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_item_to_bottom(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Lower the specified item to the bottom of its level in its item tree.
         
         This procedure lowers the specified item to bottom of its level in the
@@ -10884,7 +11150,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_layer(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_layer(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10898,7 +11164,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_layer_to_bottom(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_layer_to_bottom(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Lower the specified item to the bottom of its level in its item tree.
         
         This procedure lowers the specified item to bottom of its level in the
@@ -10913,7 +11179,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_vectors(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_vectors(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Lower the specified item in its level in its item tree.
         
         This procedure lowers the specified item one step in the item tree. The
@@ -10927,7 +11193,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_lower_vectors_to_bottom(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_lower_vectors_to_bottom(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Lower the specified item to the bottom of its level in its item tree.
         
         This procedure lowers the specified item to bottom of its level in the
@@ -10942,7 +11208,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_merge_down(self, image: Gimp.Image, merge_layer: Gimp.Layer, merge_type: Gimp.MergeType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_merge_down(self, image: Gimp.Image=None, merge_layer: Gimp.Layer=None, merge_type: Gimp.MergeType=None) -> Gimp.Layer:
         """Merge the layer passed and the first visible layer below.
         
         This procedure combines the passed layer and the first visible layer
@@ -10968,7 +11234,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_merge_layer_group(self, image: Gimp.Image, layer_group: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_merge_layer_group(self, image: Gimp.Image=None, layer_group: Gimp.Layer=None) -> Gimp.Layer:
         """Merge the passed layer group's layers into one normal layer.
         
         This procedure combines the layers of the passed layer group into a
@@ -10986,7 +11252,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_merge_visible_layers(self, image: Gimp.Image, merge_type: Gimp.MergeType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_merge_visible_layers(self, image: Gimp.Image=None, merge_type: Gimp.MergeType=None) -> Gimp.Layer:
         """Merge the visible image layers into one.
         
         This procedure combines the visible layers into a single layer using the
@@ -11009,7 +11275,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_new(self, width: int, height: int, type: Gimp.ImageBaseType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_image_new(self, width: int=None, height: int=None, type: Gimp.ImageBaseType=None) -> Gimp.Image:
         """Creates a new image with the specified width, height, and type.
         
         Creates a new image, undisplayed, with the specified extents and type. A
@@ -11038,7 +11304,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_new_with_precision(self, width: int, height: int, type: Gimp.ImageBaseType, precision: Gimp.Precision, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_image_new_with_precision(self, width: int=None, height: int=None, type: Gimp.ImageBaseType=None, precision: Gimp.Precision=None) -> Gimp.Image:
         """Creates a new image with the specified width, height, type and
         precision.
         
@@ -11065,7 +11331,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_attach(self, image: Gimp.Image, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_parasite_attach(self, image: Gimp.Image=None, parasite: Gimp.Parasite=None):
         """Add a parasite to an image.
         
         This procedure attaches a parasite to an image. It has no return values.
@@ -11078,7 +11344,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_detach(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_parasite_detach(self, image: Gimp.Image=None, name: str=None):
         """Removes a parasite from an image.
         
         This procedure detaches a parasite from an image. It has no return
@@ -11092,7 +11358,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_find(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_image_parasite_find(self, image: Gimp.Image=None, name: str=None) -> Gimp.Parasite:
         """Look up a parasite in an image.
         
         Finds and returns the parasite that was previously attached to an image.
@@ -11109,7 +11375,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_parasite_list(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_image_parasite_list(self, image: Gimp.Image=None) -> List[str]:
         """List all parasites.
         
         Returns a list of the names of all currently attached parasites. These
@@ -11126,7 +11392,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_pick_color(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, x: float, y: float, sample_merged: bool, sample_average: bool, average_radius: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_image_pick_color(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, x: float=None, y: float=None, sample_merged: bool=None, sample_average: bool=None, average_radius: float=None) -> Gegl.Color:
         """Determine the color at the given coordinates.
         
         This tool determines the color at the specified coordinates. The
@@ -11170,7 +11436,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_pick_correlate_layer(self, image: Gimp.Image, x: int, y: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_image_pick_correlate_layer(self, image: Gimp.Image=None, x: int=None, y: int=None) -> Gimp.Layer:
         """Find the layer visible at the specified coordinates.
         
         This procedure finds the layer which is visible at the specified
@@ -11193,7 +11459,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_policy_color_profile(self, image: Gimp.Image, interactive: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_policy_color_profile(self, image: Gimp.Image=None, interactive: bool=None):
         """Execute the color profile conversion policy.
         
         Process the image according to the color profile policy as set in
@@ -11221,7 +11487,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_policy_rotate(self, image: Gimp.Image, interactive: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_policy_rotate(self, image: Gimp.Image=None, interactive: bool=None):
         """Execute the "Orientation" metadata policy.
         
         Process the image according to the rotation policy as set in
@@ -11247,7 +11513,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_channel(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_channel(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11261,7 +11527,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_item(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_item(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11275,7 +11541,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_item_to_top(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_item_to_top(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Raise the specified item to the top of its level in its item tree.
         
         This procedure raises the specified item to top of its level in the item
@@ -11289,7 +11555,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_layer(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_layer(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11303,7 +11569,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_layer_to_top(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_layer_to_top(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Raise the specified item to the top of its level in its item tree.
         
         This procedure raises the specified item to top of its level in the item
@@ -11317,7 +11583,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_vectors(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_vectors(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Raise the specified item in its level in its item tree.
         
         This procedure raises the specified item one step in the item tree. The
@@ -11331,7 +11597,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_raise_vectors_to_top(self, image: Gimp.Image, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_raise_vectors_to_top(self, image: Gimp.Image=None, item: Gimp.Item=None):
         """Raise the specified item to the top of its level in its item tree.
         
         This procedure raises the specified item to top of its level in the item
@@ -11345,7 +11611,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_remove_channel(self, image: Gimp.Image, channel: Gimp.Channel, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_remove_channel(self, image: Gimp.Image=None, channel: Gimp.Channel=None):
         """Remove the specified channel from the image.
         
         This procedure removes the specified channel from the image. If the
@@ -11359,7 +11625,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_remove_layer(self, image: Gimp.Image, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_remove_layer(self, image: Gimp.Image=None, layer: Gimp.Layer=None):
         """Remove the specified layer from the image.
         
         This procedure removes the specified layer from the image. If the layer
@@ -11376,7 +11642,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_remove_vectors(self, image: Gimp.Image, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_remove_vectors(self, image: Gimp.Image=None, vectors: Gimp.Vectors=None):
         """Remove the specified path from the image.
         
         This procedure removes the specified path from the image. If the path
@@ -11390,7 +11656,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_reorder_item(self, image: Gimp.Image, item: Gimp.Item, parent: Gimp.Item, position: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_reorder_item(self, image: Gimp.Image=None, item: Gimp.Item=None, parent: Gimp.Item=None, position: int=None):
         """Reorder the specified item within its item tree.
         
         This procedure reorders the specified item within its item tree.
@@ -11407,7 +11673,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_resize(self, image: Gimp.Image, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_resize(self, image: Gimp.Image=None, new_width: int=None, new_height: int=None, offx: int=None, offy: int=None):
         """Resize the image to the specified extents.
         
         This procedure resizes the image so that it's new width and height are
@@ -11434,7 +11700,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_resize_to_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_resize_to_layers(self, image: Gimp.Image=None):
         """Resize the image to fit all layers.
         
         This procedure resizes the image to the bounding box of all layers of
@@ -11448,7 +11714,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_rotate(self, image: Gimp.Image, rotate_type: Gimp.RotationType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_rotate(self, image: Gimp.Image=None, rotate_type: Gimp.RotationType=None):
         """Rotates the image by the specified degrees.
         
         This procedure rotates the image.
@@ -11457,12 +11723,12 @@ class _PyPDB:
         
         * image - The image.
         
-        * rotate_type (default: <enum GIMP_ROTATE_90 of type
+        * rotate_type (default: <enum GIMP_ROTATE_DEGREES90 of type
           Gimp.RotationType>) - Angle of rotation.
         """
         pass
 
-    def gimp_image_scale(self, image: Gimp.Image, new_width: int, new_height: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_scale(self, image: Gimp.Image=None, new_width: int=None, new_height: int=None):
         """Scale the image using the default interpolation method.
         
         This procedure scales the image so that its new width and height are
@@ -11481,7 +11747,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_color(self, image: Gimp.Image, operation: Gimp.ChannelOps, drawable: Gimp.Drawable, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_color(self, image: Gimp.Image=None, operation: Gimp.ChannelOps=None, drawable: Gimp.Drawable=None, color: Gegl.Color=None):
         """Create a selection by selecting all pixels (in the specified
         drawable) with the same (or similar) color to that specified.
         
@@ -11517,7 +11783,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_contiguous_color(self, image: Gimp.Image, operation: Gimp.ChannelOps, drawable: Gimp.Drawable, x: float, y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_contiguous_color(self, image: Gimp.Image=None, operation: Gimp.ChannelOps=None, drawable: Gimp.Drawable=None, x: float=None, y: float=None):
         """Create a selection by selecting all pixels around specified
         coordinates with the same (or similar) color to that at the
         coordinates.
@@ -11565,7 +11831,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_ellipse(self, image: Gimp.Image, operation: Gimp.ChannelOps, x: float, y: float, width: float, height: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_ellipse(self, image: Gimp.Image=None, operation: Gimp.ChannelOps=None, x: float=None, y: float=None, width: float=None, height: float=None):
         """Create an elliptical selection over the specified image.
         
         This tool creates an elliptical selection over the specified image. The
@@ -11595,7 +11861,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_item(self, image: Gimp.Image, operation: Gimp.ChannelOps, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_item(self, image: Gimp.Image=None, operation: Gimp.ChannelOps=None, item: Gimp.Item=None):
         """Transforms the specified item into a selection.
         
         This procedure renders the item's outline into the current selection of
@@ -11619,7 +11885,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_polygon(self, image: Gimp.Image, operation: Gimp.ChannelOps, num_segs: int, segs: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_polygon(self, image: Gimp.Image=None, operation: Gimp.ChannelOps=None, num_segs: int=None, segs: Gimp.FloatArray=None):
         """Create a polygonal selection over the specified image.
         
         This tool creates a polygonal selection over the specified image. The
@@ -11650,7 +11916,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_rectangle(self, image: Gimp.Image, operation: Gimp.ChannelOps, x: float, y: float, width: float, height: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_rectangle(self, image: Gimp.Image=None, operation: Gimp.ChannelOps=None, x: float=None, y: float=None, width: float=None, height: float=None):
         """Create a rectangular selection over the specified image;.
         
         This tool creates a rectangular selection over the specified image. The
@@ -11677,7 +11943,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_select_round_rectangle(self, image: Gimp.Image, operation: Gimp.ChannelOps, x: float, y: float, width: float, height: float, corner_radius_x: float, corner_radius_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_select_round_rectangle(self, image: Gimp.Image=None, operation: Gimp.ChannelOps=None, x: float=None, y: float=None, width: float=None, height: float=None, corner_radius_x: float=None, corner_radius_y: float=None):
         """Create a rectangular selection with round corners over the specified
         image;.
         
@@ -11709,7 +11975,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_cmap(self, image: Gimp.Image, colormap: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_cmap(self, image: Gimp.Image=None, colormap: GLib.Bytes=None):
         """Sets the entries in the image's colormap.
         
         This procedure sets the entries in the specified image's colormap. The
@@ -11726,7 +11992,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_color_profile(self, image: Gimp.Image, color_profile: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_color_profile(self, image: Gimp.Image=None, color_profile: GLib.Bytes=None):
         """Sets the image's color profile.
         
         This procedure sets the image's color profile, or unsets it if NULL is
@@ -11743,7 +12009,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_color_profile_from_file(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_color_profile_from_file(self, image: Gimp.Image=None, file: Gio.File=None):
         """Sets the image's color profile from an ICC file.
         
         This procedure sets the image's color profile from a file containing an
@@ -11761,7 +12027,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_colormap(self, image: Gimp.Image, colormap: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_colormap(self, image: Gimp.Image=None, colormap: GLib.Bytes=None):
         """Sets the entries in the image's colormap.
         
         This procedure sets the entries in the specified image's colormap. The
@@ -11778,7 +12044,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_component_active(self, image: Gimp.Image, component: Gimp.ChannelType, active: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_component_active(self, image: Gimp.Image=None, component: Gimp.ChannelType=None, active: bool=None):
         """Sets if the specified image's image component is active.
         
         This procedure sets if the specified image's image component (i.e. Red,
@@ -11797,7 +12063,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_component_visible(self, image: Gimp.Image, component: Gimp.ChannelType, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_component_visible(self, image: Gimp.Image=None, component: Gimp.ChannelType=None, visible: bool=None):
         """Sets if the specified image's image component is visible.
         
         This procedure sets if the specified image's image component (i.e. Red,
@@ -11816,7 +12082,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_file(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_file(self, image: Gimp.Image=None, file: Gio.File=None):
         """Sets the specified XCF image's file.
         
         This procedure sets the specified image's file. This is to set the XCF
@@ -11832,7 +12098,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_metadata(self, image: Gimp.Image, metadata_string: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_metadata(self, image: Gimp.Image=None, metadata_string: str=None):
         """Set the image's metadata.
         
         Sets exif/iptc/xmp metadata on the image.
@@ -11845,7 +12111,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_resolution(self, image: Gimp.Image, xresolution: float, yresolution: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_resolution(self, image: Gimp.Image=None, xresolution: float=None, yresolution: float=None):
         """Sets the specified image's resolution.
         
         This procedure sets the specified image's resolution in dots per inch.
@@ -11864,7 +12130,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_selected_channels(self, image: Gimp.Image, num_channels: int, channels: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_selected_channels(self, image: Gimp.Image=None, num_channels: int=None, channels: Gimp.ObjectArray=None):
         """Sets the specified image's selected channels.
         
         The channels are set as the selected channels in the image. Any previous
@@ -11882,7 +12148,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_selected_layers(self, image: Gimp.Image, num_layers: int, layers: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_selected_layers(self, image: Gimp.Image=None, num_layers: int=None, layers: Gimp.ObjectArray=None):
         """Sets the specified image's selected layers.
         
         The layers are set as the selected layers in the image. Any previous
@@ -11900,7 +12166,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_selected_vectors(self, image: Gimp.Image, num_vectors: int, vectors: Gimp.ObjectArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_selected_vectors(self, image: Gimp.Image=None, num_vectors: int=None, vectors: Gimp.ObjectArray=None):
         """Sets the specified image's selected vectors.
         
         The vectors are set as the selected vectors in the image.
@@ -11915,7 +12181,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_bpc(self, image: Gimp.Image, bpc: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_bpc(self, image: Gimp.Image=None, bpc: bool=None):
         """Sets whether the image has Black Point Compensation enabled for its
         simulation.
         
@@ -11930,7 +12196,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_intent(self, image: Gimp.Image, intent: Gimp.ColorRenderingIntent, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_intent(self, image: Gimp.Image=None, intent: Gimp.ColorRenderingIntent=None):
         """Sets the image's simulation rendering intent.
         
         This procedure sets the image's simulation rendering intent.
@@ -11945,7 +12211,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_profile(self, image: Gimp.Image, color_profile: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_profile(self, image: Gimp.Image=None, color_profile: GLib.Bytes=None):
         """Sets the image's simulation color profile.
         
         This procedure sets the image's simulation color profile, or unsets it
@@ -11960,7 +12226,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_simulation_profile_from_file(self, image: Gimp.Image, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_simulation_profile_from_file(self, image: Gimp.Image=None, file: Gio.File=None):
         """Sets the image's simulation color profile from an ICC file.
         
         This procedure sets the image's simulation color profile from a file
@@ -11975,7 +12241,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_tattoo_state(self, image: Gimp.Image, tattoo_state: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_tattoo_state(self, image: Gimp.Image=None, tattoo_state: int=None):
         """Set the tattoo state associated with the image.
         
         This procedure sets the tattoo state of the image. Use only by save/load
@@ -11999,7 +12265,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_unit(self, image: Gimp.Image, unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_set_unit(self, image: Gimp.Image=None, unit: Gimp.Unit=None):
         """Sets the specified image's unit.
         
         This procedure sets the specified image's unit. No scaling or resizing
@@ -12015,7 +12281,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thaw_channels(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_thaw_channels(self, image: Gimp.Image=None):
         """Thaw the image's channel list.
         
         This procedure thaws the channel list of the image, re-enabling updates
@@ -12030,7 +12296,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thaw_layers(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_thaw_layers(self, image: Gimp.Image=None):
         """Thaw the image's layer list.
         
         This procedure thaws the layer list of the image, re-enabling updates to
@@ -12045,7 +12311,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thaw_vectors(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_thaw_vectors(self, image: Gimp.Image=None):
         """Thaw the image's vectors list.
         
         This procedure thaws the vectors list of the image, re-enabling updates
@@ -12060,7 +12326,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_thumbnail(self, image: Gimp.Image, width: int, height: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_image_thumbnail(self, image: Gimp.Image=None, width: int=None, height: int=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Get a thumbnail of an image.
         
         This function gets data from which a thumbnail of an image preview can
@@ -12088,7 +12354,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_disable(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_disable(self, image: Gimp.Image=None) -> bool:
         """Disable the image's undo stack.
         
         This procedure disables the image's undo stack, allowing subsequent
@@ -12108,7 +12374,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_enable(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_enable(self, image: Gimp.Image=None) -> bool:
         """Enable the image's undo stack.
         
         This procedure enables the image's undo stack, allowing subsequent
@@ -12126,7 +12392,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_freeze(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_freeze(self, image: Gimp.Image=None) -> bool:
         """Freeze the image's undo stack.
         
         This procedure freezes the image's undo stack, allowing subsequent
@@ -12139,7 +12405,7 @@ class _PyPDB:
         that the former does not free up all undo steps when undo is
         thawed, so is more suited to interactive in-situ previews. It is
         important in this case that the image is back to the same state
-        it was frozen in before thawing, else 'undo' behaviour is
+        it was frozen in before thawing, else 'undo' behavior is
         undefined.
         
         Parameters:
@@ -12152,7 +12418,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_group_end(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_undo_group_end(self, image: Gimp.Image=None):
         """Finish a group undo.
         
         This function must be called once for each 'gimp-image-undo-group-start'
@@ -12164,7 +12430,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_group_start(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_undo_group_start(self, image: Gimp.Image=None):
         """Starts a group undo.
         
         This function is used to start a group undo--necessary for logically
@@ -12178,7 +12444,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_is_enabled(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_is_enabled(self, image: Gimp.Image=None) -> bool:
         """Check if the image's undo stack is enabled.
         
         This procedure checks if the image's undo stack is currently enabled or
@@ -12196,7 +12462,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_undo_thaw(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_image_undo_thaw(self, image: Gimp.Image=None) -> bool:
         """Thaw the image's undo stack.
         
         This procedure thaws the image's undo stack, allowing subsequent
@@ -12220,7 +12486,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_unset_active_channel(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_image_unset_active_channel(self, image: Gimp.Image=None):
         """Unsets the active channel in the specified image.
         
         If an active channel exists, it is unset. There then exists no active
@@ -12234,7 +12500,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_attach_parasite(self, item: Gimp.Item, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_attach_parasite(self, item: Gimp.Item=None, parasite: Gimp.Parasite=None):
         """Add a parasite to an item.
         
         This procedure attaches a parasite to an item. It has no return values.
@@ -12247,7 +12513,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_delete(self, item: Gimp.Item=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -12262,7 +12528,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_detach_parasite(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_detach_parasite(self, item: Gimp.Item=None, name: str=None):
         """Removes a parasite from an item.
         
         This procedure detaches a parasite from an item. It has no return
@@ -12276,7 +12542,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_children(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_item_get_children(self, item: Gimp.Item=None) -> Tuple[int, Gimp.ObjectArray]:
         """Returns the item's list of children.
         
         This procedure returns the list of items which are children of the
@@ -12294,7 +12560,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_color_tag(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.ColorTag:
+    def gimp_item_get_color_tag(self, item: Gimp.Item=None) -> Gimp.ColorTag:
         """Get the color tag of the specified item.
         
         This procedure returns the specified item's color tag.
@@ -12310,7 +12576,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_expanded(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_expanded(self, item: Gimp.Item=None) -> bool:
         """Returns whether the item is expanded.
         
         This procedure returns TRUE if the specified item is expanded.
@@ -12326,7 +12592,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_image(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_item_get_image(self, item: Gimp.Item=None) -> Gimp.Image:
         """Returns the item's image.
         
         This procedure returns the item's image.
@@ -12341,7 +12607,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_lock_content(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_lock_content(self, item: Gimp.Item=None) -> bool:
         """Get the 'lock content' state of the specified item.
         
         This procedure returns the specified item's lock content state.
@@ -12357,7 +12623,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_lock_position(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_lock_position(self, item: Gimp.Item=None) -> bool:
         """Get the 'lock position' state of the specified item.
         
         This procedure returns the specified item's lock position state.
@@ -12373,7 +12639,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_lock_visibility(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_lock_visibility(self, item: Gimp.Item=None) -> bool:
         """Get the 'lock visibility' state of the specified item.
         
         This procedure returns the specified item's lock visibility state.
@@ -12389,7 +12655,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_item_get_name(self, item: Gimp.Item=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -12404,7 +12670,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_parasite(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_item_get_parasite(self, item: Gimp.Item=None, name: str=None) -> Gimp.Parasite:
         """Look up a parasite in an item.
         
         Finds and returns the parasite that is attached to an item.
@@ -12421,7 +12687,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_parasite_list(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_item_get_parasite_list(self, item: Gimp.Item=None) -> List[str]:
         """List all parasites.
         
         Returns a list of all parasites currently attached the an item.
@@ -12436,7 +12702,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_parent(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_get_parent(self, item: Gimp.Item=None) -> Gimp.Item:
         """Returns the item's parent item.
         
         This procedure returns the item's parent item, if any.
@@ -12451,7 +12717,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_item_get_tattoo(self, item: Gimp.Item=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -12468,7 +12734,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_get_visible(self, item: Gimp.Item=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -12483,7 +12749,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_channel(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_channel(self, item_id: int=None) -> bool:
         """Returns whether the item ID is a channel.
         
         This procedure returns TRUE if the specified item ID is a channel.
@@ -12499,7 +12765,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_drawable(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_drawable(self, item_id: int=None) -> bool:
         """Returns whether the item ID is a drawable.
         
         This procedure returns TRUE if the specified item ID is a drawable.
@@ -12515,7 +12781,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_layer(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_layer(self, item_id: int=None) -> bool:
         """Returns whether the item ID is a layer.
         
         This procedure returns TRUE if the specified item ID is a layer.
@@ -12531,7 +12797,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_layer_mask(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_layer_mask(self, item_id: int=None) -> bool:
         """Returns whether the item ID is a layer mask.
         
         This procedure returns TRUE if the specified item ID is a layer mask.
@@ -12547,7 +12813,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_selection(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_selection(self, item_id: int=None) -> bool:
         """Returns whether the item ID is a selection.
         
         This procedure returns TRUE if the specified item ID is a selection.
@@ -12563,7 +12829,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_text_layer(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_text_layer(self, item_id: int=None) -> bool:
         """Returns whether the item ID is a text layer.
         
         This procedure returns TRUE if the specified item ID is a text layer.
@@ -12579,7 +12845,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_valid(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_valid(self, item_id: int=None) -> bool:
         """Returns TRUE if the item ID is valid.
         
         This procedure checks if the given item ID is valid and refers to an
@@ -12595,7 +12861,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_id_is_vectors(self, item_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_id_is_vectors(self, item_id: int=None) -> bool:
         """Returns whether the item ID is a vectors.
         
         This procedure returns TRUE if the specified item ID is a vectors.
@@ -12611,7 +12877,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_is_group(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_item_is_group(self, item: Gimp.Item=None) -> bool:
         """Returns whether the item is a group item.
         
         This procedure returns TRUE if the specified item is a group item which
@@ -12628,7 +12894,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_color_tag(self, item: Gimp.Item, color_tag: Gimp.ColorTag, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_color_tag(self, item: Gimp.Item=None, color_tag: Gimp.ColorTag=None):
         """Set the color tag of the specified item.
         
         This procedure sets the specified item's color tag.
@@ -12642,7 +12908,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_expanded(self, item: Gimp.Item, expanded: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_expanded(self, item: Gimp.Item=None, expanded: bool=None):
         """Sets the expanded state of the item.
         
         This procedure expands or collapses the item.
@@ -12656,7 +12922,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_lock_content(self, item: Gimp.Item, lock_content: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_lock_content(self, item: Gimp.Item=None, lock_content: bool=None):
         """Set the 'lock content' state of the specified item.
         
         This procedure sets the specified item's lock content state.
@@ -12669,7 +12935,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_lock_position(self, item: Gimp.Item, lock_position: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_lock_position(self, item: Gimp.Item=None, lock_position: bool=None):
         """Set the 'lock position' state of the specified item.
         
         This procedure sets the specified item's lock position state.
@@ -12682,7 +12948,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_lock_visibility(self, item: Gimp.Item, lock_visibility: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_lock_visibility(self, item: Gimp.Item=None, lock_visibility: bool=None):
         """Set the 'lock visibility' state of the specified item.
         
         This procedure sets the specified item's lock visibility state.
@@ -12696,7 +12962,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_name(self, item: Gimp.Item=None, name: str=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -12709,7 +12975,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_tattoo(self, item: Gimp.Item=None, tattoo: int=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -12724,7 +12990,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_item_set_visible(self, item: Gimp.Item=None, visible: bool=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -12737,7 +13003,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_2d(self, item: Gimp.Item, source_x: float, source_y: float, scale_x: float, scale_y: float, angle: float, dest_x: float, dest_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_2d(self, item: Gimp.Item=None, source_x: float=None, source_y: float=None, scale_x: float=None, scale_y: float=None, angle: float=None, dest_x: float=None, dest_y: float=None) -> Gimp.Item:
         """Transform the specified item in 2d.
         
         This procedure transforms the specified item.
@@ -12786,7 +13052,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_flip(self, item: Gimp.Item, x0: float, y0: float, x1: float, y1: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_flip(self, item: Gimp.Item=None, x0: float=None, y0: float=None, x1: float=None, y1: float=None) -> Gimp.Item:
         """Flip the specified item around a given line.
         
         This procedure flips the specified item.
@@ -12825,7 +13091,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_flip_simple(self, item: Gimp.Item, flip_type: Gimp.OrientationType, auto_center: bool, axis: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_flip_simple(self, item: Gimp.Item=None, flip_type: Gimp.OrientationType=None, auto_center: bool=None, axis: float=None) -> Gimp.Item:
         """Flip the specified item either vertically or horizontally.
         
         This procedure flips the specified item.
@@ -12864,7 +13130,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_matrix(self, item: Gimp.Item, coeff_0_0: float, coeff_0_1: float, coeff_0_2: float, coeff_1_0: float, coeff_1_1: float, coeff_1_2: float, coeff_2_0: float, coeff_2_1: float, coeff_2_2: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_matrix(self, item: Gimp.Item=None, coeff_0_0: float=None, coeff_0_1: float=None, coeff_0_2: float=None, coeff_1_0: float=None, coeff_1_1: float=None, coeff_1_2: float=None, coeff_2_0: float=None, coeff_2_1: float=None, coeff_2_2: float=None) -> Gimp.Item:
         """Transform the specified item in 2d.
         
         This procedure transforms the specified item.
@@ -12924,7 +13190,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_perspective(self, item: Gimp.Item, x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, x3: float, y3: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_perspective(self, item: Gimp.Item=None, x0: float=None, y0: float=None, x1: float=None, y1: float=None, x2: float=None, y2: float=None, x3: float=None, y3: float=None) -> Gimp.Item:
         """Perform a possibly non-affine transformation on the specified item.
         
         This procedure performs a possibly non-affine transformation on the
@@ -12987,7 +13253,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_rotate(self, item: Gimp.Item, angle: float, auto_center: bool, center_x: float, center_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_rotate(self, item: Gimp.Item=None, angle: float=None, auto_center: bool=None, center_x: float=None, center_y: float=None) -> Gimp.Item:
         """Rotate the specified item about given coordinates through the
         specified angle.
         
@@ -13033,7 +13299,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_rotate_simple(self, item: Gimp.Item, rotate_type: Gimp.RotationType, auto_center: bool, center_x: float, center_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_rotate_simple(self, item: Gimp.Item=None, rotate_type: Gimp.RotationType=None, auto_center: bool=None, center_x: float=None, center_y: float=None) -> Gimp.Item:
         """Rotate the specified item about given coordinates through the
         specified angle.
         
@@ -13060,7 +13326,7 @@ class _PyPDB:
         
         * item - The affected item.
         
-        * rotate_type (default: <enum GIMP_ROTATE_90 of type
+        * rotate_type (default: <enum GIMP_ROTATE_DEGREES90 of type
           Gimp.RotationType>) - Type of rotation.
         
         * auto_center (default: False) - Whether to automatically rotate
@@ -13078,7 +13344,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_scale(self, item: Gimp.Item, x0: float, y0: float, x1: float, y1: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_scale(self, item: Gimp.Item=None, x0: float=None, y0: float=None, x1: float=None, y1: float=None) -> Gimp.Item:
         """Scale the specified item.
         
         This procedure scales the specified item.
@@ -13122,7 +13388,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_shear(self, item: Gimp.Item, shear_type: Gimp.OrientationType, magnitude: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_shear(self, item: Gimp.Item=None, shear_type: Gimp.OrientationType=None, magnitude: float=None) -> Gimp.Item:
         """Shear the specified item about its center by the specified magnitude.
         
         This procedure shears the specified item.
@@ -13161,7 +13427,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_transform_translate(self, item: Gimp.Item, off_x: float, off_y: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Item:
+    def gimp_item_transform_translate(self, item: Gimp.Item=None, off_x: float=None, off_y: float=None) -> Gimp.Item:
         """Translate the item by the specified offsets.
         
         This procedure translates the item by the amounts specified in the off_x
@@ -13183,7 +13449,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_add_alpha(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_add_alpha(self, layer: Gimp.Layer=None):
         """Add an alpha channel to the layer if it doesn't already have one.
         
         This procedure adds an additional component to the specified layer if it
@@ -13198,7 +13464,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_add_mask(self, layer: Gimp.Layer, mask: Gimp.LayerMask, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_add_mask(self, layer: Gimp.Layer=None, mask: Gimp.LayerMask=None):
         """Add a layer mask to the specified layer.
         
         This procedure adds a layer mask to the specified layer. Layer masks
@@ -13217,7 +13483,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_copy(self, layer: Gimp.Layer, add_alpha: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_copy(self, layer: Gimp.Layer=None, add_alpha: bool=None) -> Gimp.Layer:
         """Copy a layer.
         
         This procedure copies the specified layer and returns the copy. The
@@ -13240,7 +13506,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_create_mask(self, layer: Gimp.Layer, mask_type: Gimp.AddMaskType, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
+    def gimp_layer_create_mask(self, layer: Gimp.Layer=None, mask_type: Gimp.AddMaskType=None) -> Gimp.LayerMask:
         """Create a layer mask for the specified layer.
         
         This procedure creates a layer mask for the specified layer. Layer masks
@@ -13274,7 +13540,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_delete(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_delete(self, item: Gimp.Item=None):
         """Delete a item.
         
         This procedure deletes the specified item. This must not be done if the
@@ -13289,7 +13555,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_flatten(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_flatten(self, layer: Gimp.Layer=None):
         """Remove the alpha channel from the layer if it has one.
         
         This procedure removes the alpha channel from a layer, blending all
@@ -13303,7 +13569,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_from_mask(self, mask: Gimp.LayerMask, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_from_mask(self, mask: Gimp.LayerMask=None) -> Gimp.Layer:
         """Get the specified mask's layer.
         
         This procedure returns the specified mask's layer , or -1 if none
@@ -13319,7 +13585,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_apply_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_apply_mask(self, layer: Gimp.Layer=None) -> bool:
         """Get the apply mask setting of the specified layer.
         
         This procedure returns the specified layer's apply mask setting. If the
@@ -13336,7 +13602,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_blend_space(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerColorSpace:
+    def gimp_layer_get_blend_space(self, layer: Gimp.Layer=None) -> Gimp.LayerColorSpace:
         """Get the blend space of the specified layer.
         
         This procedure returns the specified layer's blend space.
@@ -13352,7 +13618,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_composite_mode(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerCompositeMode:
+    def gimp_layer_get_composite_mode(self, layer: Gimp.Layer=None) -> Gimp.LayerCompositeMode:
         """Get the composite mode of the specified layer.
         
         This procedure returns the specified layer's composite mode.
@@ -13368,7 +13634,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_composite_space(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerColorSpace:
+    def gimp_layer_get_composite_space(self, layer: Gimp.Layer=None) -> Gimp.LayerColorSpace:
         """Get the composite space of the specified layer.
         
         This procedure returns the specified layer's composite space.
@@ -13384,7 +13650,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_edit_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_edit_mask(self, layer: Gimp.Layer=None) -> bool:
         """Get the edit mask setting of the specified layer.
         
         This procedure returns the specified layer's edit mask setting. If the
@@ -13401,7 +13667,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_lock_alpha(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_lock_alpha(self, layer: Gimp.Layer=None) -> bool:
         """Get the lock alpha channel setting of the specified layer.
         
         This procedure returns the specified layer's lock alpha channel setting.
@@ -13417,7 +13683,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
+    def gimp_layer_get_mask(self, layer: Gimp.Layer=None) -> Gimp.LayerMask:
         """Get the specified layer's mask if it exists.
         
         This procedure returns the specified layer's mask, or -1 if none exists.
@@ -13432,7 +13698,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_mode(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMode:
+    def gimp_layer_get_mode(self, layer: Gimp.Layer=None) -> Gimp.LayerMode:
         """Get the combination mode of the specified layer.
         
         This procedure returns the specified layer's combination mode.
@@ -13448,7 +13714,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_layer_get_name(self, item: Gimp.Item=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -13463,7 +13729,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_opacity(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_layer_get_opacity(self, layer: Gimp.Layer=None) -> float:
         """Get the opacity of the specified layer.
         
         This procedure returns the specified layer's opacity.
@@ -13478,7 +13744,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_preserve_trans(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_preserve_trans(self, layer: Gimp.Layer=None) -> bool:
         """Get the lock alpha channel setting of the specified layer.
         
         This procedure returns the specified layer's lock alpha channel setting.
@@ -13494,7 +13760,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_show_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_show_mask(self, layer: Gimp.Layer=None) -> bool:
         """Get the show mask setting of the specified layer.
         
         This procedure returns the specified layer's show mask setting. This
@@ -13512,7 +13778,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_layer_get_tattoo(self, item: Gimp.Item=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -13529,7 +13795,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_get_visible(self, item: Gimp.Item=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -13544,7 +13810,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_group_new(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_group_new(self, image: Gimp.Image=None) -> Gimp.Layer:
         """Create a new layer group.
         
         This procedure creates a new layer group. Attributes such as layer mode
@@ -13564,7 +13830,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_is_floating_sel(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_layer_is_floating_sel(self, layer: Gimp.Layer=None) -> bool:
         """Is the specified layer a floating selection?.
         
         This procedure returns whether the layer is a floating selection.
@@ -13582,7 +13848,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_mask(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.LayerMask:
+    def gimp_layer_mask(self, layer: Gimp.Layer=None) -> Gimp.LayerMask:
         """Get the specified layer's mask if it exists.
         
         This procedure returns the specified layer's mask, or -1 if none exists.
@@ -13597,7 +13863,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_new(self, image: Gimp.Image, width: int, height: int, type: Gimp.ImageType, name: str, opacity: float, mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_new(self, image: Gimp.Image=None, width: int=None, height: int=None, type: Gimp.ImageType=None, name: str=None, opacity: float=None, mode: Gimp.LayerMode=None) -> Gimp.Layer:
         """Create a new layer.
         
         This procedure creates a new layer with the specified width, height, and
@@ -13631,7 +13897,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_new_from_drawable(self, drawable: Gimp.Drawable, dest_image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_new_from_drawable(self, drawable: Gimp.Drawable=None, dest_image: Gimp.Image=None) -> Gimp.Layer:
         """Create a new layer by copying an existing drawable.
         
         This procedure creates a new layer as a copy of the specified drawable.
@@ -13653,7 +13919,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_new_from_visible(self, image: Gimp.Image, dest_image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_layer_new_from_visible(self, image: Gimp.Image=None, dest_image: Gimp.Image=None, name: str=None) -> Gimp.Layer:
         """Create a new layer from what is visible in an image.
         
         This procedure creates a new layer from what is visible in the given
@@ -13677,7 +13943,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_remove_mask(self, layer: Gimp.Layer, mode: Gimp.MaskApplyMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_remove_mask(self, layer: Gimp.Layer=None, mode: Gimp.MaskApplyMode=None):
         """Remove the specified layer mask from the layer.
         
         This procedure removes the specified layer mask from the layer. If the
@@ -13692,7 +13958,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_resize(self, layer: Gimp.Layer, new_width: int, new_height: int, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_resize(self, layer: Gimp.Layer=None, new_width: int=None, new_height: int=None, offx: int=None, offy: int=None):
         """Resize the layer to the specified extents.
         
         This procedure resizes the layer so that its new width and height are
@@ -13717,7 +13983,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_resize_to_image_size(self, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_resize_to_image_size(self, layer: Gimp.Layer=None):
         """Resize a layer to the image size.
         
         This procedure resizes the layer so that it's new width and height are
@@ -13729,7 +13995,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_scale(self, layer: Gimp.Layer, new_width: int, new_height: int, local_origin: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_scale(self, layer: Gimp.Layer=None, new_width: int=None, new_height: int=None, local_origin: bool=None):
         """Scale the layer using the default interpolation method.
         
         This procedure scales the layer so that its new width and height are
@@ -13752,7 +14018,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_apply_mask(self, layer: Gimp.Layer, apply_mask: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_apply_mask(self, layer: Gimp.Layer=None, apply_mask: bool=None):
         """Set the apply mask setting of the specified layer.
         
         This procedure sets the specified layer's apply mask setting. This
@@ -13768,7 +14034,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_blend_space(self, layer: Gimp.Layer, blend_space: Gimp.LayerColorSpace, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_blend_space(self, layer: Gimp.Layer=None, blend_space: Gimp.LayerColorSpace=None):
         """Set the blend space of the specified layer.
         
         This procedure sets the specified layer's blend space.
@@ -13782,7 +14048,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_composite_mode(self, layer: Gimp.Layer, composite_mode: Gimp.LayerCompositeMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_composite_mode(self, layer: Gimp.Layer=None, composite_mode: Gimp.LayerCompositeMode=None):
         """Set the composite mode of the specified layer.
         
         This procedure sets the specified layer's composite mode.
@@ -13796,7 +14062,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_composite_space(self, layer: Gimp.Layer, composite_space: Gimp.LayerColorSpace, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_composite_space(self, layer: Gimp.Layer=None, composite_space: Gimp.LayerColorSpace=None):
         """Set the composite space of the specified layer.
         
         This procedure sets the specified layer's composite space.
@@ -13810,7 +14076,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_edit_mask(self, layer: Gimp.Layer, edit_mask: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_edit_mask(self, layer: Gimp.Layer=None, edit_mask: bool=None):
         """Set the edit mask setting of the specified layer.
         
         This procedure sets the specified layer's edit mask setting. This
@@ -13826,7 +14092,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_lock_alpha(self, layer: Gimp.Layer, lock_alpha: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_lock_alpha(self, layer: Gimp.Layer=None, lock_alpha: bool=None):
         """Set the lock alpha channel setting of the specified layer.
         
         This procedure sets the specified layer's lock alpha channel setting.
@@ -13840,7 +14106,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_mode(self, layer: Gimp.Layer, mode: Gimp.LayerMode, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_mode(self, layer: Gimp.Layer=None, mode: Gimp.LayerMode=None):
         """Set the combination mode of the specified layer.
         
         This procedure sets the specified layer's combination mode.
@@ -13854,7 +14120,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_name(self, item: Gimp.Item=None, name: str=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -13867,7 +14133,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_offsets(self, layer: Gimp.Layer, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_offsets(self, layer: Gimp.Layer=None, offx: int=None, offy: int=None):
         """Set the layer offsets.
         
         This procedure sets the offsets for the specified layer. The offsets are
@@ -13885,7 +14151,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_opacity(self, layer: Gimp.Layer, opacity: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_opacity(self, layer: Gimp.Layer=None, opacity: float=None):
         """Set the opacity of the specified layer.
         
         This procedure sets the specified layer's opacity.
@@ -13898,7 +14164,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_preserve_trans(self, layer: Gimp.Layer, lock_alpha: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_preserve_trans(self, layer: Gimp.Layer=None, lock_alpha: bool=None):
         """Set the lock alpha channel setting of the specified layer.
         
         This procedure sets the specified layer's lock alpha channel setting.
@@ -13912,7 +14178,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_show_mask(self, layer: Gimp.Layer, show_mask: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_show_mask(self, layer: Gimp.Layer=None, show_mask: bool=None):
         """Set the show mask setting of the specified layer.
         
         This procedure sets the specified layer's show mask setting. This
@@ -13928,7 +14194,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_tattoo(self, item: Gimp.Item=None, tattoo: int=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -13943,7 +14209,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_layer_set_visible(self, item: Gimp.Item=None, visible: bool=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -13956,7 +14222,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_message(self, message: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_message(self, message: str=None):
         """Displays a dialog box with a message.
         
         Displays a dialog box with a message. Useful for status or error
@@ -13968,7 +14234,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_message_get_handler(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.MessageHandlerType:
+    def gimp_message_get_handler(self) -> Gimp.MessageHandlerType:
         """Returns the current state of where warning messages are displayed.
         
         This procedure returns the way g_message warnings are displayed. They
@@ -13982,7 +14248,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_message_set_handler(self, handler: Gimp.MessageHandlerType, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_message_set_handler(self, handler: Gimp.MessageHandlerType=None):
         """Controls where warning messages are displayed.
         
         This procedure controls how g_message warnings are displayed. They can
@@ -13996,15 +14262,15 @@ class _PyPDB:
         """
         pass
 
-    def gimp_online_bugs_features(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_online_bugs_features(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the bug tracker of GIMP.
         
         Menu label: _Bug Reports and Feature Requests
-        Menu path: <Image>/Help
+        Menu path: <Image>/Help/GIMP Online
         """
         pass
 
-    def gimp_online_developer_web_site(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_online_developer_web_site(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the GIMP web site.
         
         Menu label: _Developer Web Site
@@ -14012,7 +14278,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_online_docs_web_site(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_online_docs_web_site(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the GIMP web site.
         
         Menu label: _User Manual Web Site
@@ -14020,7 +14286,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_online_main_web_site(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_online_main_web_site(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Bookmark to the GIMP web site.
         
         Menu label: _Main Web Site
@@ -14028,23 +14294,15 @@ class _PyPDB:
         """
         pass
 
-    def gimp_online_roadmap(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Bookmark to the roadmap of GIMP.
+    def gimp_online_roadmap(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Bookmark to the roadmaps of GIMP.
         
-        Menu label: _Roadmap
+        Menu label: _Roadmaps
         Menu path: <Image>/Help/GIMP Online
         """
         pass
 
-    def gimp_online_wiki(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Bookmark to the wiki of GIMP.
-        
-        Menu label: _Wiki
-        Menu path: <Image>/Help/GIMP Online
-        """
-        pass
-
-    def gimp_paintbrush(self, drawable: Gimp.Drawable, fade_out: float, num_strokes: int, strokes: Gimp.FloatArray, method: Gimp.PaintApplicationMode, gradient_length: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_paintbrush(self, drawable: Gimp.Drawable=None, fade_out: float=None, num_strokes: int=None, strokes: Gimp.FloatArray=None, method: Gimp.PaintApplicationMode=None, gradient_length: float=None):
         """Paint in the current brush with optional fade out parameter and pull
         colors from a gradient.
         
@@ -14078,7 +14336,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_paintbrush_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_paintbrush_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Paint in the current brush. The fade out parameter and pull colors
         from a gradient parameter are set from the paintbrush options
         dialog. If this dialog has not been activated then the dialog
@@ -14108,7 +14366,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_add_entry(self, palette: Gimp.Palette, entry_name: str, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_palette_add_entry(self, palette: Gimp.Palette=None, entry_name: str=None, color: Gegl.Color=None) -> int:
         """Appends an entry to the palette.
         
         Appends an entry to the palette. Neither color nor name must be unique
@@ -14130,11 +14388,13 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_delete_entry(self, palette: Gimp.Palette, entry_num: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_delete_entry(self, palette: Gimp.Palette=None, entry_num: int=None):
         """Deletes an entry from the palette.
         
-        Deletes an entry from the palette. Returns an error if the index is out
-        or range. Returns an error if the palette is not editable.
+        This function will fail and return %FALSE if the index is out or range
+        or if the palette is not editable. Additionally if the palette
+        belongs to an indexed image, it will only be possible to delete
+        palette colors not in use in the image.
         
         Parameters:
         
@@ -14144,11 +14404,11 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_get_color(self, palette: Gimp.Palette, entry_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_palette_entry_get_color(self, palette: Gimp.Palette=None, entry_num: int=None) -> Gegl.Color:
         """Gets the color of an entry in the palette.
         
         Returns the color of the entry at the given zero-based index into the
-        palette. Returns an error when the index is out of range.
+        palette. Returns %NULL when the index is out of range.
         
         Parameters:
         
@@ -14162,7 +14422,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_get_name(self, palette: Gimp.Palette, entry_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_palette_entry_get_name(self, palette: Gimp.Palette=None, entry_num: int=None) -> str:
         """Gets the name of an entry in the palette.
         
         Gets the name of the entry at the zero-based index into the palette.
@@ -14180,7 +14440,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_set_color(self, palette: Gimp.Palette, entry_num: int, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_entry_set_color(self, palette: Gimp.Palette=None, entry_num: int=None, color: Gegl.Color=None):
         """Sets the color of an entry in the palette.
         
         Sets the color of the entry at the zero-based index into the palette.
@@ -14197,7 +14457,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_entry_set_name(self, palette: Gimp.Palette, entry_num: int, entry_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_entry_set_name(self, palette: Gimp.Palette=None, entry_num: int=None, entry_name: str=None):
         """Sets the name of an entry in the palette.
         
         Sets the name of the entry at the zero-based index into the palette.
@@ -14214,7 +14474,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_css(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_css(self, dirname: Gio.File=None, string: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export the active palette as a CSS stylesheet with the color entry
         name as their class name, and the color itself as the color
         attribute.
@@ -14231,8 +14491,9 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_java(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Export the active palette as a java.util.Hashtable<String, Color>.
+    def gimp_palette_export_java(self, dirname: Gio.File=None, string: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Export the active palette as a
+        java.util.Hashtable&lt;String,Color&gt;.
         
         Menu label: J_ava map...
         Menu path: <Palettes>/Export as
@@ -14246,7 +14507,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_php(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_php(self, dirname: Gio.File=None, string: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export the active palette as a PHP dictionary (name => color).
         
         Menu label: P_HP dictionary...
@@ -14261,10 +14522,10 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_python(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_python(self, dirname: Gio.File=None, string: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Export the active palette as a Python dictionary (name: color).
         
-        Menu label: _Python dictionary
+        Menu label: _Python dictionary...
         Menu path: <Palettes>/Export as
         
         Parameters:
@@ -14276,7 +14537,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_text(self, dirname: Gio.File, string: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_export_text(self, dirname: Gio.File=None, string: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Write all the colors in a palette to a text file, one hexadecimal
         value per line (no names).
         
@@ -14292,7 +14553,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_background(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_palette_get_background(self) -> Gegl.Color:
         """Get the current GIMP background color.
         
         Returns the current GIMP background color. The background color is used
@@ -14305,7 +14566,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def gimp_palette_get_by_name(self, name: str=None) -> Gimp.Palette:
         """Returns the palette with the given name.
         
         Returns the palette with the given name.
@@ -14320,7 +14581,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_color_count(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_palette_get_color_count(self, palette: Gimp.Palette=None) -> int:
         """Get the count of colors in the palette.
         
         Returns the number of colors in the palette.
@@ -14335,24 +14596,19 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_colors(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.RGBArray]:
+    def gimp_palette_get_colors(self, palette: Gimp.Palette=None):
         """Gets colors in the palette.
         
-        Returns an array of colors in the palette.
+        Returns an array of colors in the palette. Free the returned array with
+        'gimp-color-array-free'.
         
         Parameters:
         
         * palette - The palette.
-        
-        Returns:
-        
-        * num_colors (default: 0) - Length of the colors array.
-        
-        * colors - The colors in the palette.
         """
         pass
 
-    def gimp_palette_get_columns(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_palette_get_columns(self, palette: Gimp.Palette=None) -> int:
         """Gets the number of columns used to display the palette.
         
         Gets the preferred number of columns to display the palette.
@@ -14368,7 +14624,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_get_foreground(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_palette_get_foreground(self) -> Gegl.Color:
         """Get the current GIMP foreground color.
         
         Returns the current GIMP foreground color. The foreground color is used
@@ -14381,7 +14637,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_new(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def gimp_palette_new(self, name: str=None) -> Gimp.Palette:
         """Creates a new palette.
         
         Creates a new palette. The new palette has no color entries. You must
@@ -14399,7 +14655,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_refresh(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_refresh(self):
         """Refreshes current palettes. This function always succeeds.
         
         This procedure retrieves all palettes currently in the user's palette
@@ -14407,7 +14663,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_background(self, background: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_set_background(self, background: Gegl.Color=None):
         """Set the current GIMP background color.
         
         Sets the current GIMP background color. After this is set, operations
@@ -14420,7 +14676,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_columns(self, palette: Gimp.Palette, columns: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_set_columns(self, palette: Gimp.Palette=None, columns: int=None):
         """Sets the number of columns used to display the palette.
         
         Set the number of colors shown per row when the palette is displayed.
@@ -14435,7 +14691,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_default_colors(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_set_default_colors(self):
         """Set the current GIMP foreground and background colors to black and
         white.
         
@@ -14444,7 +14700,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_foreground(self, foreground: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_set_foreground(self, foreground: Gegl.Color=None):
         """Set the current GIMP foreground color.
         
         Sets the current GIMP foreground color. After this is set, operations
@@ -14457,7 +14713,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_swap_colors(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palette_swap_colors(self):
         """Swap the current GIMP foreground and background colors.
         
         Swaps the current GIMP foreground and background colors, so that the new
@@ -14466,7 +14722,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_close_popup(self, palette_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_close_popup(self, palette_callback: str=None):
         """Close the palette selection dialog.
         
         Closes an open palette selection dialog.
@@ -14478,7 +14734,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_palettes_get_list(self, filter: str=None) -> List[str]:
         """Retrieves a list of all of the available palettes.
         
         This procedure returns a complete listing of available palettes. Each
@@ -14495,7 +14751,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_popup(self, palette_callback: str, popup_title: str, initial_palette_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_popup(self, palette_callback: str=None, popup_title: str=None, initial_palette: Gimp.Palette=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp palette selection dialog.
         
         Opens a dialog letting a user choose a palette.
@@ -14507,12 +14763,14 @@ class _PyPDB:
         
         * popup_title - Title of the palette selection dialog.
         
-        * initial_palette_name - The name of the palette to set as the initial
-          choice.
+        * initial_palette - The palette to set as the initial choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
         """
         pass
 
-    def gimp_palettes_refresh(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_refresh(self):
         """Refreshes current palettes. This function always succeeds.
         
         This procedure retrieves all palettes currently in the user's palette
@@ -14520,7 +14778,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_set_palette(self, palette: Gimp.Palette, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_set_palette(self, palette: Gimp.Palette=None):
         """Set the active palette.
         
         Sets the active palette in the current context. The palette will be used
@@ -14534,7 +14792,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_set_popup(self, palette_callback: str, palette_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_palettes_set_popup(self, palette_callback: str=None, palette: Gimp.Palette=None):
         """Sets the current palette in a palette selection dialog.
         
         Sets the current palette in a palette selection dialog.
@@ -14544,11 +14802,11 @@ class _PyPDB:
         * palette_callback - The name of the callback registered for this
           pop-up.
         
-        * palette_name - The name of the palette to set as selected.
+        * palette - The palette to set as selected.
         """
         pass
 
-    def gimp_parasite_attach(self, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_parasite_attach(self, parasite: Gimp.Parasite=None):
         """Add a global parasite.
         
         This procedure attaches a global parasite. It has no return values.
@@ -14559,7 +14817,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_parasite_detach(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_parasite_detach(self, name: str=None):
         """Removes a global parasite.
         
         This procedure detaches a global parasite from. It has no return values.
@@ -14570,7 +14828,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_parasite_find(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_parasite_find(self, name: str=None) -> Gimp.Parasite:
         """Look up a global parasite.
         
         Finds and returns the global parasite that was previously attached.
@@ -14585,7 +14843,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_parasite_list(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_parasite_list(self) -> List[str]:
         """List all parasites.
         
         Returns a list of all currently attached global parasites.
@@ -14596,7 +14854,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pattern_get_by_name(self, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Pattern:
+    def gimp_pattern_get_by_name(self, name: str=None) -> Gimp.Pattern:
         """Returns the pattern with the given name.
         
         Returns the pattern with the given name.
@@ -14611,7 +14869,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pattern_get_info(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int]:
+    def gimp_pattern_get_info(self, pattern: Gimp.Pattern=None) -> Tuple[int, int, int]:
         """Gets information about the pattern.
         
         Gets information about the pattern: the pattern extents (width and
@@ -14631,12 +14889,11 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pattern_get_pixels(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, GLib.Bytes]:
+    def gimp_pattern_get_pixels(self, pattern: Gimp.Pattern=None) -> Tuple[int, int, int, GLib.Bytes]:
         """Gets information about the pattern (including pixels).
         
         Gets information about the pattern: the pattern extents (width and
-        height), its bpp, and its pixel data. The pixel data is an array
-        in C or a list in some languages.
+        height), its bpp, and its pixel data.
         
         Parameters:
         
@@ -14654,7 +14911,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_close_popup(self, pattern_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_close_popup(self, pattern_callback: str=None):
         """Close the pattern selection dialog.
         
         Closes an open pattern selection dialog.
@@ -14666,7 +14923,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_get_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_patterns_get_list(self, filter: str=None) -> List[str]:
         """Retrieve a complete listing of the available patterns.
         
         This procedure returns a complete listing of available GIMP patterns.
@@ -14683,7 +14940,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_list(self, filter: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_patterns_list(self, filter: str=None) -> List[str]:
         """Retrieve a complete listing of the available patterns.
         
         This procedure returns a complete listing of available GIMP patterns.
@@ -14700,7 +14957,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_popup(self, pattern_callback: str, popup_title: str, initial_pattern_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_popup(self, pattern_callback: str=None, popup_title: str=None, initial_pattern: Gimp.Pattern=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp pattern selection.
         
         Opens the pattern selection dialog.
@@ -14712,12 +14969,14 @@ class _PyPDB:
         
         * popup_title - Title of the pattern selection dialog.
         
-        * initial_pattern_name - The name of the pattern to set as the initial
-          choice.
+        * initial_pattern - The pattern to set as the initial choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
         """
         pass
 
-    def gimp_patterns_refresh(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_refresh(self):
         """Refresh current patterns. This function always succeeds.
         
         This procedure retrieves all patterns currently in the user's pattern
@@ -14725,7 +14984,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_set_pattern(self, pattern: Gimp.Pattern, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_set_pattern(self, pattern: Gimp.Pattern=None):
         """Set the active pattern.
         
         Sets the active pattern in the current context. The pattern will be used
@@ -14739,7 +14998,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_set_popup(self, pattern_callback: str, pattern_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_patterns_set_popup(self, pattern_callback: str=None, pattern: Gimp.Pattern=None):
         """Sets the current pattern in a pattern selection dialog.
         
         Sets the current pattern in a pattern selection dialog.
@@ -14749,11 +15008,11 @@ class _PyPDB:
         * pattern_callback - The name of the callback registered for this
           pop-up.
         
-        * pattern_name - The name of the pattern to set as selected.
+        * pattern - The pattern to set as selected.
         """
         pass
 
-    def gimp_pdb_add_proc_menu_path(self, procedure_name: str, menu_path: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_add_proc_menu_path(self, procedure_name: str=None, menu_path: str=None):
         """Register an additional menu path for a plug-in procedure.
         
         This procedure installs an additional menu entry for the given
@@ -14767,7 +15026,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_dump(self, file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_dump(self, file: Gio.File=None):
         """Dumps the current contents of the procedural database.
         
         This procedure dumps the contents of the procedural database to the
@@ -14780,7 +15039,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_data(self, identifier: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> GLib.Bytes:
+    def gimp_pdb_get_data(self, identifier: str=None) -> GLib.Bytes:
         """Returns data associated with the specified identifier.
         
         This procedure returns any data which may have been associated with the
@@ -14798,24 +15057,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_data_size(self, identifier: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
-        """Returns size of data associated with the specified identifier.
-        
-        This procedure returns the size of any data which may have been
-        associated with the specified identifier. If no data has been
-        associated with the identifier, an error is returned.
-        
-        Parameters:
-        
-        * identifier - The identifier associated with data.
-        
-        Returns:
-        
-        * bytes (default: 1) - The number of bytes in the data.
-        """
-        pass
-
-    def gimp_pdb_get_proc_argument(self, procedure_name: str, arg_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> GObject.ParamSpec:
+    def gimp_pdb_get_proc_argument(self, procedure_name: str=None, arg_num: int=None) -> GObject.ParamSpec:
         """Queries the procedural database for information on the specified
         procedure's argument.
         
@@ -14833,7 +15075,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_attribution(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[str, str, str]:
+    def gimp_pdb_get_proc_attribution(self, procedure_name: str=None) -> Tuple[str, str, str]:
         """Queries the procedural database for attribution information on the
         specified procedure.
         
@@ -14855,7 +15097,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_documentation(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[str, str, str]:
+    def gimp_pdb_get_proc_documentation(self, procedure_name: str=None) -> Tuple[str, str, str]:
         """Queries the procedural database for documentation on the specified
         procedure.
         
@@ -14876,7 +15118,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_image_types(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_pdb_get_proc_image_types(self, procedure_name: str=None) -> str:
         """Queries the procedural database for the image types supported by the
         specified procedure.
         
@@ -14893,7 +15135,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_info(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.PDBProcType, int, int]:
+    def gimp_pdb_get_proc_info(self, procedure_name: str=None) -> Tuple[Gimp.PDBProcType, int, int]:
         """Queries the procedural database for information on the specified
         procedure.
         
@@ -14918,7 +15160,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_menu_label(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_pdb_get_proc_menu_label(self, procedure_name: str=None) -> str:
         """Queries the procedural database for the procedure's menu label.
         
         This procedure returns the menu label of the specified procedure.
@@ -14933,7 +15175,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_menu_paths(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_pdb_get_proc_menu_paths(self, procedure_name: str=None) -> List[str]:
         """Queries the procedural database for the procedure's menu paths.
         
         This procedure returns the menu paths of the specified procedure.
@@ -14948,7 +15190,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_get_proc_return_value(self, procedure_name: str, val_num: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> GObject.ParamSpec:
+    def gimp_pdb_get_proc_return_value(self, procedure_name: str=None, val_num: int=None) -> GObject.ParamSpec:
         """Queries the procedural database for information on the specified
         procedure's return value.
         
@@ -14966,7 +15208,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_proc_exists(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_pdb_proc_exists(self, procedure_name: str=None) -> bool:
         """Checks if the specified procedure exists in the procedural database.
         
         This procedure checks if the specified procedure is registered in the
@@ -14983,7 +15225,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_query(self, name: str, blurb: str, help: str, authors: str, copyright: str, date: str, proc_type: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_pdb_query(self, name: str=None, blurb: str=None, help: str=None, authors: str=None, copyright: str=None, date: str=None, proc_type: str=None) -> List[str]:
         """Queries the procedural database for its contents using regular
         expression matching.
         
@@ -15024,7 +15266,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_batch_interpreter(self, procedure_name: str, interpreter_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_batch_interpreter(self, procedure_name: str=None, interpreter_name: str=None):
         """Registers a batch interpreter procedure.
         
         Registers a procedural database procedure to be called with the command
@@ -15040,7 +15282,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_data(self, identifier: str, data: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_data(self, identifier: str=None, data: GLib.Bytes=None):
         """Associates the specified identifier with the supplied data.
         
         This procedure associates the supplied data with the provided
@@ -15055,7 +15297,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_handles_raw(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_handles_raw(self, procedure_name: str=None):
         """Registers a file handler procedure as capable of handling raw camera
         files.
         
@@ -15070,7 +15312,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_handles_remote(self, procedure_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_handles_remote(self, procedure_name: str=None):
         """Registers a file handler procedure as capable of handling remote
         URIs.
         
@@ -15085,7 +15327,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_load_handler(self, procedure_name: str, extensions: str, prefixes: str, magics: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_load_handler(self, procedure_name: str=None, extensions: str=None, prefixes: str=None, magics: str=None):
         """Registers a file load handler procedure.
         
         Registers a procedural database procedure to be called to load files of
@@ -15106,7 +15348,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_mime_types(self, procedure_name: str, mime_types: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_mime_types(self, procedure_name: str=None, mime_types: str=None):
         """Associates MIME types with a file handler procedure.
         
         Registers MIME types for a file handler procedure. This allows GIMP to
@@ -15126,7 +15368,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_priority(self, procedure_name: str, priority: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_priority(self, procedure_name: str=None, priority: int=None):
         """Sets the priority of a file handler procedure.
         
         Sets the priority of a file handler procedure. When more than one
@@ -15143,7 +15385,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_save_handler(self, procedure_name: str, extensions: str, prefixes: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_save_handler(self, procedure_name: str=None, extensions: str=None, prefixes: str=None):
         """Registers a file save handler procedure.
         
         Registers a procedural database procedure to be called to save files in
@@ -15161,7 +15403,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_file_proc_thumbnail_loader(self, load_proc: str, thumb_proc: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_file_proc_thumbnail_loader(self, load_proc: str=None, thumb_proc: str=None):
         """Associates a thumbnail loader with a file load procedure.
         
         Some file formats allow for embedded thumbnails, other file formats
@@ -15179,7 +15421,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_attribution(self, procedure_name: str, authors: str, copyright: str, date: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_attribution(self, procedure_name: str=None, authors: str=None, copyright: str=None, date: str=None):
         """Set the attribution for a plug-in procedure.
         
         This procedure sets the attribution for the given procedure.
@@ -15196,7 +15438,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_documentation(self, procedure_name: str, blurb: str, help: str, help_id: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_documentation(self, procedure_name: str=None, blurb: str=None, help: str=None, help_id: str=None):
         """Set the documentation for a plug-in procedure.
         
         This procedure sets the documentation for the given procedure.
@@ -15213,7 +15455,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_icon(self, procedure_name: str, icon_type: Gimp.IconType, icon_data: GLib.Bytes, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_icon(self, procedure_name: str=None, icon_type: Gimp.IconType=None, icon_data: GLib.Bytes=None):
         """Register an icon for a plug-in procedure.
         
         This procedure installs an icon for the given procedure.
@@ -15230,7 +15472,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_image_types(self, procedure_name: str, image_types: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_image_types(self, procedure_name: str=None, image_types: str=None):
         """Set the supported image types for a plug-in procedure.
         
         This procedure sets the supported images types for the given procedure.
@@ -15243,7 +15485,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_menu_label(self, procedure_name: str, menu_label: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_menu_label(self, procedure_name: str=None, menu_label: str=None):
         """Set the menu label for a plug-in procedure.
         
         This procedure sets the menu label for the given procedure.
@@ -15256,7 +15498,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_set_proc_sensitivity_mask(self, procedure_name: str, mask: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pdb_set_proc_sensitivity_mask(self, procedure_name: str=None, mask: int=None):
         """Set the sensitivity mask for a plug-in procedure.
         
         This procedure sets the sensitivity mask for the given procedure.
@@ -15269,7 +15511,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_temp_name(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_pdb_temp_name(self) -> str:
         """Generates a unique temporary PDB name.
         
         This procedure generates a temporary PDB entry name that is guaranteed
@@ -15281,7 +15523,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pencil(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_pencil(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Paint in the current brush without sub-pixel sampling.
         
         This tool is the standard pencil. It draws linearly interpolated lines
@@ -15303,7 +15545,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_in_get_pdb_error_handler(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.PDBErrorHandler:
+    def gimp_plug_in_get_pdb_error_handler(self) -> Gimp.PDBErrorHandler:
         """Retrieves the active error handler for procedure calls.
         
         This procedure retrieves the currently active error handler for
@@ -15318,7 +15560,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_in_help_register(self, domain_name: str, domain_file: Gio.File, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_plug_in_help_register(self, domain_name: str=None, domain_file: Gio.File=None):
         """Register a help path for a plug-in.
         
         This procedure registers user documentation for the calling plug-in with
@@ -15335,7 +15577,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_in_menu_branch_register(self, menu_path: str, menu_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_plug_in_menu_branch_register(self, menu_path: str=None, menu_name: str=None):
         """Register a sub-menu.
         
         This procedure installs a sub-menu which does not belong to any
@@ -15351,7 +15593,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_in_set_pdb_error_handler(self, handler: Gimp.PDBErrorHandler, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_plug_in_set_pdb_error_handler(self, handler: Gimp.PDBErrorHandler=None):
         """Sets an error handler for procedure calls.
         
         This procedure changes the way that errors in procedure calls are
@@ -15371,7 +15613,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_plug_ins_query(self, search_string: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[List[str], List[str], List[str], int, Gimp.Int32Array]:
+    def gimp_plug_ins_query(self, search_string: str=None) -> Tuple[List[str], List[str], List[str], int, Gimp.Int32Array]:
         """Queries the plug-in database for its contents.
         
         This procedure queries the contents of the plug-in database.
@@ -15396,7 +15638,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_cancel(self, progress_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_cancel(self, progress_callback: str=None):
         """Cancels a running progress.
         
         This function cancels the currently running progress.
@@ -15408,7 +15650,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_end(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_end(self):
         """Ends the progress bar for the current plug-in.
         
         Ends the progress display for the current plug-in. Most plug-ins don't
@@ -15417,20 +15659,23 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_get_window_handle(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
-        """Returns the native window ID of the toplevel window this plug-in's
+    def gimp_progress_get_window_handle(self) -> GLib.Bytes:
+        """Returns the native handle of the toplevel window this plug-in's
         progress is displayed in.
         
-        This function returns the native window ID of the toplevel window this
-        plug-in's progress is displayed in.
+        This function returns the native handle allowing to identify the
+        toplevel window this plug-in's progress is displayed in. This
+        handle can be of various types (integer, string, etc.) depending
+        on the platform you are running on which is why it returns a
+        GBytes. There are usually no reasons to call this directly.
         
         Returns:
         
-        * window (default: 0) - The progress bar's toplevel window.
+        * handle - The progress bar's toplevel window's handle.
         """
         pass
 
-    def gimp_progress_init(self, message: str, gdisplay: Gimp.Display, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_init(self, message: str=None, gdisplay: Gimp.Display=None):
         """Initializes the progress bar for the current plug-in.
         
         Initializes the progress bar for the current plug-in. It is only valid
@@ -15445,7 +15690,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_install(self, progress_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_install(self, progress_callback: str=None):
         """Installs a progress callback for the current plug-in.
         
         This function installs a temporary PDB procedure which will handle all
@@ -15459,7 +15704,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_pulse(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_pulse(self):
         """Pulses the progress bar for the current plug-in.
         
         Updates the progress bar for the current plug-in. It is only valid to
@@ -15470,7 +15715,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_set_text(self, message: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_set_text(self, message: str=None):
         """Changes the text in the progress bar for the current plug-in.
         
         This function changes the text in the progress bar for the current
@@ -15483,7 +15728,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_uninstall(self, progress_callback: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_uninstall(self, progress_callback: str=None):
         """Uninstalls the progress callback for the current plug-in.
         
         This function uninstalls any progress callback installed with
@@ -15496,7 +15741,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_update(self, percentage: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_progress_update(self, percentage: float=None):
         """Updates the progress bar for the current plug-in.
         
         Updates the progress bar for the current plug-in. It is only valid to
@@ -15509,7 +15754,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_quit(self, force: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_quit(self, force: bool=None):
         """Causes GIMP to exit gracefully.
         
         If there are unsaved images in an interactive GIMP session, the user
@@ -15523,26 +15768,113 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_delete(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_resource_delete(self, resource: Gimp.Resource=None):
         """Deletes a resource.
         
         Deletes a resource. Returns an error if the resource is not deletable.
         Deletes the resource's data. You should not use the resource
         afterwards.
+        
+        Parameters:
+        
+        * resource - The resource.
         """
         pass
 
-    def gimp_resource_duplicate(self, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_resource_duplicate(self, resource: Gimp.Resource=None) -> Gimp.Resource:
         """Duplicates a resource.
         
         Returns a copy having a different, unique ID.
+        
+        Parameters:
+        
+        * resource - The resource.
+        
+        Returns:
+        
+        * resource_copy - A copy of the resource.
         """
         pass
 
-    def gimp_resource_get_name(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_resource_get_by_identifiers(self, type_name: str=None, resource_name: str=None, collection: str=None, is_internal: bool=None) -> Gimp.Resource:
+        """Returns the resource contained in a given file with a given name.
+        
+        Returns a resource specifically stored in a given file path, under a
+        given name (a single path may be a collection containing several
+        resources).
+        
+        Parameters:
+        
+        * type_name - The name of the resource type.
+        
+        * resource_name - The name of the resource.
+        
+        * collection - The collection identifier.
+        
+        * is_internal (default: False) - Whether this is the identifier for
+          internal data.
+        
+        Returns:
+        
+        * resource - The resource.
+        """
+        pass
+
+    def gimp_resource_get_by_name(self, type_name: str=None, resource_name: str=None) -> Gimp.Resource:
+        """Returns a resource with the given name.
+        
+        Returns a resource with the given name.
+        
+        Parameters:
+        
+        * type_name - The name of the resource type.
+        
+        * resource_name - The name of the resource.
+        
+        Returns:
+        
+        * resource - The resource.
+        """
+        pass
+
+    def gimp_resource_get_identifiers(self, resource: Gimp.Resource=None) -> Tuple[bool, str, str]:
+        """Returns a triplet identifying the resource.
+        
+        This procedure returns 2 strings and a boolean. The first string is the
+        resource name, similar to what you would obtain calling
+        'gimp-resource-get-name'. The second is an opaque identifier for
+        the collection this resource belongs to. Note: as far as GIMP is
+        concerned, a collection of resource usually corresponds to a
+        single file on disk (which may or may not contain several
+        resources). Therefore the identifier may be derived from the
+        local file path. Nevertheless you should not use this string as
+        such as this is not guaranteed to be always the case. You should
+        consider it as an opaque identifier only to be used again
+        through _'gimp-resource-get-by-identifier'.
+        
+        Parameters:
+        
+        * resource - The resource.
+        
+        Returns:
+        
+        * is_internal (default: False) - Whether this is the identifier for
+          internal data.
+        
+        * name - The resource's name.
+        
+        * collection_id - The resource's collection identifier.
+        """
+        pass
+
+    def gimp_resource_get_name(self, resource: Gimp.Resource=None) -> str:
         """Returns the resource's name.
         
         This procedure returns the resource's name.
+        
+        Parameters:
+        
+        * resource - The resource.
         
         Returns:
         
@@ -15550,7 +15882,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_brush(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_brush(self, resource_id: int=None) -> bool:
         """Returns whether the resource ID is a brush.
         
         This procedure returns TRUE if the specified resource ID is a brush.
@@ -15566,7 +15898,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_font(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_font(self, resource_id: int=None) -> bool:
         """Returns whether the resource ID is a font.
         
         This procedure returns TRUE if the specified resource ID is a font.
@@ -15582,7 +15914,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_gradient(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_gradient(self, resource_id: int=None) -> bool:
         """Returns whether the resource ID is a gradient.
         
         This procedure returns TRUE if the specified resource ID is a gradient.
@@ -15598,7 +15930,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_palette(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_palette(self, resource_id: int=None) -> bool:
         """Returns whether the resource ID is a palette.
         
         This procedure returns TRUE if the specified resource ID is a palette.
@@ -15614,7 +15946,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_pattern(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_pattern(self, resource_id: int=None) -> bool:
         """Returns whether the resource ID is a pattern.
         
         This procedure returns TRUE if the specified resource ID is a pattern.
@@ -15630,7 +15962,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_id_is_valid(self, resource_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_id_is_valid(self, resource_id: int=None) -> bool:
         """Returns TRUE if the resource ID is valid.
         
         This procedure checks if the given resource ID is valid and refers to an
@@ -15646,10 +15978,14 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_is_editable(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_resource_is_editable(self, resource: Gimp.Resource=None) -> bool:
         """Whether the resource can be edited.
         
         Returns TRUE if you have permission to change the resource.
+        
+        Parameters:
+        
+        * resource - The resource.
         
         Returns:
         
@@ -15657,7 +15993,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_resource_rename(self, new_name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_resource_rename(self, resource: Gimp.Resource=None, new_name: str=None):
         """Renames a resource. When the name is in use, renames to a unique
         name.
         
@@ -15666,11 +16002,13 @@ class _PyPDB:
         
         Parameters:
         
+        * resource - The resource.
+        
         * new_name - The proposed new name of the resource.
         """
         pass
 
-    def gimp_selection_all(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_all(self, image: Gimp.Image=None):
         """Select all of the image.
         
         This procedure sets the selection mask to completely encompass the
@@ -15682,7 +16020,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_border(self, image: Gimp.Image, radius: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_border(self, image: Gimp.Image=None, radius: int=None):
         """Border the image's selection.
         
         This procedure borders the selection. Bordering creates a new selection
@@ -15697,7 +16035,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_bounds(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_selection_bounds(self, image: Gimp.Image=None) -> Tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection.
         
         This procedure returns whether there is a selection for the specified
@@ -15731,7 +16069,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_clear(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_clear(self, image: Gimp.Image=None):
         """Deselect the entire image.
         
         This procedure deselects the entire image. Every pixel in the selection
@@ -15743,7 +16081,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_feather(self, image: Gimp.Image, radius: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_feather(self, image: Gimp.Image=None, radius: float=None):
         """Feather the image's selection.
         
         This procedure feathers the selection. Feathering is implemented using a
@@ -15757,7 +16095,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_float(self, num_drawables: int, drawables: Gimp.ObjectArray, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_selection_float(self, num_drawables: int=None, drawables: Gimp.ObjectArray=None, offx: int=None, offy: int=None) -> Gimp.Layer:
         """Float the selection from the specified drawable with initial offsets
         as specified.
         
@@ -15783,7 +16121,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_flood(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_flood(self, image: Gimp.Image=None):
         """Remove holes from the image's selection.
         
         This procedure removes holes from the selection, that can come from
@@ -15797,7 +16135,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_grow(self, image: Gimp.Image, steps: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_grow(self, image: Gimp.Image=None, steps: int=None):
         """Grow the image's selection.
         
         This procedure grows the selection. Growing involves expanding the
@@ -15811,7 +16149,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_invert(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_invert(self, image: Gimp.Image=None):
         """Invert the selection mask.
         
         This procedure inverts the selection mask. For every pixel in the
@@ -15824,7 +16162,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_is_empty(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_selection_is_empty(self, image: Gimp.Image=None) -> bool:
         """Determine whether the selection is empty.
         
         This procedure returns TRUE if the selection for the specified image is
@@ -15840,7 +16178,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_none(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_none(self, image: Gimp.Image=None):
         """Deselect the entire image.
         
         This procedure deselects the entire image. Every pixel in the selection
@@ -15852,7 +16190,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_save(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Channel:
+    def gimp_selection_save(self, image: Gimp.Image=None) -> Gimp.Channel:
         """Copy the selection mask to a new channel.
         
         This procedure copies the selection mask and stores the content in a new
@@ -15869,7 +16207,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_sharpen(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_sharpen(self, image: Gimp.Image=None):
         """Sharpen the selection mask.
         
         This procedure sharpens the selection mask. For every pixel in the
@@ -15883,7 +16221,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_shrink(self, image: Gimp.Image, steps: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_shrink(self, image: Gimp.Image=None, steps: int=None):
         """Shrink the image's selection.
         
         This procedure shrinks the selection. Shrinking involves trimming the
@@ -15898,7 +16236,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_translate(self, image: Gimp.Image, offx: int, offy: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_selection_translate(self, image: Gimp.Image=None, offx: int=None, offy: int=None):
         """Translate the selection by the specified offsets.
         
         This procedure actually translates the selection for the specified image
@@ -15917,7 +16255,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_selection_value(self, image: Gimp.Image, x: int, y: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_selection_value(self, image: Gimp.Image=None, x: int=None, y: int=None) -> int:
         """Find the value of the selection at the specified coordinates.
         
         This procedure returns the value of the selection at the specified
@@ -15938,7 +16276,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_smudge(self, drawable: Gimp.Drawable, pressure: float, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_smudge(self, drawable: Gimp.Drawable=None, pressure: float=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Smudge image with varying pressure.
         
         This tool simulates a smudge using the current brush. High pressure
@@ -15959,7 +16297,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_smudge_default(self, drawable: Gimp.Drawable, num_strokes: int, strokes: Gimp.FloatArray, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_smudge_default(self, drawable: Gimp.Drawable=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Smudge image with varying pressure.
         
         This tool simulates a smudge using the current brush. It behaves exactly
@@ -15979,7 +16317,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_temp_file(self, extension: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gio.File:
+    def gimp_temp_file(self, extension: str=None) -> Gio.File:
         """Generates a unique temporary file.
         
         Generates a unique file using the temp path supplied in the user's
@@ -15995,23 +16333,20 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_fontname(self, image: Gimp.Image, drawable: Gimp.Drawable, x: float, y: float, text: str, border: int, antialias: bool, size: float, size_type: Gimp.SizeType, fontname: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def gimp_text_font(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, x: float=None, y: float=None, text: str=None, border: int=None, antialias: bool=None, size: float=None, font: Gimp.Font=None) -> Gimp.Layer:
         """Add text at the specified location as a floating selection or a new
         layer.
         
-        This tool requires a fontname matching an installed PangoFT2 font. You
-        can specify the fontsize in units of pixels or points, and the
-        appropriate metric is specified using the size_type argument.
-        The x and y parameters together control the placement of the new
-        text by specifying the upper left corner of the text bounding
-        box. If the specified drawable parameter is valid, the text will
-        be created as a floating selection attached to the drawable. If
-        the drawable parameter is not valid (%NULL), the text will
-        appear as a new layer. Finally, a border can be specified around
-        the final rendered text. The border is measured in pixels.
-        Parameter size-type is not used and is currently ignored. If you
-        need to display a font in points, divide the size in points by
-        72.0 and multiply it by the image's vertical resolution.
+        The x and y parameters together control the placement of the new text by
+        specifying the upper left corner of the text bounding box. If
+        the specified drawable parameter is valid, the text will be
+        created as a floating selection attached to the drawable. If the
+        drawable parameter is not valid (%NULL), the text will appear as
+        a new layer. Finally, a border can be specified around the final
+        rendered text. The border is measured in pixels. The size is
+        always in pixels. If you need to display a font in points,
+        divide the size in points by 72.0 and multiply it by the image's
+        vertical resolution.
         
         Parameters:
         
@@ -16031,12 +16366,9 @@ class _PyPDB:
         
         * antialias (default: False) - Antialiasing.
         
-        * size (default: 0.0) - The size of text in either pixels or points.
+        * size (default: 0.0) - The size of text in pixels.
         
-        * size_type (default: <enum GIMP_PIXELS of type Gimp.SizeType>) - The
-          units of specified size.
-        
-        * fontname - The name of the font.
+        * font - The font.
         
         Returns:
         
@@ -16044,16 +16376,20 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_get_extents_fontname(self, text: str, size: float, size_type: Gimp.SizeType, fontname: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, int, int, int]:
+    def gimp_text_get_extents_font(self, text: str=None, size: float=None, font: Gimp.Font=None) -> Tuple[int, int, int, int]:
         """Get extents of the bounding box for the specified text.
         
         This tool returns the width and height of a bounding box for the
-        specified text string with the specified font information.
-        Ascent and descent for the specified font are returned as well.
-        Parameter size-type is not used and is currently ignored. If you
-        need to display a font in points, divide the size in points by
-        72.0 and multiply it by the vertical resolution of the image you
-        are taking into account.
+        specified text rendered with the specified font information.
+        Ascent and descent of the glyph extents are returned as well.
+        The ascent is the distance from the baseline to the highest
+        point of the character. This is positive if the glyph ascends
+        above the baseline. The descent is the distance from the
+        baseline to the lowest point of the character. This is positive
+        if the glyph descends below the baseline. The size is always in
+        pixels. If you need to set a font in points, divide the size in
+        points by 72.0 and multiply it by the vertical resolution of the
+        image you are taking into account.
         
         Parameters:
         
@@ -16061,24 +16397,21 @@ class _PyPDB:
         
         * size (default: 0.0) - The size of text in either pixels or points.
         
-        * size_type (default: <enum GIMP_PIXELS of type Gimp.SizeType>) - The
-          units of specified size.
-        
-        * fontname - The name of the font.
+        * font - The name of the font.
         
         Returns:
         
-        * width (default: 0) - The width of the specified font.
+        * width (default: 0) - The width of the glyph extents.
         
-        * height (default: 0) - The height of the specified font.
+        * height (default: 0) - The height of the glyph extents.
         
-        * ascent (default: 0) - The ascent of the specified font.
+        * ascent (default: 0) - The ascent of the glyph extents.
         
-        * descent (default: 0) - The descent of the specified font.
+        * descent (default: 0) - The descent of the glyph extents.
         """
         pass
 
-    def gimp_text_layer_get_antialias(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_text_layer_get_antialias(self, layer: Gimp.TextLayer=None) -> bool:
         """Check if antialiasing is used in the text layer.
         
         This procedure checks if antialiasing is enabled in the specified text
@@ -16095,7 +16428,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_base_direction(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextDirection:
+    def gimp_text_layer_get_base_direction(self, layer: Gimp.TextLayer=None) -> Gimp.TextDirection:
         """Get the base direction used for rendering the text layer.
         
         This procedure returns the base direction used for rendering the text in
@@ -16113,7 +16446,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_color(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def gimp_text_layer_get_color(self, layer: Gimp.TextLayer=None) -> Gegl.Color:
         """Get the color of the text in a text layer.
         
         This procedure returns the color of the text in a text layer.
@@ -16128,10 +16461,10 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_font(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_font(self, layer: Gimp.TextLayer=None) -> Gimp.Font:
         """Get the font from a text layer as string.
         
-        This procedure returns the name of the font from a text layer.
+        This procedure returns the font from a text layer.
         
         Parameters:
         
@@ -16143,7 +16476,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_font_size(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, Gimp.Unit]:
+    def gimp_text_layer_get_font_size(self, layer: Gimp.TextLayer=None) -> Tuple[float, Gimp.Unit]:
         """Get the font size from a text layer.
         
         This procedure returns the size of the font which is used in a text
@@ -16162,7 +16495,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_hint_style(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextHintStyle:
+    def gimp_text_layer_get_hint_style(self, layer: Gimp.TextLayer=None) -> Gimp.TextHintStyle:
         """Get information about hinting in the specified text layer.
         
         This procedure provides information about the hinting that is being used
@@ -16181,7 +16514,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_indent(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_text_layer_get_indent(self, layer: Gimp.TextLayer=None) -> float:
         """Get the line indentation of text layer.
         
         This procedure returns the indentation of the first line in a text
@@ -16197,7 +16530,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_justification(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextJustification:
+    def gimp_text_layer_get_justification(self, layer: Gimp.TextLayer=None) -> Gimp.TextJustification:
         """Get the text justification information of the text layer.
         
         This procedure returns the alignment of the lines in the text layer
@@ -16215,7 +16548,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_kerning(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_text_layer_get_kerning(self, layer: Gimp.TextLayer=None) -> bool:
         """Check if kerning is used in the text layer.
         
         This procedure checks if kerning is enabled in the specified text layer.
@@ -16231,7 +16564,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_language(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_language(self, layer: Gimp.TextLayer=None) -> str:
         """Get the language used in the text layer.
         
         This procedure returns the language string which is set for the text in
@@ -16247,7 +16580,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_letter_spacing(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_text_layer_get_letter_spacing(self, layer: Gimp.TextLayer=None) -> float:
         """Get the letter spacing used in a text layer.
         
         This procedure returns the additional spacing between the single glyphs
@@ -16263,7 +16596,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_line_spacing(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_text_layer_get_line_spacing(self, layer: Gimp.TextLayer=None) -> float:
         """Get the spacing between lines of text.
         
         This procedure returns the line-spacing between lines of text in a text
@@ -16279,7 +16612,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_markup(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_markup(self, layer: Gimp.TextLayer=None) -> str:
         """Get the markup from a text layer as string.
         
         This procedure returns the markup of the styles from a text layer. The
@@ -16298,7 +16631,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_text(self, layer: Gimp.TextLayer, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_text_layer_get_text(self, layer: Gimp.TextLayer=None) -> str:
         """Get the text from a text layer as string.
         
         This procedure returns the text from a text layer as a string.
@@ -16313,7 +16646,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_new(self, image: Gimp.Image, text: str, fontname: str, size: float, unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.TextLayer:
+    def gimp_text_layer_new(self, image: Gimp.Image=None, text: str=None, font: Gimp.Font=None, size: float=None, unit: Gimp.Unit=None) -> Gimp.TextLayer:
         """Creates a new text layer.
         
         This procedure creates a new text layer. The arguments are kept as
@@ -16329,7 +16662,7 @@ class _PyPDB:
         
         * text - The text to generate (in UTF-8 encoding).
         
-        * fontname - The name of the font.
+        * font - The font to write the text with.
         
         * size (default: 0.0) - The size of text in either pixels or points.
         
@@ -16341,7 +16674,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_resize(self, layer: Gimp.TextLayer, width: float, height: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_resize(self, layer: Gimp.TextLayer=None, width: float=None, height: float=None):
         """Resize the box of a text layer.
         
         This procedure changes the width and height of a text layer while
@@ -16358,7 +16691,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_antialias(self, layer: Gimp.TextLayer, antialias: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_antialias(self, layer: Gimp.TextLayer=None, antialias: bool=None):
         """Enable/disable anti-aliasing in a text layer.
         
         This procedure enables or disables anti-aliasing of the text in a text
@@ -16373,7 +16706,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_base_direction(self, layer: Gimp.TextLayer, direction: Gimp.TextDirection, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_base_direction(self, layer: Gimp.TextLayer=None, direction: Gimp.TextDirection=None):
         """Set the base direction in the text layer.
         
         This procedure sets the base direction used in applying the Unicode
@@ -16388,7 +16721,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_color(self, layer: Gimp.TextLayer, color: Gimp.RGB, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_color(self, layer: Gimp.TextLayer=None, color: Gimp.RGB=None):
         """Set the color of the text in the text layer.
         
         This procedure sets the text color in the text layer 'layer'.
@@ -16401,7 +16734,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_font(self, layer: Gimp.TextLayer, font: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_font(self, layer: Gimp.TextLayer=None, font: Gimp.Font=None):
         """Set the font of a text layer.
         
         This procedure modifies the font used in the specified text layer.
@@ -16414,7 +16747,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_font_size(self, layer: Gimp.TextLayer, font_size: float, unit: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_font_size(self, layer: Gimp.TextLayer=None, font_size: float=None, unit: Gimp.Unit=None):
         """Set the font size.
         
         This procedure changes the font size of a text layer. The size of your
@@ -16430,7 +16763,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_hint_style(self, layer: Gimp.TextLayer, style: Gimp.TextHintStyle, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_hint_style(self, layer: Gimp.TextLayer=None, style: Gimp.TextHintStyle=None):
         """Control how font outlines are hinted in a text layer.
         
         This procedure sets the hint style for font outlines in a text layer.
@@ -16446,7 +16779,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_indent(self, layer: Gimp.TextLayer, indent: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_indent(self, layer: Gimp.TextLayer=None, indent: float=None):
         """Set the indentation of the first line in a text layer.
         
         This procedure sets the indentation of the first line in the text layer.
@@ -16459,7 +16792,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_justification(self, layer: Gimp.TextLayer, justify: Gimp.TextJustification, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_justification(self, layer: Gimp.TextLayer=None, justify: Gimp.TextJustification=None):
         """Set the justification of the text in a text layer.
         
         This procedure sets the alignment of the lines in the text layer
@@ -16474,7 +16807,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_kerning(self, layer: Gimp.TextLayer, kerning: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_kerning(self, layer: Gimp.TextLayer=None, kerning: bool=None):
         """Enable/disable kerning in a text layer.
         
         This procedure enables or disables kerning in a text layer.
@@ -16487,7 +16820,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_language(self, layer: Gimp.TextLayer, language: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_language(self, layer: Gimp.TextLayer=None, language: str=None):
         """Set the language of the text layer.
         
         This procedure sets the language of the text in text layer. For some
@@ -16502,7 +16835,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_letter_spacing(self, layer: Gimp.TextLayer, letter_spacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_letter_spacing(self, layer: Gimp.TextLayer=None, letter_spacing: float=None):
         """Adjust the letter spacing in a text layer.
         
         This procedure sets the additional spacing between the single glyphs in
@@ -16517,7 +16850,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_line_spacing(self, layer: Gimp.TextLayer, line_spacing: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_line_spacing(self, layer: Gimp.TextLayer=None, line_spacing: float=None):
         """Adjust the line spacing in a text layer.
         
         This procedure sets the additional spacing used between lines a text
@@ -16532,7 +16865,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_markup(self, layer: Gimp.TextLayer, markup: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_markup(self, layer: Gimp.TextLayer=None, markup: str=None):
         """Set the markup for a text layer from a string.
         
         This procedure sets the markup of the styles for a text layer. The
@@ -16550,7 +16883,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_set_text(self, layer: Gimp.TextLayer, text: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_text_layer_set_text(self, layer: Gimp.TextLayer=None, text: str=None):
         """Set the text of a text layer.
         
         This procedure changes the text of a text layer.
@@ -16563,7 +16896,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_undo_push_group_end(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_undo_push_group_end(self, image: Gimp.Image=None):
         """Finish a group undo.
         
         This function must be called once for each 'gimp-image-undo-group-start'
@@ -16575,7 +16908,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_undo_push_group_start(self, image: Gimp.Image, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_undo_push_group_start(self, image: Gimp.Image=None):
         """Starts a group undo.
         
         This function is used to start a group undo--necessary for logically
@@ -16589,7 +16922,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_abbreviation(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_abbreviation(self, unit_id: Gimp.Unit=None) -> str:
         """Returns the abbreviation of the unit.
         
         This procedure returns the abbreviation of the unit ("in" for inches).
@@ -16604,7 +16937,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_deletion_flag(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_unit_get_deletion_flag(self, unit_id: Gimp.Unit=None) -> bool:
         """Returns the deletion flag of the unit.
         
         This procedure returns the deletion flag of the unit. If this value is
@@ -16621,7 +16954,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_digits(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_unit_get_digits(self, unit_id: Gimp.Unit=None) -> int:
         """Returns the number of digits of the unit.
         
         This procedure returns the number of digits you should provide in input
@@ -16639,7 +16972,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_factor(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_unit_get_factor(self, unit_id: Gimp.Unit=None) -> float:
         """Returns the factor of the unit.
         
         This procedure returns the unit's factor which indicates how many units
@@ -16656,7 +16989,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_identifier(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_identifier(self, unit_id: Gimp.Unit=None) -> str:
         """Returns the textual identifier of the unit.
         
         This procedure returns the textual identifier of the unit. For built-in
@@ -16673,7 +17006,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_number_of_built_in_units(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_unit_get_number_of_built_in_units(self) -> int:
         """Returns the number of built-in units.
         
         This procedure returns the number of defined units built-in to GIMP.
@@ -16684,7 +17017,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_number_of_units(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_unit_get_number_of_units(self) -> int:
         """Returns the number of units.
         
         This procedure returns the number of defined units.
@@ -16695,7 +17028,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_plural(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_plural(self, unit_id: Gimp.Unit=None) -> str:
         """Returns the plural form of the unit.
         
         This procedure returns the plural form of the unit.
@@ -16710,7 +17043,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_singular(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_singular(self, unit_id: Gimp.Unit=None) -> str:
         """Returns the singular form of the unit.
         
         This procedure returns the singular form of the unit.
@@ -16725,7 +17058,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_symbol(self, unit_id: Gimp.Unit, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_unit_get_symbol(self, unit_id: Gimp.Unit=None) -> str:
         """Returns the symbol of the unit.
         
         This procedure returns the symbol of the unit ("''" for inches).
@@ -16740,7 +17073,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_new(self, identifier: str, factor: float, digits: int, symbol: str, abbreviation: str, singular: str, plural: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Unit:
+    def gimp_unit_new(self, identifier: str=None, factor: float=None, digits: int=None, symbol: str=None, abbreviation: str=None, singular: str=None, plural: str=None) -> Gimp.Unit:
         """Creates a new unit and returns it's integer ID.
         
         This procedure creates a new unit and returns it's integer ID. Note that
@@ -16770,7 +17103,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_set_deletion_flag(self, unit_id: Gimp.Unit, deletion_flag: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_unit_set_deletion_flag(self, unit_id: Gimp.Unit=None, deletion_flag: bool=None):
         """Sets the deletion flag of a unit.
         
         This procedure sets the unit's deletion flag. If the deletion flag of a
@@ -16785,7 +17118,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_conicto(self, vectors: Gimp.Vectors, stroke_id: int, x0: float, y0: float, x1: float, y1: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_bezier_stroke_conicto(self, vectors: Gimp.Vectors=None, stroke_id: int=None, x0: float=None, y0: float=None, x1: float=None, y1: float=None):
         """Extends a bezier stroke with a conic bezier spline.
         
         Extends a bezier stroke with a conic bezier spline. Actually a cubic
@@ -16808,7 +17141,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_cubicto(self, vectors: Gimp.Vectors, stroke_id: int, x0: float, y0: float, x1: float, y1: float, x2: float, y2: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_bezier_stroke_cubicto(self, vectors: Gimp.Vectors=None, stroke_id: int=None, x0: float=None, y0: float=None, x1: float=None, y1: float=None, x2: float=None, y2: float=None):
         """Extends a bezier stroke with a cubic bezier spline.
         
         Extends a bezier stroke with a cubic bezier spline.
@@ -16833,7 +17166,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_lineto(self, vectors: Gimp.Vectors, stroke_id: int, x0: float, y0: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_bezier_stroke_lineto(self, vectors: Gimp.Vectors=None, stroke_id: int=None, x0: float=None, y0: float=None):
         """Extends a bezier stroke with a lineto.
         
         Extends a bezier stroke with a lineto.
@@ -16850,7 +17183,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_new_ellipse(self, vectors: Gimp.Vectors, x0: float, y0: float, radius_x: float, radius_y: float, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_bezier_stroke_new_ellipse(self, vectors: Gimp.Vectors=None, x0: float=None, y0: float=None, radius_x: float=None, radius_y: float=None, angle: float=None) -> int:
         """Adds a bezier stroke describing an ellipse the vectors object.
         
         Adds a bezier stroke describing an ellipse the vectors object.
@@ -16876,7 +17209,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_bezier_stroke_new_moveto(self, vectors: Gimp.Vectors, x0: float, y0: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_bezier_stroke_new_moveto(self, vectors: Gimp.Vectors=None, x0: float=None, y0: float=None) -> int:
         """Adds a bezier stroke with a single moveto to the vectors object.
         
         Adds a bezier stroke with a single moveto to the vectors object.
@@ -16895,7 +17228,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_copy(self, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_vectors_copy(self, vectors: Gimp.Vectors=None) -> Gimp.Vectors:
         """Copy a vectors object.
         
         This procedure copies the specified vectors object and returns the copy.
@@ -16910,14 +17243,13 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_export_to_file(self, image: Gimp.Image, file: Gio.File, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_export_to_file(self, image: Gimp.Image=None, file: Gio.File=None, vectors: Gimp.Vectors=None):
         """Save a path as an SVG file.
         
         This procedure creates an SVG file to save a Vectors object, that is, a
         path. The resulting file can be edited using a vector graphics
-        application, or later reloaded into GIMP. If you pass 0 as the
-        'vectors' argument, then all paths in the image will be
-        exported.
+        application, or later reloaded into GIMP. Pass %NULL as the
+        'vectors' argument to export all paths in the image.
         
         Parameters:
         
@@ -16925,24 +17257,25 @@ class _PyPDB:
         
         * file - The SVG file to create.
         
-        * vectors - The vectors object to be saved, or 0 for all in the image.
+        * vectors - The vectors object to export, or %NULL for all in the
+          image.
         """
         pass
 
-    def gimp_vectors_export_to_string(self, image: Gimp.Image, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_vectors_export_to_string(self, image: Gimp.Image=None, vectors: Gimp.Vectors=None) -> str:
         """Save a path as an SVG string.
         
         This procedure works like 'gimp-vectors-export-to-file' but creates a
-        string rather than a file. The contents are a NUL-terminated
-        string that holds a complete XML document. If you pass 0 as the
-        'vectors' argument, then all paths in the image will be
-        exported.
+        string rather than a file. The string is NULL-terminated and
+        holds a complete XML document. Pass %NULL as the 'vectors'
+        argument to export all paths in the image.
         
         Parameters:
         
         * image - The image.
         
-        * vectors - The vectors object to save, or 0 for all in the image.
+        * vectors - The vectors object to export, or %NULL for all in the
+          image.
         
         Returns:
         
@@ -16950,7 +17283,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_image(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_vectors_get_image(self, item: Gimp.Item=None) -> Gimp.Image:
         """Returns the item's image.
         
         This procedure returns the item's image.
@@ -16965,7 +17298,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_name(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_vectors_get_name(self, item: Gimp.Item=None) -> str:
         """Get the name of the specified item.
         
         This procedure returns the specified item's name.
@@ -16980,7 +17313,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_strokes(self, vectors: Gimp.Vectors, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.Int32Array]:
+    def gimp_vectors_get_strokes(self, vectors: Gimp.Vectors=None) -> Tuple[int, Gimp.Int32Array]:
         """List the strokes associated with the passed path.
         
         Returns an Array with the stroke-IDs associated with the passed path.
@@ -16997,7 +17330,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_tattoo(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_get_tattoo(self, item: Gimp.Item=None) -> int:
         """Get the tattoo of the specified item.
         
         This procedure returns the specified item's tattoo. A tattoo is a unique
@@ -17014,7 +17347,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_get_visible(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> bool:
+    def gimp_vectors_get_visible(self, item: Gimp.Item=None) -> bool:
         """Get the visibility of the specified item.
         
         This procedure returns the specified item's visibility.
@@ -17029,7 +17362,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_import_from_file(self, image: Gimp.Image, file: Gio.File, merge: bool, scale: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_vectors_import_from_file(self, image: Gimp.Image=None, file: Gio.File=None, merge: bool=None, scale: bool=None) -> Tuple[int, Gimp.ObjectArray]:
         """Import paths from an SVG file.
         
         This procedure imports paths from an SVG file. SVG elements other than
@@ -17053,7 +17386,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_import_from_string(self, image: Gimp.Image, string: str, length: int, merge: bool, scale: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def gimp_vectors_import_from_string(self, image: Gimp.Image=None, string: str=None, length: int=None, merge: bool=None, scale: bool=None) -> Tuple[int, Gimp.ObjectArray]:
         """Import paths from an SVG string.
         
         This procedure works like 'gimp-vectors-import-from-file' but takes a
@@ -17081,7 +17414,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_new(self, image: Gimp.Image, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_vectors_new(self, image: Gimp.Image=None, name: str=None) -> Gimp.Vectors:
         """Creates a new empty vectors object.
         
         Creates a new empty vectors object. The vectors object needs to be added
@@ -17100,7 +17433,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_new_from_text_layer(self, image: Gimp.Image, layer: Gimp.Layer, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Vectors:
+    def gimp_vectors_new_from_text_layer(self, image: Gimp.Image=None, layer: Gimp.Layer=None) -> Gimp.Vectors:
         """Creates a new vectors object from a text layer.
         
         Creates a new vectors object from a text layer. The vectors object needs
@@ -17118,7 +17451,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_attach(self, item: Gimp.Item, parasite: Gimp.Parasite, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_parasite_attach(self, item: Gimp.Item=None, parasite: Gimp.Parasite=None):
         """Add a parasite to an item.
         
         This procedure attaches a parasite to an item. It has no return values.
@@ -17131,7 +17464,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_detach(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_parasite_detach(self, item: Gimp.Item=None, name: str=None):
         """Removes a parasite from an item.
         
         This procedure detaches a parasite from an item. It has no return
@@ -17145,7 +17478,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_find(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Parasite:
+    def gimp_vectors_parasite_find(self, item: Gimp.Item=None, name: str=None) -> Gimp.Parasite:
         """Look up a parasite in an item.
         
         Finds and returns the parasite that is attached to an item.
@@ -17162,7 +17495,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_parasite_list(self, item: Gimp.Item, *, config: Optional[Gimp.ProcedureConfig]=None) -> List[str]:
+    def gimp_vectors_parasite_list(self, item: Gimp.Item=None) -> List[str]:
         """List all parasites.
         
         Returns a list of all parasites currently attached the an item.
@@ -17177,7 +17510,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_remove_stroke(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_remove_stroke(self, vectors: Gimp.Vectors=None, stroke_id: int=None):
         """Remove the stroke from a vectors object.
         
         Remove the stroke from a vectors object.
@@ -17190,7 +17523,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_set_name(self, item: Gimp.Item, name: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_set_name(self, item: Gimp.Item=None, name: str=None):
         """Set the name of the specified item.
         
         This procedure sets the specified item's name.
@@ -17203,7 +17536,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_set_tattoo(self, item: Gimp.Item, tattoo: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_set_tattoo(self, item: Gimp.Item=None, tattoo: int=None):
         """Set the tattoo of the specified item.
         
         This procedure sets the specified item's tattoo. A tattoo is a unique
@@ -17218,7 +17551,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_set_visible(self, item: Gimp.Item, visible: bool, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_set_visible(self, item: Gimp.Item=None, visible: bool=None):
         """Set the visibility of the specified item.
         
         This procedure sets the specified item's visibility.
@@ -17231,7 +17564,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_close(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_close(self, vectors: Gimp.Vectors=None, stroke_id: int=None):
         """Closes the specified stroke.
         
         Closes the specified stroke.
@@ -17244,7 +17577,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_flip(self, vectors: Gimp.Vectors, stroke_id: int, flip_type: Gimp.OrientationType, axis: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_flip(self, vectors: Gimp.Vectors=None, stroke_id: int=None, flip_type: Gimp.OrientationType=None, axis: float=None):
         """Flips the given stroke.
         
         Rotates the given stroke around given center by angle (in degrees).
@@ -17264,7 +17597,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_flip_free(self, vectors: Gimp.Vectors, stroke_id: int, x1: float, y1: float, x2: float, y2: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_flip_free(self, vectors: Gimp.Vectors=None, stroke_id: int=None, x1: float=None, y1: float=None, x2: float=None, y2: float=None):
         """Flips the given stroke about an arbitrary axis.
         
         Flips the given stroke about an arbitrary axis. Axis is defined by two
@@ -17291,7 +17624,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_get_length(self, vectors: Gimp.Vectors, stroke_id: int, precision: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> float:
+    def gimp_vectors_stroke_get_length(self, vectors: Gimp.Vectors=None, stroke_id: int=None, precision: float=None) -> float:
         """Measure the length of the given stroke.
         
         Measure the length of the given stroke.
@@ -17311,7 +17644,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_get_point_at_dist(self, vectors: Gimp.Vectors, stroke_id: int, dist: float, precision: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[float, float, float, bool]:
+    def gimp_vectors_stroke_get_point_at_dist(self, vectors: Gimp.Vectors=None, stroke_id: int=None, dist: float=None, precision: float=None) -> Tuple[float, float, float, bool]:
         """Get point at a specified distance along the stroke.
         
         This will return the x,y position of a point at a given distance along
@@ -17344,7 +17677,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_get_points(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.VectorsStrokeType, int, Gimp.FloatArray, bool]:
+    def gimp_vectors_stroke_get_points(self, vectors: Gimp.Vectors=None, stroke_id: int=None) -> Tuple[Gimp.VectorsStrokeType, int, Gimp.FloatArray, bool]:
         """Returns the control points of a stroke.
         
         Returns the control points of a stroke. The interpretation of the
@@ -17373,7 +17706,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_interpolate(self, vectors: Gimp.Vectors, stroke_id: int, precision: float, *, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.FloatArray, bool]:
+    def gimp_vectors_stroke_interpolate(self, vectors: Gimp.Vectors=None, stroke_id: int=None, precision: float=None) -> Tuple[int, Gimp.FloatArray, bool]:
         """Returns polygonal approximation of the stroke.
         
         Returns polygonal approximation of the stroke.
@@ -17396,7 +17729,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_new_from_points(self, vectors: Gimp.Vectors, type: Gimp.VectorsStrokeType, num_points: int, controlpoints: Gimp.FloatArray, closed: bool, *, config: Optional[Gimp.ProcedureConfig]=None) -> int:
+    def gimp_vectors_stroke_new_from_points(self, vectors: Gimp.Vectors=None, type: Gimp.VectorsStrokeType=None, num_points: int=None, controlpoints: Gimp.FloatArray=None, closed: bool=None) -> int:
         """Adds a stroke of a given type to the vectors object.
         
         Adds a stroke of a given type to the vectors object. The coordinates of
@@ -17431,7 +17764,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_reverse(self, vectors: Gimp.Vectors, stroke_id: int, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_reverse(self, vectors: Gimp.Vectors=None, stroke_id: int=None):
         """Reverses the specified stroke.
         
         Reverses the specified stroke.
@@ -17444,7 +17777,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_rotate(self, vectors: Gimp.Vectors, stroke_id: int, center_x: float, center_y: float, angle: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_rotate(self, vectors: Gimp.Vectors=None, stroke_id: int=None, center_x: float=None, center_y: float=None, angle: float=None):
         """Rotates the given stroke.
         
         Rotates the given stroke around given center by angle (in degrees).
@@ -17463,7 +17796,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_scale(self, vectors: Gimp.Vectors, stroke_id: int, scale_x: float, scale_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_scale(self, vectors: Gimp.Vectors=None, stroke_id: int=None, scale_x: float=None, scale_y: float=None):
         """Scales the given stroke.
         
         Scale the given stroke.
@@ -17480,7 +17813,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_vectors_stroke_translate(self, vectors: Gimp.Vectors, stroke_id: int, off_x: float, off_y: float, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_vectors_stroke_translate(self, vectors: Gimp.Vectors=None, stroke_id: int=None, off_x: float=None, off_y: float=None):
         """Translate the given stroke.
         
         Translate the given stroke.
@@ -17497,7 +17830,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_version(self, *, config: Optional[Gimp.ProcedureConfig]=None) -> str:
+    def gimp_version(self) -> str:
         """Returns the host GIMP version.
         
         This procedure returns the version number of the currently running GIMP.
@@ -17508,7 +17841,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_xcf_load(self, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def gimp_xcf_load(self, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Loads file saved in the .xcf file format.
         
         The XCF file format has been designed specifically for loading and
@@ -17525,7 +17858,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_xcf_save(self, image: Gimp.Image, n_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gimp_xcf_save(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Saves file in the .xcf file format.
         
         The XCF file format has been designed specifically for loading and
@@ -17536,7 +17869,7 @@ class _PyPDB:
         
         * image - Input image.
         
-        * n_drawables (default: 0) - Number of drawables.
+        * num_drawables (default: 0) - Number of drawables.
         
         * drawables - Selected drawables.
         
@@ -17544,10 +17877,10 @@ class _PyPDB:
         """
         pass
 
-    def gradient_save_as_css(self, gradient: Gimp.Gradient, file: Gio.File, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def gradient_save_as_css(self, gradient: Gimp.Gradient=None, file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Creates a new palette from a given gradient.
         
-        Menu label: Save as CSS...
+        Menu label: Save Gradient as CSS...
         Menu path: <Gradients>
         
         Creates a new palette from a given gradient.
@@ -17560,7 +17893,7 @@ class _PyPDB:
         """
         pass
 
-    def histogram_export(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, file: Gio.File, bucket_size: float, sample_average: bool, output_format: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def histogram_export(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file: Gio.File=None, bucket_size: float=None, sample_average: bool=None, output_format: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exports the image histogram to a text file (CSV).
         
         Image types: *
@@ -17602,7 +17935,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_alienmap2(self, image: Gimp.Image, drawable: Gimp.Drawable, redfrequency: float, redangle: float, greenfrequency: float, greenangle: float, bluefrequency: float, blueangle: float, colormodel: int, redmode: int, greenmode: int, bluemode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_alienmap2(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, redfrequency: float=None, redangle: float=None, greenfrequency: float=None, greenangle: float=None, bluefrequency: float=None, blueangle: float=None, colormodel: int=None, redmode: int=None, greenmode: int=None, bluemode: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Alter colors in various psychedelic ways.
         
         No help yet. Just try it and you'll see!.
@@ -17642,12 +17975,12 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_align_layers(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, horizontal_style: int, horizontal_base: int, vertical_style: int, vertical_base: int, grid_size: int, ignore_bottom_layer: bool, use_bottom_layer: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_align_layers(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, horizontal_style: int=None, horizontal_base: int=None, vertical_style: int=None, vertical_base: int=None, grid_size: int=None, ignore_bottom_layer: bool=None, use_bottom_layer: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Align all visible layers of the image.
         
         Image types: *
         Menu label: Align Visi_ble Layers...
-        Menu path: <Image>/Image/Arrange
+        Menu path: <Image>/Image/[Arrange]
         
         Align visible layers.
         
@@ -17681,7 +18014,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationoptimize(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_animationoptimize(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Modify image to reduce size when saved as GIF animation.
         
         Image types: *
@@ -17710,7 +18043,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationoptimize_diff(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_animationoptimize_diff(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Reduce file size where combining layers is possible.
         
         Image types: *
@@ -17737,7 +18070,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationplay(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_animationplay(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Preview a GIMP layer-based animation.
         
         Image types: *
@@ -17754,7 +18087,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationunoptimize(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_animationunoptimize(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Remove optimization to make editing easier.
         
         Image types: *
@@ -17779,7 +18112,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_antialias(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_antialias(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Antialias using the Scale3X edge-extrapolation algorithm.
         
         No more help.
@@ -17792,7 +18125,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_apply_canvas(self, image: Gimp.Image, drawable: Gimp.Drawable, direction: int, depth: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_apply_canvas(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, direction: int=None, depth: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a canvas texture to the image.
         
         This function applies a canvas texture map to the drawable.
@@ -17809,7 +18142,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_applylens(self, image: Gimp.Image, drawable: Gimp.Drawable, refraction: float, keep_surroundings: bool, set_background: bool, set_transparent: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_applylens(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, refraction: float=None, keep_surroundings: bool=None, set_background: bool=None, set_transparent: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate an elliptical lens over the image.
         
         This plug-in uses Snell's law to draw an ellipsoid lens over the image.
@@ -17831,7 +18164,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_autocrop(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_autocrop(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Remove empty borders from the image.
         
         Remove empty borders from the image.
@@ -17844,7 +18177,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_autocrop_layer(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_autocrop_layer(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Crop the selected layers based on empty borders of the input
         drawable.
         
@@ -17863,7 +18196,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_autostretch_hsv(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_autostretch_hsv(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Stretch contrast to cover the maximum possible range.
         
         This simple plug-in does an automatic contrast stretch. For each channel
@@ -17882,7 +18215,55 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_blinds(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, angle_displacement: int, num_segments: int, orientation: int, bg_transparent: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_batch_export_layers(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file_extension: str=None, output_directory: str=None, layer_filename_pattern: str=None, overwrite_mode: int=None, settings_file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Export layers as separate images.
+        
+        Image types: *
+        Menu label: E_xport Layers...
+        Menu path: <Image>/File/Batch
+        
+        Parameters:
+        
+        * image - The input image.
+        
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
+        
+        * file_extension (default: png) - File extension.
+        
+        * output_directory (default: C:\\Users\\Kamil\\Documents) - Output
+          directory.
+        
+        * layer_filename_pattern (default: [layer name]) - Layer filename
+          pattern (empty string = layer name).
+        
+        * overwrite_mode (default: 2) - Overwrite mode (non-interactive run
+          mode only) { Replace (0), Skip (1), Rename new file (2),
+          Rename existing file (3) }.
+        
+        * settings_file - File with saved settings (optional).
+        """
+        pass
+
+    def plug_in_batch_export_layers_now(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Export layers as separate images instantly.
+        
+        Image types: *
+        Menu label: E_xport Layers Now
+        Menu path: <Image>/File/Batch
+        
+        Parameters:
+        
+        * image - The input image.
+        
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
+        """
+        pass
+
+    def plug_in_blinds(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, angle_displacement: int=None, num_segments: int=None, orientation: int=None, bg_transparent: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate an image painted on window blinds.
         
         Image types: RGB*, GRAY*
@@ -17909,7 +18290,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_borderaverage(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, thickness: int, bucket_exponent: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.RGB:
+    def plug_in_borderaverage(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, thickness: int=None, bucket_exponent: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.RGB:
         """Set foreground to the average color of the image border.
         
         Image types: RGB*
@@ -17935,7 +18316,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_bump_map(self, image: Gimp.Image, drawable: Gimp.Drawable, bumpmap: Gimp.Drawable, azimuth: float, elevation: float, depth: int, xofs: int, yofs: int, waterlevel: float, ambient: float, compensate: bool, invert: bool, type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_bump_map(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, bumpmap: Gimp.Drawable=None, azimuth: float=None, elevation: float=None, depth: int=None, xofs: int=None, yofs: int=None, waterlevel: float=None, ambient: float=None, compensate: bool=None, invert: bool=None, type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an embossing effect using a bump map.
         
         This plug-in uses the algorithm described by John Schlag, "Fast
@@ -17975,7 +18356,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_bump_map_tiled(self, image: Gimp.Image, drawable: Gimp.Drawable, bumpmap: Gimp.Drawable, azimuth: float, elevation: float, depth: int, xofs: int, yofs: int, waterlevel: float, ambient: float, compensate: bool, invert: bool, type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_bump_map_tiled(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, bumpmap: Gimp.Drawable=None, azimuth: float=None, elevation: float=None, depth: int=None, xofs: int=None, yofs: int=None, waterlevel: float=None, ambient: float=None, compensate: bool=None, invert: bool=None, type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an embossing effect using a tiled image as a bump map.
         
         This plug-in uses the algorithm described by John Schlag, "Fast
@@ -18016,7 +18397,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_busy_dialog(self, read_fd: int, write_fd: int, message: str, cancelable: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_busy_dialog(self, read_fd: int=None, write_fd: int=None, message: str=None, cancelable: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Show a dialog while waiting for an operation to finish.
         
         Used by GIMP to display a dialog, containing a spinner and a custom
@@ -18036,7 +18417,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_c_astretch(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_c_astretch(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Stretch contrast to cover the maximum possible range.
         
         This simple plug-in does an automatic contrast stretch. For each channel
@@ -18053,7 +18434,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_cartoon(self, image: Gimp.Image, drawable: Gimp.Drawable, mask_radius: float, pct_black: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_cartoon(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, mask_radius: float=None, pct_black: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate a cartoon by enhancing edges.
         
         Propagates dark values in an image based on each pixel's relative
@@ -18090,7 +18471,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_checkerboard(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, psychobily: bool, check_size: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_checkerboard(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, psychobily: bool=None, check_size: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a checkerboard pattern.
         
         Image types: RGB*, GRAY*
@@ -18113,14 +18494,14 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_cml_explorer(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, parameter_uri: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_cml_explorer(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, parameter_file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create abstract Coupled-Map Lattice patterns.
         
         Image types: RGB*, GRAY*
         Menu label: CML _Explorer...
         Menu path: <Image>/Filters/Render/Pattern
         
-        Make an image of Coupled-Map Lattice (CML). CML is a kind of Cellula
+        Make an image of Coupled-Map Lattice (CML). CML is a kind of Cellular
         Automata on continuous (value) domain. In
         GIMP_RUN_NONINTERACTIVE, the name of a parameter file is passed
         as the 4th arg. You can control CML_explorer via parameter file.
@@ -18133,17 +18514,17 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * parameter_uri - The local file:// URI of parameter file.
-          CML_explorer makes an image with its settings.
+        * parameter_file - The parameter file from which CML_explorer makes an
+          image. This argument is only used in non-interactive runs.
         """
         pass
 
-    def plug_in_colormap_remap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, map: GLib.Bytes, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colormap_remap(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, map: GLib.Bytes=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Rearrange the colormap.
         
         Image types: INDEXED*
         Menu label: R_earrange Colormap...
-        Menu paths: <Image>/Colors/Map/Colormap, <Colormap>
+        Menu paths: <Image>/Colors/Map/[Colormap], <Colormap>
         
         This procedure takes an indexed image and lets you alter the positions
         of colors in the colormap without visually changing the image.
@@ -18160,7 +18541,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_colormap_swap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, index1: int, index2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colormap_swap(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, index1: int=None, index2: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Swap two colors in the colormap.
         
         Image types: INDEXED*
@@ -18183,7 +18564,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_colors_channel_mixer(self, image: Gimp.Image, drawable: Gimp.Drawable, monochrome: int, rr_gain: float, rg_gain: float, rb_gain: float, gr_gain: float, gg_gain: float, gb_gain: float, br_gain: float, bg_gain: float, bb_gain: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colors_channel_mixer(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, monochrome: int=None, rr_gain: float=None, rg_gain: float=None, rb_gain: float=None, gr_gain: float=None, gg_gain: float=None, gb_gain: float=None, br_gain: float=None, bg_gain: float=None, bb_gain: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Alter colors by mixing RGB Channels.
         
         This plug-in mixes the RGB channels.
@@ -18216,7 +18597,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_colortoalpha(self, image: Gimp.Image, drawable: Gimp.Drawable, color: Gimp.RGB, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_colortoalpha(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, color: Gimp.RGB=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Convert a specified color to transparency.
         
         This replaces as much of a given color as possible in each pixel with a
@@ -18233,7 +18614,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_compose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, image_2: Gimp.Image, image_3: Gimp.Image, image_4: Gimp.Image, compose_type: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_compose(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, image_2: Gimp.Image=None, image_3: Gimp.Image=None, image_4: Gimp.Image=None, compose_type: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Create an image using multiple gray images as color channels.
         
         Image types: GRAY*
@@ -18256,10 +18637,9 @@ class _PyPDB:
         
         * image_4 - Fourth input image.
         
-        * compose_type (default: RGB) - What to compose: "RGB", "RGBA", "HSV",
-          "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
-          "YCbCr_ITU_R709", "YCbCr_ITU_R470_256",
-          "YCbCr_ITU_R709_256".
+        * compose_type - What to compose: "RGB", "RGBA", "HSV", "HSL", "CMYK",
+          "LAB", "LCH", "YCbCr_ITU_R470", "YCbCr_ITU_R709",
+          "YCbCr_ITU_R470_256", "YCbCr_ITU_R709_256".
         
         Returns:
         
@@ -18267,7 +18647,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_convmatrix(self, image: Gimp.Image, drawable: Gimp.Drawable, argc_matrix: int, matrix: Gimp.FloatArray, alpha_alg: bool, divisor: float, offset: float, argc_channels: int, channels: Gimp.Int32Array, bmode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_convmatrix(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, argc_matrix: int=None, matrix: Gimp.FloatArray=None, alpha_alg: bool=None, divisor: float=None, offset: float=None, argc_channels: int=None, channels: Gimp.Int32Array=None, bmode: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Apply a generic 5x5 convolution matrix.
         
         Apply a generic 5x5 convolution matrix.
@@ -18299,7 +18679,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_cubism(self, image: Gimp.Image, drawable: Gimp.Drawable, tile_size: float, tile_saturation: float, bg_color: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_cubism(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, tile_size: float=None, tile_saturation: float=None, bg_color: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Convert the image into randomly rotated square blobs.
         
         Convert the image into randomly rotated square blobs.
@@ -18319,24 +18699,24 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_curve_bend(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, rotation: float, smoothing: bool, antialias: bool, work_on_copy: bool, curve_type: int, argc_upper_point_x: int, upper_point_x: Gimp.FloatArray, argc_upper_point_y: int, upper_point_y: Gimp.FloatArray, argc_lower_point_x: int, lower_point_x: Gimp.FloatArray, argc_lower_point_y: int, lower_point_y: Gimp.FloatArray, upper_val_y: GLib.Bytes, lower_val_y: GLib.Bytes, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def plug_in_curve_bend(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, rotation: float=None, smoothing: bool=None, antialias: bool=None, work_on_copy: bool=None, curve_type: int=None, curve_border: int=None, argc_upper_point_x: int=None, upper_point_x: Gimp.FloatArray=None, argc_upper_point_y: int=None, upper_point_y: Gimp.FloatArray=None, argc_lower_point_x: int=None, lower_point_x: Gimp.FloatArray=None, argc_lower_point_y: int=None, lower_point_y: Gimp.FloatArray=None, upper_val_y: GLib.Bytes=None, lower_val_y: GLib.Bytes=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Layer:
         """Bend the image using two control curves.
         
         Image types: RGB*, GRAY*
         Menu label: _Curve Bend...
         Menu path: <Image>/Filters/Distorts
         
-        This plug-in does bend the active layer If there is a current selection
-        it is copied to floating selection and the curve_bend distortion
-        is done on the floating selection. If work_on_copy parameter is
+        This plug-in bends the active layer. If there is a current selection it
+        is copied to floating selection and the curve_bend distortion is
+        done on the floating selection. If work_on_copy parameter is
         TRUE, the curve_bend distortion is done on a copy of the active
         layer (or floating selection). The upper and lower edges are
-        bent in shape of 2 spline curves. both (upper and lower) curves
-        are determined by upto 17 points or by 256 Y-Values if
-        curve_type == 1 (freehand mode) If rotation is not 0, the layer
+        bent in shape of 2 spline curves. Both (upper and lower) curves
+        are determined by up to 17 points or by 256 Y-Values if
+        curve_type == 1 (freehand mode). If rotation is not 0, the layer
         is rotated before and rotated back after the bend operation.
-        This enables bending in other directions than vertical. bending
-        usually changes the size of the handled layer. this plug-in sets
+        This enables bending in other directions than vertical. Bending
+        usually changes the size of the handled layer. This plug-in sets
         the offsets of the handled layer to keep its center at the same
         position.
         
@@ -18359,6 +18739,8 @@ class _PyPDB:
         
         * curve_type (default: 0) - { 0 == smooth (use 17 points), 1 ==
           freehand (use 256 val_y) }.
+        
+        * curve_border (default: 0) - Choose the active border line to edit.
         
         * argc_upper_point_x (default: 2) - Argc upper point X.
         
@@ -18390,15 +18772,15 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_dbbrowser(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_dbbrowser(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """List available procedures in the PDB.
         
         Menu label: Procedure _Browser
-        Menu path: <Image>/Help
+        Menu path: <Image>/Help/[Programming]
         """
         pass
 
-    def plug_in_decompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, decompose_type: str, layers_mode: bool, use_registration: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Image, Gimp.Image, Gimp.Image]:
+    def plug_in_decompose(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, decompose_type: str=None, layers_mode: bool=None, use_registration: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Tuple[Gimp.Image, Gimp.Image, Gimp.Image, Gimp.Image]:
         """Decompose an image into separate colorspace components.
         
         Image types: RGB*
@@ -18443,7 +18825,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_deinterlace(self, image: Gimp.Image, drawable: Gimp.Drawable, evenodd: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_deinterlace(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, evenodd: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Fix images where every other row is missing.
         
         Deinterlace is useful for processing images from video capture cards.
@@ -18462,7 +18844,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_depth_merge(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, source_1: Gimp.Drawable, source_2: Gimp.Drawable, depth_map_1: Gimp.Drawable, depth_map_2: Gimp.Drawable, overlap: float, offset: float, scale_1: float, scale_2: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_depth_merge(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, source_1: Gimp.Drawable=None, depth_map_1: Gimp.Drawable=None, source_2: Gimp.Drawable=None, depth_map_2: Gimp.Drawable=None, overlap: float=None, offset: float=None, scale_1: float=None, scale_2: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Combine two images using depth maps (z-buffers).
         
         Image types: RGB*, GRAY*
@@ -18483,9 +18865,9 @@ class _PyPDB:
         
         * source_1 - Source 1.
         
-        * source_2 - Source 2.
-        
         * depth_map_1 - Depth map 1.
+        
+        * source_2 - Source 2.
         
         * depth_map_2 - Depth map 2.
         
@@ -18499,7 +18881,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_despeckle(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, radius: int, type: int, black: int, white: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_despeckle(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, radius: int=None, type: int=None, black: int=None, white: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Remove speckle noise from the image.
         
         Image types: RGB*, GRAY*
@@ -18528,7 +18910,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_destripe(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, avg_width: int, create_histogram: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_destripe(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, avg_width: int=None, create_histogram: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Remove vertical stripe artifacts from the image.
         
         Image types: RGB*, GRAY*
@@ -18551,7 +18933,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_diffraction(self, image: Gimp.Image, drawable: Gimp.Drawable, lam_r: float, lam_g: float, lam_b: float, contour_r: float, contour_g: float, contour_b: float, edges_r: float, edges_g: float, edges_b: float, brightness: float, scattering: float, polarization: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_diffraction(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, lam_r: float=None, lam_g: float=None, lam_b: float=None, contour_r: float=None, contour_g: float=None, contour_b: float=None, edges_r: float=None, edges_g: float=None, edges_b: float=None, brightness: float=None, scattering: float=None, polarization: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Generate diffraction patterns.
         
         Help? What help?.
@@ -18589,7 +18971,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_dilate(self, image: Gimp.Image, drawable: Gimp.Drawable, propagate_mode: int, propagating_channel: int, propagating_rate: float, direction_mask: int, lower_limit: int, upper_limit: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_dilate(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, propagate_mode: int=None, propagating_channel: int=None, propagating_rate: float=None, direction_mask: int=None, lower_limit: int=None, upper_limit: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Grow lighter areas of the image.
         
         Dilate image.
@@ -18617,7 +18999,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_displace(self, image: Gimp.Image, drawable: Gimp.Drawable, amount_x: float, amount_y: float, do_x: bool, do_y: bool, displace_map_x: Gimp.Drawable, displace_map_y: Gimp.Drawable, displace_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_displace(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, amount_x: float=None, amount_y: float=None, do_x: bool=None, do_y: bool=None, displace_map_x: Gimp.Drawable=None, displace_map_y: Gimp.Drawable=None, displace_type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Displace pixels as indicated by displacement maps.
         
         Displaces the contents of the specified drawable by the amounts
@@ -18648,7 +19030,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_displace_polar(self, image: Gimp.Image, drawable: Gimp.Drawable, amount_x: float, amount_y: float, do_x: bool, do_y: bool, displace_map_x: Gimp.Drawable, displace_map_y: Gimp.Drawable, displace_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_displace_polar(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, amount_x: float=None, amount_y: float=None, do_x: bool=None, do_y: bool=None, displace_map_x: Gimp.Drawable=None, displace_map_y: Gimp.Drawable=None, displace_type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Displace pixels as indicated by displacement maps.
         
         Just like plug-in-displace but working in polar coordinates. The
@@ -18679,7 +19061,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_dog(self, image: Gimp.Image, drawable: Gimp.Drawable, inner: float, outer: float, normalize: bool, invert: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_dog(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, inner: float=None, outer: float=None, normalize: bool=None, invert: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Edge detection with control of edge thickness.
         
         Applies two Gaussian blurs to the drawable, and subtracts the results.
@@ -18701,7 +19083,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_drawable_compose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, drawable_2: Gimp.Drawable, drawable_3: Gimp.Drawable, drawable_4: Gimp.Drawable, compose_type: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_drawable_compose(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, drawable_2: Gimp.Drawable=None, drawable_3: Gimp.Drawable=None, drawable_4: Gimp.Drawable=None, compose_type: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Compose an image from multiple drawables of gray images.
         
         Image types: GRAY*
@@ -18723,10 +19105,9 @@ class _PyPDB:
         
         * drawable_4 - Fourth input drawable.
         
-        * compose_type (default: RGB) - What to compose: "RGB", "RGBA", "HSV",
-          "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
-          "YCbCr_ITU_R709", "YCbCr_ITU_R470_256",
-          "YCbCr_ITU_R709_256".
+        * compose_type - What to compose: "RGB", "RGBA", "HSV", "HSL", "CMYK",
+          "LAB", "LCH", "YCbCr_ITU_R470", "YCbCr_ITU_R709",
+          "YCbCr_ITU_R470_256", "YCbCr_ITU_R709_256".
         
         Returns:
         
@@ -18734,7 +19115,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_edge(self, image: Gimp.Image, drawable: Gimp.Drawable, amount: float, warpmode: int, edgemode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_edge(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, amount: float=None, warpmode: int=None, edgemode: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Several simple methods for detecting edges.
         
         Perform edge detection on the contents of the specified drawable. AMOUNT
@@ -18760,7 +19141,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_emboss(self, image: Gimp.Image, drawable: Gimp.Drawable, azimuth: float, elevation: float, depth: int, emboss: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_emboss(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, azimuth: float=None, elevation: float=None, depth: int=None, emboss: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate an image created by embossing.
         
         Emboss or Bumpmap the given drawable, specifying the angle and elevation
@@ -18782,7 +19163,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_engrave(self, image: Gimp.Image, drawable: Gimp.Drawable, height: int, limit: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_engrave(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, height: int=None, limit: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate an antique engraving.
         
         Creates a black-and-white 'engraved' version of an image as seen in old
@@ -18800,7 +19181,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_erode(self, image: Gimp.Image, drawable: Gimp.Drawable, propagate_mode: int, propagating_channel: int, propagating_rate: float, direction_mask: int, lower_limit: int, upper_limit: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_erode(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, propagate_mode: int=None, propagating_channel: int=None, propagating_rate: float=None, direction_mask: int=None, lower_limit: int=None, upper_limit: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Shrink lighter areas of the image.
         
         Erode image.
@@ -18828,7 +19209,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_exchange(self, image: Gimp.Image, drawable: Gimp.Drawable, from_red: int, from_green: int, from_blue: int, to_red: int, to_green: int, to_blue: int, red_threshold: int, green_threshold: int, blue_threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_exchange(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, from_red: int=None, from_green: int=None, from_blue: int=None, to_red: int=None, to_green: int=None, to_blue: int=None, red_threshold: int=None, green_threshold: int=None, blue_threshold: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Swap one color with another.
         
         Exchange one color with another, optionally setting a threshold to
@@ -18860,7 +19241,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_film(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, film_height: int, film_color: Gimp.RGB, number_start: int, number_font: Gimp.Font, number_color: Gimp.RGB, at_top: bool, at_bottom: bool, num_images: int, images: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_film(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, film_height: int=None, film_color: Gegl.Color=None, number_start: int=None, number_font: Gimp.Font=None, number_color: Gegl.Color=None, at_top: bool=None, at_bottom: bool=None, images: Gimp.ObjectArray=None, picture_height: float=None, picture_spacing: float=None, hole_offset: float=None, hole_width: float=None, hole_height: float=None, hole_spacing: float=None, number_height: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Combine several images on a film strip.
         
         Image types: *
@@ -18891,9 +19272,27 @@ class _PyPDB:
         
         * at_bottom (default: True) - Draw numbers at bottom.
         
-        * num_images (default: 1) - Number of images to be used for film.
+        * images - Images to be used for film.
         
-        * images - num-images images to be used for film.
+        * picture_height (default: 0.695) - As fraction of the strip height.
+        
+        * picture_spacing (default: 0.04) - The spacing between 2 images, as
+          fraction of the strip height.
+        
+        * hole_offset (default: 0.058) - The offset from the edge of film, as
+          fraction of the strip height.
+        
+        * hole_width (default: 0.052) - The width of the holes, as fraction of
+          the strip height.
+        
+        * hole_height (default: 0.081) - The height of the holes, as fraction
+          of the strip height.
+        
+        * hole_spacing (default: 0.081) - The distance between holes, as
+          fraction of the strip height.
+        
+        * number_height (default: 0.052) - The height of drawn numbers, as
+          fraction of the strip height.
         
         Returns:
         
@@ -18901,7 +19300,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_flame(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_flame(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, brightness: float=None, contrast: float=None, gamma: float=None, sample_density: float=None, spatial_oversample: int=None, spatial_filter_radius: float=None, zoom: float=None, x: float=None, y: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create cosmic recursive fractal flames.
         
         Image types: RGB*
@@ -18917,10 +19316,28 @@ class _PyPDB:
         * num_drawables (default: 1) - Number of input drawables.
         
         * drawables - The input drawables.
+        
+        * brightness (default: 1.0) -
+        
+        * contrast (default: 1.0) -
+        
+        * gamma (default: 1.0) -
+        
+        * sample_density (default: 5.0) -
+        
+        * spatial_oversample (default: 2) -
+        
+        * spatial_filter_radius (default: 0.75) -
+        
+        * zoom (default: 0.0) -
+        
+        * x (default: 0.0) -
+        
+        * y (default: 0.0) -
         """
         pass
 
-    def plug_in_flarefx(self, image: Gimp.Image, drawable: Gimp.Drawable, pos_x: int, pos_y: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_flarefx(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, pos_x: int=None, pos_y: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a lens flare effect.
         
         Adds a lens flare effects. Makes your image look like it was snapped
@@ -18938,7 +19355,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_fractal_trace(self, image: Gimp.Image, drawable: Gimp.Drawable, xmin: float, xmax: float, ymin: float, ymax: float, depth: int, outside_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_fractal_trace(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, xmin: float=None, xmax: float=None, ymin: float=None, ymax: float=None, depth: int=None, outside_type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Transform image with the Mandelbrot Fractal.
         
         Transform image with the Mandelbrot Fractal.
@@ -18964,7 +19381,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_fractalexplorer(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, fractal_type: int, xmin: float, xmax: float, ymin: float, ymax: float, iter: float, cx: float, cy: float, color_mode: int, red_stretch: float, green_stretch: float, blues_tretch: float, red_mode: int, green_mode: int, blue_mode: int, red_invert: bool, green_invert: bool, blue_invert: bool, n_colors: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_fractalexplorer(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, fractal_type: str=None, xmin: float=None, xmax: float=None, ymin: float=None, ymax: float=None, iter: float=None, cx: float=None, cy: float=None, color_mode: int=None, red_stretch: float=None, green_stretch: float=None, blue_stretch: float=None, red_mode: str=None, green_mode: str=None, blue_mode: str=None, red_invert: bool=None, green_invert: bool=None, blue_invert: bool=None, n_colors: int=None, use_loglog_smoothing: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Render fractal art.
         
         Image types: RGB*, GRAY*
@@ -18981,40 +19398,36 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * fractal_type (default: 0) - 0: Mandelbrot; 1: Julia; 2: Barnsley 1;
-          3: Barnsley 2; 4: Barnsley 3; 5: Spider; 6: ManOWar; 7:
-          Lambda; 8: Sierpinski.
+        * fractal_type - Type of Fractal Pattern.
         
-        * xmin (default: 0.0) - xmin fractal image delimiter.
+        * xmin (default: -2.0) - X min fractal image delimiter.
         
-        * xmax (default: 0.0) - xmax fractal image delimiter.
+        * xmax (default: 2.0) - X max fractal image delimiter.
         
-        * ymin (default: 0.0) - ymin fractal image delimiter.
+        * ymin (default: -1.5) - Y min fractal image delimiter.
         
-        * ymax (default: 0.0) - ymax fractal image delimiter.
+        * ymax (default: 1.5) - Y max fractal image delimiter.
         
-        * iter (default: 0.0) - Iteration value.
+        * iter (default: 50.0) - Iteration value.
         
-        * cx (default: 0.0) - cx value (only Julia).
+        * cx (default: -0.75) - cx value.
         
-        * cy (default: 0.0) - cy value (only Julia).
+        * cy (default: -0.2) - cy value.
         
         * color_mode (default: 0) - 0: Apply colormap as specified by the
           parameters below; 1: Apply active gradient to final image.
         
-        * red_stretch (default: 0.0) - Red stretching factor.
+        * red_stretch (default: 1.0) - Red stretching factor.
         
-        * green_stretch (default: 0.0) - Green stretching factor.
+        * green_stretch (default: 1.0) - Green stretching factor.
         
-        * blues_tretch (default: 0.0) - Blue stretching factor.
+        * blue_stretch (default: 1.0) - Blue stretching factor.
         
-        * red_mode (default: 0) - Red application mode (0:SIN; 1:COS; 2:NONE).
+        * red_mode - Red application mode.
         
-        * green_mode (default: 0) - Green application mode (0:SIN; 1:COS;
-          2:NONE).
+        * green_mode - Green application mode.
         
-        * blue_mode (default: 0) - Blue application mode (0:SIN; 1:COS;
-          2:NONE).
+        * blue_mode - Blue application mode.
         
         * red_invert (default: False) - Red inversion mode.
         
@@ -19023,10 +19436,13 @@ class _PyPDB:
         * blue_invert (default: False) - Blue inversion mode.
         
         * n_colors (default: 512) - Number of Colors for mapping.
+        
+        * use_loglog_smoothing (default: False) - Use log log smoothing to
+          eliminate "banding" in the result.
         """
         pass
 
-    def plug_in_gauss(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: float, vertical: float, method: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, horizontal: float=None, vertical: float=None, method: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simplest, most commonly used way of blurring.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19052,7 +19468,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_iir(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, horizontal: bool, vertical: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_iir(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, radius: float=None, horizontal: bool=None, vertical: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19075,7 +19491,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_iir2(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: float, vertical: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_iir2(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, horizontal: float=None, vertical: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19098,7 +19514,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_rle(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, horizontal: bool, vertical: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_rle(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, radius: float=None, horizontal: bool=None, vertical: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19121,7 +19537,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gauss_rle2(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: float, vertical: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gauss_rle2(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, horizontal: float=None, vertical: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Apply a gaussian blur.
         
         Applies a gaussian blur to the drawable, with specified radius of
@@ -19144,7 +19560,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gfig(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gfig(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create geometric shapes.
         
         Image types: RGB*, GRAY*
@@ -19168,12 +19584,12 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gflare(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, gflare_name: str, center_x: int, center_y: int, radius: float, rotation: float, hue: float, vector_angle: float, vector_length: float, use_asupsample: bool, asupsample_max_depth: int, asupsample_threshold: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gflare(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, gflare_name: str=None, center_x: int=None, center_y: int=None, radius: float=None, rotation: float=None, hue: float=None, vector_angle: float=None, vector_length: float=None, use_asupsample: bool=None, asupsample_max_depth: int=None, asupsample_threshold: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Produce a lense flare effect using gradients.
         
         Image types: RGB*, GRAY*
         Menu label: _Gradient Flare...
-        Menu path: <Image>/Filters/Light and Shadow/Light
+        Menu path: <Image>/Filters/Light and Shadow/[Light]
         
         This plug-in produces a lense flare effect using custom gradients. In
         interactive call, the user can edit their own favorite lense
@@ -19219,7 +19635,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gimpressionist(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, preset: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gimpressionist(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, preset: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Performs various artistic operations.
         
         Image types: RGB*, GRAY*
@@ -19240,7 +19656,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_glasstile(self, image: Gimp.Image, drawable: Gimp.Drawable, tilex: int, tiley: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_glasstile(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, tilex: int=None, tiley: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate distortion caused by square glass tiles.
         
         Divide the image into square glassblocks in which the image is
@@ -19258,7 +19674,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_c(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_c(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exercise a goat in the C language.
         
         Image types: *
@@ -19277,7 +19693,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_lua(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_lua(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exercise a goat in the Lua language.
         
         Image types: *
@@ -19296,7 +19712,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_python(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_python(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exercise a goat in the Python 3 language.
         
         Image types: *
@@ -19315,7 +19731,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_goat_exercise_vala(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_goat_exercise_vala(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Exercise a goat in the Vala language.
         
         Image types: RGB*, INDEXED*, GRAY*
@@ -19334,7 +19750,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_gradmap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_gradmap(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Recolor the image using colors from the active gradient.
         
         Image types: RGB*, GRAY*
@@ -19359,7 +19775,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_grid(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, hwidth: int, hspace: int, hoffset: int, hcolor: Gimp.RGB, vwidth: int, vspace: int, voffset: int, vcolor: Gimp.RGB, iwidth: int, ispace: int, ioffset: int, icolor: Gimp.RGB, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_grid(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, hwidth: int=None, hspace: int=None, hoffset: int=None, hcolor: Gegl.Color=None, vwidth: int=None, vspace: int=None, voffset: int=None, vcolor: Gegl.Color=None, iwidth: int=None, ispace: int=None, ioffset: int=None, icolor: Gegl.Color=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Draw a grid on the image.
         
         Image types: *
@@ -19403,12 +19819,12 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_guillotine(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def plug_in_guillotine(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Tuple[int, Gimp.ObjectArray]:
         """Slice the image into subimages using guides.
         
         Image types: *
         Menu label: Slice Using G_uides
-        Menu path: <Image>/Image
+        Menu path: <Image>/Image/[Crop]
         
         This function takes an image and slices it along its guides, creating
         new images. The original image is not modified.
@@ -19429,12 +19845,12 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_hot(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, mode: int, action: int, new_layer: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_hot(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, mode: int=None, action: int=None, new_layer: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Find and fix pixels that may be unsafely bright.
         
         Image types: RGB
         Menu label: _Hot...
-        Menu path: <Image>/Colors
+        Menu path: <Image>/Colors/[Modify]
         
         Hot scans an image for pixels that will give unsave values of
         chrominance or composite signale amplitude when encoded into an
@@ -19459,7 +19875,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_hsv_noise(self, image: Gimp.Image, drawable: Gimp.Drawable, holdness: int, hue_distance: int, saturation_distance: int, value_distance: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_hsv_noise(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, holdness: int=None, hue_distance: int=None, saturation_distance: int=None, value_distance: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Randomize hue, saturation and value independently.
         
         Scattering pixel values in HSV space.
@@ -19481,7 +19897,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_ifscompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_ifscompose(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an Iterated Function System (IFS) fractal.
         
         Image types: *
@@ -19506,7 +19922,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_illusion(self, image: Gimp.Image, drawable: Gimp.Drawable, division: int, type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_illusion(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, division: int=None, type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Superimpose many altered copies of the image.
         
         Produce illusion.
@@ -19523,7 +19939,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_imagemap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_imagemap(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a clickable imagemap.
         
         Image types: *
@@ -19540,7 +19956,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_jigsaw(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, x: int, y: int, style: int, blend_lines: int, blend_amount: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_jigsaw(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, x: int=None, y: int=None, style: int=None, blend_lines: int=None, blend_amount: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a jigsaw-puzzle pattern to the image.
         
         Image types: RGB*
@@ -19571,7 +19987,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_laplace(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_laplace(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """High-resolution edge detection.
         
         This plug-in creates one-pixel wide edges from the image, with the value
@@ -19588,7 +20004,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_lens_distortion(self, image: Gimp.Image, drawable: Gimp.Drawable, offset_x: float, offset_y: float, main_adjust: float, edge_adjust: float, rescale: float, brighten: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_lens_distortion(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, offset_x: float=None, offset_y: float=None, main_adjust: float=None, edge_adjust: float=None, rescale: float=None, brighten: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Corrects lens distortion.
         
         Corrects barrel or pincushion lens distortion.
@@ -19613,7 +20029,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_lic(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_lic(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, effect_channel: str=None, effect_operator: str=None, effect_convolve: str=None, effect_image: Gimp.Drawable=None, filter_length: float=None, noise_magnitude: float=None, integration_steps: float=None, min_value: float=None, max_value: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Special effects that nobody understands.
         
         Image types: RGB*
@@ -19629,15 +20045,33 @@ class _PyPDB:
         * num_drawables (default: 1) - Number of input drawables.
         
         * drawables - The input drawables.
+        
+        * effect_channel - Effect Channel.
+        
+        * effect_operator - Effect Operator.
+        
+        * effect_convolve - Convolve.
+        
+        * effect_image - Effect image.
+        
+        * filter_length (default: 5.0) - Filter length.
+        
+        * noise_magnitude (default: 2.0) - Noise Magnitude.
+        
+        * integration_steps (default: 25.0) - Integration steps.
+        
+        * min_value (default: -25.0) - Minimum value.
+        
+        * max_value (default: 25.0) - Maximum value.
         """
         pass
 
-    def plug_in_lighting(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, bump_drawable: Gimp.Drawable, env_drawable: Gimp.Drawable, do_bumpmap: bool, do_envmap: bool, bumpmap_type: int, light_type: int, light_color: Gimp.RGB, light_position_x: float, light_position_y: float, light_position_z: float, light_direction_x: float, light_direction_y: float, light_direction_z: float, ambient_intensity: float, diffuse_intensity: float, diffuse_reflectivity: float, specular_reflectivity: float, highlight: float, antialiasing: bool, new_image: bool, transparent_background: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_lighting(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, bump_drawable: Gimp.Drawable=None, env_drawable: Gimp.Drawable=None, do_bumpmap: bool=None, do_envmap: bool=None, bumpmap_type: str=None, bumpmap_max_height: float=None, light_type_1: str=None, light_color_1: Gegl.Color=None, light_intensity_1: float=None, light_position_x_1: float=None, light_position_y_1: float=None, light_position_z_1: float=None, light_direction_x_1: float=None, light_direction_y_1: float=None, light_direction_z_1: float=None, ambient_intensity: float=None, diffuse_intensity: float=None, diffuse_reflectivity: float=None, specular_reflectivity: float=None, highlight: float=None, metallic: bool=None, antialiasing: bool=None, new_image: bool=None, transparent_background: bool=None, distance: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Apply various lighting effects to an image.
         
         Image types: RGB*
         Menu label: _Lighting Effects...
-        Menu path: <Image>/Filters/Light and Shadow/Light
+        Menu path: <Image>/Filters/Light and Shadow/[Light]
         
         No help yet.
         
@@ -19651,35 +20085,42 @@ class _PyPDB:
         
         * bump_drawable - Bumpmap drawable (set to NULL if disabled).
         
-        * env_drawable - Environmentmap drawable (set to NULL if disabled.
+        * env_drawable - Environmentmap drawable (set to NULL if disabled).
         
         * do_bumpmap (default: True) - Enable bumpmapping.
         
         * do_envmap (default: True) - Enable envmapping.
         
-        * bumpmap_type (default: 0) - Type of mapping (0=linear, 1=log,
-          2=sinusoidal, 3=spherical).
+        * bumpmap_type - Type of mapping.
         
-        * light_type (default: 0) - Type of lightsource (0=point,
-          1=directional, 3=spot, 4=none).
+        * bumpmap_max_height (default: 0.1) - The maximum height of the
+          bumpmap.
         
-        * light_color - Light source color.
+        * light_type_1 - Type of light source.
         
-        * light_position_x (default: -1.0) - Light source position (x,y,z).
+        * light_color_1 - Light source color.
         
-        * light_position_y (default: -1.0) - Light source position (x,y,z).
+        * light_intensity_1 (default: 1.0) - Light source intensity.
         
-        * light_position_z (default: -1.0) - Light source position (x,y,z).
+        * light_position_x_1 (default: -1.0) - Light source position (x,y,z).
         
-        * light_direction_x (default: -1.0) - Light source direction (x,y,z).
+        * light_position_y_1 (default: -1.0) - Light source position (x,y,z).
         
-        * light_direction_y (default: -1.0) - Light source direction (x,y,z).
+        * light_position_z_1 (default: 1.0) - Light source position (x,y,z).
         
-        * light_direction_z (default: 1.0) - Light source direction (x,y,z).
+        * light_direction_x_1 (default: -1.0) - Light source direction
+          (x,y,z).
         
-        * ambient_intensity (default: 0.2) - Material ambient intensity.
+        * light_direction_y_1 (default: -1.0) - Light source direction
+          (x,y,z).
         
-        * diffuse_intensity (default: 0.5) - Material diffuse intensity.
+        * light_direction_z_1 (default: 1.0) - Light source direction (x,y,z).
+        
+        * ambient_intensity (default: 0.2) - Material ambient intensity
+          (Glowing).
+        
+        * diffuse_intensity (default: 0.5) - Material diffuse intensity
+          (Bright).
         
         * diffuse_reflectivity (default: 0.4) - Material diffuse reflectivity.
         
@@ -19687,7 +20128,9 @@ class _PyPDB:
           reflectivity.
         
         * highlight (default: 27.0) - Material highlight (note, it's
-          exponential).
+          exponential) (Polished).
+        
+        * metallic (default: False) - Make surfaces look metallic.
         
         * antialiasing (default: False) - Apply antialiasing.
         
@@ -19695,10 +20138,12 @@ class _PyPDB:
         
         * transparent_background (default: False) - Make background
           transparent.
+        
+        * distance (default: 0.25) - Distance of observer from surface.
         """
         pass
 
-    def plug_in_make_seamless(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_make_seamless(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Alters edges to make the image seamlessly tileable.
         
         This plug-in creates a seamless tileable from the input drawable.
@@ -19711,7 +20156,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_map_object(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, map_type: int, viewpoint_x: float, viewpoint_y: float, viewpoint_z: float, position_x: float, position_y: float, position_z: float, first_axis_x: float, first_axis_y: float, first_axis_z: float, second_axis_x: float, second_axis_y: float, second_axis_z: float, rotation_angle_x: float, rotation_angle_y: float, rotation_angle_z: float, light_type: int, light_color: Gimp.RGB, light_position_x: float, light_position_y: float, light_position_z: float, light_direction_x: float, light_direction_y: float, light_direction_z: float, ambient_intensity: float, diffuse_intensity: float, diffuse_reflectivity: float, specular_reflectivity: float, highlight: float, antialiasing: bool, tiled: bool, new_image: bool, transparent_background: bool, radius: float, x_scale: float, y_scale: float, z_scale: float, cylinder_length: float, box_front_drawable: Gimp.Drawable, box_back_drawable: Gimp.Drawable, box_top_drawable: Gimp.Drawable, box_bottom_drawable: Gimp.Drawable, box_left_drawable: Gimp.Drawable, box_right_drawable: Gimp.Drawable, cyl_top_drawable: Gimp.Drawable, cyl_bottom_drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_map_object(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, map_type: str=None, viewpoint_x: float=None, viewpoint_y: float=None, viewpoint_z: float=None, position_x: float=None, position_y: float=None, position_z: float=None, first_axis_x: float=None, first_axis_y: float=None, first_axis_z: float=None, second_axis_x: float=None, second_axis_y: float=None, second_axis_z: float=None, rotation_angle_x: float=None, rotation_angle_y: float=None, rotation_angle_z: float=None, light_type: str=None, light_color: Gegl.Color=None, light_position_x: float=None, light_position_y: float=None, light_position_z: float=None, light_direction_x: float=None, light_direction_y: float=None, light_direction_z: float=None, ambient_intensity: float=None, diffuse_intensity: float=None, diffuse_reflectivity: float=None, specular_reflectivity: float=None, highlight: float=None, antialiasing: bool=None, depth: float=None, threshold: float=None, tiled: bool=None, new_image: bool=None, new_layer: bool=None, transparent_background: bool=None, sphere_radius: float=None, box_front_drawable: Gimp.Drawable=None, box_back_drawable: Gimp.Drawable=None, box_top_drawable: Gimp.Drawable=None, box_bottom_drawable: Gimp.Drawable=None, box_left_drawable: Gimp.Drawable=None, box_right_drawable: Gimp.Drawable=None, x_scale: float=None, y_scale: float=None, z_scale: float=None, cyl_top_drawable: Gimp.Drawable=None, cyl_bottom_drawable: Gimp.Drawable=None, cylinder_radius: float=None, cylinder_length: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Map the image to an object (plane, sphere, box or cylinder).
         
         Image types: RGB*
@@ -19728,8 +20173,7 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * map_type (default: 0) - Type of mapping (0=plane, 1=sphere, 2=box,
-          3=cylinder).
+        * map_type - Type of mapping.
         
         * viewpoint_x (default: 0.5) - Position of viewpoint (x,y,z).
         
@@ -19761,8 +20205,7 @@ class _PyPDB:
         
         * rotation_angle_z (default: 0.0) - Rotation about Z axis in degrees.
         
-        * light_type (default: 0) - Type of lightsource (0=point,
-          1=directional, 2=none).
+        * light_type - Type of lightsource.
         
         * light_color - Light source color.
         
@@ -19792,25 +20235,25 @@ class _PyPDB:
         
         * antialiasing (default: True) - Apply antialiasing.
         
+        * depth (default: 3.0) - Antialiasing quality. Higher is better, but
+          slower.
+        
+        * threshold (default: 0.25) - Stop when pixel differences are smaller
+          than this value.
+        
         * tiled (default: False) - Tile source image.
         
         * new_image (default: False) - Create a new image.
         
+        * new_layer (default: False) - Create a new layer when applying
+          filter.
+        
         * transparent_background (default: False) - Make background
           transparent.
         
-        * radius (default: 0.25) - Sphere/cylinder radius (only used when
-          maptype=1 or 3).
+        * sphere_radius (default: 0.25) - Sphere radius.
         
-        * x_scale (default: 0.5) - Box X size.
-        
-        * y_scale (default: 0.5) - Box Y size.
-        
-        * z_scale (default: 0.5) - Box Z size.
-        
-        * cylinder_length (default: 0.25) - Cylinder length.
-        
-        * box_front_drawable - Box front face (set these to NULL if not used).
+        * box_front_drawable - Box front face (set this to NULL if not used).
         
         * box_back_drawable - Box back face.
         
@@ -19822,14 +20265,24 @@ class _PyPDB:
         
         * box_right_drawable - Box right face.
         
-        * cyl_top_drawable - Cylinder top face (set these to NULL if not
+        * x_scale (default: 0.5) - Box X size.
+        
+        * y_scale (default: 0.5) - Box Y size.
+        
+        * z_scale (default: 0.5) - Box Z size.
+        
+        * cyl_top_drawable - Cylinder top face (set this to NULL if not used).
+        
+        * cyl_bottom_drawable - Cylinder bottom face (set this to NULL if not
           used).
         
-        * cyl_bottom_drawable - Cylinder bottom face.
+        * cylinder_radius (default: 0.25) - Cylinder radius.
+        
+        * cylinder_length (default: 0.25) - Cylinder length.
         """
         pass
 
-    def plug_in_maze(self, image: Gimp.Image, drawable: Gimp.Drawable, width: int, height: int, tileable: int, algorithm: int, seed: int, multiple: int, offset: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_maze(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, width: int=None, height: int=None, tileable: int=None, algorithm: int=None, seed: int=None, multiple: int=None, offset: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Draw a labyrinth.
         
         Generates a maze using either the depth-first search method or Prim's
@@ -19858,7 +20311,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_mblur(self, image: Gimp.Image, drawable: Gimp.Drawable, type: int, length: float, angle: float, center_x: float, center_y: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_mblur(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, type: int=None, length: float=None, angle: float=None, center_x: float=None, center_y: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate movement using directional blur.
         
         This plug-in simulates the effect seen when photographing a moving
@@ -19884,7 +20337,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_mblur_inward(self, image: Gimp.Image, drawable: Gimp.Drawable, type: int, length: float, angle: float, center_x: float, center_y: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_mblur_inward(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, type: int=None, length: float=None, angle: float=None, center_x: float=None, center_y: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate movement using directional blur.
         
         This procedure is equivalent to plug-in-mblur but performs the zoom blur
@@ -19909,7 +20362,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_median_blur(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: int, percentile: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_median_blur(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, radius: int=None, percentile: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Blur using the median color near each pixel.
         
         Blur resulting from computing the median color in the neighborhood of
@@ -19928,7 +20381,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_metadata_editor(self, image: Gimp.Image, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_metadata_editor(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Edit metadata (IPTC, EXIF, XMP).
         
         Image types: *
@@ -19942,10 +20395,14 @@ class _PyPDB:
         Parameters:
         
         * image - The input image.
+        
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
         """
         pass
 
-    def plug_in_metadata_viewer(self, image: Gimp.Image, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_metadata_viewer(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """View metadata (Exif, IPTC, XMP).
         
         Image types: *
@@ -19958,10 +20415,14 @@ class _PyPDB:
         Parameters:
         
         * image - The input image.
+        
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
         """
         pass
 
-    def plug_in_mosaic(self, image: Gimp.Image, drawable: Gimp.Drawable, tile_size: float, tile_height: float, tile_spacing: float, tile_neatness: float, tile_allow_split: int, light_dir: float, color_variation: float, antialiasing: int, color_averaging: int, tile_type: int, tile_surface: int, grout_color: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_mosaic(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, tile_size: float=None, tile_height: float=None, tile_spacing: float=None, tile_neatness: float=None, tile_allow_split: int=None, light_dir: float=None, color_variation: float=None, antialiasing: int=None, color_averaging: int=None, tile_type: int=None, tile_surface: int=None, grout_color: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Convert the image into irregular tiles.
         
         Mosaic is a filter which transforms an image into what appears to be a
@@ -20010,7 +20471,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_neon(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, amount: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_neon(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, radius: float=None, amount: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate the glowing boundary of a neon light.
         
         This filter works in a manner similar to the edge plug-in, but uses the
@@ -20031,7 +20492,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_newsprint(self, image: Gimp.Image, drawable: Gimp.Drawable, cell_width: int, colorspace: int, k_pullout: int, gry_ang: float, gry_spotfn: int, red_ang: float, red_spotfn: int, grn_ang: float, grn_spotfn: int, blu_ang: float, blu_spotfn: int, oversample: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_newsprint(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, cell_width: int=None, colorspace: int=None, k_pullout: int=None, gry_ang: float=None, gry_spotfn: int=None, red_ang: float=None, red_spotfn: int=None, grn_ang: float=None, grn_spotfn: int=None, blu_ang: float=None, blu_spotfn: int=None, oversample: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Halftone the image to give newspaper-like effect.
         
         Halftone the image to give newspaper-like effect.
@@ -20075,7 +20536,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_nl_filter(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, alpha: float, radius: float, filter: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_nl_filter(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, alpha: float=None, radius: float=None, filter: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Nonlinear swiss army knife filter.
         
         Image types: RGB, GRAY
@@ -20103,7 +20564,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_noisify(self, image: Gimp.Image, drawable: Gimp.Drawable, independent: bool, noise_1: float, noise_2: float, noise_3: float, noise_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_noisify(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, independent: bool=None, noise_1: float=None, noise_2: float=None, noise_3: float=None, noise_4: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Adds random noise to image channels.
         
         Add normally distributed random values to image channels. For color
@@ -20129,7 +20590,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_normalize(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_normalize(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Stretch brightness values to cover the full range.
         
         This plug-in performs almost the same operation as the 'contrast
@@ -20148,7 +20609,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_nova(self, image: Gimp.Image, drawable: Gimp.Drawable, xcenter: int, ycenter: int, color: Gimp.RGB, radius: int, nspoke: int, randomhue: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_nova(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, xcenter: int=None, ycenter: int=None, color: Gimp.RGB=None, radius: int=None, nspoke: int=None, randomhue: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a starburst to the image.
         
         This plug-in produces an effect like a supernova burst. The amount of
@@ -20175,7 +20636,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_oilify(self, image: Gimp.Image, drawable: Gimp.Drawable, mask_size: int, mode: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_oilify(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, mask_size: int=None, mode: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Smear colors to simulate an oil painting.
         
         This function performs the well-known oil-paint effect on the specified
@@ -20193,7 +20654,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_oilify_enhanced(self, image: Gimp.Image, drawable: Gimp.Drawable, mode: int, mask_size: int, mask_size_map: Gimp.Drawable, exponent: int, exponent_map: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_oilify_enhanced(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, mode: int=None, mask_size: int=None, mask_size_map: Gimp.Drawable=None, exponent: int=None, exponent_map: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Smear colors to simulate an oil painting.
         
         This function performs the well-known oil-paint effect on the specified
@@ -20217,7 +20678,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_pagecurl(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, colors: int, edge: int, orientation: int, shade: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Layer:
+    def plug_in_pagecurl(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, colors: str=None, edge: str=None, orientation: str=None, shade: bool=None, opacity: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Layer:
         """Curl up one of the image corners.
         
         Image types: RGB*, GRAY*
@@ -20234,15 +20695,15 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * colors (default: 0) - FG- and BG-Color (0), Current gradient (1),
-          Current gradient reversed (2).
+        * colors -
         
-        * edge (default: 1) - Edge to curl (1-4, clockwise, starting in the
-          lower right edge).
+        * edge - Corner which is curled.
         
-        * orientation (default: 0) - Vertical (0), Horizontal (1).
+        * orientation -
         
         * shade (default: True) - Shade the region under the curl.
+        
+        * opacity (default: 0.0) - Opacity.
         
         Returns:
         
@@ -20250,7 +20711,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_palettemap(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_palettemap(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Recolor the image using colors from the active palette.
         
         Image types: RGB*, GRAY*
@@ -20274,7 +20735,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_papertile(self, image: Gimp.Image, drawable: Gimp.Drawable, tile_size: int, move_max: float, fractional_type: int, wrap_around: bool, centering: bool, background_type: int, background_color: Gimp.RGB, background_alpha: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_papertile(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, tile_size: int=None, move_max: float=None, fractional_type: int=None, wrap_around: bool=None, centering: bool=None, background_type: int=None, background_color: Gegl.Color=None, background_alpha: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Cut image into paper tiles, and slide them.
         
         This plug-in cuts an image into paper tiles and slides each paper tile.
@@ -20305,7 +20766,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_photocopy(self, image: Gimp.Image, drawable: Gimp.Drawable, mask_radius: float, sharpness: float, pct_black: float, pct_white: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_photocopy(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, mask_radius: float=None, sharpness: float=None, pct_black: float=None, pct_white: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate color distortion produced by a copy machine.
         
         Propagates dark values in an image based on each pixel's relative
@@ -20348,7 +20809,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_pixelize(self, image: Gimp.Image, drawable: Gimp.Drawable, pixel_width: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_pixelize(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, pixel_width: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simplify image into an array of solid-colored squares.
         
         Pixelize the contents of the specified drawable with specified
@@ -20364,7 +20825,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_pixelize2(self, image: Gimp.Image, drawable: Gimp.Drawable, pixel_width: int, pixel_height: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_pixelize2(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, pixel_width: int=None, pixel_height: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simplify image into an array of solid-colored rectangles.
         
         Pixelize the contents of the specified drawable with specified
@@ -20384,7 +20845,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_plasma(self, image: Gimp.Image, drawable: Gimp.Drawable, seed: int, turbulence: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_plasma(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, seed: int=None, turbulence: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a random plasma texture.
         
         This plug-in produces plasma fractal images.
@@ -20401,11 +20862,11 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_plug_in_details(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_plug_in_details(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Display information about plug-ins.
         
         Menu label: _Plug-In Browser
-        Menu path: <Image>/Help
+        Menu path: <Image>/Help/[Programming]
         
         Allows one to browse the plug-in menus system. You can search for
         plug-in names, sort by name or menu location and you can view a
@@ -20414,7 +20875,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_polar_coords(self, image: Gimp.Image, drawable: Gimp.Drawable, circle: float, angle: float, backwards: bool, inverse: bool, polrec: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_polar_coords(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, circle: float=None, angle: float=None, backwards: bool=None, inverse: bool=None, polrec: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Convert image to or from polar coordinates.
         
         Remaps and image from rectangular coordinates to polar coordinates or
@@ -20438,7 +20899,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_qbist(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_qbist(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Generate a huge variety of abstract patterns.
         
         Image types: RGB*
@@ -20459,7 +20920,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_randomize_hurl(self, image: Gimp.Image, drawable: Gimp.Drawable, rndm_pct: float, rndm_rcount: float, randomize: bool, seed: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_randomize_hurl(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, rndm_pct: float=None, rndm_rcount: float=None, randomize: bool=None, seed: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Completely randomize a fraction of pixels.
         
         This plug-in "hurls" randomly-valued pixels onto the selection or image.
@@ -20482,7 +20943,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_randomize_pick(self, image: Gimp.Image, drawable: Gimp.Drawable, rndm_pct: float, rndm_rcount: float, randomize: bool, seed: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_randomize_pick(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, rndm_pct: float=None, rndm_rcount: float=None, randomize: bool=None, seed: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Randomly interchange some pixels with neighbors.
         
         This plug-in replaces a pixel with a random adjacent pixel. You may
@@ -20505,7 +20966,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_randomize_slur(self, image: Gimp.Image, drawable: Gimp.Drawable, rndm_pct: float, rndm_rcount: float, randomize: bool, seed: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_randomize_slur(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, rndm_pct: float=None, rndm_rcount: float=None, randomize: bool=None, seed: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Randomly slide some pixels downward (similar to melting.
         
         This plug-in "slurs" (melts like a bunch of icicles) an image. You may
@@ -20528,7 +20989,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_recompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_recompose(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Recompose an image that was previously decomposed.
         
         Image types: GRAY*
@@ -20549,7 +21010,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_red_eye_removal(self, image: Gimp.Image, drawable: Gimp.Drawable, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_red_eye_removal(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, threshold: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Remove the red eye effect caused by camera flashes.
         
         This procedure removes the red eye effect caused by camera flashes by
@@ -20567,7 +21028,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_retinex(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, scale: int, nscales: int, scales_mode: int, cvar: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_retinex(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, scale: int=None, nscales: int=None, scales_mode: int=None, cvar: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Enhance contrast using the Retinex method.
         
         Image types: RGB*
@@ -20599,7 +21060,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_rgb_noise(self, image: Gimp.Image, drawable: Gimp.Drawable, independent: bool, correlated: bool, noise_1: float, noise_2: float, noise_3: float, noise_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_rgb_noise(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, independent: bool=None, correlated: bool=None, noise_1: float=None, noise_2: float=None, noise_3: float=None, noise_4: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Distort colors by random amounts.
         
         Add normally distributed (zero mean) random values to image channels.
@@ -20629,7 +21090,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_ripple(self, image: Gimp.Image, drawable: Gimp.Drawable, period: float, amplitude: float, orientation: int, edges: int, waveform: int, antialias: bool, tile: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_ripple(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, period: float=None, amplitude: float=None, orientation: int=None, edges: int=None, waveform: int=None, antialias: bool=None, tile: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Displace pixels in a ripple pattern.
         
         Ripples the pixels of the specified drawable. Each row or column will be
@@ -20660,7 +21121,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_rotate(self, image: Gimp.Image, drawable: Gimp.Drawable, angle: int, everything: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_rotate(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, angle: int=None, everything: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Rotates a layer or the whole image by 90, 180 or 270 degrees.
         
         This plug-in does rotate the active layer or the whole image clockwise
@@ -20679,7 +21140,28 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sample_colorize(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, sample_drawable: Gimp.Drawable, hold_inten: bool, orig_inten: bool, rnd_subcolors: bool, guess_missing: bool, in_low: int, in_high: int, gamma: float, out_low: int, ouz_high: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_run_tests(self, dirpath: str=None, prefix: str=None, modules: List[str]=None, ignored_modules: List[str]=None, output_stream: str=None, verbose: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Runs automated tests in the specified directory path.
+        
+        Parameters:
+        
+        * dirpath (default: C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\batcher)
+          - Directory path containing test modules.
+        
+        * prefix (default: test_) - Prefix of test modules.
+        
+        * modules - Modules to include.
+        
+        * ignored_modules - Modules to ignore.
+        
+        * output_stream (default: stderr) - Output stream or file path to
+          write output to.
+        
+        * verbose (default: False) - If True, writes more detailed output.
+        """
+        pass
+
+    def plug_in_sample_colorize(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, sample_drawable: Gimp.Drawable=None, hold_inten: bool=None, orig_inten: bool=None, rnd_subcolors: bool=None, guess_missing: bool=None, in_low: int=None, in_high: int=None, gamma: float=None, out_low: int=None, out_high: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Colorize image using a sample image as a guide.
         
         Image types: RGB*, GRAY*
@@ -20752,11 +21234,11 @@ class _PyPDB:
         
         * out_low (default: 0) - Lowest sample color intensity.
         
-        * ouz_high (default: 255) - Highest sample color intensity.
+        * out_high (default: 255) - Highest sample color intensity.
         """
         pass
 
-    def plug_in_screenshot(self, shoot_type: int, x1: int, y1: int, x2: int, y2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Image:
+    def plug_in_screenshot(self, shoot_type: int=None, x1: int=None, y1: int=None, x2: int=None, y2: int=None, include_pointer: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Image:
         """Create an image from an area of the screen.
         
         Menu label: _Screenshot...
@@ -20787,13 +21269,16 @@ class _PyPDB:
         
         * y2 (default: 0) - Region bottom y coord for SHOOT-WINDOW.
         
+        * include_pointer (default: False) - Your pointing device's cursor
+          will be part of the image.
+        
         Returns:
         
         * image - Output image.
         """
         pass
 
-    def plug_in_script_fu_console(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_script_fu_console(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Interactive console for Script-Fu development.
         
         Menu label: Script-Fu _Console
@@ -20803,7 +21288,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_script_fu_eval(self, script: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_script_fu_eval(self, script: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Evaluate scheme code.
         
         Evaluate the code under the scheme interpreter (primarily for batch
@@ -20816,7 +21301,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_script_fu_server(self, ip: str, port: int, logfile: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_script_fu_server(self, ip: str=None, port: int=None, logfile: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Server for remote Script-Fu operation.
         
         Menu label: _Start Server...
@@ -20838,14 +21323,14 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_script_fu_text_console(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_script_fu_text_console(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Provides a text console mode for script-fu development.
         
         Provides an interface which allows interactive scheme development.
         """
         pass
 
-    def plug_in_sel_gauss(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, max_delta: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sel_gauss(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, radius: float=None, max_delta: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Blur neighboring pixels, but only in low-contrast areas.
         
         This filter functions similar to the regular gaussian blur filter except
@@ -20866,7 +21351,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sel2path(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, align_threshold: float, corner_always_threshold: float, corner_surround: int, corner_threshold: float, error_threshold: float, filter_alternative_surround: int, filter_epsilon: float, filter_iteration_count: int, filter_percent: float, filter_secondary_surround: int, filter_surround: int, keep_knees: bool, line_reversion_threshold: float, line_threshold: float, reparametrize_improvement: float, reparametrize_threshold: float, subdivide_search: float, subdivide_surround: int, subdivide_threshold: float, tangent_surround: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sel2path(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, align_threshold: float=None, corner_always_threshold: float=None, corner_surround: int=None, corner_threshold: float=None, error_threshold: float=None, filter_alternative_surround: int=None, filter_epsilon: float=None, filter_iteration_count: int=None, filter_percent: float=None, filter_secondary_surround: int=None, filter_surround: int=None, keep_knees: bool=None, line_reversion_threshold: float=None, line_threshold: float=None, reparametrize_improvement: float=None, reparametrize_threshold: float=None, subdivide_search: float=None, subdivide_surround: int=None, subdivide_threshold: float=None, tangent_surround: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Converts a selection to a path.
         
         Image types: *
@@ -20881,51 +21366,92 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * align_threshold (default: 0.5) - Align threshold.
+        * align_threshold (default: 0.5) - If two endpoints are closer than
+          this, they are made to be equal.
         
-        * corner_always_threshold (default: 60.0) - Corner always threshold.
+        * corner_always_threshold (default: 60.0) - If the angle defined by a
+          point and its predecessors and successors is smaller than
+          this, it's a corner, even if it's within 'corner_surround'
+          pixels of a point with a smaller angle.
         
-        * corner_surround (default: 4) - Corner surround.
+        * corner_surround (default: 4) - Number of points to consider when
+          determining if a point is a corner or not.
         
-        * corner_threshold (default: 100.0) - Corner threshold.
+        * corner_threshold (default: 100.0) - If a point, its predecessors,
+          and its successors define an angle smaller than this, it's a
+          corner.
         
-        * error_threshold (default: 0.4) - Error threshold.
+        * error_threshold (default: 0.4) - Amount of error at which a fitted
+          spline is unacceptable. If any pixel is further away than
+          this from the fitted curve, we try again.
         
-        * filter_alternative_surround (default: 1) - Filter alternative
-          surround.
+        * filter_alternative_surround (default: 1) - A second number of
+          adjacent points to consider when filtering.
         
-        * filter_epsilon (default: 10.0) - Filter epsilon.
+        * filter_epsilon (default: 10.0) - If the angles between the vectors
+          produced by filter_surround and filter_alternative_surround
+          points differ by more than this, use the one from
+          filter_alternative_surround.
         
-        * filter_iteration_count (default: 4) - Filter iteration count.
+        * filter_iteration_count (default: 4) - Number of times to smooth
+          original data points.  Increasing this number dramatically
+          --- to 50 or so --- can produce vastly better results. But
+          if any points that 'should' be corners aren't found, the
+          curve goes to hell around that point.
         
-        * filter_percent (default: 0.33) - Filter percent.
+        * filter_percent (default: 0.33) - To produce the new point, use the
+          old point plus this times the neighbors.
         
-        * filter_secondary_surround (default: 3) - Filter secondary surround.
+        * filter_secondary_surround (default: 3) - Number of adjacent points
+          to consider if 'filter_surround' points defines a straight
+          line.
         
-        * filter_surround (default: 2) - Filter surround.
+        * filter_surround (default: 2) - Number of adjacent points to consider
+          when filtering.
         
-        * keep_knees (default: False) - Keep knees.
+        * keep_knees (default: False) - Says whether or not to remove 'knee'
+          points after finding the outline.
         
-        * line_reversion_threshold (default: 0.01) - Line reversion threshold.
+        * line_reversion_threshold (default: 0.01) - If a spline is closer to
+          a straight line than this, it remains a straight line, even
+          if it would otherwise be changed back to a curve. This is
+          weighted by the square of the curve length, to make shorter
+          curves more likely to be reverted.
         
-        * line_threshold (default: 0.5) - Line threshold.
+        * line_threshold (default: 0.5) - How many pixels (on the average) a
+          spline can diverge from the line determined by its endpoints
+          before it is changed to a straight line.
         
-        * reparametrize_improvement (default: 0.01) - Reparametrize
-          improvement.
+        * reparametrize_improvement (default: 0.01) - If reparameterization
+          doesn't improve the fit by this much percent, stop doing it.
+          Amount of error at which it is pointless to reparameterize.
         
-        * reparametrize_threshold (default: 1.0) - Reparametrize threshold.
+        * reparametrize_threshold (default: 1.0) - Amount of error at which it
+          is pointless to reparameterize.  This happens, for example,
+          when we are trying to fit the outline of the outside of an
+          'O' with a single spline. The initial fit is not good enough
+          for the Newton-Raphson iteration to improve it.  It may be
+          that it would be better to detect the cases where we didn't
+          find any corners.
         
-        * subdivide_search (default: 0.1) - Subdivide search.
+        * subdivide_search (default: 0.1) - Percentage of the curve away from
+          the worst point to look for a better place to subdivide.
         
-        * subdivide_surround (default: 4) - Subdivide surround.
+        * subdivide_surround (default: 4) - Number of points to consider when
+          deciding whether a given point is a better place to
+          subdivide.
         
-        * subdivide_threshold (default: 0.03) - Subdivide threshold.
+        * subdivide_threshold (default: 0.03) - How many pixels a point can
+          diverge from a straight line and still be considered a
+          better place to subdivide.
         
-        * tangent_surround (default: 3) - Tangent surround.
+        * tangent_surround (default: 3) - Number of points to look at on
+          either side of a point when computing the approximation to
+          the tangent at that point.
         """
         pass
 
-    def plug_in_semiflatten(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_semiflatten(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Replace partial transparency with the current background color.
         
         This plug-in flattens pixels in an RGBA image that aren't completely
@@ -20939,7 +21465,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_shift(self, image: Gimp.Image, drawable: Gimp.Drawable, shift_amount: int, orientation: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_shift(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, shift_amount: int=None, orientation: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Shift each row or column of pixels by a random amount.
         
         Shifts the pixels of the specified drawable. Each row or column will be
@@ -20958,7 +21484,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sinus(self, image: Gimp.Image, drawable: Gimp.Drawable, xscale: float, yscale: float, complex: float, seed: int, tiling: bool, perturb: bool, colors: int, col1: Gimp.RGB, col2: Gimp.RGB, alpha1: float, alpha2: float, blend: int, blend_power: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sinus(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, xscale: float=None, yscale: float=None, complex: float=None, seed: int=None, tiling: bool=None, perturb: bool=None, colors: int=None, col1: Gegl.Color=None, col2: Gegl.Color=None, alpha1: float=None, alpha2: float=None, blend: int=None, blend_power: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Generate complex sinusoidal textures.
         
         FIXME: sinus help.
@@ -21001,7 +21527,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_small_tiles(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, num_tiles: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_small_tiles(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, num_tiles: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Tile image into smaller versions of the original.
         
         Image types: RGB*, GRAY*
@@ -21022,7 +21548,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_smooth_palette(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, width: int, height: int, n_tries: int, show_image: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Layer]:
+    def plug_in_smooth_palette(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, width: int=None, height: int=None, n_tries: int=None, show_image: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Tuple[Gimp.Image, Gimp.Layer]:
         """Derive a smooth color palette from the image.
         
         Image types: RGB*
@@ -21039,11 +21565,11 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * width (default: 256) - Widtg.
+        * width (default: 256) - Width.
         
         * height (default: 64) - Height.
         
-        * n_tries (default: 50) - Search septh.
+        * n_tries (default: 50) - Search depth.
         
         * show_image (default: True) - Show image.
         
@@ -21055,7 +21581,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sobel(self, image: Gimp.Image, drawable: Gimp.Drawable, horizontal: bool, vertical: bool, keep_sign: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sobel(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, horizontal: bool=None, vertical: bool=None, keep_sign: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Specialized direction-dependent edge detection.
         
         This plug-in calculates the gradient with a sobel operator. The user can
@@ -21081,7 +21607,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_softglow(self, image: Gimp.Image, drawable: Gimp.Drawable, glow_radius: float, brightness: float, sharpness: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_softglow(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, glow_radius: float=None, brightness: float=None, sharpness: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate glow by making highlights intense and fuzzy.
         
         Gives an image a softglow effect by intensifying the highlights in the
@@ -21110,7 +21636,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_solid_noise(self, image: Gimp.Image, drawable: Gimp.Drawable, tileable: bool, turbulent: bool, seed: int, detail: int, xsize: float, ysize: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_solid_noise(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, tileable: bool=None, turbulent: bool=None, seed: int=None, detail: int=None, xsize: float=None, ysize: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a random cloud-like texture.
         
         Generates 2D textures using Perlin's classic solid noise function.
@@ -21135,12 +21661,12 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sparkle(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, lum_threshold: float, flare_inten: float, spike_len: int, spike_points: int, spike_angle: int, density: float, transparency: float, random_hue: float, random_saturation: float, preserve_luminosity: bool, inverse: bool, border: bool, color_type: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_sparkle(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, lum_threshold: float=None, flare_inten: float=None, spike_len: int=None, spike_points: int=None, spike_angle: int=None, density: float=None, transparency: float=None, random_hue: float=None, random_saturation: float=None, preserve_luminosity: bool=None, inverse: bool=None, border: bool=None, color_type: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Turn bright spots into starry sparkles.
         
         Image types: RGB*, GRAY*
         Menu label: _Sparkle...
-        Menu path: <Image>/Filters/Light and Shadow/Light
+        Menu path: <Image>/Filters/Light and Shadow/[Light]
         
         Uses a percentage based luminosity threshold to find candidate pixels
         for adding some sparkles (spikes).
@@ -21186,7 +21712,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_spheredesigner(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_spheredesigner(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an image of a textured sphere.
         
         Image types: RGB*, GRAY*
@@ -21207,7 +21733,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_spread(self, image: Gimp.Image, drawable: Gimp.Drawable, spread_amount_x: float, spread_amount_y: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_spread(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, spread_amount_x: float=None, spread_amount_y: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Move pixels around randomly.
         
         Spreads the pixels of the specified drawable. Pixels are randomly moved
@@ -21226,7 +21752,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_spyrogimp(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, curve_type: int, shape: int, sides: int, morph: float, fixed_teeth: int, moving_teeth: int, hole_percent: float, margin: int, equal_w_h: bool, pattern_rotation: float, shape_rotation: float, tool: int, long_gradient: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_spyrogimp(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, curve_type: int=None, shape: int=None, sides: int=None, morph: float=None, fixed_teeth: int=None, moving_teeth: int=None, hole_percent: float=None, margin: int=None, equal_w_h: bool=None, pattern_rotation: float=None, shape_rotation: float=None, tool: int=None, long_gradient: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Draw spyrographs using current tool settings and selection.
         
         Image types: *
@@ -21280,7 +21806,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_threshold_alpha(self, image: Gimp.Image, drawable: Gimp.Drawable, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_threshold_alpha(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, threshold: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Make transparency all-or-nothing.
         
         Make transparency all-or-nothing.
@@ -21295,7 +21821,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_tile(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, new_width: int, new_height: int, new_image: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[Gimp.Image, Gimp.Layer]:
+    def plug_in_tile(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, new_width: int=None, new_height: int=None, new_image: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Tuple[Gimp.Image, Gimp.Layer]:
         """Create an array of copies of the image.
         
         Image types: *
@@ -21331,17 +21857,17 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_unit_editor(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_unit_editor(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create or alter units used in GIMP.
         
         Menu label: U_nits
-        Menu path: <Image>/Edit
+        Menu path: <Image>/Edit/[Preferences]
         
         The GIMP unit editor.
         """
         pass
 
-    def plug_in_unsharp_mask(self, image: Gimp.Image, drawable: Gimp.Drawable, radius: float, amount: float, threshold: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_unsharp_mask(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, radius: float=None, amount: float=None, threshold: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """The most widely useful method for sharpening an image.
         
         The unsharp mask is a sharpening filter that works by comparing using
@@ -21363,7 +21889,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_video(self, image: Gimp.Image, drawable: Gimp.Drawable, pattern_number: int, additive: bool, rotated: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_video(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, pattern_number: int=None, additive: bool=None, rotated: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate distortion produced by a fuzzy or low-res monitor.
         
         This function simulates the degradation of being on an old low-dotpitch
@@ -21385,7 +21911,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_vinvert(self, image: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_vinvert(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Invert the brightness of each pixel.
         
         This function takes an indexed/RGB image and inverts its 'value' in HSV
@@ -21403,7 +21929,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_vpropagate(self, image: Gimp.Image, drawable: Gimp.Drawable, propagate_mode: int, propagating_channel: int, propagating_rate: float, direction_mask: int, lower_limit: int, upper_limit: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_vpropagate(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, propagate_mode: int=None, propagating_channel: int=None, propagating_rate: float=None, direction_mask: int=None, lower_limit: int=None, upper_limit: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Propagate certain colors to neighboring pixels.
         
         Propagate values of the layer.
@@ -21431,7 +21957,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_warp(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, amount: float, warp_map: Gimp.Drawable, iter: int, dither: float, angle: float, wrap_type: int, mag_map: Gimp.Drawable, mag_use: bool, substeps: int, grad_map: Gimp.Drawable, grad_scale: float, vector_map: Gimp.Drawable, vector_scale: float, vector_angle: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_warp(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, amount: float=None, warp_map: Gimp.Drawable=None, iter: int=None, dither: float=None, angle: float=None, wrap_type: int=None, mag_map: Gimp.Drawable=None, mag_use: bool=None, substeps: int=None, grad_map: Gimp.Drawable=None, grad_scale: float=None, vector_map: Gimp.Drawable=None, vector_scale: float=None, vector_angle: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Twist or smear image in many different ways.
         
         Image types: RGB*, GRAY*
@@ -21483,7 +22009,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_wavelet_decompose(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, scales: int, create_group: bool, create_masks: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_wavelet_decompose(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, scales: int=None, create_group: bool=None, create_masks: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Wavelet decompose.
         
         Image types: RGB*, GRAY*
@@ -21510,7 +22036,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_waves(self, image: Gimp.Image, drawable: Gimp.Drawable, amplitude: float, phase: float, wavelength: float, type: bool, reflective: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_waves(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, amplitude: float=None, phase: float=None, wavelength: float=None, type: bool=None, reflective: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Distort the image with waves.
         
         Distort the image with waves.
@@ -21533,18 +22059,18 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_web_browser(self, url: str, *, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_web_browser(self, url: str=None):
         """Open an URL in the user specified web browser.
         
         Opens the given URL in the user specified web browser.
         
         Parameters:
         
-        * url (default: http://www.gimp.org/) - URL to open.
+        * url (default: https://www.gimp.org/) - URL to open.
         """
         pass
 
-    def plug_in_whirl_pinch(self, image: Gimp.Image, drawable: Gimp.Drawable, whirl: float, pinch: float, radius: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_whirl_pinch(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, whirl: float=None, pinch: float=None, radius: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Distort an image by whirling and pinching.
         
         Distorts the image by whirling and pinching, which are two common
@@ -21568,7 +22094,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_wind(self, image: Gimp.Image, drawable: Gimp.Drawable, threshold: int, direction: int, strength: int, algorithm: int, edge: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_wind(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, threshold: int=None, direction: int=None, strength: int=None, algorithm: int=None, edge: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Smear image to give windblown effect.
         
         Renders a wind effect.
@@ -21593,12 +22119,12 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_zealouscrop(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def plug_in_zealouscrop(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Autocrop unused space from edges and middle.
         
         Image types: *
         Menu label: _Zealous Crop
-        Menu path: <Image>/Image
+        Menu path: <Image>/Image/[Crop]
         
         Parameters:
         
@@ -21610,7 +22136,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_console(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def python_fu_console(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Interactive GIMP Python interpreter.
         
         Menu label: Python _Console
@@ -21620,7 +22146,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_eval(self, script: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def python_fu_eval(self, script: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Evaluate Python code.
         
         Evaluate python code under the python interpreter (primarily for batch
@@ -21633,7 +22159,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_foggify(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, name: str, color: Gimp.RGB, turbulence: float, opacity: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def python_fu_foggify(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, name: str=None, color: Gimp.RGB=None, turbulence: float=None, opacity: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a layer of fog.
         
         Image types: RGB*, GRAY*
@@ -21660,7 +22186,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_offset(self, palette: Gimp.Palette, amount: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def python_fu_palette_offset(self, palette: Gimp.Palette=None, amount: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Palette:
         """Offset the colors in a palette.
         
         Menu label: _Offset Palette...
@@ -21683,7 +22209,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_sort(self, palette: Gimp.Palette, selections: int, slice_expr: str, channel1: int, ascending1: bool, channel2: int, ascending2: bool, quantize: float, pchannel: int, pquantize: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Palette:
+    def python_fu_palette_sort(self, palette: Gimp.Palette=None, selections: int=None, slice_expr: str=None, channel1: int=None, ascending1: bool=None, channel2: int=None, ascending2: bool=None, quantize: float=None, pchannel: int=None, pquantize: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Palette:
         """Sort the colors in a palette.
         
         Menu label: _Sort Palette...
@@ -21741,7 +22267,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_to_gradient(self, palette: Gimp.Palette, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def python_fu_palette_to_gradient(self, palette: Gimp.Palette=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Gradient:
         """Create a gradient using colors from the palette.
         
         Menu label: Palette to _Gradient
@@ -21759,7 +22285,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_to_gradient_repeating(self, palette: Gimp.Palette, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Gimp.Gradient:
+    def python_fu_palette_to_gradient_repeating(self, palette: Gimp.Palette=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Gimp.Gradient:
         """Create a repeating gradient using colors from the palette.
         
         Menu label: Palette to _Repeating Gradient
@@ -21777,7 +22303,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_test_dialog(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, brush: Gimp.Brush, font: Gimp.Font, gradient: Gimp.Gradient, palette: Gimp.Palette, pattern: Gimp.Pattern, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def python_fu_test_dialog(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, brush: Gimp.Brush=None, font: Gimp.Font=None, gradient: Gimp.Gradient=None, palette: Gimp.Palette=None, pattern: Gimp.Pattern=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Test dialog.
         
         Menu label: Test dialog...
@@ -21805,7 +22331,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_add_bevel(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, toggle_2: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_add_bevel(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: int=None, toggle: bool=None, toggle_2: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a beveled border to an image.
         
         Image types: RGB*
@@ -21814,19 +22340,21 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Image.
+        * image - The input image.
         
-        * drawable - Drawable.
+        * num_drawables (default: 1) - Number of input drawables.
         
-        * adjustment (default: 5) - Thickness.
+        * drawables - The input drawables.
         
-        * toggle (default: True) - Work on copy.
+        * adjustment (default: 5) - _Thickness.
         
-        * toggle_2 (default: False) - Keep bump layer.
+        * toggle (default: True) - _Work on copy.
+        
+        * toggle_2 (default: False) - _Keep bump layer.
         """
         pass
 
-    def script_fu_addborder(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, color: Gimp.RGB, adjustment_3: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_addborder(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, color: Gimp.RGB=None, adjustment_3: int=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a border around an image.
         
         Image types: *
@@ -21846,10 +22374,12 @@ class _PyPDB:
         * color - Border color.
         
         * adjustment_3 (default: 25) - Delta value on color.
+        
+        * toggle (default: True) - Allow resizing.
         """
         pass
 
-    def script_fu_blend_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_blend_anim(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create intermediate layers to blend two or more layers over a
         background as an animation.
         
@@ -21871,7 +22401,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_burn_in_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, color: Gimp.RGB, toggle: bool, value: str, value_2: str, value_3: str, toggle_2: bool, toggle_3: bool, value_4: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_burn_in_anim(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, color: Gimp.RGB=None, toggle: bool=None, value: str=None, value_2: str=None, value_3: str=None, toggle_2: bool=None, toggle_3: bool=None, value_4: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create intermediate layers to produce an animated 'burn-in'
         transition between two layers.
         
@@ -21903,7 +22433,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_carve_it(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, drawable_2: Gimp.Drawable, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_carve_it(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, drawable_2: Gimp.Drawable=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Use the specified drawable as a stencil to carve from the specified
         image.
         
@@ -21923,7 +22453,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_circuit(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, toggle: bool, toggle_2: bool, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_circuit(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, toggle: bool=None, toggle_2: bool=None, toggle_3: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Fill the selected region (or alpha) with traces like those on a
         circuit board.
         
@@ -21949,7 +22479,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_clothify(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: float, adjustment_4: float, adjustment_5: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_clothify(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: float=None, adjustment_4: float=None, adjustment_5: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a cloth-like texture to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -21974,7 +22504,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_clothify_v3(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, adjustment: int, adjustment_2: int, adjustment_3: float, adjustment_4: float, adjustment_5: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_clothify_v3(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: float=None, adjustment_4: float=None, adjustment_5: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a cloth-like texture to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -22001,26 +22531,30 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_coffee_stain(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Add realistic looking coffee stains to the image.
+    def script_fu_coffee_stain(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: int=None, toggle: bool=None, gradient: Gimp.Gradient=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Add layers of stain or blotch marks.
         
         Image types: RGB*
-        Menu label: _Coffee Stain...
+        Menu label: _Stain...
         Menu path: <Image>/Filters/Decor
         
         Parameters:
         
-        * otherImage - The image.
+        * image - The input image.
         
-        * drawable - The layer.
+        * num_drawables (default: 1) - Number of input drawables.
         
-        * adjustment (default: 3) - Stains.
+        * drawables - The input drawables.
+        
+        * adjustment (default: 3) - Number of stains to add.
         
         * toggle (default: True) - Darken only.
+        
+        * gradient - Gradient to color stains.
         """
         pass
 
-    def script_fu_contactsheet(self, dirname: Gio.File, option: int, font: Gimp.Font, font_2: Gimp.Font, color: Gimp.RGB, color_2: Gimp.RGB, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_contactsheet(self, dirname: Gio.File=None, option: int=None, font: Gimp.Font=None, font_2: Gimp.Font=None, color: Gimp.RGB=None, color_2: Gimp.RGB=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a series of images containing thumbnail sized versions of all
         of the images in a specified directory.
         
@@ -22043,25 +22577,11 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_copy_visible(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """This procedure is deprecated! Use 'gimp-edit-copy-visible' instead.
-        
-        Image types: RGB* INDEXED* GRAY*
-        Menu label: Copy Visible
-        
-        Parameters:
-        
-        * otherImage - Image.
-        
-        * drawable - Drawable.
-        """
-        pass
-
-    def script_fu_difference_clouds(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_difference_clouds(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Solid noise applied with Difference layer mode.
         
         Image types: RGB* GRAY*
-        Menu label: _Difference Clouds...
+        Menu label: _Difference Clouds
         Menu path: <Image>/Filters/Render/Noise
         
         Parameters:
@@ -22072,12 +22592,12 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_distress_selection(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: int, adjustment_4: int, toggle: bool, toggle_2: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_distress_selection(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: int=None, adjustment_4: int=None, toggle: bool=None, toggle_2: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Distress the selection.
         
         Image types: RGB*,GRAY*
         Menu label: _Distort...
-        Menu path: <Image>/Select/Modify
+        Menu path: <Image>/Select/[Modify]
         
         Parameters:
         
@@ -22099,12 +22619,12 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_drop_shadow(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: int, color: Gimp.RGB, adjustment_4: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_drop_shadow(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: int=None, color: Gimp.RGB=None, adjustment_4: int=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a drop shadow to the selected region (or alpha).
         
         Image types: RGB* GRAY*
         Menu label: _Drop Shadow (legacy)...
-        Menu path: <Image>/Filters/Light and Shadow/Shadow
+        Menu path: <Image>/Filters/Light and Shadow/[Shadow]
         
         Parameters:
         
@@ -22126,49 +22646,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_erase_nth_rows(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, adjustment: int, option_2: int, adjustment_2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Erase every nth row or column.
-        
-        Image types: RGB* GRAY* INDEXED*
-        Menu label: _Erase Every Nth Row...
-        
-        Parameters:
-        
-        * otherImage - Image.
-        
-        * drawable - Drawable.
-        
-        * option (default: 0) - Rows/cols.
-        
-        * adjustment (default: 0) - Offset.
-        
-        * option_2 (default: 0) - Erase/fill.
-        
-        * adjustment_2 (default: 1) - Skip by.
-        """
-        pass
-
-    def script_fu_erase_rows(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, option_2: int, option_3: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Erase every other row or column.
-        
-        Image types: RGB* GRAY* INDEXED*
-        Menu label: _Erase Every Other Row...
-        
-        Parameters:
-        
-        * otherImage - Image.
-        
-        * drawable - Drawable.
-        
-        * option (default: 0) - Rows/cols.
-        
-        * option_2 (default: 0) - Even/odd.
-        
-        * option_3 (default: 0) - Erase/fill.
-        """
-        pass
-
-    def script_fu_font_map(self, string: str, toggle: bool, toggle_2: bool, string_2: str, adjustment: int, adjustment_2: int, option: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_font_map(self, string: str=None, toggle: bool=None, toggle_2: bool=None, string_2: str=None, adjustment: int=None, adjustment_2: int=None, option: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an image filled with previews of fonts matching a fontname
         filter.
         
@@ -22193,7 +22671,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_fuzzy_border(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, color: Gimp.RGB, adjustment: int, toggle: bool, adjustment_2: float, toggle_2: bool, adjustment_3: int, toggle_3: bool, toggle_4: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_fuzzy_border(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, color: Gimp.RGB=None, adjustment: int=None, toggle: bool=None, adjustment_2: float=None, toggle_2: bool=None, adjustment_3: int=None, toggle_3: bool=None, toggle_4: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a jagged, fuzzy border to an image.
         
         Image types: RGB* GRAY*
@@ -22224,7 +22702,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_gradient_example(self, adjustment: int, adjustment_2: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_gradient_example(self, adjustment: int=None, adjustment_2: int=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an image filled with an example of the current gradient.
         
         Menu label: Custom _Gradient...
@@ -22240,26 +22718,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_grid_system(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, value: str, value_2: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Draw a grid as specified by the lists of X and Y locations using the
-        current brush.
-        
-        Image types: RGB*, INDEXED*, GRAY*
-        Menu label: _Grid...
-        
-        Parameters:
-        
-        * otherImage - Image to use.
-        
-        * drawable - Drawable to draw grid.
-        
-        * value (default: '(1 g 1)) - X divisions.
-        
-        * value_2 (default: '(1 g 1)) - Y divisions.
-        """
-        pass
-
-    def script_fu_guide_new(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, adjustment: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guide_new(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, option: int=None, adjustment: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a guide at the orientation and position specified (in pixels).
         
         Image types: *
@@ -22268,9 +22727,11 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Image.
+        * image - The input image.
         
-        * drawable - Drawable.
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
         
         * option (default: 0) - _Direction.
         
@@ -22278,7 +22739,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_guide_new_percent(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, option: int, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guide_new_percent(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, option: int=None, adjustment: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a guide at the position specified as a percentage of the image
         size.
         
@@ -22288,9 +22749,11 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Input Image.
+        * image - The input image.
         
-        * drawable - Input Drawable.
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
         
         * option (default: 0) - _Direction.
         
@@ -22298,7 +22761,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_guides_from_selection(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guides_from_selection(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create four guides around the bounding box of the current selection.
         
         Image types: *
@@ -22307,13 +22770,15 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Image.
+        * image - The input image.
         
-        * drawable - Drawable.
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
         """
         pass
 
-    def script_fu_guides_remove(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_guides_remove(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Remove all horizontal and vertical guides.
         
         Image types: *
@@ -22322,13 +22787,33 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Image.
+        * image - The input image.
         
-        * drawable - Drawable.
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
         """
         pass
 
-    def script_fu_lava(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: int, gradient: Gimp.Gradient, toggle: bool, toggle_2: bool, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_helloworld(self, string: str=None, font: Gimp.Font=None, adjustment: int=None, color: Gimp.RGB=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Creates an image of a text string.
+        
+        Menu label: _Hello World...
+        Menu path: <Image>/Filters/Development/Script-Fu/Test
+        
+        Parameters:
+        
+        * string (default: Hello, World!) - Text string.
+        
+        * font - Font.
+        
+        * adjustment (default: 100) - Font size (pixels).
+        
+        * color - Color.
+        """
+        pass
+
+    def script_fu_lava(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: int=None, gradient: Gimp.Gradient=None, toggle: bool=None, toggle_2: bool=None, toggle_3: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Fill the current selection with lava.
         
         Image types: RGB* GRAY*
@@ -22357,7 +22842,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_line_nova(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: float, adjustment_3: int, adjustment_4: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_line_nova(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: int=None, adjustment_2: float=None, adjustment_3: int=None, adjustment_4: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Fill a layer with rays emanating outward from its center using the
         foreground color.
         
@@ -22367,21 +22852,23 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Image.
+        * image - The input image.
         
-        * drawable - Drawable.
+        * num_drawables (default: 1) - Number of input drawables.
         
-        * adjustment (default: 200) - Number of lines.
+        * drawables - The input drawables.
         
-        * adjustment_2 (default: 1.0) - Sharpness (degrees).
+        * adjustment (default: 200) - _Number of lines.
         
-        * adjustment_3 (default: 100) - Offset radius.
+        * adjustment_2 (default: 1.0) - S_harpness (degrees).
         
-        * adjustment_4 (default: 30) - Randomness.
+        * adjustment_3 (default: 100) - O_ffset radius.
+        
+        * adjustment_4 (default: 30) - Ran_domness.
         """
         pass
 
-    def script_fu_make_brush_elliptical(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_elliptical(self, string: str=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an elliptical brush.
         
         Menu label: _Elliptical...
@@ -22399,7 +22886,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_make_brush_elliptical_feathered(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: int, adjustment_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_elliptical_feathered(self, string: str=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: int=None, adjustment_4: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an elliptical brush with feathered edges.
         
         Menu label: Elli_ptical, Feathered...
@@ -22419,7 +22906,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_make_brush_rectangular(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_rectangular(self, string: str=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a rectangular brush.
         
         Menu label: _Rectangular...
@@ -22437,7 +22924,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_make_brush_rectangular_feathered(self, string: str, adjustment: int, adjustment_2: int, adjustment_3: int, adjustment_4: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_make_brush_rectangular_feathered(self, string: str=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: int=None, adjustment_4: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a rectangular brush with feathered edges.
         
         Menu label: Re_ctangular, Feathered...
@@ -22457,7 +22944,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_old_photo(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, toggle: bool, adjustment: int, toggle_2: bool, toggle_3: bool, toggle_4: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_old_photo(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, toggle: bool=None, adjustment: int=None, toggle_2: bool=None, toggle_3: bool=None, toggle_4: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Make an image look like an old photo.
         
         Image types: RGB* GRAY*
@@ -22482,7 +22969,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_paste_as_brush(self, string: str, string_2: str, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_paste_as_brush(self, string: str=None, string_2: str=None, adjustment: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Paste the clipboard contents into a new brush.
         
         Menu label: Paste as New _Brush...
@@ -22498,7 +22985,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_paste_as_pattern(self, string: str, string_2: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_paste_as_pattern(self, string: str=None, string_2: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Paste the clipboard contents into a new pattern.
         
         Menu label: Paste as New _Pattern...
@@ -22512,12 +22999,12 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_perspective_shadow(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: float, adjustment_3: float, adjustment_4: int, color: Gimp.RGB, adjustment_5: int, enum: Gimp.InterpolationType, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_perspective_shadow(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: float=None, adjustment_2: float=None, adjustment_3: float=None, adjustment_4: int=None, color: Gimp.RGB=None, adjustment_5: int=None, enum: Gimp.InterpolationType=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a perspective shadow to the selected region (or alpha).
         
         Image types: RGB* GRAY*
         Menu label: _Perspective...
-        Menu path: <Image>/Filters/Light and Shadow/Shadow
+        Menu path: <Image>/Filters/Light and Shadow/[Shadow]
         
         Parameters:
         
@@ -22544,7 +23031,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_refresh(self, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_refresh(self, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Re-read all available Script-Fu scripts.
         
         Menu label: _Refresh Scripts
@@ -22554,7 +23041,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_reverse_layers(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_reverse_layers(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Reverse the order of layers in the image.
         
         Image types: *
@@ -22563,13 +23050,15 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Image.
+        * image - The input image.
         
-        * drawable - Drawable.
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
         """
         pass
 
-    def script_fu_ripply_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: int, option: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_ripply_anim(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: float=None, adjustment_2: int=None, option: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a multi-layer image by adding a ripple effect to the current
         layer.
         
@@ -22579,19 +23068,21 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - Image to animage.
+        * image - The input image.
         
-        * drawable - Drawable to animate.
+        * num_drawables (default: 1) - Number of input drawables.
         
-        * adjustment (default: 3.0) - Rippling strength.
+        * drawables - The input drawables.
         
-        * adjustment_2 (default: 15) - Number of frames.
+        * adjustment (default: 3.0) - Ri_ppling strength.
         
-        * option (default: 0) - Edge behavior.
+        * adjustment_2 (default: 15) - _Number of frames.
+        
+        * option (default: 0) - Edge _behavior.
         """
         pass
 
-    def script_fu_round_corners(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, adjustment_2: int, adjustment_3: int, adjustment_4: int, toggle_2: bool, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_round_corners(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, toggle: bool=None, adjustment_2: int=None, adjustment_3: int=None, adjustment_4: int=None, toggle_2: bool=None, toggle_3: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Round the corners of an image and optionally add a drop-shadow and
         background.
         
@@ -22621,7 +23112,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_round(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_selection_round(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """This procedure is deprecated! Use
         'script-fu-selection-rounded-rectangle' instead.
         
@@ -22637,12 +23128,12 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_rounded_rectangle(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_selection_rounded_rectangle(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Round the corners of the current selection.
         
         Image types: *
         Menu label: Rounded R_ectangle...
-        Menu path: <Image>/Select/Modify
+        Menu path: <Image>/Select/[Modify]
         
         Parameters:
         
@@ -22656,64 +23147,12 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_to_brush(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, string: str, string_2: str, adjustment: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Convert a selection to a brush.
-        
-        Image types: RGB* GRAY*
-        Menu label: To _Brush...
-        
-        Parameters:
-        
-        * otherImage - Image.
-        
-        * drawable - Drawable.
-        
-        * string (default: My Brush) - _Brush name.
-        
-        * string_2 (default: mybrush) - _File name.
-        
-        * adjustment (default: 25.0) - _Spacing.
-        """
-        pass
-
-    def script_fu_selection_to_image(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Convert a selection to an image.
-        
-        Image types: RGB* GRAY*
-        Menu label: To _Image
-        
-        Parameters:
-        
-        * otherImage - Image.
-        
-        * drawable - Drawable.
-        """
-        pass
-
-    def script_fu_selection_to_pattern(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, string: str, string_2: str, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
-        """Convert a selection to a pattern.
-        
-        Image types: RGB* GRAY*
-        Menu label: To _Pattern...
-        
-        Parameters:
-        
-        * otherImage - Image.
-        
-        * drawable - Drawable.
-        
-        * string (default: My Pattern) - _Pattern name.
-        
-        * string_2 (default: mypattern) - _File name.
-        """
-        pass
-
-    def script_fu_set_cmap(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, palette: Gimp.Palette, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_set_cmap(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, palette: Gimp.Palette=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Change the colormap of an image to the colors in a specified palette.
         
         Image types: INDEXED*
         Menu label: Se_t Colormap...
-        Menu path: <Image>/Colors/Map/Colormap
+        Menu path: <Image>/Colors/Map/[Colormap]
         
         Parameters:
         
@@ -22725,7 +23164,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_slide(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, string: str, string_2: str, font: Gimp.Font, color: Gimp.RGB, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_slide(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, string: str=None, string_2: str=None, font: Gimp.Font=None, color: Gimp.RGB=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a slide-film like frame, sprocket holes, and labels to an image.
         
         Image types: RGB GRAY
@@ -22750,7 +23189,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_sota_chrome_it(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, adjustment_3: float, filename: Gio.File, color: Gimp.RGB, color_2: Gimp.RGB, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_sota_chrome_it(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, adjustment_3: float=None, filename: Gio.File=None, color: Gimp.RGB=None, color_2: Gimp.RGB=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a chrome effect to the selected region (or alpha) using a
         specified (grayscale) stencil.
         
@@ -22780,7 +23219,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_spinning_globe(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, toggle_2: bool, adjustment_2: int, toggle_3: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_spinning_globe(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, toggle: bool=None, toggle_2: bool=None, adjustment_2: int=None, toggle_3: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create an animation by mapping the current image onto a spinning
         sphere.
         
@@ -22806,7 +23245,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_test_sphere(self, adjustment: int, adjustment_2: float, toggle: bool, color: Gimp.RGB, color_2: Gimp.RGB, brush: Gimp.Brush, string: str, text: str, pattern: Gimp.Pattern, gradient: Gimp.Gradient, toggle_2: bool, font: Gimp.Font, adjustment_3: int, palette: Gimp.Palette, filename: Gio.File, option: int, enum: Gimp.InterpolationType, dirname: Gio.File, otherImage: Gimp.Image, layer: Gimp.Layer, channel: Gimp.Channel, drawable: Gimp.Drawable, vectors: Gimp.Vectors, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_test_sphere(self, adjustment: int=None, adjustment_2: float=None, toggle: bool=None, color: Gimp.RGB=None, color_2: Gimp.RGB=None, brush: Gimp.Brush=None, string: str=None, text: str=None, pattern: Gimp.Pattern=None, gradient: Gimp.Gradient=None, toggle_2: bool=None, font: Gimp.Font=None, adjustment_3: int=None, palette: Gimp.Palette=None, filename: Gio.File=None, option: int=None, enum: Gimp.InterpolationType=None, dirname: Gio.File=None, otherImage: Gimp.Image=None, layer: Gimp.Layer=None, channel: Gimp.Channel=None, drawable: Gimp.Drawable=None, vectors: Gimp.Vectors=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simple script to test and show the usage of the new Script-Fu API
         extensions.
         
@@ -22864,7 +23303,72 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_tile_blur(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, toggle: bool, toggle_2: bool, option: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_test_sphere_v3(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: int=None, adjustment_2: float=None, toggle: bool=None, color: Gimp.RGB=None, color_2: Gimp.RGB=None, brush: Gimp.Brush=None, string: str=None, text: str=None, pattern: Gimp.Pattern=None, gradient: Gimp.Gradient=None, toggle_2: bool=None, font: Gimp.Font=None, adjustment_3: int=None, palette: Gimp.Palette=None, filename: Gio.File=None, option: int=None, enum: Gimp.InterpolationType=None, dirname: Gio.File=None, otherImage: Gimp.Image=None, layer: Gimp.Layer=None, channel: Gimp.Channel=None, drawable: Gimp.Drawable=None, vectors: Gimp.Vectors=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Test script-fu-register-filter and GimpProcedureDialog: needs 2
+        selected layers.
+        
+        Image types: *
+        Menu label: Sphere v3...
+        Menu path: <Image>/Filters/Development/Script-Fu/Test
+        
+        Parameters:
+        
+        * image - The input image.
+        
+        * num_drawables (default: 1) - Number of input drawables.
+        
+        * drawables - The input drawables.
+        
+        * adjustment (default: 100) - Radius (in pixels).
+        
+        * adjustment_2 (default: 45.0) - Lighting (degrees).
+        
+        * toggle (default: True) - Shadow.
+        
+        * color - Background color.
+        
+        * color_2 - Sphere color.
+        
+        * brush - Brush.
+        
+        * string (default: Tiny-Fu rocks!) - Text.
+        
+        * text (default: Hello, World!) - Multi-line text.
+        
+        * pattern - Pattern.
+        
+        * gradient - Gradient.
+        
+        * toggle_2 (default: False) - Gradient reverse.
+        
+        * font - Font.
+        
+        * adjustment_3 (default: 50) - Font size (pixels).
+        
+        * palette - Palette.
+        
+        * filename - Environment map.
+        
+        * option (default: 0) - Orientation.
+        
+        * enum (default: <enum GIMP_INTERPOLATION_LINEAR of type
+          Gimp.InterpolationType>) - Interpolation.
+        
+        * dirname - Output directory.
+        
+        * otherImage - Image.
+        
+        * layer - Layer.
+        
+        * channel - Channel.
+        
+        * drawable - Drawable.
+        
+        * vectors - Vectors.
+        """
+        pass
+
+    def script_fu_tile_blur(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: int=None, toggle: bool=None, toggle_2: bool=None, option: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Blur the edges of an image so the result tiles seamlessly.
         
         Image types: RGB*
@@ -22873,21 +23377,23 @@ class _PyPDB:
         
         Parameters:
         
-        * otherImage - The Image.
+        * image - The input image.
         
-        * drawable - The Layer.
+        * num_drawables (default: 1) - Number of input drawables.
         
-        * adjustment (default: 5) - Radius.
+        * drawables - The input drawables.
         
-        * toggle (default: True) - Blur vertically.
+        * adjustment (default: 5) - Ra_dius.
         
-        * toggle_2 (default: True) - Blur horizontally.
+        * toggle (default: True) - Blur _vertically.
         
-        * option (default: 0) - Blur type.
+        * toggle_2 (default: True) - Blur _horizontally.
+        
+        * option (default: 0) - Blur _type.
         """
         pass
 
-    def script_fu_unsharp_mask(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_unsharp_mask(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Make a new image from the current layer by applying the unsharp mask
         method.
         
@@ -22905,7 +23411,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_waves_anim(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: float, adjustment_3: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_waves_anim(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: float=None, adjustment_2: float=None, adjustment_3: int=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a multi-layer image with an effect like a stone was thrown
         into the current image.
         
@@ -22929,7 +23435,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_weave(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: float, adjustment_2: float, adjustment_3: float, adjustment_4: float, adjustment_5: float, adjustment_6: float, adjustment_7: float, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_weave(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: float=None, adjustment_2: float=None, adjustment_3: float=None, adjustment_4: float=None, adjustment_5: float=None, adjustment_6: float=None, adjustment_7: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Create a new layer filled with a weave effect to be used as an
         overlay or bump map.
         
@@ -22959,12 +23465,12 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_xach_effect(self, otherImage: Gimp.Image, drawable: Gimp.Drawable, adjustment: int, adjustment_2: int, color: Gimp.RGB, adjustment_3: int, color_2: Gimp.RGB, adjustment_4: int, adjustment_5: int, adjustment_6: int, adjustment_7: int, toggle: bool, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def script_fu_xach_effect(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=None, adjustment_2: int=None, color: Gimp.RGB=None, adjustment_3: int=None, color_2: Gimp.RGB=None, adjustment_4: int=None, adjustment_5: int=None, adjustment_6: int=None, adjustment_7: int=None, toggle: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Add a subtle translucent 3D effect to the selected region (or alpha).
         
         Image types: RGB* GRAY*
         Menu label: _Xach-Effect...
-        Menu path: <Image>/Filters/Light and Shadow/Shadow
+        Menu path: <Image>/Filters/Light and Shadow/[Shadow]
         
         Parameters:
         
@@ -22994,7 +23500,7 @@ class _PyPDB:
         """
         pass
 
-    def twain_acquire(self, image: Gimp.Image, num_drawables: int, drawables: Gimp.ObjectArray, *, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None) -> Tuple[int, Gimp.ObjectArray]:
+    def twain_acquire(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE) -> Tuple[int, Gimp.ObjectArray]:
         """Capture an image from a TWAIN datasource.
         
         Image types: *
@@ -23029,19 +23535,27 @@ class PyPDBProcedure:
         pass
 
     @property
-    def info(self):
+    def proc(self):
         pass
 
     @property
     def has_run_mode(self):
         pass
 
-    def __call__(self, *args, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE, config: Optional[Gimp.ProcedureConfig]=None):
+    def __call__(self, *args, run_mode=Gimp.RunMode.NONINTERACTIVE, **kwargs):
         pass
 
     def _get_has_run_mode(self):
         pass
 
-    def _process_args(self, args, run_mode):
+    def _create_config(self, *proc_args, **proc_kwargs):
+        pass
+
+class PDBProcedureError(Exception):
+
+    def __init__(self, message, status):
+        pass
+
+    def __str__(self):
         pass
 pdb = _PyPDB()

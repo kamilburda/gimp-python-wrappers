@@ -71,6 +71,7 @@ def _add_imports(root_node):
       'from gi.repository import Gegl',
       'from gi.repository import GLib',
       'from gi.repository import Gio',
+      'from gi.repository import GObject',
     ])
   )
 
@@ -109,16 +110,15 @@ def _create_pdb_procedure_node(procedure_name, procedure):
   func_name = _pythonize(procedure_name)
 
   # Constructing a `FunctionDef` node this way is more readable and less error-prone.
-  func_positional_args_str = 'self, *'
+  func_positional_args_str = 'self'
   func_run_mode_arg_str = 'run_mode: Gimp.RunMode = Gimp.RunMode.NONINTERACTIVE'
-  func_config_arg_str = 'config: Optional[Gimp.ProcedureConfig] = None'
 
   has_run_mode = _has_procedure_run_mode_argument(procedure)
   if has_run_mode:
     func_base_arguments_str = (
-      f'{func_positional_args_str}, {func_run_mode_arg_str}, {func_config_arg_str}')
+      f'{func_positional_args_str}, {func_run_mode_arg_str}')
   else:
-    func_base_arguments_str = f'{func_positional_args_str}, {func_config_arg_str}'
+    func_base_arguments_str = func_positional_args_str
 
   func_base_docstring = '""'
 
@@ -147,6 +147,18 @@ def _insert_pdb_procedure_arguments(procedure_node, procedure):
       type_comment=None,
     )
     procedure_node.args.args.insert(1, arg_node)
+    # Ideally, we should use `proc_arg.default_value`. However, the user can
+    # save new defaults for particular PDB procedures, meaning that the defaults
+    # generated here would be inaccurate.
+    arg_default_value = ast.Constant(
+      value=None,
+      col_offset=None,
+      end_col_offset=None,
+      lineno=None,
+      end_lineno=None,
+    )
+
+    procedure_node.args.defaults.insert(0, arg_default_value)
 
   procedure_node.returns = _get_pdb_return_values_type_hint(procedure.get_return_values())
 
@@ -431,9 +443,17 @@ def _has_procedure_run_mode_argument(proc):
 
 def _get_pdb_procedures():
   """Retrieves a list of GIMP PDB procedures."""
+  query_procedure = Gimp.get_pdb().lookup_procedure('gimp-pdb-query')
+  config = query_procedure.create_config()
+  for prop in config.list_properties():
+    if prop.value_type == Gimp.Procedure.__gtype__:
+      continue
+
+    config.set_property(prop.name, '')
+
   return {
     proc_name: Gimp.get_pdb().lookup_procedure(proc_name)
-    for proc_name in Gimp.get_pdb().run_procedure('gimp-pdb-query', [''] * 7).index(1)
+    for proc_name in query_procedure.run(config).index(1)
   }
 
 
