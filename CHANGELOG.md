@@ -1,5 +1,5 @@
-Upcoming
-========
+2.0
+===
 
 * Added a module to simplify registration of plug-ins.
 * Updated the script to work with GIMP 2.99.18. GIMP 2.99.16 is no longer supported.
