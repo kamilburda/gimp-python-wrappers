@@ -10,7 +10,7 @@ This repository aims to improve development of Python plug-ins for [GIMP 2.99.18
 
 * A stub file that can be used in IDEs to display code completion suggestions for GIMP PDB procedures (arguments, return values, documentation) as you type. A pre-generated stub file is provided, but you may generate one yourself if you use custom plug-ins. Stub files are supported by several IDEs such as [PyCharm](https://www.jetbrains.com/help/pycharm/stubs.html), [PyDev](https://www.pydev.org/manual_101_install.html) (an Eclipse plug-in) or [Visual Studio Code via a plug-in](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
 
-* A simplified interface to register plug-ins, resembling the style used in Python plug-ins for GIMP 2.10 and lower. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L52) for an example.
+* A simplified interface to register plug-ins, resembling the style used in Python plug-ins for GIMP 2.10 and lower. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L51) for an example.
 
 
 ## Requirements
@@ -29,7 +29,7 @@ In such cases, you may want to generate the stub file yourself as described belo
 To generate a new stub file, this repository must be installed as a GIMP plug-in.
 
 1. Locate the directory for plug-ins in your GIMP installation by going to `Edit → Preferences → Folders → Plug-Ins`.
-2. Choose one of the listed directories there (preferably the one located under a user directory rather than the system directory) and copy the `gimp-python-pdb-wrapper` directory to one of the directories listed in step 1.
+2. Choose one of the listed directories there (preferably the one located under a user directory rather than the system directory) and copy the `gimp-python-wrappers` directory to one of the directories listed in step 1.
 3. If you have GIMP opened, restart GIMP.
 
 To run the stub generator, open GIMP and choose `Filters → Development → Python-Fu → Generate GIMP PDB Stubs for Python`.
@@ -100,6 +100,6 @@ You can access GIMP PDB procedure information ([`Gimp.Procedure`](https://develo
 
 ### Registering plug-in procedures
 
-Import the `wrappers/procedure.py` module and call `procedure.register_procedure()` to register a single PDB procedure. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L52) for an example.
+Import the `wrappers/procedure.py` module and call `procedure.register_procedure()` to register a single PDB procedure. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L51) for an example.
 
 At the end of your main Python module, call `procedure.main()`.
