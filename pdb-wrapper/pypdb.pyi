@@ -3600,28 +3600,6 @@ class _PyPDB:
         """
         pass
 
-    def generate_pdb_stubs(self, output_dirpath: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
-        """Generates a stub file for the GIMP procedural database (PDB) for
-        Python plug-ins named "pypdb.pyi".
-        
-        Menu label: Generate GIMP PDB Stubs for Python
-        Menu path: <Image>/Filters/Development/Python-Fu
-        
-        The "pypdb.py" file provides a convenience wrapper to simplify calls to
-        GIMP PDB procedures from Python plug-ins. The generated
-        "pypdb.pyi" stub file can then be used in integrated development
-        environments (IDEs) to display code completion suggestions for
-        GIMP PDB procedures.
-        
-        Parameters:
-        
-        * output_dirpath (default: C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\gi
-          mp-python-pdb-wrapper\\pdb-wrapper) - Output directory path
-          (default: "C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\gimp-pyt
-          hon-pdb-wrapper\\pdb-wrapper").
-        """
-        pass
-
     def gimp_airbrush(self, drawable: Gimp.Drawable=None, pressure: float=None, num_strokes: int=None, strokes: Gimp.FloatArray=None):
         """Paint in the current brush with varying pressure. Paint application
         is time-dependent.
@@ -18215,54 +18193,6 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_batch_export_layers(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, file_extension: str=None, output_directory: str=None, layer_filename_pattern: str=None, overwrite_mode: int=None, settings_file: Gio.File=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
-        """Export layers as separate images.
-        
-        Image types: *
-        Menu label: E_xport Layers...
-        Menu path: <Image>/File/[Export]
-        
-        Parameters:
-        
-        * image - The input image.
-        
-        * num_drawables (default: 1) - Number of input drawables.
-        
-        * drawables - The input drawables.
-        
-        * file_extension (default: png) - File extension.
-        
-        * output_directory (default: C:\\Users\\Kamil\\Documents) - Output
-          directory.
-        
-        * layer_filename_pattern (default: [layer name]) - Layer filename
-          pattern (empty string = layer name).
-        
-        * overwrite_mode (default: 2) - Overwrite mode (non-interactive run
-          mode only) { Replace (0), Skip (1), Rename new file (2),
-          Rename existing file (3) }.
-        
-        * settings_file - File with saved settings (optional).
-        """
-        pass
-
-    def plug_in_batch_export_layers_now(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
-        """Export layers as separate images instantly.
-        
-        Image types: *
-        Menu label: E_xport Layers Now
-        Menu path: <Image>/File/[Export]
-        
-        Parameters:
-        
-        * image - The input image.
-        
-        * num_drawables (default: 1) - Number of input drawables.
-        
-        * drawables - The input drawables.
-        """
-        pass
-
     def plug_in_blinds(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, angle_displacement: int=None, num_segments: int=None, orientation: int=None, bg_transparent: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Simulate an image painted on window blinds.
         
@@ -21137,27 +21067,6 @@ class _PyPDB:
         * angle (default: 1) - Angle { 90 (1), 180 (2), 270 (3) } degrees.
         
         * everything (default: False) - Rotate the whole image.
-        """
-        pass
-
-    def plug_in_run_tests(self, dirpath: str=None, prefix: str=None, modules: List[str]=None, ignored_modules: List[str]=None, output_stream: str=None, verbose: bool=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
-        """Runs automated tests in the specified directory path.
-        
-        Parameters:
-        
-        * dirpath (default: C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\2.99\\batcher)
-          - Directory path containing test modules.
-        
-        * prefix (default: test_) - Prefix of test modules.
-        
-        * modules - Modules to include.
-        
-        * ignored_modules - Modules to ignore.
-        
-        * output_stream (default: stderr) - Output stream or file path to
-          write output to.
-        
-        * verbose (default: False) - If True, writes more detailed output.
         """
         pass
 
