@@ -100,6 +100,6 @@ You can access GIMP PDB procedure information ([`Gimp.Procedure`](https://develo
 
 ### Registering plug-in procedures
 
-Import the `wrappers/procedure.py` module and call `procedure.register_procedure()` to register a single PDB procedure. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L51) for an example.
-
-At the end of your main Python module, call `procedure.main()`.
+1. Copy the `wrappers/procedure.py` module to your plug-in directory.
+2. Within the main file of your plug-in (a Python script with same name as its parent directory) import the `procedure` module and call `procedure.register_procedure()` to register a single PDB procedure. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L51) for an example.
+3. At the end of your main Python module, call `procedure.main()`.
