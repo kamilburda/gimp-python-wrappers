@@ -18220,7 +18220,7 @@ class _PyPDB:
         
         Image types: *
         Menu label: E_xport Layers...
-        Menu path: <Image>/File/Batch
+        Menu path: <Image>/File/[Export]
         
         Parameters:
         
@@ -18251,7 +18251,7 @@ class _PyPDB:
         
         Image types: *
         Menu label: E_xport Layers Now
-        Menu path: <Image>/File/Batch
+        Menu path: <Image>/File/[Export]
         
         Parameters:
         
@@ -22577,6 +22577,20 @@ class _PyPDB:
         """
         pass
 
+    def script_fu_copy_visible(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """This procedure is deprecated! Use 'gimp-edit-copy-visible' instead.
+        
+        Image types: RGB* INDEXED* GRAY*
+        Menu label: Copy Visible
+        
+        Parameters:
+        
+        * otherImage - Image.
+        
+        * drawable - Drawable.
+        """
+        pass
+
     def script_fu_difference_clouds(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Solid noise applied with Difference layer mode.
         
@@ -22643,6 +22657,48 @@ class _PyPDB:
         * adjustment_4 (default: 60) - Opacity.
         
         * toggle (default: True) - Allow resizing.
+        """
+        pass
+
+    def script_fu_erase_nth_rows(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, option: int=None, adjustment: int=None, option_2: int=None, adjustment_2: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Erase every nth row or column.
+        
+        Image types: RGB* GRAY* INDEXED*
+        Menu label: _Erase Every Nth Row...
+        
+        Parameters:
+        
+        * otherImage - Image.
+        
+        * drawable - Drawable.
+        
+        * option (default: 0) - Rows/cols.
+        
+        * adjustment (default: 0) - Offset.
+        
+        * option_2 (default: 0) - Erase/fill.
+        
+        * adjustment_2 (default: 1) - Skip by.
+        """
+        pass
+
+    def script_fu_erase_rows(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, option: int=None, option_2: int=None, option_3: int=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Erase every other row or column.
+        
+        Image types: RGB* GRAY* INDEXED*
+        Menu label: _Erase Every Other Row...
+        
+        Parameters:
+        
+        * otherImage - Image.
+        
+        * drawable - Drawable.
+        
+        * option (default: 0) - Rows/cols.
+        
+        * option_2 (default: 0) - Even/odd.
+        
+        * option_3 (default: 0) - Erase/fill.
         """
         pass
 
@@ -22715,6 +22771,25 @@ class _PyPDB:
         * adjustment_2 (default: 30) - Height.
         
         * toggle (default: False) - Gradient reverse.
+        """
+        pass
+
+    def script_fu_grid_system(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, value: str=None, value_2: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Draw a grid as specified by the lists of X and Y locations using the
+        current brush.
+        
+        Image types: RGB*, INDEXED*, GRAY*
+        Menu label: _Grid...
+        
+        Parameters:
+        
+        * otherImage - Image to use.
+        
+        * drawable - Drawable to draw grid.
+        
+        * value (default: '(1 g 1)) - X divisions.
+        
+        * value_2 (default: '(1 g 1)) - Y divisions.
         """
         pass
 
@@ -22792,24 +22867,6 @@ class _PyPDB:
         * num_drawables (default: 1) - Number of input drawables.
         
         * drawables - The input drawables.
-        """
-        pass
-
-    def script_fu_helloworld(self, string: str=None, font: Gimp.Font=None, adjustment: int=None, color: Gimp.RGB=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
-        """Creates an image of a text string.
-        
-        Menu label: _Hello World...
-        Menu path: <Image>/Filters/Development/Script-Fu/Test
-        
-        Parameters:
-        
-        * string (default: Hello, World!) - Text string.
-        
-        * font - Font.
-        
-        * adjustment (default: 100) - Font size (pixels).
-        
-        * color - Color.
         """
         pass
 
@@ -23147,6 +23204,58 @@ class _PyPDB:
         """
         pass
 
+    def script_fu_selection_to_brush(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, string: str=None, string_2: str=None, adjustment: float=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Convert a selection to a brush.
+        
+        Image types: RGB* GRAY*
+        Menu label: To _Brush...
+        
+        Parameters:
+        
+        * otherImage - Image.
+        
+        * drawable - Drawable.
+        
+        * string (default: My Brush) - _Brush name.
+        
+        * string_2 (default: mybrush) - _File name.
+        
+        * adjustment (default: 25.0) - _Spacing.
+        """
+        pass
+
+    def script_fu_selection_to_image(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Convert a selection to an image.
+        
+        Image types: RGB* GRAY*
+        Menu label: To _Image
+        
+        Parameters:
+        
+        * otherImage - Image.
+        
+        * drawable - Drawable.
+        """
+        pass
+
+    def script_fu_selection_to_pattern(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, string: str=None, string_2: str=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
+        """Convert a selection to a pattern.
+        
+        Image types: RGB* GRAY*
+        Menu label: To _Pattern...
+        
+        Parameters:
+        
+        * otherImage - Image.
+        
+        * drawable - Drawable.
+        
+        * string (default: My Pattern) - _Pattern name.
+        
+        * string_2 (default: mypattern) - _File name.
+        """
+        pass
+
     def script_fu_set_cmap(self, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, palette: Gimp.Palette=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
         """Change the colormap of an image to the colors in a specified palette.
         
@@ -23253,71 +23362,6 @@ class _PyPDB:
         Menu path: <Image>/Filters/Development/Script-Fu/Test
         
         Parameters:
-        
-        * adjustment (default: 100) - Radius (in pixels).
-        
-        * adjustment_2 (default: 45.0) - Lighting (degrees).
-        
-        * toggle (default: True) - Shadow.
-        
-        * color - Background color.
-        
-        * color_2 - Sphere color.
-        
-        * brush - Brush.
-        
-        * string (default: Tiny-Fu rocks!) - Text.
-        
-        * text (default: Hello, World!) - Multi-line text.
-        
-        * pattern - Pattern.
-        
-        * gradient - Gradient.
-        
-        * toggle_2 (default: False) - Gradient reverse.
-        
-        * font - Font.
-        
-        * adjustment_3 (default: 50) - Font size (pixels).
-        
-        * palette - Palette.
-        
-        * filename - Environment map.
-        
-        * option (default: 0) - Orientation.
-        
-        * enum (default: <enum GIMP_INTERPOLATION_LINEAR of type
-          Gimp.InterpolationType>) - Interpolation.
-        
-        * dirname - Output directory.
-        
-        * otherImage - Image.
-        
-        * layer - Layer.
-        
-        * channel - Channel.
-        
-        * drawable - Drawable.
-        
-        * vectors - Vectors.
-        """
-        pass
-
-    def script_fu_test_sphere_v3(self, image: Gimp.Image=None, num_drawables: int=None, drawables: Gimp.ObjectArray=None, adjustment: int=None, adjustment_2: float=None, toggle: bool=None, color: Gimp.RGB=None, color_2: Gimp.RGB=None, brush: Gimp.Brush=None, string: str=None, text: str=None, pattern: Gimp.Pattern=None, gradient: Gimp.Gradient=None, toggle_2: bool=None, font: Gimp.Font=None, adjustment_3: int=None, palette: Gimp.Palette=None, filename: Gio.File=None, option: int=None, enum: Gimp.InterpolationType=None, dirname: Gio.File=None, otherImage: Gimp.Image=None, layer: Gimp.Layer=None, channel: Gimp.Channel=None, drawable: Gimp.Drawable=None, vectors: Gimp.Vectors=None, run_mode: Gimp.RunMode=Gimp.RunMode.NONINTERACTIVE):
-        """Test script-fu-register-filter and GimpProcedureDialog: needs 2
-        selected layers.
-        
-        Image types: *
-        Menu label: Sphere v3...
-        Menu path: <Image>/Filters/Development/Script-Fu/Test
-        
-        Parameters:
-        
-        * image - The input image.
-        
-        * num_drawables (default: 1) - Number of input drawables.
-        
-        * drawables - The input drawables.
         
         * adjustment (default: 100) - Radius (in pixels).
         
@@ -23548,7 +23592,7 @@ class PyPDBProcedure:
     def _get_has_run_mode(self):
         pass
 
-    def _create_config(self, *proc_args, **proc_kwargs):
+    def _create_config(self, run_mode, *proc_args, **proc_kwargs):
         pass
 
 class PDBProcedureError(Exception):
