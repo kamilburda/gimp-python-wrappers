@@ -1,6 +1,6 @@
-# GIMP PDB Wrapper for Python Plug-ins
+# Wrappers for GIMP Python Plug-ins
 
-This repository aims to improve development of Python plug-ins for [GIMP 2.99.18](https://www.gimp.org/downloads/devel/) by providing the following features:
+This repository aims to improve development of Python plug-ins for [GIMP 2.99.18](https://www.gimp.org/downloads/devel/) by providing the following:
 
 * A simplified interface to call procedures and plug-ins from the GIMP procedural database (PDB) - the same style used in Python plug-ins for GIMP 2.10 and lower:
   
@@ -8,9 +8,9 @@ This repository aims to improve development of Python plug-ins for [GIMP 2.99.18
   pdb.some_procedure_name(argument1, argument2, ...)
   ```
 
-* A stub file that can be used in IDEs to display code completion suggestions for GIMP PDB procedures (arguments, return values, documentation) as you type. A pre-generated stub file is provided, but you may generate one yourself if you use custom plug-ins.
+* A stub file that can be used in IDEs to display code completion suggestions for GIMP PDB procedures (arguments, return values, documentation) as you type. A pre-generated stub file is provided, but you may generate one yourself if you use custom plug-ins. Stub files are supported by several IDEs such as [PyCharm](https://www.jetbrains.com/help/pycharm/stubs.html), [PyDev](https://www.pydev.org/manual_101_install.html) (an Eclipse plug-in) or [Visual Studio Code via a plug-in](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
 
-Stub files are supported by several IDEs such as [PyCharm](https://www.jetbrains.com/help/pycharm/stubs.html), [PyDev](https://www.pydev.org/manual_101_install.html) (an Eclipse plug-in) or [Visual Studio Code via a plug-in](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
+* A simplified interface to register plug-ins, resembling the style used in Python plug-ins for GIMP 2.10 and lower. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L52) for an example.
 
 
 ## Requirements
@@ -97,3 +97,9 @@ Returned values are returned as a Python list (in case of multiple return values
 The exit status that was a part of the `Gimp.ValueArray` as the first element is now available as the `pdb.last_status` property.
 
 You can access GIMP PDB procedure information ([`Gimp.Procedure`](https://developer.gimp.org/api/3.0/libgimp/class.Procedure.html) object) via the `info` property, e.g. `pdb.plug_in_gauss.info`.
+
+### Registering plug-in procedures
+
+Import the `wrappers/procedure.py` module and call `procedure.register_procedure()` to register a single PDB procedure. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L52) for an example.
+
+At the end of your main Python module, call `procedure.main()`.

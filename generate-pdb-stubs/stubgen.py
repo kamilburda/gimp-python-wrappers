@@ -14,10 +14,11 @@ from gi.repository import Gimp
 
 
 MODULE_DIRPATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+ROOT_DIRPATH = os.path.dirname(MODULE_DIRPATH)
 
 PYPDB_MODULE_NAME = 'pypdb'
-PYPDB_MODULE_FILEPATH = os.path.join(MODULE_DIRPATH, f'{PYPDB_MODULE_NAME}.py')
-STUB_MODULE_FILEPATH = os.path.join(MODULE_DIRPATH, f'{PYPDB_MODULE_NAME}.pyi')
+PYPDB_MODULE_FILEPATH = os.path.join(ROOT_DIRPATH, 'wrappers', f'{PYPDB_MODULE_NAME}.py')
+STUB_MODULE_FILEPATH = os.path.join(ROOT_DIRPATH, 'wrappers', f'{PYPDB_MODULE_NAME}.pyi')
 TEXT_FILE_ENCODING = 'utf-8'
 
 _PYPDB_CLASS_NAME = '_PyPDB'

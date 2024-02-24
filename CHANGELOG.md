@@ -1,6 +1,7 @@
 Upcoming
 ========
 
+* Added a module to simplify registration of plug-ins.
 * Updated the script to work with GIMP 2.99.18. GIMP 2.99.16 is no longer supported.
 * Updated the signature of PDB procedures. All arguments can now be omitted and their default values will be used. However, note that the stub file will display `None` as the default value for all arguments even if it is not the default (since the user can save different defaults for a particular PDB procedure, the defaults displayed in the stub file would no longer be accurate).
 
