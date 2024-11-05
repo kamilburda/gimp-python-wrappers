@@ -1,6 +1,6 @@
 # Wrappers for GIMP Python Plug-ins
 
-This repository aims to improve development of Python plug-ins for [GIMP 2.99.18](https://www.gimp.org/downloads/devel/) by providing the following:
+This repository aims to improve development of Python plug-ins for [GIMP 3.0](https://www.gimp.org/downloads/devel/) by providing the following:
 
 * A simplified interface to call procedures and plug-ins from the GIMP procedural database (PDB) - the same style used in Python plug-ins for GIMP 2.10 and lower:
   
@@ -10,12 +10,12 @@ This repository aims to improve development of Python plug-ins for [GIMP 2.99.18
 
 * A stub file that can be used in IDEs to display code completion suggestions for GIMP PDB procedures (arguments, return values, documentation) as you type. A pre-generated stub file is provided, but you may generate one yourself if you use custom plug-ins. Stub files are supported by several IDEs such as [PyCharm](https://www.jetbrains.com/help/pycharm/stubs.html), [PyDev](https://www.pydev.org/manual_101_install.html) (an Eclipse plug-in) or [Visual Studio Code via a plug-in](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
 
-* A simplified interface to register plug-ins, resembling the style used in Python plug-ins for GIMP 2.10 and lower. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L51) for an example.
+* A simplified interface to register plug-ins, resembling the style used in Python plug-ins for GIMP 2.10 and lower. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example.
 
 
 ## Requirements
 
-* GIMP 2.99.18 (will **not** work in earlier versions, might work in later versions)
+* GIMP 3.0 or later
 * Python 3.9 or later
 
 
@@ -82,7 +82,13 @@ def run_plugin(procedure, run_mode, image, drawable, n_drawables, config, data):
     ...
 ```
 
-Instead of specifying all arguments, you can omit any arguments and specify them as keyword arguments:
+You can omit positional arguments:
+
+```
+pdb.plug_in_gauss(image, drawable, 5.0, 4.0)
+```
+
+You can specify arguments as keyword arguments:
 
 ```
 pdb.plug_in_gauss(image, drawable, vertical=4.0)
@@ -101,5 +107,5 @@ You can access GIMP PDB procedure information ([`Gimp.Procedure`](https://develo
 ### Registering plug-in procedures
 
 1. Copy the `wrappers/procedure.py` module to your plug-in directory.
-2. Within the main file of your plug-in (a Python script with same name as its parent directory) import the `procedure` module and call `procedure.register_procedure()` to register a single PDB procedure. See the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py#L51) for an example.
+2. Within the main file of your plug-in (a Python script with same name as its parent directory) import the `procedure` module and call `procedure.register_procedure()` to register a single PDB procedure. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example.
 3. At the end of your main Python module, call `procedure.main()`.
