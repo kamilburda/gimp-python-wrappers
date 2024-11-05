@@ -30,12 +30,7 @@ _DOCSTRING_LINE_LENGTH = 80
 _GTYPES_TO_PYTHON_TYPES = {
   'gint': 'int',
   'guint': 'int',
-  'glong': 'int',
-  'gulong': 'int',
-  'gchar': 'int',
-  'guchar': 'int',
   'gboolean': 'bool',
-  'gfloat': 'float',
   'gdouble': 'float',
   'gchararray': 'str',
   'GBytes': 'GLib.Bytes',
@@ -116,8 +111,7 @@ def _create_pdb_procedure_node(procedure_name, procedure):
 
   has_run_mode = _has_procedure_run_mode_argument(procedure)
   if has_run_mode:
-    func_base_arguments_str = (
-      f'{func_positional_args_str}, {func_run_mode_arg_str}')
+    func_base_arguments_str = f'{func_positional_args_str}, {func_run_mode_arg_str}'
   else:
     func_base_arguments_str = func_positional_args_str
 
@@ -148,9 +142,9 @@ def _insert_pdb_procedure_arguments(procedure_node, procedure):
       type_comment=None,
     )
     procedure_node.args.args.insert(1, arg_node)
-    # Ideally, we should use `proc_arg.default_value`. However, the user can
-    # save new defaults for particular PDB procedures, meaning that the defaults
-    # generated here would be inaccurate.
+    # Ideally, we should use `proc_arg.get_default_value()`. However, the user
+    # can save new defaults for particular PDB procedures, meaning that the
+    # defaults generated here would be inaccurate.
     arg_default_value = ast.Constant(
       value=None,
       col_offset=None,
@@ -244,16 +238,14 @@ def _insert_pdb_procedure_docstring(procedure_node, procedure):
   proc_docstring = _add_proc_blurb_to_docstring(procedure, proc_docstring)
 
   add_extra_newline = True
-  proc_docstring, is_specified = _add_image_types_to_docstring(
-    procedure, proc_docstring)
+  proc_docstring, is_specified = _add_image_types_to_docstring(procedure, proc_docstring)
 
   add_extra_newline = add_extra_newline and not is_specified
   proc_docstring, is_specified = _add_menu_label_to_docstring(
     procedure, proc_docstring, add_extra_newline)
 
   add_extra_newline = add_extra_newline and not is_specified
-  proc_docstring = _add_menu_paths_to_docstring(
-    procedure, proc_docstring, add_extra_newline)
+  proc_docstring = _add_menu_paths_to_docstring(procedure, proc_docstring, add_extra_newline)
 
   proc_docstring = _add_proc_help_to_docstring(procedure, proc_docstring)
 
@@ -397,8 +389,14 @@ def _add_proc_params_or_retvals_to_docstring(
   param_prefix = '* '
 
   for param in params:
-    if param.default_value is not None:
-      default_value_str = f' (default: {param.default_value})'
+    param_default_value = param.get_default_value()
+
+    # Display only defaults for basic types. While there are default objects
+    # allowed for types such as `Gimp.Unit` and we could provide custom
+    # strings describing the default objects, this would require manual
+    # maintenance as the GIMP API changes.
+    if isinstance(param_default_value, (int, float, bool, str, bytes)):
+      default_value_str = f' (default: {param_default_value})'
     else:
       default_value_str = ''
 
@@ -411,7 +409,11 @@ def _add_proc_params_or_retvals_to_docstring(
     else:
       description = ''
 
-    param_str = f'{param_prefix}{name}{default_value_str} - {description}'
+    if description:
+      param_str = f'{param_prefix}{name}{default_value_str} - {description}'
+    else:
+      param_str = f'{param_prefix}{name}{default_value_str}'
+
     param_str = textwrap.fill(
       param_str,
       width=_DOCSTRING_LINE_LENGTH - len(_BODY_INDENT) - len(param_prefix),
@@ -436,8 +438,8 @@ def _pythonize(str_):
 
 def _has_procedure_run_mode_argument(proc):
   proc_args = proc.get_arguments()
-  if proc_args and proc_args[0].value_type.pytype is not None:
-    return issubclass(proc_args[0].value_type.pytype, Gimp.RunMode)
+  if proc_args:
+    return proc_args[0].value_type == Gimp.RunMode.__gtype__
   else:
     return False
 
@@ -461,5 +463,6 @@ def _get_pdb_procedures():
 def write_stub_file(dirpath, root_node):
   os.makedirs(dirpath, exist_ok=True)
 
-  with open(os.path.join(dirpath, f'{PYPDB_MODULE_NAME}.pyi'), 'w', encoding=TEXT_FILE_ENCODING) as stub_file:
+  stub_filepath = os.path.join(dirpath, f'{PYPDB_MODULE_NAME}.pyi')
+  with open(stub_filepath, 'w', encoding=TEXT_FILE_ENCODING) as stub_file:
     stub_file.write(ast.unparse(root_node))
