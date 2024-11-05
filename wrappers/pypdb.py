@@ -180,14 +180,16 @@ class PyPDBProcedure:
       for arg_name, arg_value in proc_kwargs.items():
         processed_arg_name = arg_name.replace('_', '-')
 
-        if processed_arg_name in args_and_names:
-          arg_type_name = args_and_names[arg_name].value_type.name
-          config_set_property = _get_set_property_func(arg_type_name, config)
-          config_set_property(processed_arg_name, arg_value)
-        else:
+        try:
+          arg = args_and_names[arg_name]
+        except KeyError:
           raise PDBProcedureError(
             f'argument "{processed_arg_name}" does not exist or is not supported',
             Gimp.PDBStatusType.CALLING_ERROR)
+
+        arg_type_name = arg.value_type.name
+        config_set_property = _get_set_property_func(arg_type_name, config)
+        config_set_property(processed_arg_name, arg_value)
 
     return config
 
