@@ -181,7 +181,7 @@ class PyPDBProcedure:
         processed_arg_name = arg_name.replace('_', '-')
 
         try:
-          arg = args_and_names[arg_name]
+          arg = args_and_names[processed_arg_name]
         except KeyError:
           raise PDBProcedureError(
             f'argument "{processed_arg_name}" does not exist or is not supported',
