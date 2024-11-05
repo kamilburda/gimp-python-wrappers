@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, List, Tuple
 from gi.repository import Gegl
 from gi.repository import GLib
 from gi.repository import Gio
