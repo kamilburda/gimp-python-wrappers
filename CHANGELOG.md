@@ -1,3 +1,11 @@
+3.0
+===
+
+* Updated the script and the generated stubs to work with GIMP 3.0.
+* For the pre-generated stub, default values in descriptions are now only included for "basic" types, specifically `int`, `float`, `bool`, `str` and `bytes`.
+* For the pre-generated stub, fixed formatting of arguments and return values without a description (blurb).
+
+
 2.0
 ===
 
