@@ -1,3 +1,9 @@
+3.1
+===
+
+* Fixed calling PDB procedures with keyword arguments containing underscores.
+
+
 3.0
 ===
 
