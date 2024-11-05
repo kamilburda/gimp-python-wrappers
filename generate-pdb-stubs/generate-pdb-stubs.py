@@ -14,6 +14,7 @@ from gi.repository import Gimp
 gi.require_version('GimpUi', '3.0')
 from gi.repository import GimpUi
 from gi.repository import GLib
+from gi.repository import GObject
 
 import stubgen
 
@@ -45,27 +46,30 @@ def generate_pdb_stubs(proc, config, _data):
 
   stubgen.generate_pdb_stubs(output_dirpath)
 
-  return proc.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
+  return Gimp.PDBStatusType.SUCCESS
 
 
 procedure.register_procedure(
   generate_pdb_stubs,
   procedure_type=Gimp.Procedure,
   arguments=[
-    dict(
-      name='run-mode',
-      type=Gimp.RunMode,
-      default=Gimp.RunMode.NONINTERACTIVE,
-      nick='Run mode',
-      blurb='The run mode',
-    ),
-    dict(
-      name='output-dirpath',
-      type=str,
-      default=stubgen.MODULE_DIRPATH,
-      nick='Output _directory path',
-      blurb=f'Output directory path (default: "{stubgen.MODULE_DIRPATH}")',
-    ),
+    [
+      'enum',
+      'run-mode',
+      'Run mode',
+      'The run mode',
+      Gimp.RunMode,
+      Gimp.RunMode.NONINTERACTIVE,
+      GObject.ParamFlags.READWRITE,
+    ],
+    [
+      'string',
+      'output-dirpath',
+      'Output _directory path',
+      f'Output directory path (default: "{stubgen.MODULE_DIRPATH}")',
+      stubgen.MODULE_DIRPATH,
+      GObject.ParamFlags.READWRITE,
+    ],
   ],
   menu_label='Generate GIMP PDB Stubs for Python',
   menu_path='<Image>/Filters/Development/Python-Fu',
