@@ -1,3 +1,9 @@
+3.2
+===
+
+* Fixed procedure registration if the same list of arguments was reused for multiple plug-in procedures.
+
+
 3.1
 ===
 
