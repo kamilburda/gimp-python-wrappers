@@ -76,10 +76,9 @@ def _add_imports(root_node):
   new_import_nodes = ast.parse(
     '\n'
     + '\n'.join([
-      'from typing import Any, List, Tuple, Union',
+      'from typing import Any, Tuple',
       'from gi.repository import GLib',
       'from gi.repository import Gio',
-      'from gi.repository import GObject',
     ])
   )
 

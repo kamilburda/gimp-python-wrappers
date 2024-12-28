@@ -1,7 +1,6 @@
-from typing import Any, List, Tuple, Union
+from typing import Any, Tuple
 from gi.repository import GLib
 from gi.repository import Gio
-from gi.repository import GObject
 'Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures.'
 import abc
 from typing import List, Optional
