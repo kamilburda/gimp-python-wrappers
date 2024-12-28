@@ -173,11 +173,9 @@ def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
       type_comment=None,
     )
     procedure_node.args.args.insert(1, arg_node)
-    # Ideally, we should use `proc_arg.get_default_value()`. However, the user
-    # can save new defaults for particular PDB procedures, meaning that the
-    # defaults generated here would be inaccurate.
+
     arg_default_value = ast.Constant(
-      value=None,
+      value=_get_param_default_value(proc_arg),
       col_offset=None,
       end_col_offset=None,
       lineno=None,
@@ -472,11 +470,9 @@ def _insert_gegl_procedure_arguments(procedure, procedure_node):
       type_comment=None,
     )
     procedure_node.args.args.insert(1, arg_node)
-    # Ideally, we should use `proc_arg.get_default_value()`. However, the user
-    # can save new defaults for particular PDB procedures, meaning that the
-    # defaults generated here would be inaccurate.
+
     arg_default_value = ast.Constant(
-      value=None,
+      value=_get_param_default_value(proc_arg),
       col_offset=None,
       end_col_offset=None,
       lineno=None,
