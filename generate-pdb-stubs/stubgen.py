@@ -182,8 +182,10 @@ def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
       end_lineno=None,
     )
 
-    if isinstance(proc_arg.get_default_value(), GObject.GEnum):
-      default_value_as_string = _get_enum_value_as_string(proc_arg.get_default_value())
+    proc_arg_default_value = proc_arg.get_default_value()
+    if (isinstance(proc_arg_default_value, GObject.GEnum)
+        and not isinstance(proc_arg, (Gegl.ParamEnum, Gegl.ParamSpecEnum))):
+      default_value_as_string = _get_enum_value_as_string(proc_arg_default_value)
       if default_value_as_string is not None:
         arg_default_value = ast.parse(default_value_as_string).body[0].value
 
@@ -375,8 +377,10 @@ def _add_proc_params_or_retvals_to_docstring(
 
     default_value_str = _get_param_default_value(param)
 
-    if isinstance(param.get_default_value(), GObject.GEnum):
-      default_enum_value_as_string = _get_enum_value_as_string(param.get_default_value())
+    param_default_value = param.get_default_value()
+    if (isinstance(param_default_value, GObject.GEnum)
+        and not isinstance(param, (Gegl.ParamEnum, Gegl.ParamSpecEnum))):
+      default_enum_value_as_string = _get_enum_value_as_string(param_default_value)
       if default_enum_value_as_string is not None:
         default_value_str = default_enum_value_as_string
 
@@ -433,10 +437,20 @@ def _get_enum_value_as_string(enum_value):
   else:
     enum_type_module_name = enum_type.__module__
 
+  enum_value_names_to_try = [
+    enum_value.value_name,
+    enum_value.value_name.upper(),
+    enum_value.value_name.lower(),
+  ]
+
   default_value_name = None
   for name in dir(enum_type):
-    if enum_value.value_name.endswith(name):
-      default_value_name = name
+    for value_name in enum_value_names_to_try:
+      if value_name.endswith(name):
+        default_value_name = name
+        break
+
+    if default_value_name is not None:
       break
 
   if default_value_name is not None:
@@ -479,8 +493,10 @@ def _insert_gegl_procedure_arguments(procedure, procedure_node):
       end_lineno=None,
     )
 
-    if isinstance(proc_arg.get_default_value(), GObject.GEnum):
-      default_value_as_string = _get_enum_value_as_string(proc_arg.get_default_value())
+    proc_arg_default_value = proc_arg.get_default_value()
+    if (isinstance(proc_arg_default_value, GObject.GEnum)
+        and not isinstance(proc_arg, (Gegl.ParamEnum, Gegl.ParamSpecEnum))):
+      default_value_as_string = _get_enum_value_as_string(proc_arg_default_value)
       if default_value_as_string is not None:
         arg_default_value = ast.parse(default_value_as_string).body[0].value
 
