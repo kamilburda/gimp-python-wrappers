@@ -12,6 +12,7 @@ gi.require_version('Gegl', '0.4')
 from gi.repository import Gegl
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
+from gi.repository import GObject
 
 
 MODULE_DIRPATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -182,6 +183,11 @@ def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
       lineno=None,
       end_lineno=None,
     )
+
+    if isinstance(proc_arg.get_default_value(), GObject.GEnum):
+      default_value_as_string = _get_enum_value_as_string(proc_arg.get_default_value())
+      if default_value_as_string is not None:
+        arg_default_value = ast.parse(default_value_as_string).body[0].value
 
     procedure_node.args.defaults.insert(0, arg_default_value)
 
@@ -360,25 +366,6 @@ def _add_proc_params_or_retvals_to_docstring(
   param_prefix = '* '
 
   for param in params:
-    param_default_value = param.get_default_value()
-
-    # Display only defaults for basic types + enums. While there are default
-    # objects allowed for types such as `Gimp.Unit` and we could provide
-    # custom strings describing the default objects, this would require
-    # manual maintenance as the GIMP API changes.
-    if isinstance(param, (Gegl.ParamEnum, Gegl.ParamSpecEnum)):
-      # GIMP internally transforms GEGL enum values to `Gimp.Choice` values:
-      #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
-      default_value_str = f' (default: "{param.get_default_value().value_nick}")'
-    elif isinstance(param_default_value, str):
-      default_value_str = f' (default: "{param_default_value}")'
-    elif isinstance(param_default_value, bytes):
-      default_value_str = f' (default: b"{param_default_value}")'
-    elif isinstance(param_default_value, (int, float, bool)):
-      default_value_str = f' (default: {param_default_value})'
-    else:
-      default_value_str = ''
-
     name = _pythonize(param.name)
 
     description = param.blurb
@@ -387,6 +374,18 @@ def _add_proc_params_or_retvals_to_docstring(
         description += '.'
     else:
       description = ''
+
+    default_value_str = _get_param_default_value(param)
+
+    if isinstance(param.get_default_value(), GObject.GEnum):
+      default_enum_value_as_string = _get_enum_value_as_string(param.get_default_value())
+      if default_enum_value_as_string is not None:
+        default_value_str = default_enum_value_as_string
+
+    if default_value_str is not None:
+      default_value_str = f' (default: {default_value_str})'
+    else:
+      default_value_str = ''
 
     if description:
       param_str = f'{param_prefix}{name}{default_value_str} - {description}'
@@ -409,6 +408,43 @@ def _add_proc_params_or_retvals_to_docstring(
   proc_docstring += f'{proc_params}'
 
   return proc_docstring
+
+
+def _get_param_default_value(param):
+  param_default_value = param.get_default_value()
+
+  # Display only defaults for basic types + enums. While there are default
+  # objects allowed for types such as `Gimp.Unit` and we could provide
+  # custom strings describing the default objects, this would require
+  # manual maintenance as the GIMP API changes.
+  if isinstance(param, (Gegl.ParamEnum, Gegl.ParamSpecEnum)):
+    # GIMP internally transforms GEGL enum values to `Gimp.Choice` values:
+    #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
+    return param_default_value.value_nick
+  elif isinstance(param_default_value, (int, float, bool, str, bytes)):
+    return param_default_value
+  else:
+    return None
+
+
+def _get_enum_value_as_string(enum_value):
+  enum_type = type(enum_value)
+
+  if enum_type.__module__.startswith('gi.repository.'):
+    enum_type_module_name = enum_type.__module__[len('gi.repository.'):]
+  else:
+    enum_type_module_name = enum_type.__module__
+
+  default_value_name = None
+  for name in dir(enum_type):
+    if enum_value.value_name.endswith(name):
+      default_value_name = name
+      break
+
+  if default_value_name is not None:
+    return f'{enum_type_module_name}.{enum_type.__qualname__}.{default_value_name}'
+  else:
+    return None
 
 
 def _insert_gegl_procedure_node(pypdb_class_node, procedure_name):
@@ -446,6 +482,11 @@ def _insert_gegl_procedure_arguments(procedure, procedure_node):
       lineno=None,
       end_lineno=None,
     )
+
+    if isinstance(proc_arg.get_default_value(), GObject.GEnum):
+      default_value_as_string = _get_enum_value_as_string(proc_arg.get_default_value())
+      if default_value_as_string is not None:
+        arg_default_value = ast.parse(default_value_as_string).body[0].value
 
     procedure_node.args.defaults.insert(0, arg_default_value)
 
@@ -494,7 +535,14 @@ def _parse_type(proc_arg, default_type=None):
   if value_type is None or not value_type.name:
     return default_type
 
-  if value_type.name.startswith('Gimp'):
+  if isinstance(proc_arg, (Gegl.ParamEnum, Gegl.ParamSpecEnum)):
+    # GIMP internally transforms GEGL enum values to `Gimp.Choice` values,
+    #  and `pdb` also allows passing strings beside enum values.
+    #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
+    #  Since the enum values are not easily accessible, only the string type
+    #  will be displayed as a type hint.
+    return 'str'
+  elif value_type.name.startswith('Gimp'):
     try:
       getattr(Gimp, value_type.name[len('Gimp'):])
     except AttributeError:
@@ -505,15 +553,7 @@ def _parse_type(proc_arg, default_type=None):
     try:
       getattr(Gegl, value_type.name[len('Gegl'):])
     except AttributeError:
-      if isinstance(proc_arg, (Gegl.ParamEnum, Gegl.ParamSpecEnum)):
-        # GIMP internally transforms GEGL enum values to `Gimp.Choice` values,
-        #  and `pdb` also allows passing strings beside enum values.
-        #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
-        #  Since the enum values are not easily accessible, only the string type
-        #  will be displayed as a type hint.
-        return 'str'
-      else:
-        return default_type
+      return default_type
     else:
       return f"Gegl.{value_type.name[len('Gegl'):]}"
   elif value_type.name in _GTYPES_TO_PYTHON_TYPES:
