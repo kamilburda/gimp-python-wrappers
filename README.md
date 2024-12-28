@@ -2,15 +2,18 @@
 
 This repository aims to improve development of Python plug-ins for [GIMP 3.0](https://www.gimp.org/downloads/devel/) by providing the following:
 
-* A simplified interface to call procedures and plug-ins from the GIMP procedural database (PDB) - the same style used in Python plug-ins for GIMP 2.10 and lower:
-  
+* A simplified means to call GIMP plug-ins, built-in procedures, and apply layer effects (GEGL operations):
   ```
-  pdb.some_procedure_name(argument1, argument2, ...)
+  ...
+  pdb.plug_in_jigsaw(image=image, drawables=[layer])
+  ...
+  pdb.gegl__gaussian_blur(layer, std_dev_x=5.0, std_dev_y=4.0, abyss_policy='clamp')
+  ...
   ```
 
-* A stub file that can be used in IDEs to display code completion suggestions for GIMP PDB procedures (arguments, return values, documentation) as you type. A pre-generated stub file is provided, but you may generate one yourself if you use custom plug-ins. Stub files are supported by several IDEs such as [PyCharm](https://www.jetbrains.com/help/pycharm/stubs.html), [PyDev](https://www.pydev.org/manual_101_install.html) (an Eclipse plug-in) or [Visual Studio Code via a plug-in](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
+* A stub file that can be used in integrated development environments (IDEs) to display code completion suggestions for GIMP procedures, plug-ins and layer effects (arguments, return values, documentation) as you type. A pre-generated stub file is provided, but you may generate one yourself if you use custom plug-ins. Stub files are supported by several IDEs such as [PyCharm](https://www.jetbrains.com/help/pycharm/stubs.html), [PyDev](https://www.pydev.org/manual_101_install.html) (an Eclipse plug-in) or [Visual Studio Code via a plug-in](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance).
 
-* A simplified interface to register plug-ins, resembling the style used in Python plug-ins for GIMP 2.10 and lower. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example.
+* A simplified means to register Python plug-ins. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example.
 
 
 ## Requirements
@@ -20,6 +23,47 @@ This repository aims to improve development of Python plug-ins for [GIMP 3.0](ht
 
 
 ## Usage
+
+### Using the GIMP PDB wrapper
+
+Example of importing and using the PDB wrapper in a GIMP Python plug-in:
+
+```
+from pypdb import pdb
+
+
+def run_plugin(procedure, run_mode, image, drawable, n_drawables, config, data):
+    ...
+    pdb.plug_in_jigsaw(image=image, drawables=[layer])
+    ...
+    pdb.gegl__gaussian_blur(layer, std_dev_x=5.0, std_dev_y=4.0, abyss_policy='clamp')
+    ...
+```
+
+Alternatively, you can call the functions as strings:
+
+```
+    pdb['plug-in-jigsaw'](image=image, drawables=[layer])
+    ...
+    pdb['gegl:gaussian-blur'](layer, std_dev_x=5.0, std_dev_y=4.0, abyss_policy='clamp')
+    ...
+```
+
+The names of layer effects (GEGL operations) start with  `gegl__` or `svg__`.
+The `-` and `:` characters in the original names of GIMP procedures/plug-ins/layer effects are replaced with `_` and `__`, respectively.
+
+Function arguments can only be specified as keyword arguments (`<argument name>=<value>`).
+The only positional argument allowed is a `Gimp.Layer` object as the first argument, and only for layer effects.
+
+You can omit any arguments, in which case their default values will be used.
+Note, however, that omitting some arguments may result in an error, e.g. if a function requires an image or a layer that is left unspecified.
+
+Return values are returned as a Python list (in case of multiple return values) or directly as a Python object (in case of a single return value). Functions having no return values return `None`.
+
+The exit status is available as the `pdb.last_status` property (in the official GIMP API, this is a part of the returned `Gimp.ValueArray` as the first element). This does not apply to layer effects.
+
+The `pdb.last_error` attribute contains an error message if the last function called via `pdb` failed. Likewise, this does not apply to layer effects.
+
 
 ### Running the Stub Generator
 
@@ -59,7 +103,7 @@ Example:
         pypdb.pyi
 ```
 
-IDEs supporting the `.pyi` stub files should now display suggested PDB procedures as you type. 
+IDEs supporting the `.pyi` stub files should now display suggested functions as you type. 
 
 It is also advised to add `.pyi` files to your `.gitignore` so that git ignores these files:
 
@@ -67,45 +111,8 @@ It is also advised to add `.pyi` files to your `.gitignore` so that git ignores 
 *.pyi
 ```
 
-
-### Using the GIMP PDB wrapper
-
-Example of importing and using the PDB wrapper in a GIMP Python plug-in:
-
-```
-from pypdb import pdb
-
-
-def run_plugin(procedure, run_mode, image, drawable, n_drawables, config, data):
-    ...
-    pdb.plug_in_gauss(image, drawable, 5.0, 4.0, 1)
-    ...
-```
-
-You can omit positional arguments:
-
-```
-pdb.plug_in_gauss(image, drawable, 5.0, 4.0)
-```
-
-You can specify arguments as keyword arguments:
-
-```
-pdb.plug_in_gauss(image, drawable, vertical=4.0)
-```
-
-Other arguments will be assigned their default values.
-
-You can adjust the run mode by passing the `run_mode=` keyword argument. If not specified, the run mode defaults to `Gimp.RunMode.NONINTERACTIVE`.
-
-Returned values are returned as a Python list (in case of multiple return values) or directly as a Python object (in case of a single return value). Procedures having no return values return `None`.
-
-The exit status that was a part of the `Gimp.ValueArray` as the first element is now available as the `pdb.last_status` property.
-
-You can access GIMP PDB procedure information ([`Gimp.Procedure`](https://developer.gimp.org/api/3.0/libgimp/class.Procedure.html) object) via the `info` property, e.g. `pdb.plug_in_gauss.info`.
-
-### Registering plug-in procedures
+### Registering your Python plug-in procedures
 
 1. Copy the `wrappers/procedure.py` module to your plug-in directory.
-2. Within the main file of your plug-in (a Python script with same name as its parent directory) import the `procedure` module and call `procedure.register_procedure()` to register a single PDB procedure. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example.
+2. Within the main file of your plug-in (a Python script with same name as its parent directory) import the `procedure` module and call `procedure.register_procedure()` to register a single PDB procedure. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example. The `procedure.register_procedure()` function documentation contains details on the parameters and how they must be formatted.
 3. At the end of your main Python module, call `procedure.main()`.
