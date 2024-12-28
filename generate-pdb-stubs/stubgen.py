@@ -509,7 +509,9 @@ def _parse_type(proc_arg, default_type=None):
         # GIMP internally transforms GEGL enum values to `Gimp.Choice` values,
         #  and `pdb` also allows passing strings beside enum values.
         #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
-        return f'Union[str, {default_type}]'
+        #  Since the enum values are not easily accessible, only the string type
+        #  will be displayed as a type hint.
+        return 'str'
       else:
         return default_type
     else:
