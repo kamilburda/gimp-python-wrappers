@@ -53,8 +53,8 @@ def generate_pdb_stubs(output_dirpath):
 
   pypdb_class_node = _get_pypdb_class_node(root_node)
 
-  for proc_name, proc in sorted(_get_pdb_procedures().items()):
-    _insert_pdb_procedure_node(pypdb_class_node, proc_name, proc)
+  for proc_name, proc in sorted(_get_gimp_pdb_procedures().items()):
+    _insert_gimp_pdb_procedure_node(pypdb_class_node, proc_name, proc)
 
   write_stub_file(output_dirpath, root_node)
 
@@ -123,8 +123,8 @@ def _get_pypdb_class_node(root_node):
   return pypdb_class_node
 
 
-def _insert_pdb_procedure_node(pypdb_class_node, procedure_name, procedure):
-  procedure_node = _create_pdb_procedure_node(procedure_name, procedure)
+def _insert_gimp_pdb_procedure_node(pypdb_class_node, procedure_name, procedure):
+  procedure_node = _create_pdb_procedure_node(procedure_name)
 
   _insert_pdb_procedure_arguments(procedure_node, procedure)
   _insert_pdb_procedure_docstring(procedure_node, procedure)
@@ -132,21 +132,14 @@ def _insert_pdb_procedure_node(pypdb_class_node, procedure_name, procedure):
   pypdb_class_node.body.append(procedure_node)
 
 
-def _create_pdb_procedure_node(procedure_name, procedure):
+
+
+def _create_pdb_procedure_node(procedure_name):
   func_name = _pythonize(procedure_name)
 
   # Constructing a `FunctionDef` node this way is more readable and less error-prone.
-  func_positional_args_str = 'self'
-  func_run_mode_arg_str = 'run_mode: Gimp.RunMode = Gimp.RunMode.NONINTERACTIVE'
-
-  has_run_mode = _has_procedure_run_mode_argument(procedure)
-  if has_run_mode:
-    func_base_arguments_str = f'{func_positional_args_str}, {func_run_mode_arg_str}'
-  else:
-    func_base_arguments_str = func_positional_args_str
-
+  func_base_arguments_str = 'self'
   func_base_docstring = '""'
-
   func_base_signature_str = (
     f'def {func_name}({func_base_arguments_str}):\n{_INDENT}{func_base_docstring}\n{_INDENT}pass')
 
@@ -157,9 +150,6 @@ def _create_pdb_procedure_node(procedure_name, procedure):
 
 def _insert_pdb_procedure_arguments(procedure_node, procedure):
   proc_args = procedure.get_arguments()
-
-  if _has_procedure_run_mode_argument(procedure):
-    proc_args = proc_args[1:]
 
   for proc_arg in reversed(proc_args):
     arg_node = ast.arg(
@@ -408,10 +398,6 @@ def _add_proc_params_or_retvals_to_docstring(
         procedure, proc_docstring, param_type, get_params_func, title):
   params = get_params_func(procedure)
 
-  if param_type == 'parameter':
-    if _has_procedure_run_mode_argument(procedure):
-      params = params[1:]
-
   if not params:
     return proc_docstring
 
@@ -466,15 +452,7 @@ def _pythonize(str_):
   return str_.replace('-', '_')
 
 
-def _has_procedure_run_mode_argument(proc):
-  proc_args = proc.get_arguments()
-  if proc_args:
-    return proc_args[0].value_type == Gimp.RunMode.__gtype__
-  else:
-    return False
-
-
-def _get_pdb_procedures():
+def _get_gimp_pdb_procedures():
   """Retrieves a list of GIMP PDB procedures."""
   query_procedure = Gimp.get_pdb().lookup_procedure('gimp-pdb-query')
   config = query_procedure.create_config()
