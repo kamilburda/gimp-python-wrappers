@@ -24,6 +24,29 @@ This repository aims to improve development of Python plug-ins for [GIMP 3.0](ht
 
 ## Usage
 
+### Adding the GIMP PDB wrapper and the stub file to your IDE
+
+Place the `pypdb.py` and the `pypdb.pyi` file in the same subdirectory within your Python plug-in.
+
+Example:
+
+```
+<directory containing GIMP plug-ins>/
+    some-plug-in/
+        some-plug-in.py
+        pypdb.py
+        pypdb.pyi
+```
+
+IDEs supporting the `.pyi` stub files should now display suggested functions as you type. 
+
+It is also advised to add `.pyi` files to your `.gitignore` so that git ignores these files:
+
+```
+*.pyi
+```
+
+
 ### Using the GIMP PDB wrapper
 
 Example of importing and using the PDB wrapper in a GIMP Python plug-in:
@@ -65,6 +88,13 @@ The exit status is available as the `pdb.last_status` property (in the official 
 The `pdb.last_error` attribute contains an error message if the last function called via `pdb` failed. Likewise, this does not apply to layer effects.
 
 
+### Registering your Python plug-in procedures
+
+1. Copy the `wrappers/procedure.py` module to your plug-in directory.
+2. Within the main file of your plug-in (a Python script with same name as its parent directory) import the `procedure` module and call `procedure.register_procedure()` to register a single PDB procedure. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example. The `procedure.register_procedure()` function documentation contains details on the parameters and how they must be formatted.
+3. At the end of your main Python module, call `procedure.main()`.
+
+
 ### Running the Stub Generator
 
 While this repository provides a pre-generated stub file, it may quickly become obsolete in future GIMP versions and does not display hints for custom plug-ins and scripts you have installed.
@@ -88,31 +118,3 @@ config = procedure.create_config()
 config.set_property('output-dirpath', <your desired output directory>)
 procedure.run(config)
 ```
-
-### Adding the GIMP PDB wrapper and the stub file to your IDE
-
-Place the `pypdb.py` and the `pypdb.pyi` file in the same subdirectory within your Python plug-in.
-
-Example:
-
-```
-<directory containing GIMP plug-ins>/
-    some-plug-in/
-        some-plug-in.py
-        pypdb.py
-        pypdb.pyi
-```
-
-IDEs supporting the `.pyi` stub files should now display suggested functions as you type. 
-
-It is also advised to add `.pyi` files to your `.gitignore` so that git ignores these files:
-
-```
-*.pyi
-```
-
-### Registering your Python plug-in procedures
-
-1. Copy the `wrappers/procedure.py` module to your plug-in directory.
-2. Within the main file of your plug-in (a Python script with same name as its parent directory) import the `procedure` module and call `procedure.register_procedure()` to register a single PDB procedure. See the bottom of the [`generate-pdb-stubs` module](generate-pdb-stubs/generate-pdb-stubs.py) for an example. The `procedure.register_procedure()` function documentation contains details on the parameters and how they must be formatted.
-3. At the end of your main Python module, call `procedure.main()`.
