@@ -1,3 +1,13 @@
+4.0
+===
+
+* Added support for layer effects (filters, GEGL operations). These can be called via the `pdb` object. For example, the `gegl:gaussian-blur` effect can be called as `pdb.gegl__gaussian_blur(layer, std_dev_x=5.0, std_dev_y=5.0)`.
+* Procedures can now only be called with keyword arguments (i.e. it is no longer possible to call procedures with positional arguments). This change is meant to encourage plug-in developers to make the client code more readable. The only positional argument allowed is a `Gimp.Layer` instance for layer effects.
+* Updated the script and the generated stubs according to changes in GIMP 3.0.0-RC2.
+* The `procedure` module now automatically initializes the `Gegl` module by invoking `Gegl.init()` before the start of a procedure.
+* The generated stub file `pypdb.pyi` now also contains private attributes from the `_PyPDB` class, `PDBProcedure` class and all its subclasses. This avoids IDE warnings related to unrecognized attributes.
+
+
 3.2
 ===
 
