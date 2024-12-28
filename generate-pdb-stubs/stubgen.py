@@ -4,6 +4,7 @@ import ast
 import inspect
 import os
 import re
+import sys
 import textwrap
 
 import gi
@@ -16,9 +17,17 @@ from gi.repository import Gimp
 MODULE_DIRPATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 ROOT_DIRPATH = os.path.dirname(MODULE_DIRPATH)
 
+WRAPPERS_DIRPATH = os.path.join(ROOT_DIRPATH, 'wrappers')
+
+if ROOT_DIRPATH not in sys.path:
+  sys.path.append(ROOT_DIRPATH)
+
+from wrappers import pypdb
+
+
 PYPDB_MODULE_NAME = 'pypdb'
-PYPDB_MODULE_FILEPATH = os.path.join(ROOT_DIRPATH, 'wrappers', f'{PYPDB_MODULE_NAME}.py')
-STUB_MODULE_FILEPATH = os.path.join(ROOT_DIRPATH, 'wrappers', f'{PYPDB_MODULE_NAME}.pyi')
+PYPDB_MODULE_FILEPATH = os.path.join(WRAPPERS_DIRPATH, f'{PYPDB_MODULE_NAME}.py')
+STUB_MODULE_FILEPATH = os.path.join(WRAPPERS_DIRPATH, f'{PYPDB_MODULE_NAME}.pyi')
 TEXT_FILE_ENCODING = 'utf-8'
 
 _PYPDB_CLASS_NAME = '_PyPDB'
@@ -56,6 +65,9 @@ def generate_pdb_stubs(output_dirpath):
   for proc_name, proc in sorted(_get_gimp_pdb_procedures().items()):
     _insert_gimp_pdb_procedure_node(pypdb_class_node, proc_name, proc)
 
+  for proc_name in sorted(_get_gegl_procedures()):
+    _insert_gegl_procedure_node(pypdb_class_node, proc_name)
+
   write_stub_file(output_dirpath, root_node)
 
 
@@ -63,7 +75,7 @@ def _add_imports(root_node):
   new_import_nodes = ast.parse(
     '\n'
     + '\n'.join([
-      'from typing import Any, List, Tuple',
+      'from typing import Any, List, Tuple, Union',
       'from gi.repository import GLib',
       'from gi.repository import Gio',
       'from gi.repository import GObject',
@@ -126,12 +138,10 @@ def _get_pypdb_class_node(root_node):
 def _insert_gimp_pdb_procedure_node(pypdb_class_node, procedure_name, procedure):
   procedure_node = _create_pdb_procedure_node(procedure_name)
 
-  _insert_pdb_procedure_arguments(procedure_node, procedure)
-  _insert_pdb_procedure_docstring(procedure_node, procedure)
+  _insert_gimp_pdb_procedure_arguments(procedure_node, procedure)
+  _insert_gimp_pdb_procedure_docstring(procedure_node, procedure)
 
   pypdb_class_node.body.append(procedure_node)
-
-
 
 
 def _create_pdb_procedure_node(procedure_name):
@@ -148,13 +158,13 @@ def _create_pdb_procedure_node(procedure_name):
   return procedure_node
 
 
-def _insert_pdb_procedure_arguments(procedure_node, procedure):
+def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
   proc_args = procedure.get_arguments()
 
   for proc_arg in reversed(proc_args):
     arg_node = ast.arg(
       arg=_pythonize(proc_arg.name),
-      annotation=_get_pdb_argument_type_hint(proc_arg),
+      annotation=_get_proc_argument_type_hint(proc_arg),
       col_offset=None,
       end_col_offset=None,
       lineno=None,
@@ -178,21 +188,6 @@ def _insert_pdb_procedure_arguments(procedure_node, procedure):
   procedure_node.returns = _get_pdb_return_values_type_hint(procedure.get_return_values())
 
 
-def _get_pdb_argument_type_hint(proc_arg):
-  arg_type_name = _parse_type(proc_arg)
-
-  # Use dummy code with the desired annotation. It is more convenient to create
-  # an annotation node this way.
-  if arg_type_name is not None:
-    dummy_func_with_type_hint = f'def foo(arg: {arg_type_name}): pass'
-  else:
-    dummy_func_with_type_hint = f'def foo(arg: GObject.Value): pass'
-
-  node = ast.parse(dummy_func_with_type_hint)
-
-  return node.body[0].args.args[0].annotation
-
-
 def _get_pdb_return_values_type_hint(proc_return_values):
   return_type_names = [
     _parse_type(proc_return_value, default_type='Any') for proc_return_value in proc_return_values]
@@ -212,35 +207,6 @@ def _get_pdb_return_values_type_hint(proc_return_values):
   return node.body[0].returns
 
 
-def _parse_type(proc_arg, default_type=None):
-  value_type = proc_arg.value_type
-
-  if value_type is None or not value_type.name:
-    return default_type
-
-  if value_type.name.startswith('Gimp'):
-    try:
-      getattr(Gimp, value_type.name[len('Gimp'):])
-    except AttributeError:
-      return default_type
-    else:
-      return f"Gimp.{value_type.name[len('Gimp'):]}"
-  elif value_type.name.startswith('Gegl'):
-    try:
-      getattr(Gegl, value_type.name[len('Gegl'):])
-    except AttributeError:
-      return default_type
-    else:
-      return f"Gegl.{value_type.name[len('Gegl'):]}"
-  elif value_type.name in _GTYPES_TO_PYTHON_TYPES:
-    return _GTYPES_TO_PYTHON_TYPES[value_type.name]
-  else:
-    if value_type.pytype is not None:
-      return _get_full_type_name(value_type.pytype)
-    else:
-      return default_type
-
-
 def _get_full_type_name(type_):
   # Taken from: https://stackoverflow.com/a/2020083
   module_name = type_.__module__
@@ -252,17 +218,18 @@ def _get_full_type_name(type_):
     return f'{module_name}.{type_.__qualname__}'
 
 
-def _insert_pdb_procedure_docstring(procedure_node, procedure):
+def _insert_gimp_pdb_procedure_docstring(procedure_node, procedure):
   proc_docstring = ''
 
-  proc_docstring = _add_proc_blurb_to_docstring(procedure, proc_docstring)
+  proc_docstring = _add_proc_blurb_to_docstring(procedure.get_blurb(), proc_docstring)
 
   add_extra_newline = True
-  proc_docstring, is_specified = _add_image_types_to_docstring(procedure, proc_docstring)
+  proc_docstring, is_specified = _add_field_to_docstring(
+    procedure.get_image_types(), proc_docstring, 'Image types', True)
 
   add_extra_newline = add_extra_newline and not is_specified
-  proc_docstring, is_specified = _add_menu_label_to_docstring(
-    procedure, proc_docstring, add_extra_newline)
+  proc_docstring, is_specified = _add_field_to_docstring(
+    procedure.get_menu_label(), proc_docstring, 'Menu label', add_extra_newline)
 
   add_extra_newline = add_extra_newline and not is_specified
   proc_docstring = _add_menu_paths_to_docstring(procedure, proc_docstring, add_extra_newline)
@@ -277,8 +244,7 @@ def _insert_pdb_procedure_docstring(procedure_node, procedure):
   procedure_node.body[0].value.value = proc_docstring
 
 
-def _add_proc_blurb_to_docstring(procedure, proc_docstring):
-  proc_blurb = procedure.get_blurb()
+def _add_proc_blurb_to_docstring(proc_blurb, proc_docstring):
   if proc_blurb:
     proc_blurb = proc_blurb.strip()
     if not proc_blurb.endswith('.'):
@@ -296,24 +262,13 @@ def _add_proc_blurb_to_docstring(procedure, proc_docstring):
   return proc_docstring
 
 
-def _add_image_types_to_docstring(procedure, proc_docstring):
-  proc_image_types = procedure.get_image_types()
-  if proc_image_types:
-    if proc_docstring:
-      proc_docstring += f'\n{_BODY_INDENT}' * 2
-    proc_docstring += f'Image types: {proc_image_types}'
-
-  return proc_docstring, bool(proc_image_types)
-
-
-def _add_menu_label_to_docstring(procedure, proc_docstring, add_extra_newline):
-  proc_menu_label = procedure.get_menu_label()
-  if proc_menu_label:
+def _add_field_to_docstring(field, proc_docstring, prefix, add_extra_newline):
+  if field:
     if proc_docstring:
       proc_docstring += f'\n{_BODY_INDENT}' * (2 if add_extra_newline else 1)
-    proc_docstring += f'Menu label: {proc_menu_label}'
+    proc_docstring += f'{prefix}: {field}'
 
-  return proc_docstring, bool(proc_menu_label)
+  return proc_docstring, bool(field)
 
 
 def _add_menu_paths_to_docstring(procedure, proc_docstring, add_extra_newline):
@@ -407,11 +362,19 @@ def _add_proc_params_or_retvals_to_docstring(
   for param in params:
     param_default_value = param.get_default_value()
 
-    # Display only defaults for basic types. While there are default objects
-    # allowed for types such as `Gimp.Unit` and we could provide custom
-    # strings describing the default objects, this would require manual
-    # maintenance as the GIMP API changes.
-    if isinstance(param_default_value, (int, float, bool, str, bytes)):
+    # Display only defaults for basic types + enums. While there are default
+    # objects allowed for types such as `Gimp.Unit` and we could provide
+    # custom strings describing the default objects, this would require
+    # manual maintenance as the GIMP API changes.
+    if isinstance(param, (Gegl.ParamEnum, Gegl.ParamSpecEnum)):
+      # GIMP internally transforms GEGL enum values to `Gimp.Choice` values:
+      #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
+      default_value_str = f' (default: "{param.get_default_value().value_nick}")'
+    elif isinstance(param_default_value, str):
+      default_value_str = f' (default: "{param_default_value}")'
+    elif isinstance(param_default_value, bytes):
+      default_value_str = f' (default: b"{param_default_value}")'
+    elif isinstance(param_default_value, (int, float, bool)):
       default_value_str = f' (default: {param_default_value})'
     else:
       default_value_str = ''
@@ -448,8 +411,116 @@ def _add_proc_params_or_retvals_to_docstring(
   return proc_docstring
 
 
+def _insert_gegl_procedure_node(pypdb_class_node, procedure_name):
+  procedure_node = _create_pdb_procedure_node(procedure_name)
+
+  procedure = pypdb.GeglProcedure(pypdb.pdb, procedure_name)
+
+  _insert_gegl_procedure_arguments(procedure, procedure_node)
+  _insert_gegl_procedure_docstring(procedure, procedure_node)
+
+  pypdb_class_node.body.append(procedure_node)
+
+
+def _insert_gegl_procedure_arguments(procedure, procedure_node):
+  proc_args = procedure.arguments
+
+  for proc_arg in reversed(proc_args):
+    arg_node = ast.arg(
+      arg=_pythonize(proc_arg.name),
+      annotation=_get_proc_argument_type_hint(proc_arg),
+      col_offset=None,
+      end_col_offset=None,
+      lineno=None,
+      end_lineno=None,
+      type_comment=None,
+    )
+    procedure_node.args.args.insert(1, arg_node)
+    # Ideally, we should use `proc_arg.get_default_value()`. However, the user
+    # can save new defaults for particular PDB procedures, meaning that the
+    # defaults generated here would be inaccurate.
+    arg_default_value = ast.Constant(
+      value=None,
+      col_offset=None,
+      end_col_offset=None,
+      lineno=None,
+      end_lineno=None,
+    )
+
+    procedure_node.args.defaults.insert(0, arg_default_value)
+
+  procedure_node.returns = None
+
+
+def _insert_gegl_procedure_docstring(procedure, procedure_node):
+  proc_docstring = procedure.menu_label
+
+  proc_docstring += f'\n{_BODY_INDENT}' * 2
+
+  proc_docstring = _add_proc_blurb_to_docstring(procedure.blurb, proc_docstring)
+
+  proc_docstring = _add_proc_params_or_retvals_to_docstring(
+    procedure,
+    proc_docstring,
+    'parameter',
+    lambda proc: proc.arguments,
+    'Parameters:',
+  )
+
+  proc_docstring += f'\n{_BODY_INDENT}'
+
+  procedure_node.body[0].value.value = proc_docstring
+
+
 def _pythonize(str_):
-  return str_.replace('-', '_')
+  return str_.replace('-', '_').replace(':', '__')
+
+
+def _get_proc_argument_type_hint(proc_arg):
+  arg_type_name = _parse_type(proc_arg, default_type='GObject.Value')
+
+  # Use dummy code with the desired annotation. It is more convenient to create
+  # an annotation node this way.
+  dummy_func_with_type_hint = f'def foo(arg: {arg_type_name}): pass'
+
+  node = ast.parse(dummy_func_with_type_hint)
+
+  return node.body[0].args.args[0].annotation
+
+
+def _parse_type(proc_arg, default_type=None):
+  value_type = proc_arg.value_type
+
+  if value_type is None or not value_type.name:
+    return default_type
+
+  if value_type.name.startswith('Gimp'):
+    try:
+      getattr(Gimp, value_type.name[len('Gimp'):])
+    except AttributeError:
+      return default_type
+    else:
+      return f"Gimp.{value_type.name[len('Gimp'):]}"
+  elif value_type.name.startswith('Gegl'):
+    try:
+      getattr(Gegl, value_type.name[len('Gegl'):])
+    except AttributeError:
+      if isinstance(proc_arg, (Gegl.ParamEnum, Gegl.ParamSpecEnum)):
+        # GIMP internally transforms GEGL enum values to `Gimp.Choice` values,
+        #  and `pdb` also allows passing strings beside enum values.
+        #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
+        return f'Union[str, {default_type}]'
+      else:
+        return default_type
+    else:
+      return f"Gegl.{value_type.name[len('Gegl'):]}"
+  elif value_type.name in _GTYPES_TO_PYTHON_TYPES:
+    return _GTYPES_TO_PYTHON_TYPES[value_type.name]
+  else:
+    if value_type.pytype is not None:
+      return _get_full_type_name(value_type.pytype)
+    else:
+      return default_type
 
 
 def _get_gimp_pdb_procedures():
@@ -466,6 +537,11 @@ def _get_gimp_pdb_procedures():
     proc_name: Gimp.get_pdb().lookup_procedure(proc_name)
     for proc_name in query_procedure.run(config).index(1)
   }
+
+
+def _get_gegl_procedures():
+  """Retrieves a list of GEGL operations."""
+  return Gegl.list_operations()
 
 
 def write_stub_file(dirpath, root_node):
