@@ -64,7 +64,6 @@ def _add_imports(root_node):
     '\n'
     + '\n'.join([
       'from typing import Any, List, Tuple',
-      'from gi.repository import Gegl',
       'from gi.repository import GLib',
       'from gi.repository import Gio',
       'from gi.repository import GObject',
@@ -78,7 +77,38 @@ def _add_imports(root_node):
 def _remove_implementation_of_functions(root_node):
   for child in ast.walk(root_node):
     if isinstance(child, ast.FunctionDef):
-      child.body = [ast.Pass()]
+      if child.name == '__init__':
+        _remove_all_but_attributes_and_super_calls(child)
+      else:
+        child.body = [ast.Pass()]
+
+
+def _remove_all_but_attributes_and_super_calls(node):
+  indexes_of_body_nodes_to_delete = []
+
+  for index, body_node in enumerate(node.body):
+    if isinstance(body_node, ast.Assign):
+      if all(isinstance(target.value, ast.Name) and target.value.id == 'self'
+             for target in body_node.targets):
+        body_node.value = ast.parse('None').body[0].value
+      else:
+        indexes_of_body_nodes_to_delete.append(index)
+    elif isinstance(body_node, ast.Expr):
+      if isinstance(body_node.value, ast.Call):
+        try:
+          func_name = body_node.value.func.value.func.id
+        except AttributeError:
+          indexes_of_body_nodes_to_delete.append(index)
+        else:
+          if func_name != 'super':
+            indexes_of_body_nodes_to_delete.append(index)
+      else:
+        indexes_of_body_nodes_to_delete.append(index)
+    else:
+      indexes_of_body_nodes_to_delete.append(index)
+
+  for index in reversed(indexes_of_body_nodes_to_delete):
+    del node.body[index]
 
 
 def _get_pypdb_class_node(root_node):
