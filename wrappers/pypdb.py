@@ -1,7 +1,5 @@
 """Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures."""
 
-from __future__ import annotations
-
 import abc
 from typing import List, Optional
 
@@ -40,7 +38,7 @@ class _PyPDB:
     """Error message of the last `GimpPDBProcedure` invoked by this class."""
     return self._last_error
 
-  def __getattr__(self, name: str) -> PDBProcedure:
+  def __getattr__(self, name: str):
     proc_name = self._process_procedure_name(name)
 
     if self._gimp_pdb_procedure_exists(proc_name):
@@ -50,7 +48,7 @@ class _PyPDB:
     else:
       raise AttributeError(f'procedure "{proc_name}" does not exist')
 
-  def __getitem__(self, name: str) -> PDBProcedure:
+  def __getitem__(self, name: str):
     proc_name = self._process_procedure_name(name)
 
     if self._gimp_pdb_procedure_exists(proc_name):
