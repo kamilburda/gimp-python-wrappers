@@ -73,13 +73,13 @@ procedure.register_procedure(
   menu_label='Generate GIMP PDB Stubs for Python',
   menu_path='<Image>/Filters/Development/Python-Fu',
   documentation=(
-    ('Generates a stub file for the GIMP procedural database (PDB) for Python plug-ins'
+    ('Generates a Python stub file for GIMP PDB procedures (built-in procedures and plug-ins) and GEGL operations (layer effects)'
      f' named "{stubgen.PYPDB_MODULE_NAME}.pyi".'),
     (f'The "{stubgen.PYPDB_MODULE_NAME}.py" file provides a convenience wrapper'
-     ' to simplify calls to GIMP PDB procedures from Python plug-ins.'
+     ' to simplify calls to GIMP PDB procedures and GEGL operations from Python plug-ins.'
      f' The generated "{stubgen.PYPDB_MODULE_NAME}.pyi" stub file can then be used'
      ' in integrated development environments (IDEs) to display code completion suggestions'
-     ' for GIMP PDB procedures.'),
+     ' for GIMP PDB procedures and GEGL operations.'),
   ),
   attribution=('Kamil Burda', '', '2023'),
 )
