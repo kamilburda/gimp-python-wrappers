@@ -1,3 +1,11 @@
+4.1
+===
+
+* Added allowed string values to the function documentation of the generated stub file for `Gimp.Choice` arguments or GEGL enums converted to `Gimp.Choice` arguments.
+* Default values for string arguments in the function documentation are now quoted for improved readability.
+* Fixed a potential bug where certain GEGL enums were unnecessarily converted to a string (since GIMP converts many of these enums to strings for readability).
+
+
 4.0
 ===
 
