@@ -203,7 +203,10 @@ class _PyPDB:
         * write_color_space (default: True) - Whether or not to write
           BITMAPV5HEADER color space data.
         
-        * rgb_format (default: rgb-888) - Export format for RGB images.
+        * rgb_format (default: 'rgb-888') - Export format for RGB images.
+          
+          Allowed values: 'rgb-565', 'rgba-5551', 'rgb-555', 'rgb-888',
+          'rgba-8888', 'rgbx-8888'
         """
         pass
 
@@ -330,8 +333,8 @@ class _PyPDB:
         * source_file (default: False) - Read characters from file, if true,
           or use text entry.
         
-        * characters (default: foo) - Characters that will be used as colored
-          pixels.
+        * characters (default: 'foo') - Characters that will be used as
+          colored pixels.
         
         * font_size (default: 10) - Font size in pixels.
         
@@ -415,9 +418,11 @@ class _PyPDB:
         
         * file - The file to load.
         
-        * override_palette (default: use-built-in-palette) - Whether to use
+        * override_palette (default: 'use-built-in-palette') - Whether to use
           the built-in palette or a black and white palette for 1 bit
           images.
+          
+          Allowed values: 'use-built-in-palette', 'use-bw-palette'
         
         Returns:
         
@@ -443,14 +448,23 @@ class _PyPDB:
         
         * options - Export options.
         
-        * compression_format (default: none) - Compression format.
+        * compression_format (default: 'none') - Compression format.
+          
+          Allowed values: 'none', 'bc1', 'bc2', 'bc3, ', 'bc3n', 'bc4', 'bc5',
+          'rxgb', 'aexp', 'ycocg', 'ycocgs'
         
         * perceptual_metric (default: False) - Use a perceptual error metric
           during compression.
         
-        * format (default: default) - Pixel format.
+        * format (default: 'default') - Pixel format.
+          
+          Allowed values: 'default', 'rgb8', 'rgba8', 'bgr8', 'abgr8, ',
+          'r5g6b5', 'rgba4', 'rgb5a1', 'rgb10a2', 'r3g3b2', 'a8',
+          'l8', 'l8a8', 'aexp', 'ycocg'
         
-        * save_type (default: layer) - How to save the image.
+        * save_type (default: 'layer') - How to save the image.
+          
+          Allowed values: 'layer', 'canvas', 'cube', 'volume', 'array'
         
         * flip_image (default: False) - Flip the image vertically on export.
         
@@ -460,13 +474,20 @@ class _PyPDB:
         * transparent_index (default: 0) - Index of transparent color or -1 to
           disable (for indexed images only).
         
-        * mipmaps (default: none) - How to handle mipmaps.
+        * mipmaps (default: 'none') - How to handle mipmaps.
+          
+          Allowed values: 'none', 'generate', 'existing'
         
-        * mipmap_filter (default: default) - Filtering to use when generating
-          mipmaps.
+        * mipmap_filter (default: 'default') - Filtering to use when
+          generating mipmaps.
+          
+          Allowed values: 'default', 'nearest', 'box', 'triangle', 'quadratic',
+          'bspline', 'mitchell', 'catrom', 'lanczos', 'kaiser'
         
-        * mipmap_wrap (default: default) - Wrap mode to use when generating
+        * mipmap_wrap (default: 'default') - Wrap mode to use when generating
           mipmaps.
+          
+          Allowed values: 'default', 'mirror', 'repeat', 'clamp'
         
         * gamma_correct (default: False) - Use gamma correct mipmap filtering.
         
@@ -600,7 +621,9 @@ class _PyPDB:
         
         * y_offset (default: 5.0) - Y-offset to image from lower left corner.
         
-        * unit (default: inch) - Unit of measure for offset values.
+        * unit (default: 'inch') - Unit of measure for offset values.
+          
+          Allowed values: 'inch', 'millimeter'
         
         * keep_ratio (default: True) - If enabled, aspect ratio will be
           maintained on export. Otherwise, the width and height values
@@ -648,13 +671,20 @@ class _PyPDB:
         * check_bbox (default: True) - FALSE: Use width/height, TRUE: Use
           BoundingBox.
         
-        * pages (default: 1) - Pages to load (e.g.: 1,3,5-7).
+        * pages (default: '1') - Pages to load (e.g.: 1,3,5-7).
         
-        * coloring (default: rgb) - Import color format.
+        * coloring (default: 'rgb') - Import color format.
+          
+          Allowed values: 'bw', 'grayscale', 'rgb', 'automatic'
         
-        * text_alpha_bits (default: none) - Text anti-aliasing strength.
+        * text_alpha_bits (default: 'none') - Text anti-aliasing strength.
+          
+          Allowed values: 'none', 'weak', 'strong'
         
-        * graphic_alpha_bits (default: none) - Graphic anti-aliasing strength.
+        * graphic_alpha_bits (default: 'none') - Graphic anti-aliasing
+          strength.
+          
+          Allowed values: 'none', 'weak', 'strong'
         
         Returns:
         
@@ -885,7 +915,8 @@ class _PyPDB:
         
         * spacing (default: 10) - Spacing of the brush.
         
-        * description (default: GIMP Brush) - Short description of the brush.
+        * description (default: 'GIMP Brush') - Short description of the
+          brush.
         """
         pass
 
@@ -906,7 +937,7 @@ class _PyPDB:
         
         * spacing (default: 10) - Spacing of the brush.
         
-        * name (default: GIMP Brush) - The name of the brush.
+        * name (default: 'GIMP Brush') - The name of the brush.
         """
         pass
 
@@ -977,8 +1008,10 @@ class _PyPDB:
         * default_delay (default: 100) - (animated gif) Default delay between
           frames in milliseconds.
         
-        * default_dispose (default: unspecified) - (animated gif) Default
+        * default_dispose (default: 'unspecified') - (animated gif) Default
           disposal type.
+          
+          Allowed values: 'unspecified', 'combine', 'replace'
         
         * as_animation (default: False) - Export GIF as animation?.
         
@@ -1056,7 +1089,7 @@ class _PyPDB:
         
         * spacing (default: 20) - Spacing of the brush.
         
-        * description (default: GIMP Brush Pipe) - Short description of the
+        * description (default: 'GIMP Brush Pipe') - Short description of the
           GIH brush pipe.
         
         * cell_width (default: 1) - Width of the brush cells in pixels.
@@ -1088,7 +1121,7 @@ class _PyPDB:
         
         * spacing (default: 10) - Spacing of the brush.
         
-        * name (default: GIMP Brush) - The name of the brush.
+        * name (default: 'GIMP Brush') - The name of the brush.
         
         * params - The pipe's parameters.
         """
@@ -1215,10 +1248,14 @@ class _PyPDB:
         
         * save_bit_depth (default: 8) - Bit depth of exported image.
         
-        * pixel_format (default: yuv420) - Format of color sub-sampling.
+        * pixel_format (default: 'yuv420') - Format of color sub-sampling.
+          
+          Allowed values: 'rgb', 'yuv444', 'yuv420'
         
-        * encoder_speed (default: balanced) - Tradeoff between speed and
+        * encoder_speed (default: 'balanced') - Tradeoff between speed and
           compression.
+          
+          Allowed values: 'slow', 'balanced', 'fast'
         
         * save_exif (default: False) - Toggle saving Exif data.
         
@@ -1269,10 +1306,14 @@ class _PyPDB:
         
         * save_bit_depth (default: 8) - Bit depth of exported image.
         
-        * pixel_format (default: yuv420) - Format of color sub-sampling.
+        * pixel_format (default: 'yuv420') - Format of color sub-sampling.
+          
+          Allowed values: 'rgb', 'yuv444', 'yuv420'
         
-        * encoder_speed (default: balanced) - Tradeoff between speed and
+        * encoder_speed (default: 'balanced') - Tradeoff between speed and
           compression.
+          
+          Allowed values: 'slow', 'balanced', 'fast'
         
         * save_exif (default: False) - Toggle saving Exif data.
         
@@ -1337,14 +1378,18 @@ class _PyPDB:
         
         * file - The file to load.
         
-        * sample_spacing (default: auto-detect) - The sample spacing of the
+        * sample_spacing (default: 'auto-detect') - The sample spacing of the
           data.
+          
+          Allowed values: 'auto-detect', 'srtm-1', 'srtm-3'
         
         * palette_offset (default: 0) - Offset to beginning of data in the
           palette file.
         
-        * palette_type (default: rgb) - The layout for the palette's color
+        * palette_type (default: 'rgb') - The layout for the palette's color
           channels.
+          
+          Allowed values: 'rgb', 'bgr'
         
         * palette_file - The file containing palette data.
         
@@ -1562,7 +1607,10 @@ class _PyPDB:
         
         * file - The file to load.
         
-        * colorspace (default: unknown) - Color space.
+        * colorspace (default: 'unknown') - Color space.
+          
+          Allowed values: 'srgb', 'grayscale', 'ycbcr', 'xvycc', 'cmyk',
+          'unknown'
         
         Returns:
         
@@ -1619,7 +1667,10 @@ class _PyPDB:
         * cmyk (default: False) - Create a CMYK JPEG image using the
           soft-proofing color profile.
         
-        * sub_sampling (default: sub-sampling-1x1) - Sub-sampling type.
+        * sub_sampling (default: 'sub-sampling-1x1') - Sub-sampling type.
+          
+          Allowed values: 'sub-sampling-1x1', 'sub-sampling-2x1',
+          'sub-sampling-1x2', 'sub-sampling-2x2'
         
         * baseline (default: True) - Force creation of a baseline JPEG
           (non-baseline JPEGs can't be read by all decoders).
@@ -1627,7 +1678,9 @@ class _PyPDB:
         * restart (default: 0) - Interval of restart markers (in MCU rows, 0 =
           no restart markers).
         
-        * dct (default: integer) - DCT method to use.
+        * dct (default: 'integer') - DCT method to use.
+          
+          Allowed values: 'fixed', 'integer', 'float'
         """
         pass
 
@@ -1702,7 +1755,10 @@ class _PyPDB:
         
         * save_bit_depth (default: 8) - Bit depth of exported image.
         
-        * speed (default: squirrel) - Encoder effort setting.
+        * speed (default: 'squirrel') - Encoder effort setting.
+          
+          Allowed values: 'lightning', 'thunder', 'falcon', 'cheetah', 'hare',
+          'wombat', 'squirrel', 'kitten', 'tortoise'
         
         * uses_original_profile (default: False) - Store ICC profile to
           exported JXL file.
@@ -1789,11 +1845,15 @@ class _PyPDB:
         * default_delay (default: 100) - (ANIMATED MNG) Default delay between
           frames in milliseconds.
         
-        * default_chunks (default: png-delta) - (ANIMATED MNG) Default chunks
-          type.
+        * default_chunks (default: 'png-delta') - (ANIMATED MNG) Default
+          chunks type.
+          
+          Allowed values: 'png-delta', 'jng-delta', 'all-png', 'all-jng'
         
-        * default_dispose (default: combine) - (ANIMATED MNG) Default dispose
-          type.
+        * default_dispose (default: 'combine') - (ANIMATED MNG) Default
+          dispose type.
+          
+          Allowed values: 'combine', 'replace'
         
         * bkgd (default: False) - Write bKGd (background color) chunk.
         
@@ -1910,7 +1970,7 @@ class _PyPDB:
         
         * options - Export options.
         
-        * description (default: GIMP Pattern) - Short description of the
+        * description (default: 'GIMP Pattern') - Short description of the
           pattern.
         """
         pass
@@ -1930,7 +1990,7 @@ class _PyPDB:
         
         * file - The file to export.
         
-        * name (default: GIMP Pattern) - The name of the pattern.
+        * name (default: 'GIMP Pattern') - The name of the pattern.
         """
         pass
 
@@ -1969,7 +2029,9 @@ class _PyPDB:
         
         * options - Export options.
         
-        * raw (default: raw-output) - Whether to export ASCII or raw output.
+        * raw (default: 'raw-output') - Whether to export ASCII or raw output.
+          
+          Allowed values: 'ascii-output', 'raw-output'
         """
         pass
 
@@ -2006,9 +2068,11 @@ class _PyPDB:
         
         * file - The file to load.
         
-        * override_palette (default: use-built-in-palette) - Whether to use
+        * override_palette (default: 'use-built-in-palette') - Whether to use
           the built-in palette or a black and white palette for 1 bit
           images.
+          
+          Allowed values: 'use-built-in-palette', 'use-bw-palette'
         
         Returns:
         
@@ -2206,7 +2270,9 @@ class _PyPDB:
         
         * options - Export options.
         
-        * raw (default: raw-output) - Whether to export ASCII or raw output.
+        * raw (default: 'raw-output') - Whether to export ASCII or raw output.
+          
+          Allowed values: 'ascii-output', 'raw-output'
         """
         pass
 
@@ -2286,7 +2352,10 @@ class _PyPDB:
           or 8-bit depending on number of colors used. When unchecked,
           always save as 8-bit.
         
-        * format (default: auto) - PNG export format.
+        * format (default: 'auto') - PNG export format.
+          
+          Allowed values: 'auto', 'rgb8', 'gray8', 'rgba8', 'graya8', 'rgb16',
+          'gray16', 'rgba16', 'graya16'
         """
         pass
 
@@ -2327,7 +2396,9 @@ class _PyPDB:
         
         * options - Export options.
         
-        * raw (default: raw-output) - Whether to export ASCII or raw output.
+        * raw (default: 'raw-output') - Whether to export ASCII or raw output.
+          
+          Allowed values: 'ascii-output', 'raw-output'
         """
         pass
 
@@ -2368,7 +2439,9 @@ class _PyPDB:
         
         * options - Export options.
         
-        * raw (default: raw-output) - Whether to export ASCII or raw output.
+        * raw (default: 'raw-output') - Whether to export ASCII or raw output.
+          
+          Allowed values: 'ascii-output', 'raw-output'
         """
         pass
 
@@ -2440,7 +2513,9 @@ class _PyPDB:
         
         * y_offset (default: 5.0) - Y-offset to image from lower left corner.
         
-        * unit (default: inch) - Unit of measure for offset values.
+        * unit (default: 'inch') - Unit of measure for offset values.
+          
+          Allowed values: 'inch', 'millimeter'
         
         * keep_ratio (default: True) - If enabled, aspect ratio will be
           maintained on export. Otherwise, the width and height values
@@ -2488,13 +2563,20 @@ class _PyPDB:
         * check_bbox (default: True) - FALSE: Use width/height, TRUE: Use
           BoundingBox.
         
-        * pages (default: 1) - Pages to load (e.g.: 1,3,5-7).
+        * pages (default: '1') - Pages to load (e.g.: 1,3,5-7).
         
-        * coloring (default: rgb) - Import color format.
+        * coloring (default: 'rgb') - Import color format.
+          
+          Allowed values: 'bw', 'grayscale', 'rgb', 'automatic'
         
-        * text_alpha_bits (default: none) - Text anti-aliasing strength.
+        * text_alpha_bits (default: 'none') - Text anti-aliasing strength.
+          
+          Allowed values: 'none', 'weak', 'strong'
         
-        * graphic_alpha_bits (default: none) - Graphic anti-aliasing strength.
+        * graphic_alpha_bits (default: 'none') - Graphic anti-aliasing
+          strength.
+          
+          Allowed values: 'none', 'weak', 'strong'
         
         Returns:
         
@@ -2737,11 +2819,15 @@ class _PyPDB:
         
         * options - Export options.
         
-        * planar_configuration (default: contiguous) - How color pixel data
+        * planar_configuration (default: 'contiguous') - How color pixel data
           are stored.
+          
+          Allowed values: 'contiguous', 'planar'
         
-        * palette_type (default: rgb) - The layout for the palette's color
+        * palette_type (default: 'rgb') - The layout for the palette's color
           channels.
+          
+          Allowed values: 'rgb', 'bgr'
         """
         pass
 
@@ -2764,22 +2850,37 @@ class _PyPDB:
         
         * offset (default: 0) - Offset to beginning of image in raw data.
         
-        * pixel_format (default: rgb-8bpc) - The layout of pixel data, such as
-          components and their order.
+        * pixel_format (default: 'rgb-8bpc') - The layout of pixel data, such
+          as components and their order.
+          
+          Allowed values: 'rgb-8bpc', 'rgb-16bpc', 'rgb-32bpc', 'rgba-8bpc',
+          'rgba-16bpc', 'rgba-32bpc', 'rgb565', 'bgr565',
+          'grayscale-1bpp', 'grayscale-2bpp', 'grayscale-4bpp',
+          'grayscale-8bpp', 'grayscale-16bpp', 'grayscale-32bpp',
+          'grayscale-alpha-8bpc', 'grayscale-alpha-16bpc',
+          'grayscale-alpha-32bpc', 'indexed', 'indexed-alpha'
         
-        * data_type (default: unsigned) - Data type used to represent pixel
+        * data_type (default: 'unsigned') - Data type used to represent pixel
           values.
+          
+          Allowed values: 'unsigned', 'signed', 'float'
         
-        * endianness (default: little-endian) - Order of sequences of bytes.
+        * endianness (default: 'little-endian') - Order of sequences of bytes.
+          
+          Allowed values: 'little-endian', 'big-endian'
         
-        * planar_configuration (default: contiguous) - How color pixel data
+        * planar_configuration (default: 'contiguous') - How color pixel data
           are stored.
+          
+          Allowed values: 'contiguous', 'planar'
         
         * palette_offset (default: 0) - Offset to beginning of data in the
           palette file.
         
-        * palette_type (default: rgb) - The layout for the palette's color
+        * palette_type (default: 'rgb') - The layout for the palette's color
           channels.
+          
+          Allowed values: 'rgb', 'bgr'
         
         * palette_file - The file containing palette data.
         
@@ -3291,7 +3392,9 @@ class _PyPDB:
         
         * options - Export options.
         
-        * compression (default: rle) - Compression level.
+        * compression (default: 'rle') - Compression level.
+          
+          Allowed values: 'none', 'rle', 'arle'
         """
         pass
 
@@ -3333,7 +3436,9 @@ class _PyPDB:
         
         * options - Export options.
         
-        * rle (default: rle) - Use standard or Run-Length Encoded output.
+        * rle (default: 'rle') - Use standard or Run-Length Encoded output.
+          
+          Allowed values: 'standard', 'rle'
         """
         pass
 
@@ -3380,8 +3485,10 @@ class _PyPDB:
         * prefer_native_dimensions (default: False) - Load and use dimensions
           from source file.
         
-        * paths (default: no-import) - Whether and how to import paths so that
-          they can be used with the path tool.
+        * paths (default: 'no-import') - Whether and how to import paths so
+          that they can be used with the path tool.
+          
+          Allowed values: 'no-import', 'import', 'import-merged'
         
         Returns:
         
@@ -3409,7 +3516,9 @@ class _PyPDB:
         
         * rle (default: True) - Use RLE compression.
         
-        * origin (default: bottom-left) - Image origin.
+        * origin (default: 'bottom-left') - Image origin.
+          
+          Allowed values: 'bottom-left', 'top-left'
         """
         pass
 
@@ -3454,7 +3563,10 @@ class _PyPDB:
         * bigtiff (default: False) - The BigTIFF variant file format uses
           64-bit offsets, hence supporting over 4GiB files and bigger.
         
-        * compression (default: none) - Compression type.
+        * compression (default: 'none') - Compression type.
+          
+          Allowed values: 'none', 'lzw', 'packbits', 'adobe_deflate', 'jpeg',
+          'ccittfax3', 'ccittfax4'
         
         * save_transparent_pixels (default: True) - Keep the color data masked
           by an alpha channel intact (do not store premultiplied
@@ -3522,7 +3634,10 @@ class _PyPDB:
         
         * options - Export options.
         
-        * preset (default: default) - WebP encoder preset.
+        * preset (default: 'default') - WebP encoder preset.
+          
+          Allowed values: 'default', 'picture', 'photo', 'drawing', 'icon',
+          'text'
         
         * lossless (default: False) - Use lossless encoding.
         
@@ -3646,7 +3761,7 @@ class _PyPDB:
         * save_comment (default: False) - Write a comment at the beginning of
           the file.
         
-        * gimp_comment (default: Created with GIMP) - Image description
+        * gimp_comment (default: 'Created with GIMP') - Image description
           (maximum 72 bytes).
         
         * x10_format (default: False) - Export in X10 format.
@@ -3657,12 +3772,12 @@ class _PyPDB:
         
         * hot_spot_y (default: 0) - Y coordinate of hotspot.
         
-        * prefix (default: bitmap) - Identifier prefix [determined from
+        * prefix (default: 'bitmap') - Identifier prefix [determined from
           filename].
         
         * write_mask (default: False) - Write extra mask file.
         
-        * mask_suffix (default: -mask) - Suffix of the mask file.
+        * mask_suffix (default: '-mask') - Suffix of the mask file.
         """
         pass
 
@@ -13876,8 +13991,8 @@ class _PyPDB:
         
         * dirname - Folder for the output file.
         
-        * string (default: palette.css) - The name of the file to create (if a
-          file with this name already exist, it will be replaced).
+        * string (default: 'palette.css') - The name of the file to create (if
+          a file with this name already exist, it will be replaced).
         """
         pass
 
@@ -13894,8 +14009,9 @@ class _PyPDB:
         
         * dirname - Folder for the output file.
         
-        * string (default: palette.java) - The name of the file to create (if
-          a file with this name already exist, it will be replaced).
+        * string (default: 'palette.java') - The name of the file to create
+          (if a file with this name already exist, it will be
+          replaced).
         """
         pass
 
@@ -13911,8 +14027,8 @@ class _PyPDB:
         
         * dirname - Folder for the output file.
         
-        * string (default: palette.php) - The name of the file to create (if a
-          file with this name already exist, it will be replaced).
+        * string (default: 'palette.php') - The name of the file to create (if
+          a file with this name already exist, it will be replaced).
         """
         pass
 
@@ -13928,8 +14044,8 @@ class _PyPDB:
         
         * dirname - Folder for the output file.
         
-        * string (default: palette.py) - The name of the file to create (if a
-          file with this name already exist, it will be replaced).
+        * string (default: 'palette.py') - The name of the file to create (if
+          a file with this name already exist, it will be replaced).
         """
         pass
 
@@ -13946,8 +14062,8 @@ class _PyPDB:
         
         * dirname - Folder for the output file.
         
-        * string (default: palette.txt) - The name of the file to create (if a
-          file with this name already exist, it will be replaced).
+        * string (default: 'palette.txt') - The name of the file to create (if
+          a file with this name already exist, it will be replaced).
         """
         pass
 
@@ -16826,13 +16942,23 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * horizontal_style (default: none)
+        * horizontal_style (default: 'none')
+          
+          Allowed values: 'none', 'collect', 'fill-left-to-right',
+          'fill-right-to-left', 'snap-to-grid'
         
-        * horizontal_base (default: left-edge)
+        * horizontal_base (default: 'left-edge')
+          
+          Allowed values: 'left-edge', 'center', 'right-edge'
         
-        * vertical_style (default: none)
+        * vertical_style (default: 'none')
+          
+          Allowed values: 'none', 'collect', 'fill-left-to-right',
+          'fill-right-to-left', 'snap-to-grid'
         
-        * vertical_base (default: top-edge)
+        * vertical_base (default: 'top-edge')
+          
+          Allowed values: 'top-edge', 'center', 'bottom-edge'
         
         * grid_size (default: 10) - Grid.
         
@@ -16999,7 +17125,9 @@ class _PyPDB:
         
         * num_segments (default: 3) - Number of segments in blinds.
         
-        * orientation (default: horizontal) - The orientation.
+        * orientation (default: 'horizontal') - The orientation.
+          
+          Allowed values: 'horizontal', 'vertical'
         
         * bg_transparent (default: False) - Background transparent.
         """
@@ -17022,7 +17150,11 @@ class _PyPDB:
         
         * thickness (default: 3) - Border size to take in count.
         
-        * bucket_exponent (default: levels-16) - Bits for bucket size.
+        * bucket_exponent (default: 'levels-16') - Bits for bucket size.
+          
+          Allowed values: 'levels-1', 'levels-2', 'levels-4', 'levels-8',
+          'levels-16', 'levels-32', 'levels-64', 'levels-128',
+          'levels-256'
         
         Returns:
         
@@ -17168,10 +17300,13 @@ class _PyPDB:
         
         * image_4 - Fourth input image.
         
-        * compose_type (default: rgb) - What to compose: "RGB", "RGBA", "HSV",
-          "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
+        * compose_type (default: 'rgb') - What to compose: "RGB", "RGBA",
+          "HSV", "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
           "YCbCr_ITU_R709", "YCbCr_ITU_R470_256",
           "YCbCr_ITU_R709_256".
+          
+          Allowed values: 'rgb', 'rgba', 'hsv', 'hsl', 'cmyk', 'lab', 'lch',
+          'ycbcr470', 'ycbcr709', 'ycbcr470f', 'ycbcr709f'
         
         Returns:
         
@@ -17217,11 +17352,15 @@ class _PyPDB:
         
         * work_on_copy (default: False) - Copy the drawable and bend the copy.
         
-        * curve_type (default: smooth) - Whether to use Smooth (17 points) or
-          Freehand (256 points) to draw the curve.
+        * curve_type (default: 'smooth') - Whether to use Smooth (17 points)
+          or Freehand (256 points) to draw the curve.
+          
+          Allowed values: 'smooth', 'freehand'
         
-        * curve_border (default: upper) - Choose the active border line to
+        * curve_border (default: 'upper') - Choose the active border line to
           edit.
+          
+          Allowed values: 'upper', 'lower'
         
         * upper_point_x - Array of 17 x point coords { 0.0 <= x <= 1.0 or -1
           for unused point }.
@@ -17275,7 +17414,10 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * decompose_type (default: rgb) - The model to decompose to.
+        * decompose_type (default: 'rgb') - The model to decompose to.
+          
+          Allowed values: 'rgb', 'rgba', 'alpha', 'hsv', 'hsl', 'cmyk', 'lab',
+          'lch', 'ycbcr470', 'ycbcr709', 'ycbcr470f', 'ycbcr709f'
         
         * layers_mode (default: True) - Create channels as layers in a single
           image.
@@ -17354,7 +17496,10 @@ class _PyPDB:
         
         * radius (default: 3) - Filter box radius.
         
-        * type (default: adaptive) - Filter type.
+        * type (default: 'adaptive') - Filter type.
+          
+          Allowed values: 'median', 'adaptive', 'recursive-median',
+          'recursive-adaptive'
         
         * black (default: 7) - Black level.
         
@@ -17407,10 +17552,13 @@ class _PyPDB:
         
         * drawable_4 - Fourth input drawable.
         
-        * compose_type (default: rgb) - What to compose: "RGB", "RGBA", "HSV",
-          "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
+        * compose_type (default: 'rgb') - What to compose: "RGB", "RGBA",
+          "HSV", "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
           "YCbCr_ITU_R709", "YCbCr_ITU_R470_256",
           "YCbCr_ITU_R709_256".
+          
+          Allowed values: 'rgb', 'rgba', 'hsv', 'hsl', 'cmyk', 'lab', 'lch',
+          'ycbcr470', 'ycbcr709', 'ycbcr470f', 'ycbcr709f'
         
         Returns:
         
@@ -17531,7 +17679,10 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * fractal_type (default: mandelbrot) - Type of Fractal Pattern.
+        * fractal_type (default: 'mandelbrot') - Type of Fractal Pattern.
+          
+          Allowed values: 'mandelbrot', 'julia', 'barnsley-1', 'barnsley-2',
+          'barnsley-3', 'spider', 'man-o-war', 'lambda', 'sierpinski'
         
         * xmin (default: -2.0) - X min fractal image delimiter.
         
@@ -17547,8 +17698,10 @@ class _PyPDB:
         
         * cy (default: -0.2) - cy value.
         
-        * color_mode (default: colormap) - Apply specified color map or active
-          gradient to final image.
+        * color_mode (default: 'colormap') - Apply specified color map or
+          active gradient to final image.
+          
+          Allowed values: 'colormap', 'gradient'
         
         * red_stretch (default: 1.0) - Red stretching factor.
         
@@ -17556,11 +17709,17 @@ class _PyPDB:
         
         * blue_stretch (default: 1.0) - Blue stretching factor.
         
-        * red_mode (default: red-cos) - Red application mode.
+        * red_mode (default: 'red-cos') - Red application mode.
+          
+          Allowed values: 'red-sin', 'red-cos', 'red-none'
         
-        * green_mode (default: green-cos) - Green application mode.
+        * green_mode (default: 'green-cos') - Green application mode.
+          
+          Allowed values: 'green-sin', 'green-cos', 'green-none'
         
-        * blue_mode (default: blue-sin) - Blue application mode.
+        * blue_mode (default: 'blue-sin') - Blue application mode.
+          
+          Allowed values: 'blue-sin', 'blue-cos', 'blue-none'
         
         * red_invert (default: False) - Red inversion mode.
         
@@ -17621,7 +17780,7 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * gflare_name (default: Default) - Name of the GFlare to render.
+        * gflare_name (default: 'Default') - Name of the GFlare to render.
         
         * center_x (default: 128) - X coordinate of center of GFlare.
         
@@ -17842,9 +18001,13 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * mode (default: ntsc) - Signal mode.
+        * mode (default: 'ntsc') - Signal mode.
+          
+          Allowed values: 'ntsc', 'pal'
         
-        * action (default: reduce-luminance) - Action.
+        * action (default: 'reduce-luminance') - Action.
+          
+          Allowed values: 'reduce-luminance', 'reduce-saturation', 'blacken'
         
         * new_layer (default: True) - Create a new layer.
         """
@@ -17913,7 +18076,9 @@ class _PyPDB:
         
         * y (default: 5) - Number of pieces going down.
         
-        * style (default: square) - The style/shape of the jigsaw puzzle.
+        * style (default: 'square') - The style/shape of the jigsaw puzzle.
+          
+          Allowed values: 'square', 'curved'
         
         * blend_lines (default: 3) - Degree of slope of each piece's edge.
         
@@ -17939,11 +18104,17 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * effect_channel (default: brightness) - Effect Channel.
+        * effect_channel (default: 'brightness') - Effect Channel.
+          
+          Allowed values: 'hue', 'saturation', 'brightness'
         
-        * effect_operator (default: gradient) - Effect Operator.
+        * effect_operator (default: 'gradient') - Effect Operator.
+          
+          Allowed values: 'derivative', 'gradient'
         
-        * effect_convolve (default: with-source-image) - Convolve.
+        * effect_convolve (default: 'with-source-image') - Convolve.
+          
+          Allowed values: 'with-white-noise', 'with-source-image'
         
         * effect_image - Effect image.
         
@@ -17984,12 +18155,18 @@ class _PyPDB:
         
         * do_envmap (default: True) - Enable envmapping.
         
-        * bumpmap_type (default: bumpmap-linear) - Type of mapping.
+        * bumpmap_type (default: 'bumpmap-linear') - Type of mapping.
+          
+          Allowed values: 'bumpmap-linear', 'bumpmap-log', 'bumpmap-sinusoidal',
+          'bumpmap-spherical'
         
         * bumpmap_max_height (default: 0.1) - The maximum height of the
           bumpmap.
         
-        * light_type_1 (default: light-point) - Type of light source.
+        * light_type_1 (default: 'light-point') - Type of light source.
+          
+          Allowed values: 'light-none', 'light-directional', 'light-point',
+          'light-spot'
         
         * light_color_1 - Light source color.
         
@@ -18053,7 +18230,9 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * map_type (default: map-plane) - Type of mapping.
+        * map_type (default: 'map-plane') - Type of mapping.
+          
+          Allowed values: 'map-plane', 'map-sphere', 'map-box', 'map-cylinder'
         
         * viewpoint_x (default: 0.5) - Position of viewpoint (x,y,z).
         
@@ -18085,7 +18264,9 @@ class _PyPDB:
         
         * rotation_angle_z (default: 0.0) - Rotation about Z axis in degrees.
         
-        * light_type (default: point-light) - Type of lightsource.
+        * light_type (default: 'point-light') - Type of lightsource.
+          
+          Allowed values: 'point-light', 'directional-light', 'no-light'
         
         * light_color - Light source color.
         
@@ -18228,7 +18409,9 @@ class _PyPDB:
         
         * radius (default: 0.3333333333333333) - The filter radius.
         
-        * filter (default: alpha-trim) - The Filter to Run.
+        * filter (default: 'alpha-trim') - The Filter to Run.
+          
+          Allowed values: 'alpha-trim', 'optimal-estimation', 'edge-enhancement'
         """
         pass
 
@@ -18249,11 +18432,19 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * colors (default: fg-bg)
+        * colors (default: 'fg-bg')
+          
+          Allowed values: 'fg-bg', 'current-gradient',
+          'current-gradient-reversed'
         
-        * edge (default: lower-right) - Corner which is curled.
+        * edge (default: 'lower-right') - Corner which is curled.
+          
+          Allowed values: 'upper-left', 'upper-right', 'lower-left',
+          'lower-right'
         
-        * orientation (default: vertical)
+        * orientation (default: 'vertical')
+          
+          Allowed values: 'vertical', 'horizontal'
         
         * shade (default: True) - Shade the region under the curl.
         
@@ -18376,8 +18567,10 @@ class _PyPDB:
         
         * nscales (default: 3) - Number of scales.
         
-        * scales_mode (default: uniform) - Retinex distribution through
+        * scales_mode (default: 'uniform') - Retinex distribution through
           scales.
+          
+          Allowed values: 'uniform', 'low', 'high'
         
         * cvar (default: 1.2) - Variance value.
         """
@@ -18390,16 +18583,16 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * dirpath (default: C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\3.0\\batcher) -
-          Directory path containing test modules.
+        * dirpath (default: 'C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\3.0\\batcher')
+          - Directory path containing test modules.
         
-        * prefix (default: test_) - Prefix of test modules.
+        * prefix (default: 'test_') - Prefix of test modules.
         
         * modules - Modules to include.
         
         * ignored_modules - Modules to ignore.
         
-        * output_stream (default: stderr) - Output stream or file path to
+        * output_stream (default: 'stderr') - Output stream or file path to
           write output to.
         
         * verbose (default: False) - If True, writes more detailed output.
@@ -18505,7 +18698,9 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * shoot_type (default: window) - The shoot type.
+        * shoot_type (default: 'window') - The shoot type.
+          
+          Allowed values: 'window', 'screen'
         
         * x1 (default: 0) - Region left x coord for SHOOT-WINDOW.
         
@@ -18518,7 +18713,9 @@ class _PyPDB:
         * include_pointer (default: False) - Your pointing device's cursor
           will be part of the image.
         
-        * color_profile (default: monitor)
+        * color_profile (default: 'monitor')
+          
+          Allowed values: 'monitor', 'srgb'
         
         Returns:
         
@@ -18790,7 +18987,10 @@ class _PyPDB:
         
         * border (default: False) - Draw a border of spikes around the image.
         
-        * color_type (default: natural-color) - Color of sparkles.
+        * color_type (default: 'natural-color') - Color of sparkles.
+          
+          Allowed values: 'natural-color', 'foreground-color',
+          'background-color'
         """
         pass
 
@@ -18833,9 +19033,14 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * curve_type (default: spyrograph) - Curve Type.
+        * curve_type (default: 'spyrograph') - Curve Type.
+          
+          Allowed values: 'spyrograph', 'epitrochoid', 'sine', 'lissajous'
         
-        * shape (default: circle) - Shape.
+        * shape (default: 'circle') - Shape.
+          
+          Allowed values: 'circle', 'rack', 'frame', 'selection',
+          'polygon-star', 'sine', 'bumps'
         
         * sides (default: 3) - Number of sides of fixed gear (3 or greater).
           Only used by some shapes.
@@ -18860,7 +19065,10 @@ class _PyPDB:
         * shape_rotation (default: 0.0) - Shape rotation of fixed gear, in
           degrees.
         
-        * tool (default: preview) - Tool.
+        * tool (default: 'preview') - Tool.
+          
+          Allowed values: 'preview', 'paintbrush', 'pencil', 'airbrush',
+          'stroke', 'ink', 'mypaintbrush'
         
         * long_gradient (default: False) - Whether to apply a long gradient to
           match the length of the pattern. Only applicable to some of
@@ -18947,7 +19155,9 @@ class _PyPDB:
         
         * angle (default: 90.0) - Angle of gradient vector rotation.
         
-        * wrap_type (default: wrap) - Wrap type.
+        * wrap_type (default: 'wrap') - Wrap type.
+          
+          Allowed values: 'wrap', 'smear', 'black', 'color'
         
         * mag_map - Magnitude control map.
         
@@ -19003,7 +19213,7 @@ class _PyPDB:
         
         Parameters:
         
-        * url (default: https://www.gimp.org/) - URL to open.
+        * url (default: 'https://www.gimp.org/') - URL to open.
         """
         pass
 
@@ -19070,7 +19280,7 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * name (default: Clouds) - Layer name.
+        * name (default: 'Clouds') - Layer name.
         
         * color - Fog color.
         
@@ -19135,7 +19345,9 @@ class _PyPDB:
         
         * sample_average (default: False) - Sample Average.
         
-        * output_format (default: percent) - Output format.
+        * output_format (default: 'percent') - Output format.
+          
+          Allowed values: 'pixel-count', 'normalized', 'percent'
         """
         pass
 
@@ -19183,7 +19395,9 @@ class _PyPDB:
         
         * palette - Palette.
         
-        * selections (default: all) - Selections.
+        * selections (default: 'all') - Selections.
+          
+          Allowed values: 'all', 'slice-array', 'auto-slice', 'partitioned'
         
         * slice_expr -      Format is 'start:nrows,length' . All items are
           optional.      The empty string selects all items, as does
@@ -19197,17 +19411,32 @@ class _PyPDB:
           colors total), beginning at index 2.     '4' is illegal
           (ambiguous) .
         
-        * channel1 (default: luma) - Channel to sort.
+        * channel1 (default: 'luma') - Channel to sort.
+          
+          Allowed values: 'red', 'green', 'blue', 'luma', 'hue', 'saturation',
+          'value', 'saturation-hsl', 'lightness-hsl', 'index',
+          'random', 'lightness-lab', 'a-color', 'b-color',
+          'chroma-lchab', 'hue-lchab'
         
         * ascending1 (default: True) - Ascending.
         
-        * channel2 (default: saturation) - Secondary Channel to sort.
+        * channel2 (default: 'saturation') - Secondary Channel to sort.
+          
+          Allowed values: 'red', 'green', 'blue', 'luma', 'hue', 'saturation',
+          'value', 'saturation-hsl', 'lightness-hsl', 'index',
+          'random', 'lightness-lab', 'a-color', 'b-color',
+          'chroma-lchab', 'hue-lchab'
         
         * ascending2 (default: True) - Ascending.
         
         * quantize (default: 0.0) - Quantization.
         
-        * pchannel (default: luma) - Partitioning channel.
+        * pchannel (default: 'luma') - Partitioning channel.
+          
+          Allowed values: 'red', 'green', 'blue', 'luma', 'hue', 'saturation',
+          'value', 'saturation-hsl', 'lightness-hsl', 'index',
+          'random', 'lightness-lab', 'a-color', 'b-color',
+          'chroma-lchab', 'hue-lchab'
         
         * pquantize (default: 0.0) - Partition quantization.
         
@@ -19553,13 +19782,13 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * string (default: How quickly daft jumping zebras vex.) - Text.
+        * string (default: 'How quickly daft jumping zebras vex.') - Text.
         
         * toggle (default: False) - Use font name as text.
         
         * toggle_2 (default: True) - Labels.
         
-        * string_2 (default: Sans) - Filter (regexp).
+        * string_2 (default: 'Sans') - Filter (regexp).
         
         * adjustment (default: 32) - Font size (pixels).
         
@@ -19764,7 +19993,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * string (default: Ellipse) - Name.
+        * string (default: 'Ellipse') - Name.
         
         * adjustment (default: 20) - Width.
         
@@ -19784,7 +20013,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * string (default: Ellipse) - Name.
+        * string (default: 'Ellipse') - Name.
         
         * adjustment (default: 20) - Width.
         
@@ -19806,7 +20035,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * string (default: Rectangle) - Name.
+        * string (default: 'Rectangle') - Name.
         
         * adjustment (default: 20) - Width.
         
@@ -19826,7 +20055,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * string (default: Rectangle) - Name.
+        * string (default: 'Rectangle') - Name.
         
         * adjustment (default: 20) - Width.
         
@@ -19875,9 +20104,9 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * string (default: My Brush) - Brush name.
+        * string (default: 'My Brush') - Brush name.
         
-        * string_2 (default: mybrush) - File name.
+        * string_2 (default: 'mybrush') - File name.
         
         * adjustment (default: 25.0) - Spacing.
         """
@@ -19893,9 +20122,9 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * string (default: My Pattern) - Pattern name.
+        * string (default: 'My Pattern') - Pattern name.
         
-        * string_2 (default: mypattern) - File name.
+        * string_2 (default: 'mypattern') - File name.
         """
         pass
 
@@ -20078,9 +20307,9 @@ class _PyPDB:
         
         * drawables - The input drawables.
         
-        * string (default: GIMP) - Text.
+        * string (default: 'GIMP') - Text.
         
-        * string_2 (default: 32) - Number.
+        * string_2 (default: '32') - Number.
         
         * font - Font.
         
@@ -20177,9 +20406,9 @@ class _PyPDB:
         
         * brush - Brush.
         
-        * string (default: Tiny-Fu rocks!) - Text.
+        * string (default: 'Tiny-Fu rocks!') - Text.
         
-        * text (default: Hello, World!) - Multi-line text.
+        * text (default: 'Hello, World!') - Multi-line text.
         
         * pattern - Pattern.
         
@@ -20433,7 +20662,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20461,7 +20690,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20488,7 +20717,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20502,8 +20731,10 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * color_model (default: rgb) - What color model used for the
+        * color_model (default: 'rgb') - What color model used for the
           transformation.
+          
+          Allowed values: 'rgb', 'hsl'
         
         * cpn_1_frequency (default: 1.0)
         
@@ -20531,7 +20762,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20562,7 +20793,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20657,7 +20888,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20678,7 +20909,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20707,7 +20938,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20728,7 +20959,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20774,7 +21005,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20793,7 +21024,9 @@ class _PyPDB:
         
         * y_scale (default: 1) - Vertical pattern scale.
         
-        * rotation (default: 0) - Pattern rotation angle.
+        * rotation (default: '0') - Pattern rotation angle.
+          
+          Allowed values: '0', '90', '180', '270'
         
         * reflect (default: False) - Reflect the pattern horizontally.
         
@@ -20815,7 +21048,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20831,17 +21064,24 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * type (default: chamfer) - The family of bevel to use.
+        * type (default: 'chamfer') - The family of bevel to use.
+          
+          Allowed values: 'chamfer', 'bump'
         
-        * blendmode (default: hardlight) - What blending mode the bevel's
+        * blendmode (default: 'hardlight') - What blending mode the bevel's
           emboss will be. Light Map is a special blend mode that
           allows users to extract the filters output as a light map
           which should be put on a layer above or be used with Gimp's
           blending options.
+          
+          Allowed values: 'gimpblend', 'hardlight', 'multiply', 'colordodge',
+          'darken', 'lighten', 'add'
         
-        * metric (default: chebyshev) - Distance Map is unique to chamfer
+        * metric (default: 'chebyshev') - Distance Map is unique to chamfer
           bevel and has three settings that alter the structure of the
           chamfer.
+          
+          Allowed values: 'euclidean', 'manhattan', 'chebyshev'
         
         * radius (default: 3.0) - Radius of softening for making bump of the
           shape.
@@ -20862,7 +21102,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20890,7 +21130,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20917,7 +21157,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20939,7 +21179,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -20970,7 +21210,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21014,7 +21254,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21038,7 +21278,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21062,7 +21302,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21078,8 +21318,10 @@ class _PyPDB:
         * radius (default: 4) - Radius of row pixel region, (size will be
           radius*2+1).
         
-        * orientation (default: horizontal) - The orientation of the blur -
+        * orientation (default: 'horizontal') - The orientation of the blur -
           hor/ver.
+          
+          Allowed values: 'horizontal', 'vertical'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21089,7 +21331,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21118,7 +21360,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21143,7 +21385,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21166,7 +21408,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21183,7 +21425,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * type (default: linear) - Type of map.
+        * type (default: 'linear') - Type of map.
+          
+          Allowed values: 'linear', 'spherical', 'sinusodial'
         
         * compensate (default: True) - Compensate for darkening.
         
@@ -21214,7 +21458,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21251,7 +21495,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21279,7 +21523,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21307,7 +21551,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21333,7 +21577,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21348,12 +21592,12 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * space_name (default: sRGB) - One of: sRGB, Adobish, Rec2020,
+        * space_name (default: 'sRGB') - One of: sRGB, Adobish, Rec2020,
           ProPhoto, Apple, ACEScg, ACES2065-1.
         
         * pointer - pointer to a const * Babl space.
         
-        * path (default: ) - File system path to ICC matrix profile to load.
+        * path (default: '') - File system path to ICC matrix profile to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21363,7 +21607,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21397,7 +21641,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21439,7 +21683,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21476,7 +21720,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21491,7 +21735,8 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * ref (default: ID) - The reference ID used as input (for use in XML).
+        * ref (default: 'ID') - The reference ID used as input (for use in
+          XML).
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21501,7 +21746,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21527,7 +21772,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21559,7 +21804,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21581,7 +21826,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21613,7 +21858,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21638,7 +21883,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21667,10 +21912,12 @@ class _PyPDB:
         * threshold (default: 0.0) - Colors with a saturation less than this
           will treated as gray.
         
-        * gray_mode (default: change-to) - Treat as this: Gray colors from
+        * gray_mode (default: 'change-to') - Treat as this: Gray colors from
           above source range will be treated as if they had this hue
           and saturation Change to this: Change gray colors to this
           hue and saturation.
+          
+          Allowed values: 'treat-as', 'change-to'
         
         * hue (default: 0.0) - Hue value for above gray settings.
         
@@ -21685,7 +21932,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21713,7 +21960,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21742,7 +21989,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21817,7 +22064,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21830,7 +22077,12 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * component (default: rgb-r) - Component to extract.
+        * component (default: 'rgb-r') - Component to extract.
+          
+          Allowed values: 'rgb-r', 'rgb-g', 'rgb-b', 'hue', 'hsv-s', 'hsv-v',
+          'hsl-s', 'hsl-l', 'cmyk-c', 'cmyk-m', 'cmyk-y', 'cmyk-k',
+          'ycbcr-y', 'ycbcr-cb', 'ycbcr-cr', 'lab-l', 'lab-a',
+          'lab-b', 'lch-c', 'lch-h', 'alpha'
         
         * invert (default: False) - Invert the extracted component.
         
@@ -21845,7 +22097,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21880,7 +22132,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21907,7 +22159,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21930,7 +22182,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -21947,12 +22199,12 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * space_name (default: sRGB) - One of: sRGB, Adobish, Rec2020,
+        * space_name (default: 'sRGB') - One of: sRGB, Adobish, Rec2020,
           ProPhoto, Apple, ACEScg, ACES2065-1.
         
         * pointer - pointer to a const * Babl space.
         
-        * path (default: ) - File system path to ICC matrix profile to load.
+        * path (default: '') - File system path to ICC matrix profile to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21962,7 +22214,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22041,7 +22293,9 @@ class _PyPDB:
         
         * alpha_weight (default: True)
         
-        * border (default: clamp)
+        * border (default: 'clamp')
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -22051,7 +22305,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22075,7 +22329,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22109,7 +22363,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22127,10 +22381,10 @@ class _PyPDB:
           identity by default; thus changing the meaning of colors set
           in the script.
         
-        * d (default: duration 5.0   # duration of this page/scene  rgba 0 0 0
-          (0=0 3=1.0) paint   save globalAlpha (0=0 1=1.0)  translate
-          50% 50%  scale 100^ 100^  translate -0.6 -0.6 scale 0.041
-          0.041 g M0 0m24.277 20.074m-.473.020m-1.607
+        * d (default: 'duration 5.0   # duration of this page/scene  rgba 0 0
+          0 (0=0 3=1.0) paint   save globalAlpha (0=0 1=1.0)
+          translate 50% 50%  scale 100^ 100^  translate -0.6 -0.6
+          scale 0.041 0.041 g M0 0m24.277 20.074m-.473.020m-1.607
           1.364m.148.745m.097.182c5.014.017.027.034.041.051c.495.602
           1.252.616 1.736.726c.484.110.843.406 1.020.729l-.010 0c.149.
           270.440-1.029.334-1.932c-.085-.725-.417-1.263-.840-1.616z
@@ -22202,7 +22456,7 @@ class _PyPDB:
           0 (0=1.0 1=0) paint  newPage duration 2 save  rgba
           conicGradient 50% 50%  (0=0 5=14) 7  addStop 0.0 1 0 0 1
           addStop (0=0.5 1=0.8  2=0.5) 1 0 0 0.0  addStop 1.0 1 0 0
-          1.0   paint restore  newPage rgb 1 1 0 paint duration 1 ) -
+          1.0   paint restore  newPage rgb 1 1 0 paint duration 1 ') -
           A string containing a ctx protocol document.
         
         * play (default: False)
@@ -22221,7 +22475,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22252,7 +22506,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22265,10 +22519,14 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * keep (default: even) - Keep even or odd fields.
+        * keep (default: 'even') - Keep even or odd fields.
+          
+          Allowed values: 'even', 'odd'
         
-        * orientation (default: horizontal) - Deinterlace horizontally or
+        * orientation (default: 'horizontal') - Deinterlace horizontally or
           vertically.
+          
+          Allowed values: 'horizontal', 'vertical'
         
         * size (default: 1) - Block size of deinterlacing rows/columns.
         
@@ -22280,7 +22538,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22305,7 +22563,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22330,7 +22588,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22343,7 +22601,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * patch_size (default: size8x8) - Size of patches used to denoise.
+        * patch_size (default: 'size8x8') - Size of patches used to denoise.
+          
+          Allowed values: 'size8x8', 'size16x16'
         
         * sigma (default: 5.0) - Noise standard deviation.
         
@@ -22355,7 +22615,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22381,7 +22641,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22431,7 +22691,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22444,12 +22704,18 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * displace_mode (default: cartesian) - Mode of displacement.
+        * displace_mode (default: 'cartesian') - Mode of displacement.
+          
+          Allowed values: 'cartesian', 'polar'
         
-        * sampler_type (default: cubic) - Type of GeglSampler used to fetch
+        * sampler_type (default: 'cubic') - Type of GeglSampler used to fetch
           input pixels.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
-        * abyss_policy (default: clamp) - How image edges are handled.
+        * abyss_policy (default: 'clamp') - How image edges are handled.
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * amount_x (default: 0.0) - Displace multiplier for X or radial
           direction.
@@ -22472,7 +22738,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22485,7 +22751,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * window_title (default: window_title) - Title to be given to output
+        * window_title (default: 'window_title') - Title to be given to output
           window.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
@@ -22496,7 +22762,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22509,11 +22775,15 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * metric (default: euclidean) - Metric to use for the distance
+        * metric (default: 'euclidean') - Metric to use for the distance
           calculation.
+          
+          Allowed values: 'euclidean', 'manhattan', 'chebyshev'
         
-        * edge_handling (default: below) - How areas outside the input are
+        * edge_handling (default: 'below') - How areas outside the input are
           considered when calculating distance.
+          
+          Allowed values: 'above', 'below'
         
         * threshold_lo (default: 0.0001)
         
@@ -22532,7 +22802,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22555,8 +22825,12 @@ class _PyPDB:
         
         * alpha_levels (default: 256) - Number of levels for alpha channel.
         
-        * dither_method (default: floyd-steinberg) - The dithering method to
+        * dither_method (default: 'floyd-steinberg') - The dithering method to
           use.
+          
+          Allowed values: 'none', 'floyd-steinberg', 'bayer', 'random',
+          'random-covariant', 'add', 'add-covariant', 'xor',
+          'xor-covariant', 'blue-noise', 'blue-noise-covariant'
         
         * seed (default: 0)
         
@@ -22568,7 +22842,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22581,7 +22855,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * sampler_type (default: nearest) - Sampler used internally.
+        * sampler_type (default: 'nearest') - Sampler used internally.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -22591,7 +22867,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22619,7 +22895,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22652,7 +22928,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22671,8 +22947,10 @@ class _PyPDB:
         
         * radius (default: 10.0)
         
-        * grow_shape (default: circle) - The shape to expand or contract the
+        * grow_shape (default: 'circle') - The shape to expand or contract the
           shadow in.
+          
+          Allowed values: 'square', 'circle', 'diamond'
         
         * grow_radius (default: 0.0) - The distance to expand the shadow
           before blurring; a negative value will contract the shadow
@@ -22690,7 +22968,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22703,11 +22981,16 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * algorithm (default: sobel) - Edge detection algorithm.
+        * algorithm (default: 'sobel') - Edge detection algorithm.
+          
+          Allowed values: 'sobel', 'prewitt', 'gradient', 'roberts',
+          'differential', 'laplace'
         
         * amount (default: 2.0) - Edge detection amount.
         
-        * border_behavior (default: clamp) - Edge detection behavior.
+        * border_behavior (default: 'clamp') - Edge detection behavior.
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -22717,7 +23000,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22738,7 +23021,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22763,7 +23046,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22791,7 +23074,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22804,7 +23087,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * type (default: emboss) - Rendering type.
+        * type (default: 'emboss') - Rendering type.
+          
+          Allowed values: 'emboss', 'bumpmap'
         
         * azimuth (default: 30.0) - Light angle (degrees).
         
@@ -22820,7 +23105,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22845,7 +23130,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22858,7 +23143,8 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * exposures (default: ) - Relative brightness of each exposure in EV.
+        * exposures (default: '') - Relative brightness of each exposure in
+          EV.
         
         * steps (default: 13) - Log2 of source's discretization steps.
         
@@ -22873,7 +23159,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22898,7 +23184,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22911,7 +23197,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -22921,7 +23207,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22934,7 +23220,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - path of file to write to.
+        * path (default: '') - path of file to write to.
         
         * tile (default: 0) - tile size to use.
         
@@ -22946,7 +23232,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22981,7 +23267,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -22998,10 +23284,10 @@ class _PyPDB:
         
         * opacity (default: 1.0) - The fill opacity to use.
         
-        * fill_rule (default: nonzero) - how to determine what to fill
+        * fill_rule (default: 'nonzero') - how to determine what to fill
           (nonzero|evenodd).
         
-        * transform (default: ) - svg style description of transform.
+        * transform (default: '') - svg style description of transform.
         
         * d - A GeglVector representing the path of the stroke.
         
@@ -23013,7 +23299,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23026,7 +23312,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * blur_type (default: gaussian)
+        * blur_type (default: 'gaussian')
+          
+          Allowed values: 'gaussian', 'lens'
         
         * blur_radius (default: 25.0) - Out-of-focus blur radius.
         
@@ -23036,7 +23324,10 @@ class _PyPDB:
         
         * highlight_threshold_high (default: 1.0)
         
-        * shape (default: circle)
+        * shape (default: 'circle')
+          
+          Allowed values: 'circle', 'square', 'diamond', 'horizontal',
+          'vertical'
         
         * x (default: 0.5)
         
@@ -23063,7 +23354,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23077,7 +23368,10 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * fractaltype (default: mandelbrot) - Type of a fractal.
+        * fractaltype (default: 'mandelbrot') - Type of a fractal.
+          
+          Allowed values: 'mandelbrot', 'julia', 'barnsley-1', 'barnsley-2',
+          'barnsley-3', 'spider', 'man-o-war', 'lambda', 'sierpinski'
         
         * iter (default: 50)
         
@@ -23097,11 +23391,17 @@ class _PyPDB:
         
         * bluestretch (default: 1.0)
         
-        * redmode (default: cosine)
+        * redmode (default: 'cosine')
+          
+          Allowed values: 'sine', 'cosine', 'none'
         
-        * greenmode (default: cosine)
+        * greenmode (default: 'cosine')
+          
+          Allowed values: 'sine', 'cosine', 'none'
         
-        * bluemode (default: sine)
+        * bluemode (default: 'sine')
+          
+          Allowed values: 'sine', 'cosine', 'none'
         
         * redinvert (default: False)
         
@@ -23121,7 +23421,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23134,7 +23434,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * fractal (default: mandelbrot)
+        * fractal (default: 'mandelbrot')
+          
+          Allowed values: 'mandelbrot', 'julia'
         
         * X1 (default: -1.0) - X1 value, position.
         
@@ -23152,8 +23454,10 @@ class _PyPDB:
         
         * bailout (default: 10000.0)
         
-        * abyss_policy (default: loop) - How to deal with pixels outside of
+        * abyss_policy (default: 'loop') - How to deal with pixels outside of
           the input buffer.
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23163,7 +23467,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23191,7 +23495,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23211,9 +23515,13 @@ class _PyPDB:
         * std_dev_y (default: 1.5) - Standard deviation (spatial scale
           factor).
         
-        * filter (default: auto) - How the gaussian kernel is discretized.
+        * filter (default: 'auto') - How the gaussian kernel is discretized.
+          
+          Allowed values: 'auto', 'fir', 'iir'
         
-        * abyss_policy (default: clamp) - How image edges are handled.
+        * abyss_policy (default: 'clamp') - How image edges are handled.
+          
+          Allowed values: 'none', 'clamp', 'black', 'white'
         
         * clip_extent (default: True) - Should the output extent be clipped to
           the input extent.
@@ -23226,7 +23534,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23252,7 +23560,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23268,12 +23576,18 @@ class _PyPDB:
         
         * std_dev (default: 1.5) - Standard deviation (spatial scale factor).
         
-        * orientation (default: horizontal) - The orientation of the blur -
+        * orientation (default: 'horizontal') - The orientation of the blur -
           hor/ver.
+          
+          Allowed values: 'horizontal', 'vertical'
         
-        * filter (default: auto) - How the gaussian kernel is discretized.
+        * filter (default: 'auto') - How the gaussian kernel is discretized.
+          
+          Allowed values: 'auto', 'fir', 'iir'
         
-        * abyss_policy (default: none) - How image edges are handled.
+        * abyss_policy (default: 'none') - How image edges are handled.
+          
+          Allowed values: 'none', 'clamp', 'black', 'white'
         
         * clip_extent (default: True) - Should the output extent be clipped to
           the input extent.
@@ -23286,7 +23600,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23302,7 +23616,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * string (default: # uncomment a set of lines below by removing the #
+        * string (default: '# uncomment a set of lines below by removing the #
           leading to test and modify an example, use # use ctrl+a
           before typing to select all, if you # want a blank slate. #
           id=in # name a reference to the input buffer 'in'   #
@@ -23332,10 +23646,10 @@ class _PyPDB:
           tile-size=0.03rel ]  #  border-align x=0.5 y=0.9 #]  # All
           the examples can be expanded to be on # multiple lines, this
           graph description # language is not whitespace sensitive,
-          the # rel suffix is relative to image height ) - [op
+          the # rel suffix is relative to image height ') - [op
           [property=value] [property=value]] [[op] [property=value].
         
-        * error (default: ) - There is a problem in the syntax or in the
+        * error (default: '') - There is a problem in the syntax or in the
           application of parsed property values. Things might mostly
           work nevertheless.
         
@@ -23347,7 +23661,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23360,7 +23674,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: /tmp/gegl-buffer.gegl) - Path of GeglBuffer file to
+        * path (default: '/tmp/gegl-buffer.gegl') - Path of GeglBuffer file to
           load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
@@ -23371,7 +23685,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23384,7 +23698,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: /tmp/gegl-buffer.gegl) - Target file path to write
+        * path (default: '/tmp/gegl-buffer.gegl') - Target file path to write
           GeglBuffer to.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
@@ -23395,7 +23709,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23408,7 +23722,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
         * frame (default: 0) - frame number to decode.
         
@@ -23424,7 +23738,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23467,7 +23781,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23488,7 +23802,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23514,7 +23828,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23551,7 +23865,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23576,7 +23890,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23603,7 +23917,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23616,7 +23930,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23626,7 +23940,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23639,7 +23953,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename.
+        * path (default: '') - Target path and filename.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23649,7 +23963,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23664,7 +23978,9 @@ class _PyPDB:
         
         * division (default: 8) - The number of divisions.
         
-        * illusion_type (default: type1) - Type of illusion.
+        * illusion_type (default: 'type1') - Type of illusion.
+          
+          Allowed values: 'type1', 'type2'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23674,7 +23990,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23707,7 +24023,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23720,7 +24036,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * output_mode (default: magnitude) - Output Mode.
+        * output_mode (default: 'magnitude') - Output Mode.
+          
+          Allowed values: 'magnitude', 'direction', 'both'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23730,7 +24048,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23744,8 +24062,10 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * grow_shape (default: circleig) - The shape to expand or contract the
-          shadow in.
+        * grow_shape (default: 'circleig') - The shape to expand or contract
+          the shadow in.
+          
+          Allowed values: 'squareig', 'circleig', 'diamondig'
         
         * x (default: 0.0) - Horizontal shadow offset.
         
@@ -23773,7 +24093,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23796,7 +24116,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23818,7 +24138,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23840,7 +24160,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23853,9 +24173,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI for file to load.
+        * uri (default: '') - URI for file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23865,7 +24185,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23878,9 +24198,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI of file to load.
+        * uri (default: '') - URI of file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23890,7 +24210,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23903,7 +24223,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename, use '-' for stdout.
+        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * quality (default: 90) - JPEG compression quality (between 1 and
           100).
@@ -23927,7 +24247,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23959,7 +24279,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23984,7 +24304,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -23997,7 +24317,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * composite_op (default: gegl:over) - Composite operation to use.
+        * composite_op (default: 'gegl:over') - Composite operation to use.
         
         * opacity (default: 1.0)
         
@@ -24007,7 +24327,7 @@ class _PyPDB:
         
         * scale (default: 1.0) - Scale 1:1 size.
         
-        * src (default: ) - Source image file path (png, jpg, raw, svg, bmp,
+        * src (default: '') - Source image file path (png, jpg, raw, svg, bmp,
           tif, ...).
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
@@ -24018,7 +24338,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24035,8 +24355,11 @@ class _PyPDB:
         
         * src_profile
         
-        * intent (default: perceptual) - The rendering intent to use in the
+        * intent (default: 'perceptual') - The rendering intent to use in the
           conversion.
+          
+          Allowed values: 'perceptual', 'relative-colorimetric', 'saturation',
+          'absolute-colorimetric'
         
         * black_point_compensation (default: False) - Convert using black
           point compensation.
@@ -24049,7 +24372,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24082,7 +24405,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24095,11 +24418,12 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * maker (default: none) - Write lens maker correctly.
+        * maker (default: 'none') - Write lens maker correctly.
         
-        * Camera (default: none) - Write camera name correctly.
+        * Camera (default: 'none') - Write camera name correctly.
         
-        * Lens (default: none) - Write your lens model with uppercase letters.
+        * Lens (default: 'none') - Write your lens model with uppercase
+          letters.
         
         * focal (default: 20.0) - Calculate b value from focal.
         
@@ -24154,7 +24478,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24189,7 +24513,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24214,7 +24538,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24244,7 +24568,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24283,7 +24607,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24316,7 +24640,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24366,7 +24690,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24380,9 +24704,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI of file to load.
+        * uri (default: '') - URI of file to load.
         
         * metadata - Object to supply image metadata.
         
@@ -24394,7 +24718,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24429,7 +24753,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24442,7 +24766,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * style (default: finite) - Shadow style.
+        * style (default: 'finite') - Shadow style.
+          
+          Allowed values: 'finite', 'infinite', 'fading', 'fading-fixed-length'
         
         * angle (default: 45.0) - Shadow angle.
         
@@ -24455,7 +24781,10 @@ class _PyPDB:
         
         * color - Shadow color.
         
-        * composition (default: shadow-plus-image) - Output composition.
+        * composition (default: 'shadow-plus-image') - Output composition.
+          
+          Allowed values: 'shadow-plus-image', 'shadow-only',
+          'shadow-minus-image'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -24465,7 +24794,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24478,7 +24807,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: /tmp/gegl-logo.svg) - Path of file to load.
+        * path (default: '/tmp/gegl-logo.svg') - Path of file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -24488,7 +24817,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24518,7 +24847,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24532,9 +24861,13 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * sampler_type (default: cubic)
+        * sampler_type (default: 'cubic')
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
-        * abyss_policy (default: none)
+        * abyss_policy (default: 'none')
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -24544,7 +24877,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24562,9 +24895,13 @@ class _PyPDB:
           how large spatial displacement a relative mapping value of
           1.0 corresponds to.
         
-        * sampler_type (default: cubic)
+        * sampler_type (default: 'cubic')
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
-        * abyss_policy (default: none)
+        * abyss_policy (default: 'none')
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -24574,7 +24911,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24602,7 +24939,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24638,7 +24975,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24655,7 +24992,9 @@ class _PyPDB:
         
         * y (default: 16) - Vertical width of cells pixels.
         
-        * algorithm_type (default: depth-first) - Maze algorithm type.
+        * algorithm_type (default: 'depth-first') - Maze algorithm type.
+          
+          Allowed values: 'depth-first', 'prim'
         
         * tileable (default: False)
         
@@ -24673,7 +25012,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24698,7 +25037,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24722,7 +25061,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24736,7 +25075,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * neighborhood (default: circle) - Neighborhood type.
+        * neighborhood (default: 'circle') - Neighborhood type.
+          
+          Allowed values: 'square', 'circle', 'diamond'
         
         * radius (default: 3) - Neighborhood radius, a negative value will
           calculate with inverted percentiles.
@@ -24745,7 +25086,9 @@ class _PyPDB:
         
         * alpha_percentile (default: 50.0) - Neighborhood alpha percentile.
         
-        * abyss_policy (default: clamp) - How image edges are handled.
+        * abyss_policy (default: 'clamp') - How image edges are handled.
+          
+          Allowed values: 'none', 'clamp'
         
         * high_precision (default: False) - Avoid clipping and quantization
           (slower).
@@ -24758,7 +25101,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24807,7 +25150,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24831,7 +25174,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24860,7 +25203,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24875,7 +25218,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * tile_type (default: hexagons) - What shape to use for tiles.
+        * tile_type (default: 'hexagons') - What shape to use for tiles.
+          
+          Allowed values: 'squares', 'hexagons', 'octagons', 'triangles'
         
         * tile_size (default: 15.0) - Average diameter of each tile (in
           pixels).
@@ -24917,7 +25262,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24945,7 +25290,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24971,7 +25316,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -24998,7 +25343,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25025,7 +25370,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25047,7 +25392,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25060,8 +25405,12 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * curve (default: fujicrystal) - Hardcoded characteristic curve and
+        * curve (default: 'fujicrystal') - Hardcoded characteristic curve and
           color data.
+          
+          Allowed values: 'fujicrystal', 'ilfobrom1', 'ilfobrom2', 'ilfobrom3',
+          'ilfobrom4', 'ilfordmg4', 'fomabromc', 'fomabromn',
+          'fomabromsp', 'fomabroms', 'fomabromvar'
         
         * exposure (default: 0.0) - Base enlargement exposure.
         
@@ -25112,7 +25461,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25125,31 +25474,41 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * color_model (default: black-on-white) - How many inks to use just
+        * color_model (default: 'black-on-white') - How many inks to use just
           black, rg, rgb (additive), or cmyk.
+          
+          Allowed values: 'white-on-black', 'black-on-white', 'rgb', 'cmyk'
         
-        * pattern2 (default: line) - Halftoning/dot pattern to use.
+        * pattern2 (default: 'line') - Halftoning/dot pattern to use.
+          
+          Allowed values: 'line', 'circle', 'diamond', 'pssquare', 'cross'
         
         * period2 (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
         
         * angle2 (default: 15.0)
         
-        * pattern3 (default: line) - Halftoning/dot pattern to use.
+        * pattern3 (default: 'line') - Halftoning/dot pattern to use.
+          
+          Allowed values: 'line', 'circle', 'diamond', 'pssquare', 'cross'
         
         * period3 (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
         
         * angle3 (default: 45.0)
         
-        * pattern4 (default: line) - Halftoning/dot pattern to use.
+        * pattern4 (default: 'line') - Halftoning/dot pattern to use.
+          
+          Allowed values: 'line', 'circle', 'diamond', 'pssquare', 'cross'
         
         * period4 (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
         
         * angle4 (default: 0.0)
         
-        * pattern (default: line) - Halftoning/dot pattern to use.
+        * pattern (default: 'line') - Halftoning/dot pattern to use.
+          
+          Allowed values: 'line', 'circle', 'diamond', 'pssquare', 'cross'
         
         * period (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
@@ -25181,7 +25540,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25213,7 +25572,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25245,7 +25604,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25272,7 +25631,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25299,7 +25658,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25323,7 +25682,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25364,7 +25723,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25391,7 +25750,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25428,7 +25787,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25455,7 +25814,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25476,7 +25835,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25492,11 +25851,15 @@ class _PyPDB:
         * scale (default: 10.0) - The amount by which to scale the height
           values.
         
-        * x_component (default: red) - The component used for the X
+        * x_component (default: 'red') - The component used for the X
           coordinates.
+          
+          Allowed values: 'red', 'green', 'blue'
         
-        * y_component (default: green) - The component used for the Y
+        * y_component (default: 'green') - The component used for the Y
           coordinates.
+          
+          Allowed values: 'red', 'green', 'blue'
         
         * flip_x (default: False) - Flip the X coordinates.
         
@@ -25515,7 +25878,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25545,7 +25908,9 @@ class _PyPDB:
         * preserve_model (default: False) - When TRUE the model will not be
           freed.
         
-        * sampler_type (default: cubic) - Sampler used internally.
+        * sampler_type (default: 'cubic') - Sampler used internally.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -25555,7 +25920,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25568,7 +25933,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename, use '-' for stdout.
+        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -25578,7 +25943,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25609,7 +25974,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25634,7 +25999,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25647,7 +26012,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - a GeglBuffer on disk to open.
+        * path (default: '') - a GeglBuffer on disk to open.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -25657,7 +26022,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25676,7 +26041,9 @@ class _PyPDB:
         * align (default: 0.0) - How to align items, 0.0 is start 0.5 middle
           and 1.0 end.
         
-        * orientation (default: horizontal)
+        * orientation (default: 'horizontal')
+          
+          Allowed values: 'horizontal', 'vertical'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -25686,7 +26053,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25699,7 +26066,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * mode (default: add) - Either to add to or subtract from the mask.
+        * mode (default: 'add') - Either to add to or subtract from the mask.
+          
+          Allowed values: 'add', 'subtract'
         
         * use_local_region (default: False) - Perform graphcut in a local
           region.
@@ -25720,7 +26089,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25752,10 +26121,12 @@ class _PyPDB:
         * inverse (default: False) - Do the inverse mapping, useful for
           touching up zenith, nadir or other parts of panorama.
         
-        * sampler_type (default: nearest) - Image resampling method to use,
+        * sampler_type (default: 'nearest') - Image resampling method to use,
           for good results with double resampling when retouching
           panoramas, use nearest to generate the view and cubic or
           better for the inverse transform back to panorama.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -25765,7 +26136,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25793,10 +26164,10 @@ class _PyPDB:
         * stroke_hardness (default: 0.6) - Hardness of the brush, 0.0 for a
           soft brush, 1.0 for a hard brush.
         
-        * fill_rule (default: nonzero) - How to determine what to fill
+        * fill_rule (default: 'nonzero') - How to determine what to fill
           (nonzero|evenodd).
         
-        * transform (default: ) - SVG style description of transform.
+        * transform (default: '') - SVG style description of transform.
         
         * fill_opacity (default: 1.0) - The fill opacity to use.
         
@@ -25810,7 +26181,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25823,9 +26194,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - file to load.
+        * path (default: '') - file to load.
         
-        * uri (default: ) - uri of file to load.
+        * uri (default: '') - uri of file to load.
         
         * page (default: 1) - Page to render.
         
@@ -25834,7 +26205,7 @@ class _PyPDB:
         
         * ppi (default: 200.0) - Point/pixels per inch.
         
-        * password (default: ) - Password to use for decryption of PDF, or
+        * password (default: '') - Password to use for decryption of PDF, or
           blank for none.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
@@ -25845,7 +26216,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25874,7 +26245,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25903,7 +26274,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25930,7 +26301,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25953,7 +26324,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -25966,7 +26337,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * norm (default: square) - The shape of pixels.
+        * norm (default: 'square') - The shape of pixels.
+          
+          Allowed values: 'diamond', 'round', 'square'
         
         * size_x (default: 16) - Width of blocks in pixels.
         
@@ -25992,7 +26365,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26026,7 +26399,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26039,9 +26412,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI for file to load.
+        * uri (default: '') - URI for file to load.
         
         * metadata - Object to supply image metadata.
         
@@ -26053,7 +26426,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26066,7 +26439,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename, use '-' for stdout.
+        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * compression (default: 3) - PNG compression level from 1 to 9.
         
@@ -26082,7 +26455,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26120,7 +26493,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26143,7 +26516,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26156,9 +26529,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI of image to load.
+        * uri (default: '') - URI of image to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26168,7 +26541,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26181,7 +26554,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename, use '-' for stdout.
+        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * rawformat (default: True)
         
@@ -26195,7 +26568,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26228,7 +26601,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26245,7 +26618,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: /tmp/test.raw) - Path of file to load.
+        * path (default: '/tmp/test.raw') - Path of file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26255,7 +26628,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26286,7 +26659,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26299,7 +26672,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * transform (default: matrix (1, 0, 0, 0, 1, 0, 0, 0, 1)) -
+        * transform (default: 'matrix (1, 0, 0, 0, 1, 0, 0, 0, 1)') -
           Transformation matrix, using SVG syntax (or multiple
           matrices, separated by semicolons).
         
@@ -26316,8 +26689,10 @@ class _PyPDB:
         * paste_below (default: False) - Paste transformed images below each
           other.
         
-        * sampler_type (default: linear) - Mathematical method for
+        * sampler_type (default: 'linear') - Mathematical method for
           reconstructing pixel values.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26327,7 +26702,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26350,7 +26725,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26385,7 +26760,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26417,7 +26792,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26439,7 +26814,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26469,7 +26844,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26500,7 +26875,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26513,7 +26888,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26523,7 +26898,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26536,7 +26911,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename, use '-' for stdout.
+        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26546,7 +26921,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26567,11 +26942,17 @@ class _PyPDB:
         
         * angle (default: 0.0)
         
-        * sampler_type (default: cubic)
+        * sampler_type (default: 'cubic')
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
-        * wave_type (default: sine)
+        * wave_type (default: 'sine')
+          
+          Allowed values: 'sine', 'triangle', 'sawtooth'
         
-        * abyss_policy (default: none) - How image edges are handled.
+        * abyss_policy (default: 'none') - How image edges are handled.
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * tileable (default: False) - Retain tilebility.
         
@@ -26583,7 +26964,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26615,7 +26996,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26649,7 +27030,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26664,7 +27045,9 @@ class _PyPDB:
         
         * scale (default: 1.0) - Scale, strength of effect.
         
-        * colorspace (default: Native)
+        * colorspace (default: 'Native')
+          
+          Allowed values: 'Native', 'CIE-Lab', 'CIE-Yuv'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26674,7 +27057,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26689,7 +27072,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to save.
+        * path (default: '') - Path of file to save.
         
         * metadata - Object providing image metadata.
         
@@ -26701,7 +27084,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26725,7 +27108,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26762,7 +27145,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26799,7 +27182,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26836,7 +27219,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26858,7 +27241,7 @@ class _PyPDB:
         * yoff (default: 0) - How much horizontal offset should applied to the
           paste.
         
-        * error_msg (default: ) - An error message in case of a failure.
+        * error_msg (default: '') - An error message in case of a failure.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26868,7 +27251,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26890,7 +27273,7 @@ class _PyPDB:
         * yoff (default: 0) - How much vertical offset should applied to the
           paste.
         
-        * error_msg (default: ) - An error message in case of a failure.
+        * error_msg (default: '') - An error message in case of a failure.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26900,7 +27283,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26927,7 +27310,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26959,7 +27342,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -26984,7 +27367,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27021,7 +27404,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27056,7 +27439,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27090,7 +27473,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27105,7 +27488,9 @@ class _PyPDB:
         
         * shift (default: 5) - Maximum amount to shift.
         
-        * direction (default: horizontal)
+        * direction (default: 'horizontal')
+          
+          Allowed values: 'horizontal', 'vertical'
         
         * seed (default: 0)
         
@@ -27117,7 +27502,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27151,7 +27536,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27178,7 +27563,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27208,7 +27593,9 @@ class _PyPDB:
         
         * color2
         
-        * blend_mode (default: sinusoidal)
+        * blend_mode (default: 'sinusoidal')
+          
+          Allowed values: 'linear', 'bilinear', 'sinusoidal'
         
         * blend_power (default: 0.0) - Power used to stretch the blend.
         
@@ -27224,7 +27611,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27251,7 +27638,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27279,7 +27666,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27301,7 +27688,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27323,7 +27710,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27352,7 +27739,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27379,7 +27766,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27392,7 +27779,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * mode (default: radial) - Displacement mode.
+        * mode (default: 'radial') - Displacement mode.
+          
+          Allowed values: 'radial', 'horizontal', 'vertical'
         
         * angle_of_view (default: 0.0) - Camera angle of view.
         
@@ -27402,8 +27791,10 @@ class _PyPDB:
         * amount (default: 1.0) - Displacement scaling factor (negative values
           refer to the inverse displacement).
         
-        * sampler_type (default: linear) - Mathematical method for
+        * sampler_type (default: 'linear') - Mathematical method for
           reconstructing pixel values.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -27413,7 +27804,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27426,7 +27817,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * type (default: linear) - Spiral type.
+        * type (default: 'linear') - Spiral type.
+          
+          Allowed values: 'linear', 'logarithmic'
         
         * x (default: 0.5) - Spiral origin X coordinate.
         
@@ -27440,7 +27833,9 @@ class _PyPDB:
         
         * rotation (default: 0.0) - Spiral rotation.
         
-        * direction (default: cw) - Spiral swirl direction.
+        * direction (default: 'cw') - Spiral swirl direction.
+          
+          Allowed values: 'cw', 'ccw'
         
         * color1
         
@@ -27458,7 +27853,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27489,10 +27884,12 @@ class _PyPDB:
         * inverse (default: False) - Do the inverse mapping, useful for
           touching up zenith, nadir or other parts of panorama.
         
-        * sampler_type (default: nearest) - Image resampling method to use,
+        * sampler_type (default: 'nearest') - Image resampling method to use,
           for good results with double resampling when retouching
           panoramas, use nearest to generate the view and cubic or
           better for the inverse transform back to panorama.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -27502,7 +27899,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27537,7 +27934,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27567,7 +27964,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27592,7 +27989,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27607,12 +28004,16 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * guichange (default: outlineshadow) - Display a different part of the
-          GUI.
+        * guichange (default: 'outlineshadow') - Display a different part of
+          the GUI.
+          
+          Allowed values: 'outlineshadow', 'innerglowbevel', 'imageoutlinebevel'
         
         * color_fill - Color overlay setting.
         
-        * color_policy (default: multiply)
+        * color_policy (default: 'multiply')
+          
+          Allowed values: 'nocolor', 'multiply', 'solidcolor'
         
         * enableoutline (default: False) - Disable or enable the outline.
         
@@ -27622,8 +28023,10 @@ class _PyPDB:
         
         * outline_y (default: 0.0) - Vertical outline offset.
         
-        * outline_grow_shape (default: circle) - The shape to expand or
+        * outline_grow_shape (default: 'circle') - The shape to expand or
           contract the outline in.
+          
+          Allowed values: 'square', 'circle', 'diamond'
         
         * outline_blur (default: 0.0) - A mild blur for the outline.
         
@@ -27647,9 +28050,13 @@ class _PyPDB:
         
         * enablebevel (default: False) - Whether to add a bevel effect.
         
-        * bevel_blend (default: multiply)
+        * bevel_blend (default: 'multiply')
+          
+          Allowed values: 'multiply', 'add', 'hardlight', 'darken', 'colordodge'
         
-        * bevel_type (default: bumpbevel) - Type of bevel .
+        * bevel_type (default: 'bumpbevel') - Type of bevel .
+          
+          Allowed values: 'chamferbevel', 'bumpbevel'
         
         * bevel_depth (default: 100) - Emboss depth for the bevel.
         
@@ -27675,7 +28082,10 @@ class _PyPDB:
         * enableinnerglow (default: False) - Whether to add the inner glow
           effect.
         
-        * ig_blend (default: normal)
+        * ig_blend (default: 'normal')
+          
+          Allowed values: 'normal', 'overlay', 'screen', 'hardlight',
+          'colordodge', 'plus'
         
         * ig_radius (default: 6.0) - Blur control of the inner glow.
         
@@ -27692,7 +28102,7 @@ class _PyPDB:
         * enableimage (default: False) - Whether to enable or disable the
           image file upload.
         
-        * image_src (default: ) - Upload an image file from your computer to
+        * image_src (default: '') - Upload an image file from your computer to
           be in the fill area. Allows (png, jpg, raw, svg, bmp, tif,
           ...).
         
@@ -27711,7 +28121,9 @@ class _PyPDB:
         * enableoutlinebevel (default: True) - Turn on outlines ability to
           bevel.
         
-        * os_blend (default: multiply)
+        * os_blend (default: 'multiply')
+          
+          Allowed values: 'multiply', 'add', 'hardlight', 'darken', 'colordodge'
         
         * os_depth (default: 15) - Emboss depth for the outline bevel.
         
@@ -27726,7 +28138,7 @@ class _PyPDB:
         * enableimageoutline (default: False) - Whether to enable or disable
           the image file upload.
         
-        * os_src (default: ) - Upload an image file from your computer to be
+        * os_src (default: '') - Upload an image file from your computer to be
           in the outline area. Allows (png, jpg, raw, svg, bmp, tif,
           ...).
         
@@ -27751,7 +28163,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27778,7 +28190,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27799,7 +28211,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27836,7 +28248,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27849,7 +28261,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * values (default: ) - list of <number>s.
+        * values (default: '') - list of <number>s.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -27859,7 +28271,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27872,9 +28284,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI for file to load.
+        * uri (default: '') - URI for file to load.
         
         * width (default: -1) - Width for rendered image.
         
@@ -27888,7 +28300,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27909,7 +28321,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27922,7 +28334,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * values (default: ) - list of <number>s.
+        * values (default: '') - list of <number>s.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -27932,7 +28344,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27945,7 +28357,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * values (default: ) - list of <number>s.
+        * values (default: '') - list of <number>s.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -27955,7 +28367,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -27968,9 +28380,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * string (default: Hello) - String to display (utf8).
+        * string (default: 'Hello') - String to display (utf8).
         
-        * font (default: Sans) - Font family (utf8).
+        * font (default: 'Sans') - Font family (utf8).
         
         * size (default: 10.0) - Font size in pixels.
         
@@ -28001,7 +28413,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28014,9 +28426,11 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * direction (default: top-right) - Position of the light source which
-          lightens the canvas: Top-right, Top-left, Bottom-left or
-          Bottom-right.
+        * direction (default: 'top-right') - Position of the light source
+          which lightens the canvas: Top-right, Top-left, Bottom-left
+          or Bottom-right.
+          
+          Allowed values: 'top-right', 'top-left', 'bottom-left', 'bottom-right'
         
         * depth (default: 4) - Apparent depth of the rendered canvas effect;
           from 1 (very flat) to 50 (very deep).
@@ -28029,7 +28443,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28056,7 +28470,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28069,9 +28483,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI for file to load.
+        * uri (default: '') - URI for file to load.
         
         * directory (default: 1) - Image file directory (subfile).
         
@@ -28085,7 +28499,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28098,7 +28512,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename, use '-' for stdout.
+        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * bitdepth (default: -1) - -1, 8, 16, 32 and 64 are the currently
           accepted values, -1 means auto.
@@ -28116,7 +28530,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28141,7 +28555,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28166,7 +28580,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28187,11 +28601,15 @@ class _PyPDB:
         
         * wrap_around (default: False) - Wrap the fractional tiles.
         
-        * fractional_type (default: force) - Fractional Type.
+        * fractional_type (default: 'force') - Fractional Type.
+          
+          Allowed values: 'background', 'ignore', 'force'
         
         * centering (default: True) - Centering of the tiles.
         
-        * background_type (default: invert) - Background type.
+        * background_type (default: 'invert') - Background type.
+          
+          Allowed values: 'transparent', 'invert', 'image', 'color'
         
         * bg_color - The tiles' background color.
         
@@ -28205,7 +28623,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28227,7 +28645,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28249,7 +28667,7 @@ class _PyPDB:
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
         
-        * transform (default: ) - Transformation SVG syntax transformation
+        * transform (default: '') - Transformation SVG syntax transformation
           string.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
@@ -28260,7 +28678,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28296,7 +28714,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28318,7 +28736,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28347,7 +28765,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28369,7 +28787,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28383,7 +28801,10 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * mode (default: white) - Mode of value propagation.
+        * mode (default: 'white') - Mode of value propagation.
+          
+          Allowed values: 'white', 'black', 'middle', 'color-peak', 'color',
+          'opaque', 'transparent'
         
         * lower_threshold (default: 0.0) - The minimum difference in value at
           which to propagate a pixel.
@@ -28417,7 +28838,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28445,7 +28866,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28467,7 +28888,7 @@ class _PyPDB:
           like SVG since at the moment stroking is done using an
           airbrush tool.
         
-        * transform (default: ) - svg style description of transform.
+        * transform (default: '') - svg style description of transform.
         
         * d - A GeglVector representing the path of the stroke.
         
@@ -28479,7 +28900,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28493,7 +28914,11 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * pattern (default: striped) - Type of RGB pattern to use.
+        * pattern (default: 'striped') - Type of RGB pattern to use.
+          
+          Allowed values: 'staggered', 'large-staggered', 'striped',
+          'wide-striped', 'long-staggered', '3x3', 'large-3x3', 'hex',
+          'dots'
         
         * additive (default: True) - Whether the function adds the result to
           the original image.
@@ -28509,7 +28934,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28524,7 +28949,10 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * shape (default: circle)
+        * shape (default: 'circle')
+          
+          Allowed values: 'circle', 'square', 'diamond', 'horizontal',
+          'vertical'
         
         * color - Defaults to 'black', you can use transparency here to erase
           portions of an image.
@@ -28557,7 +28985,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28570,8 +28998,10 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * metric (default: euclidean) - Metric to use for the distance
+        * metric (default: 'euclidean') - Metric to use for the distance
           calculation.
+          
+          Allowed values: 'euclidean', 'manhattan', 'chebyshev'
         
         * mask - Unseeded region color.
         
@@ -28580,7 +29010,9 @@ class _PyPDB:
         * seed_edges (default: False) - Whether the image edges are also
           seeded.
         
-        * abyss_policy (default: none) - How image edges are handled.
+        * abyss_policy (default: 'none') - How image edges are handled.
+          
+          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -28590,7 +29022,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28613,7 +29045,10 @@ class _PyPDB:
         
         * stroke
         
-        * behavior (default: move) - Behavior of the op.
+        * behavior (default: 'move') - Behavior of the op.
+          
+          Allowed values: 'move', 'grow', 'shrink', 'swirl-cw', 'swirl-ccw',
+          'erase', 'smooth'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -28623,7 +29058,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28643,7 +29078,9 @@ class _PyPDB:
         * regularization (default: 0) - trade-off between superpixel
           regularity and adherence to object boundaries.
         
-        * fill (default: average) - How to fill superpixels.
+        * fill (default: 'average') - How to fill superpixels.
+          
+          Allowed values: 'average', 'random'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -28653,7 +29090,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28685,7 +29122,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28709,7 +29146,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28725,8 +29162,10 @@ class _PyPDB:
         
         * radius (default: 1.0) - Radius of the wavelet blur.
         
-        * orientation (default: horizontal) - The orientation of the blur -
+        * orientation (default: 'horizontal') - The orientation of the blur -
           hor/ver.
+          
+          Allowed values: 'horizontal', 'vertical'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -28736,7 +29175,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28761,8 +29200,10 @@ class _PyPDB:
         
         * aspect (default: 1.0)
         
-        * sampler_type (default: cubic) - Mathematical method for
+        * sampler_type (default: 'cubic') - Mathematical method for
           reconstructing pixel values.
+          
+          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * clamp (default: False) - Limit deformation in the image area.
         
@@ -28774,7 +29215,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28787,9 +29228,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Path of file to load.
+        * path (default: '') - Path of file to load.
         
-        * uri (default: ) - URI for file to load.
+        * uri (default: '') - URI for file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -28799,7 +29240,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28812,7 +29253,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * path (default: ) - Target path and filename, use '-' for stdout.
+        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * quality (default: 90) - WebP compression quality.
         
@@ -28824,7 +29265,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28845,7 +29286,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28873,7 +29314,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28886,11 +29327,17 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * style (default: wind) - Style of effect.
+        * style (default: 'wind') - Style of effect.
+          
+          Allowed values: 'wind', 'blast'
         
-        * direction (default: left) - Direction of the effect.
+        * direction (default: 'left') - Direction of the effect.
+          
+          Allowed values: 'left', 'right', 'top', 'bottom'
         
-        * edge (default: leading) - Edge behavior.
+        * edge (default: 'leading') - Edge behavior.
+          
+          Allowed values: 'both', 'leading', 'trailing'
         
         * threshold (default: 10) - Higher values restrict the effect to fewer
           areas of the image.
@@ -28908,7 +29355,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28931,7 +29378,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28954,7 +29401,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -28980,7 +29427,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29006,7 +29453,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29030,7 +29477,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29054,7 +29501,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29077,7 +29524,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29100,7 +29547,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29123,7 +29570,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29146,7 +29593,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29169,7 +29616,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29193,7 +29640,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29219,7 +29666,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29243,7 +29690,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29269,7 +29716,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29292,7 +29739,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29315,7 +29762,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29338,7 +29785,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29361,7 +29808,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29384,7 +29831,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29407,7 +29854,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29431,7 +29878,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
@@ -29454,7 +29901,7 @@ class _PyPDB:
         
         * visible_ (default: True) - Visible.
         
-        * name_ (default: ) - Filter name.
+        * name_ (default: '') - Filter name.
         """
         pass
 
