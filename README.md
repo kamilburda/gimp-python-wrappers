@@ -81,6 +81,13 @@ The only positional argument allowed is a `Gimp.Layer` object as the first argum
 You can omit any arguments, in which case their default values will be used.
 Note, however, that omitting some arguments may result in an error, e.g. if a function requires an image or a layer that is left unspecified.
 
+All layer effects have the following common parameters (all of them end with `_` to avoid possible name clashes with other parameters):
+* `blend_mode_` - the `Gimp.LayerMode` for the effect (default, dodge, burn, hard light, ...).
+* `opacity_` - the opacity of the effect.
+* `merge_filter_` - if ``True``, the effect will be applied destructively, i.e. will be merged into the layer.
+* `visible_` - if ``False``, the effect will be added, but will not be applied.
+* `filter_name_` - a custom name for the effect. If omitted, a default name is assigned by GIMP.
+
 Return values are returned as a Python list (in case of multiple return values) or directly as a Python object (in case of a single return value). Functions having no return values return `None`.
 
 The exit status is available as the `pdb.last_status` property (in the official GIMP API, this is a part of the returned `Gimp.ValueArray` as the first element). This does not apply to layer effects.
