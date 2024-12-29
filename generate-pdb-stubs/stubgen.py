@@ -12,6 +12,8 @@ gi.require_version('Gegl', '0.4')
 from gi.repository import Gegl
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
+gi.require_version('GimpUi', '3.0')
+from gi.repository import GimpUi
 from gi.repository import GObject
 
 
@@ -375,6 +377,7 @@ def _add_proc_params_or_retvals_to_docstring(
       description = ''
 
     default_value_str = _get_param_default_value(param)
+    default_enum_value_as_string = None
 
     param_default_value = param.get_default_value()
     if (isinstance(param_default_value, GObject.GEnum)
@@ -384,7 +387,15 @@ def _add_proc_params_or_retvals_to_docstring(
         default_value_str = default_enum_value_as_string
 
     if default_value_str is not None:
-      default_value_str = f' (default: {default_value_str})'
+      if default_enum_value_as_string is None:
+        if isinstance(default_value_str, str):
+          default_value_str = f" (default: '{default_value_str}')"
+        elif isinstance(default_value_str, bytes):
+          default_value_str = f" (default: b'{default_value_str}')"
+        else:
+          default_value_str = f' (default: {default_value_str})'
+      else:
+        default_value_str = f' (default: {default_value_str})'
     else:
       default_value_str = ''
 
@@ -400,6 +411,24 @@ def _add_proc_params_or_retvals_to_docstring(
       break_on_hyphens=False)
 
     param_str = f'\n{_BODY_INDENT}' * 2 + param_str
+
+    choices_description = None
+    if _is_param_gimp_choice(param):
+      choice_values = _format_gimp_choice_values(_get_gimp_choice_values(procedure, param))
+      choices_description = f'Allowed values: {choice_values}'
+    elif _is_param_gimp_choice_from_gegl_enum(param):
+      choice_values = _format_gimp_choice_values(_get_gimp_choice_values_from_gegl_enum(param))
+      choices_description = f'Allowed values: {choice_values}'
+
+    if choices_description is not None:
+      choices_description = textwrap.fill(
+        choices_description,
+        width=_DOCSTRING_LINE_LENGTH - len(_BODY_INDENT) - len(param_prefix),
+        subsequent_indent=_BODY_INDENT + ' ' * len(param_prefix),
+        break_on_hyphens=False)
+
+      choices_description = f'\n{_BODY_INDENT}{' ' * len(param_prefix)}' * 2 + choices_description
+      param_str += choices_description
 
     proc_params += param_str
 
@@ -426,6 +455,32 @@ def _get_param_default_value(param):
     return param_default_value
   else:
     return None
+
+
+def _is_param_gimp_choice(param):
+  return isinstance(param, (Gimp.ParamChoice, Gimp.ParamSpecChoice))
+
+
+def _get_gimp_choice_values(procedure, param):
+  # HACK: Currently, the only way to obtain `Gimp.Choice` values is by creating
+  #  a combo box tailored to `Gimp.Choice` values.
+  combo_box = GimpUi.prop_choice_combo_box_new(procedure.create_config(), param.name)
+  return [row[0] for row in combo_box.get_model()]
+
+
+def _is_param_gimp_choice_from_gegl_enum(param):
+  return isinstance(param, (Gegl.ParamEnum, Gegl.ParamSpecEnum))
+
+
+def _get_gimp_choice_values_from_gegl_enum(param):
+  return [
+    enum_value.value_nick
+    for enum_value in type(param.get_default_value()).__enum_values__.values()
+  ]
+
+
+def _format_gimp_choice_values(choice_values):
+  return ", ".join(f"'{value}'" for value in choice_values)
 
 
 def _get_enum_value_as_string(enum_value):
