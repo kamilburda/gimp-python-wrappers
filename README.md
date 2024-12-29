@@ -110,7 +110,7 @@ To run the stub generator, open GIMP and choose `Filters → Development → Pyt
 
 You may adjust the output directory.
 
-Alternatively, you can run the generator from the Python-Fu console - choose `Filters -> Development -> Python-Fu -> Console` and enter
+Alternatively, you can run the generator from the Python-Fu console - choose `Filters -> Development -> Python-Fu -> Python Console` and enter
 
 ```
 procedure = Gimp.get_pdb().lookup_procedure('generate-pdb-stubs')
