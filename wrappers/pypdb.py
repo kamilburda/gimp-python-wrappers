@@ -100,7 +100,7 @@ class _PyPDB:
 
   @staticmethod
   def _gimp_pdb_procedure_exists(proc_name):
-    return Gimp.get_pdb().procedure_exists(proc_name)
+    return Gimp.is_canonical_identifier(proc_name) and Gimp.get_pdb().procedure_exists(proc_name)
 
   @staticmethod
   def _gegl_operation_exists(proc_name):
@@ -394,7 +394,6 @@ class GeglProcedure(PDBProcedure):
     drawable_filter.set_blend_mode(blend_mode)
     drawable_filter.set_opacity(opacity)
     drawable_filter.set_visible(visible)
-    drawable_filter.update()
 
     config = drawable_filter.get_config()
 
@@ -424,6 +423,8 @@ class GeglProcedure(PDBProcedure):
         processed_value = arg_value
 
       config.set_property(arg_name, processed_value)
+
+    drawable_filter.update()
 
     if merge_filter:
       drawable.merge_filter(drawable_filter)
