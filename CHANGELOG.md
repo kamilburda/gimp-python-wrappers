@@ -1,3 +1,9 @@
+4.2
+===
+
+* Fixed `CRITICAL` warnings issued by GIMP when applying layer effects.
+
+
 4.1
 ===
 
