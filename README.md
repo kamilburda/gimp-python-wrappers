@@ -55,7 +55,7 @@ Example of importing and using the PDB wrapper in a GIMP Python plug-in:
 from pypdb import pdb
 
 
-def run_plugin(procedure, run_mode, image, drawable, n_drawables, config, data):
+def run_plugin(procedure, run_mode, image, drawables, config, data):
     ...
     pdb.plug_in_jigsaw(image=image, drawables=[layer])
     ...
