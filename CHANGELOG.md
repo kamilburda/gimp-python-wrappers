@@ -2,6 +2,7 @@
 ===
 
 * Updated the `pdb` object, script and the generated stubs according to changes in GIMP 3.0.0-RC3.
+* Added more information to several parameter types in the generated stub file. For example, numeric parameters now contain minimum and maximum values (if different from the default minimum and maximum values), `Gio.File` indicate whether they are files or folders for opening/saving, etc.
 * Slightly optimized access to PDB procedures and GEGL operations via the `pdb` object.
 * Improved GUI for the output directory for the stub generator.
 

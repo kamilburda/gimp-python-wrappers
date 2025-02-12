@@ -381,6 +381,14 @@ def _add_proc_params_or_retvals_to_docstring(
     if _is_core_object_array(param):
       object_type_str = f' (array of {_get_core_object_array_element_type(param)} elements)'
 
+    file_info_str = ''
+    if _is_file(param):
+      file_info_str = f' ({_get_file_param_info(param)})'
+
+    gimp_unit_limitations_str = ''
+    if _is_gimp_unit(param):
+      gimp_unit_limitations_str = f' ({_get_gimp_unit_limitations_str(param)})'
+
     default_value_str = _get_param_default_value(param)
     default_enum_value_as_string = None
 
@@ -409,7 +417,9 @@ def _add_proc_params_or_retvals_to_docstring(
       can_be_none_str = ' (can be None)'
 
     param_base_info = (
-      f'{param_prefix}{name}{object_type_str}{default_value_str}{can_be_none_str}')
+      f'{param_prefix}{name}'
+      f'{object_type_str}{file_info_str}{gimp_unit_limitations_str}'
+      f'{default_value_str}{can_be_none_str}')
 
     if description:
       param_str = f'{param_base_info} - {description}'
@@ -512,6 +522,43 @@ def _can_param_be_none(param):
 
 def _is_core_object_array(param):
   return hasattr(param.value_type, 'name') and param.value_type.name == 'GimpCoreObjectArray'
+
+
+def _is_file(param):
+  return isinstance(param, Gimp.ParamFile)
+
+
+def _get_file_param_info(param):
+  action = Gimp.param_spec_file_get_action(param)
+
+  if action == Gimp.FileChooserAction.OPEN:
+    return 'file to open'
+  elif action == Gimp.FileChooserAction.SAVE:
+    return 'file to save'
+  elif action == Gimp.FileChooserAction.SELECT_FOLDER:
+    return 'folder to select'
+  elif action == Gimp.FileChooserAction.CREATE_FOLDER:
+    return 'folder to create'
+  else:
+    return ''
+
+
+def _is_gimp_unit(param):
+  return param.value_type == Gimp.Unit.__gtype__
+
+
+def _get_gimp_unit_limitations_str(param):
+  not_allowed_strs = []
+
+  if not Gimp.param_spec_unit_percent_allowed(param):
+    not_allowed_strs.append('percent not allowed')
+
+  if not Gimp.param_spec_unit_pixel_allowed(param):
+    not_allowed_strs.append('pixels not allowed')
+
+  not_allowed_str = ', '.join(not_allowed_strs)
+
+  return not_allowed_str
 
 
 def _get_core_object_array_element_type(param):
