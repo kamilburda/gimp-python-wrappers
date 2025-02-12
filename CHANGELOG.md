@@ -1,3 +1,11 @@
+5.0
+===
+
+* Updated the `pdb` object, script and the generated stubs according to changes in GIMP 3.0.0-RC3.
+* Slightly optimized access to PDB procedures and GEGL operations via the `pdb` object.
+* Improved GUI for the output directory for the stub generator.
+
+
 4.2
 ===
 
