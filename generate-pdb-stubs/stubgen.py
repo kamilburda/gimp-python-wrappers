@@ -728,6 +728,9 @@ def _pythonize(str_):
 def _get_proc_argument_type_hint(proc_arg):
   arg_type_name = _parse_type(proc_arg, default_type='GObject.Value')
 
+  if _can_param_be_none(proc_arg):
+    arg_type_name = f'Optional[{arg_type_name}]'
+
   # Use dummy code with the desired annotation. It is more convenient to create
   # an annotation node this way.
   dummy_func_with_type_hint = f'def foo(arg: {arg_type_name}): pass'
