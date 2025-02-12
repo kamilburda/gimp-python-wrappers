@@ -198,7 +198,8 @@ def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
 
 def _get_pdb_return_values_type_hint(proc_return_values):
   return_type_names = [
-    _parse_type(proc_return_value, default_type='Any') for proc_return_value in proc_return_values]
+    _get_type_hint_name(proc_return_value, default_type='Any')
+    for proc_return_value in proc_return_values]
 
   # Use dummy code with the desired annotation. It is more convenient to create
   # an annotation node this way.
@@ -726,7 +727,7 @@ def _pythonize(str_):
 
 
 def _get_proc_argument_type_hint(proc_arg):
-  arg_type_name = _parse_type(proc_arg, default_type='GObject.Value')
+  arg_type_name = _get_type_hint_name(proc_arg, default_type='GObject.Value')
 
   if _can_param_be_none(proc_arg):
     arg_type_name = f'Optional[{arg_type_name}]'
@@ -740,7 +741,7 @@ def _get_proc_argument_type_hint(proc_arg):
   return node.body[0].args.args[0].annotation
 
 
-def _parse_type(proc_arg, default_type=None):
+def _get_type_hint_name(proc_arg, default_type=None):
   value_type = proc_arg.value_type
 
   if value_type is None or not value_type.name:
@@ -753,7 +754,18 @@ def _parse_type(proc_arg, default_type=None):
     #  Since the enum values are not easily accessible, only the string type
     #  will be displayed as a type hint.
     return 'str'
-  elif value_type.name.startswith('Gimp'):
+  elif proc_arg.value_type.name == 'GimpCoreObjectArray':
+    core_object_array_element_type = Gimp.param_spec_core_object_array_get_object_type(proc_arg)
+    element_type_name = _get_type_hint_name_from_gtype(core_object_array_element_type, default_type)
+    # We use `List` as the `PyPDB` instance converts `GimpCoreObjectArray`s to
+    # lists.
+    return f'List[{element_type_name}]'
+  else:
+    return _get_type_hint_name_from_gtype(value_type, default_type)
+
+
+def _get_type_hint_name_from_gtype(value_type, default_type):
+  if value_type.name.startswith('Gimp'):
     try:
       getattr(Gimp, value_type.name[len('Gimp'):])
     except AttributeError:
