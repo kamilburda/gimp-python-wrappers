@@ -12,8 +12,9 @@ gi.require_version('Gegl', '0.4')
 from gi.repository import Gegl
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
+from gi.repository import Gio
+from gi.repository import GLib
 gi.require_version('GimpUi', '3.0')
-from gi.repository import GimpUi
 from gi.repository import GObject
 
 
@@ -376,6 +377,10 @@ def _add_proc_params_or_retvals_to_docstring(
     else:
       description = ''
 
+    object_type_str = ''
+    if _is_core_object_array(param):
+      object_type_str = f' (array of {_get_core_object_array_element_type(param)} elements)'
+
     default_value_str = _get_param_default_value(param)
     default_enum_value_as_string = None
 
@@ -399,10 +404,17 @@ def _add_proc_params_or_retvals_to_docstring(
     else:
       default_value_str = ''
 
+    can_be_none_str = ''
+    if _can_param_be_none(param):
+      can_be_none_str = ' (can be None)'
+
+    param_base_info = (
+      f'{param_prefix}{name}{object_type_str}{default_value_str}{can_be_none_str}')
+
     if description:
-      param_str = f'{param_prefix}{name}{default_value_str} - {description}'
+      param_str = f'{param_base_info} - {description}'
     else:
-      param_str = f'{param_prefix}{name}{default_value_str}'
+      param_str = param_base_info
 
     param_str = textwrap.fill(
       param_str,
@@ -412,23 +424,34 @@ def _add_proc_params_or_retvals_to_docstring(
 
     param_str = f'\n{_BODY_INDENT}' * 2 + param_str
 
-    choices_description = None
-    if _is_param_gimp_choice(param):
-      choice_values = _format_gimp_choice_values(_get_gimp_choice_values(procedure, param))
-      choices_description = f'Allowed values: {choice_values}'
+    additional_description = None
+    if _is_param_numeric(param):
+      minimum_value, maximum_value = _get_minimum_maximum_value(param)
+
+      if minimum_value is not None:
+        additional_description = f'Minimum value: {minimum_value}'
+
+      if maximum_value is not None:
+        if not additional_description:
+          additional_description = f'Maximum value: {maximum_value}'
+        else:
+          additional_description = f'{additional_description}, maximum value: {maximum_value}'
+    elif _is_param_gimp_choice(param):
+      choice_values = _format_gimp_choice_values(_get_gimp_choice_values(param))
+      additional_description = f'Allowed values: {choice_values}'
     elif _is_param_gimp_choice_from_gegl_enum(param):
       choice_values = _format_gimp_choice_values(_get_gimp_choice_values_from_gegl_enum(param))
-      choices_description = f'Allowed values: {choice_values}'
+      additional_description = f'Allowed values: {choice_values}'
 
-    if choices_description is not None:
-      choices_description = textwrap.fill(
-        choices_description,
+    if additional_description is not None:
+      additional_description = textwrap.fill(
+        additional_description,
         width=_DOCSTRING_LINE_LENGTH - len(_BODY_INDENT) - len(param_prefix),
         subsequent_indent=_BODY_INDENT + ' ' * len(param_prefix),
         break_on_hyphens=False)
 
-      choices_description = f'\n{_BODY_INDENT}{' ' * len(param_prefix)}' * 2 + choices_description
-      param_str += choices_description
+      additional_description = f'\n{_BODY_INDENT}{' ' * len(param_prefix)}' * 2 + additional_description
+      param_str += additional_description
 
     proc_params += param_str
 
@@ -457,15 +480,87 @@ def _get_param_default_value(param):
     return None
 
 
+def _can_param_be_none(param):
+  gtype = param.value_type
+
+  if gtype == Gio.File.__gtype__:
+    return Gimp.param_spec_file_none_allowed(param)
+  elif gtype == Gimp.Image.__gtype__:
+    return Gimp.param_spec_image_none_allowed(param)
+  elif gtype in [
+        Gimp.Item.__gtype__,
+        Gimp.Drawable.__gtype__,
+        Gimp.Layer.__gtype__,
+        Gimp.GroupLayer.__gtype__,
+        Gimp.TextLayer.__gtype__,
+        Gimp.Channel.__gtype__,
+        Gimp.LayerMask.__gtype__,
+        Gimp.Selection.__gtype__,
+        Gimp.Path.__gtype__]:
+    return Gimp.param_spec_item_none_allowed(param)
+  elif gtype == Gimp.DrawableFilter.__gtype__:
+    return Gimp.param_spec_drawable_filter_none_allowed(param)
+  elif gtype == Gimp.Display.__gtype__:
+    return Gimp.param_spec_display_none_allowed(param)
+  elif gtype == Gegl.Color.__gtype__:
+    return Gimp.param_spec_color_has_alpha(param)
+  elif gtype.parent == Gimp.Resource.__gtype__:
+    return Gimp.param_spec_resource_none_allowed(param)
+
+  return False
+
+
+def _is_core_object_array(param):
+  return hasattr(param.value_type, 'name') and param.value_type.name == 'GimpCoreObjectArray'
+
+
+def _get_core_object_array_element_type(param):
+  array_element_gtype = Gimp.param_spec_core_object_array_get_object_type(param)
+
+  gi_module_names = [
+    'Gimp',
+    'Gegl',
+    'GimpUi',
+    'GObject',
+    'GLib',
+    'Gio',
+  ]
+
+  gtype_name = array_element_gtype.name
+
+  for module_name in gi_module_names:
+    if gtype_name.startswith(module_name):
+      return f'{module_name}.{gtype_name[len(module_name):]}'
+
+  return gtype_name
+
+
+def _is_param_numeric(param):
+  return hasattr(param, 'minimum') and hasattr(param, 'maximum')
+
+
+def _get_minimum_maximum_value(param):
+  min_value = param.minimum
+  if ((param.value_type == GObject.TYPE_INT and min_value == GLib.MININT)
+      or (param.value_type == GObject.TYPE_DOUBLE and min_value == -GLib.MAXDOUBLE)):
+    min_value = None
+
+  max_value = param.maximum
+  if ((param.value_type == GObject.TYPE_INT and max_value == GLib.MAXINT)
+      or (param.value_type == GObject.TYPE_UINT and max_value == GLib.MAXUINT)
+      or (param.value_type == GObject.TYPE_DOUBLE and max_value == GLib.MAXDOUBLE)):
+    max_value = None
+
+  return min_value, max_value
+
+
 def _is_param_gimp_choice(param):
-  return isinstance(param, (Gimp.ParamChoice, Gimp.ParamSpecChoice))
+  return isinstance(param, Gimp.ParamChoice)
 
 
-def _get_gimp_choice_values(procedure, param):
-  # HACK: Currently, the only way to obtain `Gimp.Choice` values is by creating
-  #  a combo box tailored to `Gimp.Choice` values.
-  combo_box = GimpUi.prop_choice_combo_box_new(procedure.create_config(), param.name)
-  return [row[0] for row in combo_box.get_model()]
+def _get_gimp_choice_values(param):
+  choice = Gimp.param_spec_choice_get_choice(param)
+  return choice.list_nicks()
 
 
 def _is_param_gimp_choice_from_gegl_enum(param):
