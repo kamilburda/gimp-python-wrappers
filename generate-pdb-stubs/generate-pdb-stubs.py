@@ -13,6 +13,7 @@ gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
 gi.require_version('GimpUi', '3.0')
 from gi.repository import GimpUi
+from gi.repository import Gio
 from gi.repository import GObject
 
 import stubgen
@@ -30,7 +31,7 @@ def generate_pdb_stubs(proc, config, _data):
     GimpUi.init('generate-pdb-stubs')
 
     dialog = GimpUi.ProcedureDialog(procedure=proc, config=config, title=None)
-    dialog.fill(['output-dirpath'])
+    dialog.fill(['output-directory'])
 
     is_ok_pressed = dialog.run()
     if is_ok_pressed:
@@ -39,7 +40,7 @@ def generate_pdb_stubs(proc, config, _data):
       dialog.destroy()
       return Gimp.PDBStatusType.CANCEL
 
-  output_dirpath = config.get_property('output-dirpath')
+  output_dirpath = config.get_property('output-directory').get_path()
   if not output_dirpath:
     output_dirpath = stubgen.MODULE_DIRPATH
 
@@ -62,11 +63,13 @@ procedure.register_procedure(
       GObject.ParamFlags.READWRITE,
     ],
     [
-      'string',
-      'output-dirpath',
-      'Output _directory path',
-      f'Output directory path (default: "{stubgen.MODULE_DIRPATH}")',
-      stubgen.MODULE_DIRPATH,
+      'file',
+      'output-directory',
+      'Output _directory',
+      f'Output directory (default: "{stubgen.MODULE_DIRPATH}")',
+      Gimp.FileChooserAction.SELECT_FOLDER,
+      False,
+      Gio.file_new_for_path(stubgen.MODULE_DIRPATH),
       GObject.ParamFlags.READWRITE,
     ],
   ],

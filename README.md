@@ -122,6 +122,6 @@ Alternatively, you can run the generator from the Python-Fu console - choose `Fi
 ```
 procedure = Gimp.get_pdb().lookup_procedure('generate-pdb-stubs')
 config = procedure.create_config()
-config.set_property('output-dirpath', <your desired output directory>)
+config.set_property('output-directory', Gio.file_new_for_path(<path to directory>))
 procedure.run(config)
 ```
