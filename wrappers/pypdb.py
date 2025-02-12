@@ -1,5 +1,7 @@
 """Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures."""
 
+from __future__ import annotations
+
 import abc
 from typing import List, Optional
 
@@ -38,25 +40,21 @@ class _PyPDB:
     """Error message of the last `GimpPDBProcedure` invoked by this class."""
     return self._last_error
 
-  def __getattr__(self, name: str):
+  def __getattr__(self, name: str) -> PDBProcedure:
     proc_name = self._process_procedure_name(name)
 
-    if self._gimp_pdb_procedure_exists(proc_name):
-      return self._get_proc_by_name(proc_name, GimpPDBProcedure)
-    elif self._gegl_operation_exists(proc_name):
-      return self._get_proc_by_name(proc_name, GeglProcedure)
-    else:
-      raise AttributeError(f'procedure "{proc_name}" does not exist')
+    if proc_name not in self._proc_cache:
+      self._proc_cache[proc_name] = self._create_proc(proc_name)
 
-  def __getitem__(self, name: str):
+    return self._proc_cache[proc_name]
+
+  def __getitem__(self, name: str) -> PDBProcedure:
     proc_name = self._process_procedure_name(name)
 
-    if self._gimp_pdb_procedure_exists(proc_name):
-      return self._get_proc_by_name(proc_name, GimpPDBProcedure)
-    elif self._gegl_operation_exists(proc_name):
-      return self._get_proc_by_name(proc_name, GeglProcedure)
-    else:
-      raise KeyError(f'procedure "{proc_name}" does not exist')
+    if proc_name not in self._proc_cache:
+      self._proc_cache[proc_name] = self._create_proc(proc_name)
+
+    return self._proc_cache[proc_name]
 
   def __contains__(self, name: Optional[str]) -> bool:
     if name is None:
@@ -64,7 +62,13 @@ class _PyPDB:
 
     proc_name = self._process_procedure_name(name)
 
-    return self._gimp_pdb_procedure_exists(proc_name) or self._gegl_operation_exists(proc_name)
+    if proc_name not in self._proc_cache:
+      try:
+        self._proc_cache[proc_name] = self._create_proc(proc_name)
+      except AttributeError:
+        return False
+
+    return proc_name in self._proc_cache
 
   @staticmethod
   def list_all_gegl_operations():
@@ -92,11 +96,13 @@ class _PyPDB:
     except KeyError:
       pass
 
-  def _get_proc_by_name(self, proc_name, proc_class):
-    if proc_name not in self._proc_cache:
-      self._proc_cache[proc_name] = proc_class(self, proc_name)
-
-    return self._proc_cache[proc_name]
+  def _create_proc(self, proc_name):
+    if self._gimp_pdb_procedure_exists(proc_name):
+      return GimpPDBProcedure(self, proc_name)
+    elif self._gegl_operation_exists(proc_name):
+      return GeglProcedure(self, proc_name)
+    else:
+      raise AttributeError(f'procedure "{proc_name}" does not exist')
 
   @staticmethod
   def _gimp_pdb_procedure_exists(proc_name):
