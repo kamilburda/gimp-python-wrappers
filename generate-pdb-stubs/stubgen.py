@@ -49,7 +49,7 @@ _GTYPES_TO_PYTHON_TYPES = {
   'GBytes': 'GLib.Bytes',
   'GFile': 'Gio.File',
   'GParam': 'GObject.ParamSpec',
-  'GStrv': 'List[str]',
+  'GStrv': 'list[str]',
 }
 
 
@@ -79,7 +79,7 @@ def _add_imports(root_node):
   new_import_nodes = ast.parse(
     '\n'
     + '\n'.join([
-      'from typing import Any, Tuple',
+      'from typing import Any',
       'from gi.repository import GLib',
       'from gi.repository import Gio',
     ])
@@ -205,7 +205,7 @@ def _get_pdb_return_values_type_hint(proc_return_values):
   # an annotation node this way.
   if len(return_type_names) > 1:
     return_type_names_str = ', '.join(return_type_names)
-    dummy_func_with_type_hint = f'def foo() -> Tuple[{return_type_names_str}]: pass'
+    dummy_func_with_type_hint = f'def foo() -> tuple[{return_type_names_str}]: pass'
   elif len(return_type_names) == 1:
     dummy_func_with_type_hint = f'def foo() -> {return_type_names[0]}: pass'
   else:
@@ -732,11 +732,9 @@ def _get_proc_argument_type_hint(proc_arg):
   if _can_param_be_none(proc_arg):
     arg_type_name = f'Optional[{arg_type_name}]'
 
-  # Use dummy code with the desired annotation. It is more convenient to create
-  # an annotation node this way.
-  dummy_func_with_type_hint = f'def foo(arg: {arg_type_name}): pass'
-
-  node = ast.parse(dummy_func_with_type_hint)
+  # Use placeholder code with the desired annotation. It is more convenient to
+  # create an annotation node this way.
+  node = ast.parse(f'def foo(arg: {arg_type_name}): pass')
 
   return node.body[0].args.args[0].annotation
 
@@ -759,7 +757,7 @@ def _get_type_hint_name(proc_arg, default_type=None):
     element_type_name = _get_type_hint_name_from_gtype(core_object_array_element_type, default_type)
     # We use `List` as the `PyPDB` instance converts `GimpCoreObjectArray`s to
     # lists.
-    return f'List[{element_type_name}]'
+    return f'list[{element_type_name}]'
   else:
     return _get_type_hint_name_from_gtype(value_type, default_type)
 

@@ -1,9 +1,7 @@
 """Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures."""
 
-from __future__ import annotations
-
 import abc
-from typing import List, Optional
+from typing import Optional
 
 import gi
 gi.require_version('Gegl', '0.4')
@@ -40,7 +38,7 @@ class _PyPDB:
     """Error message of the last `GimpPDBProcedure` invoked by this class."""
     return self._last_error
 
-  def __getattr__(self, name: str) -> PDBProcedure:
+  def __getattr__(self, name: str) -> 'PDBProcedure':
     proc_name = self._process_procedure_name(name)
 
     if proc_name not in self._proc_cache:
@@ -48,7 +46,7 @@ class _PyPDB:
 
     return self._proc_cache[proc_name]
 
-  def __getitem__(self, name: str) -> PDBProcedure:
+  def __getitem__(self, name: str) -> 'PDBProcedure':
     proc_name = self._process_procedure_name(name)
 
     if proc_name not in self._proc_cache:
@@ -78,7 +76,7 @@ class _PyPDB:
   def list_all_gimp_pdb_procedures():
     return Gimp.get_pdb().query_procedures(*([''] * 8))
 
-  def list_all_procedure_names(self) -> List[str]:
+  def list_all_procedure_names(self):
     return self.list_all_gegl_operations() + self.list_all_gimp_pdb_procedures()
 
   def remove_from_cache(self, name: str):
