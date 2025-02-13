@@ -1,6 +1,7 @@
 """Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures."""
 
 import abc
+import keyword
 from typing import Optional
 
 import gi
@@ -137,8 +138,31 @@ class PDBProcedure(metaclass=abc.ABCMeta):
 
     All underscore characters  (``_``) in argument names are automatically
     replaced by ``-``.
+
+    Arguments whose names match a Python keyword (``if``, ``lambda``,
+    etc.) can be specified by appending a ``_``, e.g. ``lambda_=<value>``.
     """
     pass
+
+  @staticmethod
+  def _process_arg_name(arg_name):
+    """Transforms the given Python argument name to the name of a property
+    defined for this procedure.
+
+    For example, ``'run_mode'`` is transformed to ``'run-mode'``.
+
+    Argument names matching a Python keyword can be specified with a trailing
+    ``_``, e.g. ``lambda_``. This is transformed such that the trailing `_``
+    is removed, e.g. ``lambda``.
+    """
+    processed_arg_name = arg_name.replace('_', '-')
+
+    # This allows passing arguments with a trailing '_' to avoid name clashes
+    # with Python keywords.
+    if processed_arg_name.endswith('-') and keyword.iskeyword(processed_arg_name[:-1]):
+      processed_arg_name = processed_arg_name[:-1]
+
+    return processed_arg_name
 
   @property
   @abc.abstractmethod
@@ -310,7 +334,7 @@ class GimpPDBProcedure(PDBProcedure):
     args_and_names = {arg.name: arg for arg in args}
 
     for arg_name, arg_value in proc_kwargs.items():
-      processed_arg_name = arg_name.replace('_', '-')
+      processed_arg_name = self._process_arg_name(arg_name)
 
       try:
         arg = args_and_names[processed_arg_name]
@@ -379,7 +403,7 @@ class GeglProcedure(PDBProcedure):
     ``drawable_`` argument, which may be specified as the first and the only
     positional argument.
     """
-    processed_kwargs = {name.replace('_', '-'): value for name, value in kwargs.items()}
+    processed_kwargs = {self._process_arg_name(name): value for name, value in kwargs.items()}
 
     if 'drawable-' in processed_kwargs:
       drawable = processed_kwargs.pop('drawable-')

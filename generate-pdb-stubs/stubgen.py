@@ -2,6 +2,7 @@
 
 import ast
 import inspect
+import keyword
 import os
 import re
 import sys
@@ -161,7 +162,7 @@ def _insert_gimp_pdb_procedure_node(pypdb_class_node, procedure_name):
 
 
 def _create_pdb_procedure_node(procedure_name):
-  func_name = pypdb.pdb.canonical_name_to_python_name(procedure_name)
+  func_name = _canonical_name_to_python_name(procedure_name)
 
   # Constructing a `FunctionDef` node this way is more readable and less error-prone.
   func_base_arguments_str = 'self'
@@ -179,7 +180,7 @@ def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
 
   for proc_arg in reversed(proc_args):
     arg_node = ast.arg(
-      arg=pypdb.pdb.canonical_name_to_python_name(proc_arg.name),
+      arg=_canonical_name_to_python_name(proc_arg.name),
       annotation=_get_proc_argument_type_hint(proc_arg),
       col_offset=None,
       end_col_offset=None,
@@ -382,7 +383,7 @@ def _add_proc_params_or_retvals_to_docstring(
   param_prefix = '* '
 
   for param in params:
-    name = pypdb.pdb.canonical_name_to_python_name(param.name)
+    name = _canonical_name_to_python_name(param.name)
 
     description = param.blurb
     if description:
@@ -685,7 +686,7 @@ def _insert_gegl_procedure_arguments(procedure, procedure_node):
 
   for proc_arg in reversed(proc_args):
     arg_node = ast.arg(
-      arg=pypdb.pdb.canonical_name_to_python_name(proc_arg.name),
+      arg=_canonical_name_to_python_name(proc_arg.name),
       annotation=_get_proc_argument_type_hint(proc_arg),
       col_offset=None,
       end_col_offset=None,
@@ -793,6 +794,17 @@ def _get_type_hint_name_from_gtype(value_type, default_type):
       return _get_full_type_name(value_type.pytype)
     else:
       return default_type
+
+
+def _canonical_name_to_python_name(name):
+  processed_name = pypdb.pdb.canonical_name_to_python_name(name)
+
+  # This allows passing arguments with a trailing '_' to avoid name clashes
+  # with Python keywords.
+  if keyword.iskeyword(processed_name):
+    processed_name = f'{processed_name}_'
+
+  return processed_name
 
 
 def write_stub_file(dirpath, root_node):

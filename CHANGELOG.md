@@ -7,6 +7,7 @@
 * Updated type annotations for parameters that can be `None` (e.g. `Gimp.Image` or `Gimp.Layer`) in the stub file.
 * Slightly optimized access to PDB procedures and GEGL operations via the `pdb` object.
 * Improved GUI for the output directory for the stub generator.
+* Arguments whose names match a Python keyword can now be passed with a trailing `_`, e.g. `lambda_` (passing `lambda=<value>` would result in a syntax error).
 
 
 4.2
