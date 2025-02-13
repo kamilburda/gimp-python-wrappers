@@ -88,6 +88,8 @@ All layer effects have the following common parameters (all of them end with `_`
 * `visible_` - if ``False``, the effect will be added, but will not be applied.
 * `filter_name_` - a custom name for the effect. If omitted, a default name is assigned by GIMP.
 
+In the marginal case that an argument name matches a Python keyword (e.g. `lambda`), append a `_` (e.g. `lambda_`) to avoid a syntax error.
+
 Return values are returned as a Python list (in case of multiple return values) or directly as a Python object (in case of a single return value). Functions having no return values return `None`.
 
 The exit status is available as the `pdb.last_status` property (in the official GIMP API, this is a part of the returned `Gimp.ValueArray` as the first element). This does not apply to layer effects.
