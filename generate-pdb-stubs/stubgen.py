@@ -85,8 +85,19 @@ def _add_imports(root_node):
     ])
   )
 
+  last_consecutive_import_node_index = 0
+  encountered_first_import_node = False
+
+  for node in root_node.body:
+    if isinstance(node, (ast.Import, ast.ImportFrom)):
+      last_consecutive_import_node_index += 1
+      encountered_first_import_node = True
+    else:
+      if encountered_first_import_node:
+        break
+
   for new_import_node in reversed(new_import_nodes.body):
-    root_node.body.insert(0, new_import_node)
+    root_node.body.insert(last_consecutive_import_node_index, new_import_node)
 
 
 def _remove_implementation_of_functions(root_node):
