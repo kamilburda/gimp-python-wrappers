@@ -39,7 +39,7 @@ class _PyPDB:
     return self._last_error
 
   def __getattr__(self, name: str) -> 'PDBProcedure':
-    proc_name = self._process_procedure_name(name)
+    proc_name = self.python_name_to_canonical_name(name)
 
     if proc_name not in self._proc_cache:
       self._proc_cache[proc_name] = self._create_proc(proc_name)
@@ -47,7 +47,7 @@ class _PyPDB:
     return self._proc_cache[proc_name]
 
   def __getitem__(self, name: str) -> 'PDBProcedure':
-    proc_name = self._process_procedure_name(name)
+    proc_name = self.python_name_to_canonical_name(name)
 
     if proc_name not in self._proc_cache:
       self._proc_cache[proc_name] = self._create_proc(proc_name)
@@ -58,7 +58,7 @@ class _PyPDB:
     if name is None:
       return False
 
-    proc_name = self._process_procedure_name(name)
+    proc_name = self.python_name_to_canonical_name(name)
 
     if proc_name not in self._proc_cache:
       try:
@@ -87,7 +87,7 @@ class _PyPDB:
 
     No action is taken if there is no procedure matching ``name`` in the cache.
     """
-    proc_name = self._process_procedure_name(name)
+    proc_name = self.python_name_to_canonical_name(name)
 
     try:
       del self._proc_cache[proc_name]
@@ -103,16 +103,20 @@ class _PyPDB:
       raise AttributeError(f'procedure "{proc_name}" does not exist')
 
   @staticmethod
+  def python_name_to_canonical_name(name):
+    return name.replace('__', ':').replace('_', '-')
+
+  @staticmethod
+  def canonical_name_to_python_name(name):
+    return name.replace('-', '_').replace(':', '__')
+
+  @staticmethod
   def _gimp_pdb_procedure_exists(proc_name):
     return Gimp.is_canonical_identifier(proc_name) and Gimp.get_pdb().procedure_exists(proc_name)
 
   @staticmethod
   def _gegl_operation_exists(proc_name):
     return Gegl.has_operation(proc_name)
-
-  @staticmethod
-  def _process_procedure_name(name):
-    return name.replace('__', ':').replace('_', '-')
 
 
 class PDBProcedure(metaclass=abc.ABCMeta):

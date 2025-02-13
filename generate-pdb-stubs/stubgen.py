@@ -66,10 +66,10 @@ def generate_pdb_stubs(output_dirpath):
 
   pypdb_class_node = _get_pypdb_class_node(root_node)
 
-  for proc_name, proc in sorted(_get_gimp_pdb_procedures().items()):
-    _insert_gimp_pdb_procedure_node(pypdb_class_node, proc_name, proc)
+  for proc_name in sorted(pypdb.pdb.list_all_gimp_pdb_procedures()):
+    _insert_gimp_pdb_procedure_node(pypdb_class_node, proc_name)
 
-  for proc_name in sorted(_get_gegl_procedures()):
+  for proc_name in sorted(pypdb.pdb.list_all_gegl_operations()):
     _insert_gegl_procedure_node(pypdb_class_node, proc_name)
 
   write_stub_file(output_dirpath, root_node)
@@ -149,8 +149,10 @@ def _get_pypdb_class_node(root_node):
   return pypdb_class_node
 
 
-def _insert_gimp_pdb_procedure_node(pypdb_class_node, procedure_name, procedure):
+def _insert_gimp_pdb_procedure_node(pypdb_class_node, procedure_name):
   procedure_node = _create_pdb_procedure_node(procedure_name)
+
+  procedure = pypdb.GimpPDBProcedure(pypdb.pdb, procedure_name)
 
   _insert_gimp_pdb_procedure_arguments(procedure_node, procedure)
   _insert_gimp_pdb_procedure_docstring(procedure_node, procedure)
@@ -159,7 +161,7 @@ def _insert_gimp_pdb_procedure_node(pypdb_class_node, procedure_name, procedure)
 
 
 def _create_pdb_procedure_node(procedure_name):
-  func_name = _pythonize(procedure_name)
+  func_name = pypdb.pdb.canonical_name_to_python_name(procedure_name)
 
   # Constructing a `FunctionDef` node this way is more readable and less error-prone.
   func_base_arguments_str = 'self'
@@ -173,11 +175,11 @@ def _create_pdb_procedure_node(procedure_name):
 
 
 def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
-  proc_args = procedure.get_arguments()
+  proc_args = procedure.arguments
 
   for proc_arg in reversed(proc_args):
     arg_node = ast.arg(
-      arg=_pythonize(proc_arg.name),
+      arg=pypdb.pdb.canonical_name_to_python_name(proc_arg.name),
       annotation=_get_proc_argument_type_hint(proc_arg),
       col_offset=None,
       end_col_offset=None,
@@ -204,7 +206,7 @@ def _insert_gimp_pdb_procedure_arguments(procedure_node, procedure):
 
     procedure_node.args.defaults.insert(0, arg_default_value)
 
-  procedure_node.returns = _get_pdb_return_values_type_hint(procedure.get_return_values())
+  procedure_node.returns = _get_pdb_return_values_type_hint(procedure.return_values)
 
 
 def _get_pdb_return_values_type_hint(proc_return_values):
@@ -241,15 +243,15 @@ def _get_full_type_name(type_):
 def _insert_gimp_pdb_procedure_docstring(procedure_node, procedure):
   proc_docstring = ''
 
-  proc_docstring = _add_proc_blurb_to_docstring(procedure.get_blurb(), proc_docstring)
+  proc_docstring = _add_proc_blurb_to_docstring(procedure.blurb, proc_docstring)
 
   add_extra_newline = True
   proc_docstring, is_specified = _add_field_to_docstring(
-    procedure.get_image_types(), proc_docstring, 'Image types', True)
+    procedure.proc.get_image_types(), proc_docstring, 'Image types', True)
 
   add_extra_newline = add_extra_newline and not is_specified
   proc_docstring, is_specified = _add_field_to_docstring(
-    procedure.get_menu_label(), proc_docstring, 'Menu label', add_extra_newline)
+    procedure.menu_label, proc_docstring, 'Menu label', add_extra_newline)
 
   add_extra_newline = add_extra_newline and not is_specified
   proc_docstring = _add_menu_paths_to_docstring(procedure, proc_docstring, add_extra_newline)
@@ -292,7 +294,7 @@ def _add_field_to_docstring(field, proc_docstring, prefix, add_extra_newline):
 
 
 def _add_menu_paths_to_docstring(procedure, proc_docstring, add_extra_newline):
-  proc_menu_paths = procedure.get_menu_paths()
+  proc_menu_paths = procedure.menu_paths
   if proc_menu_paths:
     if proc_docstring:
       proc_docstring += f'\n{_BODY_INDENT}' * (2 if add_extra_newline else 1)
@@ -306,7 +308,7 @@ def _add_menu_paths_to_docstring(procedure, proc_docstring, add_extra_newline):
 
 
 def _add_proc_help_to_docstring(procedure, proc_docstring):
-  proc_help = procedure.get_help()
+  proc_help = procedure.help
   if proc_help:
     proc_help = proc_help.strip()
     if not proc_help.endswith('.'):
@@ -354,7 +356,7 @@ def _add_proc_params_to_docstring(procedure, proc_docstring):
     procedure,
     proc_docstring,
     'parameter',
-    lambda proc: proc.get_arguments(),
+    lambda proc: proc.arguments,
     'Parameters:',
   )
 
@@ -364,7 +366,7 @@ def _add_proc_return_values_to_docstring(procedure, proc_docstring):
     procedure,
     proc_docstring,
     'return_value',
-    lambda proc: proc.get_return_values(),
+    lambda proc: proc.return_values,
     'Returns:',
   )
 
@@ -380,7 +382,7 @@ def _add_proc_params_or_retvals_to_docstring(
   param_prefix = '* '
 
   for param in params:
-    name = _pythonize(param.name)
+    name = pypdb.pdb.canonical_name_to_python_name(param.name)
 
     description = param.blurb
     if description:
@@ -683,7 +685,7 @@ def _insert_gegl_procedure_arguments(procedure, procedure_node):
 
   for proc_arg in reversed(proc_args):
     arg_node = ast.arg(
-      arg=_pythonize(proc_arg.name),
+      arg=pypdb.pdb.canonical_name_to_python_name(proc_arg.name),
       annotation=_get_proc_argument_type_hint(proc_arg),
       col_offset=None,
       end_col_offset=None,
@@ -731,10 +733,6 @@ def _insert_gegl_procedure_docstring(procedure, procedure_node):
   proc_docstring += f'\n{_BODY_INDENT}'
 
   procedure_node.body[0].value.value = proc_docstring
-
-
-def _pythonize(str_):
-  return str_.replace('-', '_').replace(':', '__')
 
 
 def _get_proc_argument_type_hint(proc_arg):
@@ -795,27 +793,6 @@ def _get_type_hint_name_from_gtype(value_type, default_type):
       return _get_full_type_name(value_type.pytype)
     else:
       return default_type
-
-
-def _get_gimp_pdb_procedures():
-  """Retrieves a list of GIMP PDB procedures."""
-  query_procedure = Gimp.get_pdb().lookup_procedure('gimp-pdb-query')
-  config = query_procedure.create_config()
-  for prop in config.list_properties():
-    if prop.value_type == Gimp.Procedure.__gtype__:
-      continue
-
-    config.set_property(prop.name, '')
-
-  return {
-    proc_name: Gimp.get_pdb().lookup_procedure(proc_name)
-    for proc_name in query_procedure.run(config).index(1)
-  }
-
-
-def _get_gegl_procedures():
-  """Retrieves a list of GEGL operations."""
-  return Gegl.list_operations()
 
 
 def write_stub_file(dirpath, root_node):
