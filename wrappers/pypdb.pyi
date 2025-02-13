@@ -1,9 +1,10 @@
-from typing import Any, Tuple
+"""Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures."""
+import abc
+import keyword
+from typing import Optional
+from typing import Any
 from gi.repository import GLib
 from gi.repository import Gio
-'Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures.'
-import abc
-from typing import List, Optional
 import gi
 gi.require_version('Gegl', '0.4')
 from gi.repository import Gegl
@@ -27,10 +28,10 @@ class _PyPDB:
     def last_error(self):
         pass
 
-    def __getattr__(self, name: str):
+    def __getattr__(self, name: str) -> 'PDBProcedure':
         pass
 
-    def __getitem__(self, name: str):
+    def __getitem__(self, name: str) -> 'PDBProcedure':
         pass
 
     def __contains__(self, name: Optional[str]) -> bool:
@@ -44,13 +45,21 @@ class _PyPDB:
     def list_all_gimp_pdb_procedures():
         pass
 
-    def list_all_procedure_names(self) -> List[str]:
+    def list_all_procedure_names(self):
         pass
 
     def remove_from_cache(self, name: str):
         pass
 
-    def _get_proc_by_name(self, proc_name, proc_class):
+    def _create_proc(self, proc_name):
+        pass
+
+    @staticmethod
+    def python_name_to_canonical_name(name):
+        pass
+
+    @staticmethod
+    def canonical_name_to_python_name(name):
         pass
 
     @staticmethod
@@ -61,11 +70,7 @@ class _PyPDB:
     def _gegl_operation_exists(proc_name):
         pass
 
-    @staticmethod
-    def _process_procedure_name(name):
-        pass
-
-    def extension_gimp_help(self, domain_names: List[str]=None, domain_uris: List[str]=None):
+    def extension_gimp_help(self, domain_names: list[str]=None, domain_uris: list[str]=None):
         """Parameters:
         
         * domain_names - Domain names.
@@ -96,11 +101,13 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * file_type (default: 0) - File type to use.
+          
+          Minimum value: 0, maximum value: 11
         """
         pass
 
@@ -118,7 +125,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -128,6 +135,8 @@ class _PyPDB:
         
         * default_delay (default: 8) - Default delay between frames in jiffies
           (1/60 of a second).
+          
+          Minimum value: 0
         
         * hot_spot_x - X coordinates of hot spot (one per layer).
         
@@ -146,36 +155,44 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_ani_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ani_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a Windows ANI files.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
@@ -193,7 +210,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -221,11 +238,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -243,7 +260,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -260,11 +277,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -282,11 +299,11 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
-        * palette_file - File to save palette to.
+        * palette_file (file to save) - File to save palette to.
         """
         pass
 
@@ -301,13 +318,13 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
-        * palette_file - KCF file to load palette from.
+        * palette_file (file to open) - KCF file to load palette from.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -326,7 +343,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -337,6 +354,8 @@ class _PyPDB:
           colored pixels.
         
         * font_size (default: 10) - Font size in pixels.
+          
+          Minimum value: 5, maximum value: 100
         
         * separate (default: False) - Write a separate CSS file.
         """
@@ -356,7 +375,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -376,7 +395,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -397,11 +416,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -416,7 +435,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * override_palette (default: 'use-built-in-palette') - Whether to use
           the built-in palette or a black and white palette for 1 bit
@@ -426,7 +445,7 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -444,7 +463,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -473,6 +492,8 @@ class _PyPDB:
         
         * transparent_index (default: 0) - Index of transparent color or -1 to
           disable (for indexed images only).
+          
+          Minimum value: 0, maximum value: 255
         
         * mipmaps (default: 'none') - How to handle mipmaps.
           
@@ -495,12 +516,16 @@ class _PyPDB:
         
         * gamma (default: 0.0) - Gamma value to use for gamma correction (e.g.
           2.2).
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * preserve_alpha_coverage (default: False) - Preserve alpha test
           coverage for alpha channel maps.
         
         * alpha_test_threshold (default: 0.5) - Alpha test threshold value for
           which alpha test coverage should be preserved.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -515,7 +540,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * load_mipmaps (default: True) - Load mipmaps if present.
         
@@ -523,7 +548,7 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -539,11 +564,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -565,7 +590,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -584,11 +609,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -607,19 +632,27 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * width (default: 287.0) - Width of the image in PostScript file (0:
           use input image size).
+          
+          Minimum value: 0.0, maximum value: 524288.0
         
         * height (default: 200.0) - Height of the image in PostScript file (0:
           use input image size).
+          
+          Minimum value: 0.0, maximum value: 524288.0
         
         * x_offset (default: 5.0) - X-offset to image from lower left corner.
+          
+          Minimum value: -524288.0, maximum value: 524288.0
         
         * y_offset (default: 5.0) - Y-offset to image from lower left corner.
+          
+          Minimum value: -524288.0, maximum value: 524288.0
         
         * unit (default: 'inch') - Unit of measure for offset values.
           
@@ -630,6 +663,8 @@ class _PyPDB:
           will be used.
         
         * rotation (default: 0) - 0, 90, 180, 270.
+          
+          Minimum value: 0, maximum value: 270
         
         * level (default: True) - If enabled, export in PostScript Level 2
           format. Otherwise, export in PostScript Level 1 format.
@@ -641,6 +676,8 @@ class _PyPDB:
         
         * preview (default: 256) - Maximum size of preview. Set to 0 for no
           preview.
+          
+          Minimum value: 0, maximum value: 524288
         """
         pass
 
@@ -655,13 +692,17 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * width (default: 0) - Width (in pixels) to load the image in. (0 for
           the corresponding width per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * height (default: 0) - Height (in pixels) to load the image in. (0
           for the corresponding height per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * keep_ratio (default: True) - Force dimensions with aspect ratio.
         
@@ -688,7 +729,7 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -706,7 +747,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -723,11 +764,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -745,7 +786,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -762,11 +803,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -781,11 +822,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -803,7 +844,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -820,11 +861,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -842,33 +883,43 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * from_frame (default: -1) - Export beginning from this frame.
+          
+          Minimum value: -1
         
         * to_frame (default: -1) - End exporting with this frame (or -1 for
           all frames).
+          
+          Minimum value: -1
         """
         pass
 
-    def file_fli_info(self, file: Gio.File=None) -> Tuple[int, int, int]:
+    def file_fli_info(self, file: Gio.File=None) -> tuple[int, int, int]:
         """Get information about a Fli movie.
         
         This is an experimental plug-in to handle FLI movies.
         
         Parameters:
         
-        * file - The local file to get info about.
+        * file (file to open) - The local file to get info about.
         
         Returns:
         
         * width (default: 0) - Width of one frame.
+          
+          Minimum value: 0, maximum value: 524288
         
         * height (default: 0) - Height of one frame.
+          
+          Minimum value: 0, maximum value: 524288
         
         * frames (default: 0) - Number of frames.
+          
+          Minimum value: 0
         """
         pass
 
@@ -883,15 +934,19 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * from_frame (default: -1) - Load beginning from this frame.
+          
+          Minimum value: -1
         
         * to_frame (default: -1) - End loading with this frame.
+          
+          Minimum value: -1
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -909,18 +964,20 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * spacing (default: 10) - Spacing of the brush.
+          
+          Minimum value: 1, maximum value: 1000
         
         * description (default: 'GIMP Brush') - Short description of the
           brush.
         """
         pass
 
-    def file_gbr_export_internal(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, file: Gio.File=None, spacing: int=10, name: str='GIMP Brush'):
+    def file_gbr_export_internal(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, file: Gio.File=None, spacing: int=10, name: str='GIMP Brush'):
         """Exports Gimp brush file (.GBR).
         
         Exports Gimp brush file (.GBR).
@@ -931,11 +988,13 @@ class _PyPDB:
         
         * image - Input image.
         
-        * drawables - Selected drawables.
+        * drawables (array of Gimp.Drawable elements) - Selected drawables.
         
         * file - The file to export.
         
         * spacing (default: 10) - Spacing of the brush.
+          
+          Minimum value: 1, maximum value: 1000
         
         * name (default: 'GIMP Brush') - The name of the brush.
         """
@@ -994,7 +1053,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -1004,9 +1063,13 @@ class _PyPDB:
         
         * number_of_repeats (default: 0) - (animated gif) Number of repeats
           (Ignored if 'loop' is TRUE).
+          
+          Minimum value: 0, maximum value: 32766
         
         * default_delay (default: 100) - (animated gif) Default delay between
           frames in milliseconds.
+          
+          Minimum value: 0
         
         * default_dispose (default: 'unspecified') - (animated gif) Default
           disposal type.
@@ -1032,40 +1095,48 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_gif_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_gif_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads only the first frame of a GIF image, to be used as a thumbnail.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
-    def file_gih_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, spacing: int=20, description: str='GIMP Brush Pipe', cell_width: int=1, cell_height: int=1, num_cells: int=1, ranks: GLib.Bytes=None, selection_modes: List[str]=None):
+    def file_gih_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, spacing: int=20, description: str='GIMP Brush Pipe', cell_width: int=1, cell_height: int=1, num_cells: int=1, ranks: GLib.Bytes=None, selection_modes: list[str]=None):
         """Exports images in GIMP Brush Pipe format.
         
         Image types: RGB*, GRAY*
@@ -1083,20 +1154,28 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * spacing (default: 20) - Spacing of the brush.
+          
+          Minimum value: 1, maximum value: 1000
         
         * description (default: 'GIMP Brush Pipe') - Short description of the
           GIH brush pipe.
         
         * cell_width (default: 1) - Width of the brush cells in pixels.
+          
+          Minimum value: 1, maximum value: 524288
         
         * cell_height (default: 1) - Height of the brush cells in pixels.
+          
+          Minimum value: 1, maximum value: 524288
         
         * num_cells (default: 1) - Number of cells to cut up.
+          
+          Minimum value: 1, maximum value: 1000
         
         * ranks - Ranks of the dimensions.
         
@@ -1104,7 +1183,7 @@ class _PyPDB:
         """
         pass
 
-    def file_gih_export_internal(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, file: Gio.File=None, spacing: int=10, name: str='GIMP Brush', params: str=None):
+    def file_gih_export_internal(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, file: Gio.File=None, spacing: int=10, name: str='GIMP Brush', params: str=None):
         """Exports Gimp animated brush file (.gih).
         
         Exports Gimp animated brush file (.gih).
@@ -1115,11 +1194,13 @@ class _PyPDB:
         
         * image - Input image.
         
-        * drawables - Drawables to save.
+        * drawables (array of Gimp.Drawable elements) - Drawables to save.
         
         * file - The file to export.
         
         * spacing (default: 10) - Spacing of the brush.
+          
+          Minimum value: 1, maximum value: 1000
         
         * name (default: 'GIMP Brush') - The name of the brush.
         
@@ -1144,7 +1225,7 @@ class _PyPDB:
         """
         pass
 
-    def file_glob(self, pattern: str=None, filename_encoding: bool=False) -> List[str]:
+    def file_glob(self, pattern: str=None, filename_encoding: bool=False) -> list[str]:
         """Returns a list of matching filenames.
         
         This can be useful in scripts and other plug-ins (e.g.,
@@ -1179,7 +1260,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -1196,11 +1277,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -1218,13 +1299,13 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
         pass
 
-    def file_heif_av1_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: int=50, lossless: bool=False, save_bit_depth: int=8, pixel_format: str='yuv420', encoder_speed: str='balanced', save_exif: bool=False, save_xmp: bool=False):
+    def file_heif_av1_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: int=50, lossless: bool=False, save_bit_depth: int=8, pixel_format: str='yuv420', encoder_speed: str='balanced', include_exif: bool=False, include_xmp: bool=False):
         """Exports AVIF images.
         
         Image types: RGB*
@@ -1238,15 +1319,19 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * quality (default: 50) - Quality factor (0 = worst, 100 = best).
+          
+          Minimum value: 0, maximum value: 100
         
         * lossless (default: False) - Use lossless compression.
         
         * save_bit_depth (default: 8) - Bit depth of exported image.
+          
+          Minimum value: 8, maximum value: 12
         
         * pixel_format (default: 'yuv420') - Format of color sub-sampling.
           
@@ -1257,9 +1342,9 @@ class _PyPDB:
           
           Allowed values: 'slow', 'balanced', 'fast'
         
-        * save_exif (default: False) - Toggle saving Exif data.
+        * include_exif (default: False) - Toggle saving Exif data.
         
-        * save_xmp (default: False) - Toggle saving XMP data.
+        * include_xmp (default: False) - Toggle saving XMP data.
         """
         pass
 
@@ -1274,15 +1359,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_heif_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: int=50, lossless: bool=False, save_bit_depth: int=8, pixel_format: str='yuv420', encoder_speed: str='balanced', save_exif: bool=False, save_xmp: bool=False):
+    def file_heif_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: int=50, lossless: bool=False, save_bit_depth: int=8, pixel_format: str='yuv420', encoder_speed: str='balanced', include_exif: bool=False, include_xmp: bool=False):
         """Exports HEIF images.
         
         Image types: RGB*
@@ -1296,15 +1381,19 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * quality (default: 50) - Quality factor (0 = worst, 100 = best).
+          
+          Minimum value: 0, maximum value: 100
         
         * lossless (default: False) - Use lossless compression.
         
         * save_bit_depth (default: 8) - Bit depth of exported image.
+          
+          Minimum value: 8, maximum value: 12
         
         * pixel_format (default: 'yuv420') - Format of color sub-sampling.
           
@@ -1315,9 +1404,9 @@ class _PyPDB:
           
           Allowed values: 'slow', 'balanced', 'fast'
         
-        * save_exif (default: False) - Toggle saving Exif data.
+        * include_exif (default: False) - Toggle saving Exif data.
         
-        * save_xmp (default: False) - Toggle saving XMP data.
+        * include_xmp (default: False) - Toggle saving XMP data.
         """
         pass
 
@@ -1332,11 +1421,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -1352,15 +1441,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_hgt_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None, sample_spacing: str='auto-detect', palette_offset: int=0, palette_type: str='rgb', palette_file: Gio.File=None) -> Gimp.Image:
+    def file_hgt_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None, sample_spacing: str='auto-detect', palette_offset: int=0, palette_type: str='rgb', palette_file: Optional[Gio.File]=None) -> Gimp.Image:
         """Load HGT data as images.
         
         Menu label: Digital Elevation Model data
@@ -1376,7 +1465,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * sample_spacing (default: 'auto-detect') - The sample spacing of the
           data.
@@ -1385,17 +1474,20 @@ class _PyPDB:
         
         * palette_offset (default: 0) - Offset to beginning of data in the
           palette file.
+          
+          Minimum value: 0, maximum value: 524288
         
         * palette_type (default: 'rgb') - The layout for the palette's color
           channels.
           
           Allowed values: 'rgb', 'bgr'
         
-        * palette_file - The file containing palette data.
+        * palette_file (file to open) (can be None) - The file containing
+          palette data.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -1413,7 +1505,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -1433,7 +1525,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -1450,36 +1542,44 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_icns_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_icns_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from an Apple Icon Image file.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
@@ -1497,7 +1597,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -1514,36 +1614,44 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_ico_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ico_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a Windows ICO or CUR files.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
@@ -1558,36 +1666,44 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_iff_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_iff_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Load IFF file as thumbnail.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
@@ -1605,7 +1721,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * colorspace (default: 'unknown') - Color space.
           
@@ -1614,7 +1730,7 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -1629,15 +1745,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_jpeg_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: float=0.9, smoothing: float=0.0, optimize: bool=True, progressive: bool=True, cmyk: bool=False, sub_sampling: str='sub-sampling-1x1', baseline: bool=True, restart: int=0, dct: str='integer'):
+    def file_jpeg_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: float=0.9, smoothing: float=0.0, optimize: bool=True, progressive: bool=True, cmyk: bool=False, sub_sampling: str='sub-sampling-1x1', baseline: bool=True, restart: int=0, dct: str='integer', include_exif: bool=False, include_iptc: bool=False, include_xmp: bool=False, include_color_profile: bool=False, include_thumbnail: bool=True, include_comment: bool=False):
         """Exports files in the JPEG file format.
         
         Image types: RGB*, GRAY*
@@ -1651,13 +1767,17 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * quality (default: 0.9) - Quality of exported image.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * smoothing (default: 0.0) - Smoothing factor for exported image.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * optimize (default: True) - Use optimized tables during Huffman
           coding.
@@ -1677,10 +1797,29 @@ class _PyPDB:
         
         * restart (default: 0) - Interval of restart markers (in MCU rows, 0 =
           no restart markers).
+          
+          Minimum value: 0, maximum value: 64
         
         * dct (default: 'integer') - DCT method to use.
           
           Allowed values: 'fixed', 'integer', 'float'
+        
+        * include_exif (default: False) - Save Exif (Exchangeable image file
+          format) metadata.
+        
+        * include_iptc (default: False) - Save IPTC (International Press
+          Telecommunications Council) metadata.
+        
+        * include_xmp (default: False) - Save XMP (Extensible Metadata
+          Platform) metadata.
+        
+        * include_color_profile (default: False) - Save the ICC color profile
+          as metadata.
+        
+        * include_thumbnail (default: True) - Save a smaller representation of
+          the image as metadata.
+        
+        * include_comment (default: False) - Save a comment as metadata.
         """
         pass
 
@@ -1695,42 +1834,50 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_jpeg_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_jpeg_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a thumbnail from a JPEG image.
         
         Loads a thumbnail from a JPEG image, if one exists.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
-    def file_jpegxl_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, lossless: bool=False, compression: float=1.0, save_bit_depth: int=8, speed: str='squirrel', uses_original_profile: bool=False, cmyk: bool=False, save_exif: bool=False, save_xmp: bool=False):
+    def file_jpegxl_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, lossless: bool=False, compression: float=1.0, save_bit_depth: int=8, speed: str='squirrel', cmyk: bool=False, include_exif: bool=False, include_xmp: bool=False):
         """Saves files in the JPEG XL file format.
         
         Image types: RGB*, GRAY*
@@ -1744,7 +1891,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -1752,23 +1899,24 @@ class _PyPDB:
         
         * compression (default: 1.0) - Max. butteraugli distance, lower =
           higher quality. Range: 0 .. 15. 1.0 = visually lossless.
+          
+          Minimum value: 0.1, maximum value: 15.0
         
         * save_bit_depth (default: 8) - Bit depth of exported image.
+          
+          Minimum value: 8, maximum value: 16
         
         * speed (default: 'squirrel') - Encoder effort setting.
           
           Allowed values: 'lightning', 'thunder', 'falcon', 'cheetah', 'hare',
           'wombat', 'squirrel', 'kitten', 'tortoise'
         
-        * uses_original_profile (default: False) - Store ICC profile to
-          exported JXL file.
-        
         * cmyk (default: False) - Create a CMYK JPEG XL image using the
           soft-proofing color profile.
         
-        * save_exif (default: False) - Toggle saving Exif data.
+        * include_exif (default: False) - Toggle saving Exif data.
         
-        * save_xmp (default: False) - Toggle saving XMP data.
+        * include_xmp (default: False) - Toggle saving XMP data.
         """
         pass
 
@@ -1783,11 +1931,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -1803,11 +1951,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -1827,7 +1975,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -1835,15 +1983,23 @@ class _PyPDB:
         
         * png_compression (default: 9) - PNG compression level, choose a high
           compression level for small file size.
+          
+          Minimum value: 0, maximum value: 9
         
         * jpeg_quality (default: 0.75) - JPEG quality factor.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * jpeg_smoothing (default: 0.0) - JPEG smoothing factor.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * loop (default: True) - (ANIMATED MNG) Loop infinitely.
         
         * default_delay (default: 100) - (ANIMATED MNG) Default delay between
           frames in milliseconds.
+          
+          Minimum value: 1
         
         * default_chunks (default: 'png-delta') - (ANIMATED MNG) Default
           chunks type.
@@ -1879,7 +2035,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -1896,38 +2052,46 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_openraster_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_openraster_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a thumbnail from an OpenRaster (.ora) file.
         
         Loads a thumbnail from an OpenRaster (.ora) file.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
@@ -1945,7 +2109,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -1966,7 +2130,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -1975,7 +2139,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pat_export_internal(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, file: Gio.File=None, name: str='GIMP Pattern'):
+    def file_pat_export_internal(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, file: Gio.File=None, name: str='GIMP Pattern'):
         """Exports Gimp pattern file (.PAT).
         
         Exports Gimp pattern file (.PAT).
@@ -1986,7 +2150,7 @@ class _PyPDB:
         
         * image - Input image.
         
-        * drawables - Selected drawables.
+        * drawables (array of Gimp.Drawable elements) - Selected drawables.
         
         * file - The file to export.
         
@@ -2025,7 +2189,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -2049,7 +2213,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -2066,7 +2230,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * override_palette (default: 'use-built-in-palette') - Whether to use
           the built-in palette or a black and white palette for 1 bit
@@ -2076,7 +2240,7 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2096,7 +2260,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -2127,7 +2291,7 @@ class _PyPDB:
         """
         pass
 
-    def file_pdf_export_multi(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, images: GObject.Value=None, vectorize: bool=True, ignore_hidden: bool=True, apply_masks: bool=True, fill_background_color: bool=True, uri: str=None):
+    def file_pdf_export_multi(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, images: list[Gimp.Image]=None, vectorize: bool=True, ignore_hidden: bool=True, apply_masks: bool=True, fill_background_color: bool=True, uri: str=None):
         """Save files in PDF format.
         
         Image types: *
@@ -2141,8 +2305,8 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * images - Input image for each page (An image can appear more than
-          once).
+        * images (array of Gimp.Image elements) - Input image for each page
+          (An image can appear more than once).
         
         * vectorize (default: True) - Convert bitmaps to vector graphics where
           possible.
@@ -2174,13 +2338,17 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * width (default: 0) - Width (in pixels) to load the image in. (0 for
           the corresponding width per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * height (default: 0) - Height (in pixels) to load the image in. (0
           for the corresponding height per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * keep_ratio (default: True) - Force dimensions with aspect ratio.
         
@@ -2200,11 +2368,11 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_pdf_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_pdf_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a preview from a PDF file.
         
         Loads a small preview of the first page of the PDF format file. Uses the
@@ -2212,23 +2380,31 @@ class _PyPDB:
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
@@ -2246,7 +2422,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -2266,7 +2442,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -2290,7 +2466,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -2307,15 +2483,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_png_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, interlaced: bool=False, compression: int=9, bkgd: bool=True, offs: bool=False, phys: bool=True, time: bool=True, save_transparent: bool=False, optimize_palette: bool=False, format: str='auto'):
+    def file_png_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, interlaced: bool=False, compression: int=9, bkgd: bool=True, offs: bool=False, phys: bool=True, time: bool=True, save_transparent: bool=False, optimize_palette: bool=False, format: str='auto', include_exif: bool=False, include_iptc: bool=False, include_xmp: bool=False, include_color_profile: bool=False, include_thumbnail: bool=True, include_comment: bool=False):
         """Exports files in PNG file format.
         
         Image types: *
@@ -2329,13 +2505,15 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * interlaced (default: False) - Use Adam7 interlacing.
         
         * compression (default: 9) - Deflate Compression factor (0..9).
+          
+          Minimum value: 0, maximum value: 9
         
         * bkgd (default: True) - Write bKGD chunk (PNG metadata).
         
@@ -2356,6 +2534,23 @@ class _PyPDB:
           
           Allowed values: 'auto', 'rgb8', 'gray8', 'rgba8', 'graya8', 'rgb16',
           'gray16', 'rgba16', 'graya16'
+        
+        * include_exif (default: False) - Save Exif (Exchangeable image file
+          format) metadata.
+        
+        * include_iptc (default: False) - Save IPTC (International Press
+          Telecommunications Council) metadata.
+        
+        * include_xmp (default: False) - Save XMP (Extensible Metadata
+          Platform) metadata.
+        
+        * include_color_profile (default: False) - Save the ICC color profile
+          as metadata.
+        
+        * include_thumbnail (default: True) - Save a smaller representation of
+          the image as metadata.
+        
+        * include_comment (default: False) - Save a comment as metadata.
         """
         pass
 
@@ -2370,11 +2565,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2392,7 +2587,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -2413,11 +2608,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2435,7 +2630,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -2445,7 +2640,7 @@ class _PyPDB:
         """
         pass
 
-    def file_print_gtk(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def file_print_gtk(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Print the image.
         
         Image types: *
@@ -2460,11 +2655,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def file_print_gtk_page_setup(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def file_print_gtk_page_setup(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Adjust page size and orientation for printing.
         
         Image types: *
@@ -2480,7 +2675,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
@@ -2499,19 +2694,27 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * width (default: 287.0) - Width of the image in PostScript file (0:
           use input image size).
+          
+          Minimum value: 0.0, maximum value: 524288.0
         
         * height (default: 200.0) - Height of the image in PostScript file (0:
           use input image size).
+          
+          Minimum value: 0.0, maximum value: 524288.0
         
         * x_offset (default: 5.0) - X-offset to image from lower left corner.
+          
+          Minimum value: -524288.0, maximum value: 524288.0
         
         * y_offset (default: 5.0) - Y-offset to image from lower left corner.
+          
+          Minimum value: -524288.0, maximum value: 524288.0
         
         * unit (default: 'inch') - Unit of measure for offset values.
           
@@ -2522,6 +2725,8 @@ class _PyPDB:
           will be used.
         
         * rotation (default: 0) - 0, 90, 180, 270.
+          
+          Minimum value: 0, maximum value: 270
         
         * level (default: True) - If enabled, export in PostScript Level 2
           format. Otherwise, export in PostScript Level 1 format.
@@ -2533,6 +2738,8 @@ class _PyPDB:
         
         * preview (default: 256) - Maximum size of preview. Set to 0 for no
           preview.
+          
+          Minimum value: 0, maximum value: 524288
         """
         pass
 
@@ -2547,13 +2754,17 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * width (default: 0) - Width (in pixels) to load the image in. (0 for
           the corresponding width per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * height (default: 0) - Height (in pixels) to load the image in. (0
           for the corresponding height per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * keep_ratio (default: True) - Force dimensions with aspect ratio.
         
@@ -2580,36 +2791,44 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_ps_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_ps_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a small preview from a PostScript or PDF document.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
-    def file_psd_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, clippingpath: bool=False, clippingpathname: str=None, clippingpathflatness: float=0.2, cmyk: bool=False, duotone: bool=False):
+    def file_psd_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, clippingpath: bool=False, clippingpathname: str=None, clippingpathflatness: float=0.2, cmyk: bool=False, duotone: bool=False, include_exif: bool=False, include_iptc: bool=False, include_xmp: bool=False, include_color_profile: bool=False, include_thumbnail: bool=True):
         """Saves files in the Photoshop (TM) PSD file format.
         
         Image types: *
@@ -2625,7 +2844,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -2636,6 +2855,8 @@ class _PyPDB:
         
         * clippingpathflatness (default: 0.2) - Clipping path flatness in
           device pixels (ignored if no clipping path).
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * cmyk (default: False) - Export a CMYK PSD image using the
           soft-proofing color profile.
@@ -2643,6 +2864,21 @@ class _PyPDB:
         * duotone (default: False) - Export as a Duotone PSD file if Duotone
           color space information was attached to the image when
           originally imported.
+        
+        * include_exif (default: False) - Save Exif (Exchangeable image file
+          format) metadata.
+        
+        * include_iptc (default: False) - Save IPTC (International Press
+          Telecommunications Council) metadata.
+        
+        * include_xmp (default: False) - Save XMP (Extensible Metadata
+          Platform) metadata.
+        
+        * include_color_profile (default: False) - Save the ICC color profile
+          as metadata.
+        
+        * include_thumbnail (default: True) - Save a smaller representation of
+          the image as metadata.
         """
         pass
 
@@ -2658,11 +2894,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2678,11 +2914,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2695,9 +2931,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * size (default: 0)
+          
+          Minimum value: 0
         
         * image - The image.
         
@@ -2709,11 +2947,11 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_psd_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_psd_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads thumbnails from the Photoshop PSD file format.
         
         This plug-in loads thumbnail images from Adobe Photoshop (TM) native PSD
@@ -2721,23 +2959,31 @@ class _PyPDB:
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
@@ -2754,11 +3000,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2776,7 +3022,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -2793,11 +3039,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2815,7 +3061,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -2831,7 +3077,7 @@ class _PyPDB:
         """
         pass
 
-    def file_raw_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None, width: int=350, height: int=350, offset: int=0, pixel_format: str='rgb-8bpc', data_type: str='unsigned', endianness: str='little-endian', planar_configuration: str='contiguous', palette_offset: int=0, palette_type: str='rgb', palette_file: Gio.File=None) -> Gimp.Image:
+    def file_raw_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None, width: int=350, height: int=350, offset: int=0, pixel_format: str='rgb-8bpc', data_type: str='unsigned', endianness: str='little-endian', planar_configuration: str='contiguous', palette_offset: int=0, palette_type: str='rgb', palette_file: Optional[Gio.File]=None) -> Gimp.Image:
         """Load raw images, specifying image information.
         
         Menu label: Raw image data
@@ -2842,13 +3088,19 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * width (default: 350) - Image width in number of pixels.
+          
+          Minimum value: 1, maximum value: 524288
         
         * height (default: 350) - Image height in number of pixels.
+          
+          Minimum value: 1, maximum value: 524288
         
         * offset (default: 0) - Offset to beginning of image in raw data.
+          
+          Minimum value: 0, maximum value: 524288
         
         * pixel_format (default: 'rgb-8bpc') - The layout of pixel data, such
           as components and their order.
@@ -2876,17 +3128,20 @@ class _PyPDB:
         
         * palette_offset (default: 0) - Offset to beginning of data in the
           palette file.
+          
+          Minimum value: 0, maximum value: 524288
         
         * palette_type (default: 'rgb') - The layout for the palette's color
           channels.
           
           Allowed values: 'rgb', 'bgr'
         
-        * palette_file - The file containing palette data.
+        * palette_file (file to open) (can be None) - The file containing
+          palette data.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2900,11 +3155,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2918,11 +3173,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2935,11 +3190,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2953,11 +3208,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2971,11 +3226,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2989,11 +3244,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3007,11 +3262,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3024,11 +3279,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3042,11 +3297,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3060,11 +3315,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3078,11 +3333,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3095,11 +3350,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3113,11 +3368,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3131,11 +3386,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3149,11 +3404,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3167,11 +3422,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3185,11 +3440,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3203,11 +3458,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3221,11 +3476,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3239,11 +3494,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3257,11 +3512,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3274,11 +3529,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3291,11 +3546,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3309,11 +3564,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3327,11 +3582,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3349,7 +3604,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -3366,11 +3621,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3388,7 +3643,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -3409,11 +3664,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3432,7 +3687,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -3453,11 +3708,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3472,13 +3727,17 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * width (default: 0) - Width (in pixels) to load the image in. (0 for
           the corresponding width per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * height (default: 0) - Height (in pixels) to load the image in. (0
           for the corresponding height per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * keep_ratio (default: True) - Force dimensions with aspect ratio.
         
@@ -3492,7 +3751,7 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3510,7 +3769,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -3533,15 +3792,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_tiff_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, bigtiff: bool=False, compression: str='none', save_transparent_pixels: bool=True, cmyk: bool=False):
+    def file_tiff_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, bigtiff: bool=False, compression: str='none', save_transparent_pixels: bool=True, cmyk: bool=False, include_exif: bool=False, include_iptc: bool=False, include_xmp: bool=False, include_color_profile: bool=False, include_thumbnail: bool=True, include_comment: bool=False):
         """Exports files in the TIFF or BigTIFF file formats.
         
         Image types: *
@@ -3556,7 +3815,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -3574,6 +3833,23 @@ class _PyPDB:
         
         * cmyk (default: False) - Create a CMYK TIFF image using the
           soft-proofing color profile.
+        
+        * include_exif (default: False) - Save Exif (Exchangeable image file
+          format) metadata.
+        
+        * include_iptc (default: False) - Save IPTC (International Press
+          Telecommunications Council) metadata.
+        
+        * include_xmp (default: False) - Save XMP (Extensible Metadata
+          Platform) metadata.
+        
+        * include_color_profile (default: False) - Save the ICC color profile
+          as metadata.
+        
+        * include_thumbnail (default: True) - Save a smaller representation of
+          the image as metadata.
+        
+        * include_comment (default: False) - Save a comment as metadata.
         """
         pass
 
@@ -3589,11 +3865,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3608,15 +3884,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_webp_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, preset: str='default', lossless: bool=False, quality: float=90.0, alpha_quality: float=100.0, use_sharp_yuv: bool=False, animation_loop: bool=True, minimize_size: bool=True, keyframe_distance: int=50, default_delay: int=200, force_delay: bool=False, animation: bool=False):
+    def file_webp_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, preset: str='default', lossless: bool=False, quality: float=90.0, alpha_quality: float=100.0, use_sharp_yuv: bool=False, animation_loop: bool=True, minimize_size: bool=True, keyframe_distance: int=50, default_delay: int=200, force_delay: bool=False, animation: bool=False, include_exif: bool=False, include_iptc: bool=False, include_xmp: bool=False, include_color_profile: bool=False, include_thumbnail: bool=True):
         """Saves files in the WebP image format.
         
         Image types: *
@@ -3630,7 +3906,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
@@ -3642,9 +3918,13 @@ class _PyPDB:
         * lossless (default: False) - Use lossless encoding.
         
         * quality (default: 90.0) - Quality of the image.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * alpha_quality (default: 100.0) - Quality of the image's alpha
           channel.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * use_sharp_yuv (default: False) - Use sharper (but slower) RGB→YUV
           conversion.
@@ -3655,13 +3935,32 @@ class _PyPDB:
         
         * keyframe_distance (default: 50) - Maximum distance between
           keyframes.
+          
+          Minimum value: 0
         
         * default_delay (default: 200) - Default delay (in milliseconds) to
           use when timestamps for frames are not available or forced.
+          
+          Minimum value: 0
         
         * force_delay (default: False) - Force default delay on all frames.
         
         * animation (default: False) - Use layers for animation.
+        
+        * include_exif (default: False) - Save Exif (Exchangeable image file
+          format) metadata.
+        
+        * include_iptc (default: False) - Save IPTC (International Press
+          Telecommunications Council) metadata.
+        
+        * include_xmp (default: False) - Save XMP (Extensible Metadata
+          Platform) metadata.
+        
+        * include_color_profile (default: False) - Save the ICC color profile
+          as metadata.
+        
+        * include_thumbnail (default: True) - Save a smaller representation of
+          the image as metadata.
         """
         pass
 
@@ -3676,11 +3975,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3695,13 +3994,17 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         * width (default: 0) - Width (in pixels) to load the image in. (0 for
           the corresponding width per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * height (default: 0) - Height (in pixels) to load the image in. (0
           for the corresponding height per native ratio).
+          
+          Minimum value: 0, maximum value: 524288
         
         * keep_ratio (default: True) - Force dimensions with aspect ratio.
         
@@ -3710,36 +4013,44 @@ class _PyPDB:
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
-    def file_wmf_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> Tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+    def file_wmf_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
         """Loads a small preview from a WMF image.
         
         Parameters:
         
-        * file - The file to load the thumbnail from.
+        * file (file to open) - The file to load the thumbnail from.
         
         * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
         
         Returns:
         
-        * image - Thumbnail image.
+        * image (can be None) - Thumbnail image.
         
         * image_width (default: 0) - Width of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_height (default: 0) - Height of the full-sized image (0 for
           unknown).
+          
+          Minimum value: 0, maximum value: 524288
         
         * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
         
         * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
         """
         pass
 
-    def file_xbm_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, save_comment: bool=False, gimp_comment: str='Created with GIMP', x10_format: bool=False, use_hot_spot: bool=False, hot_spot_x: int=0, hot_spot_y: int=0, prefix: str='bitmap', write_mask: bool=False, mask_suffix: str='-mask'):
+    def file_xbm_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, include_comment: bool=False, gimp_comment: str='Created with GIMP', x10_format: bool=False, use_hot_spot: bool=False, hot_spot_x: int=0, hot_spot_y: int=0, prefix: str='bitmap', write_mask: bool=False, mask_suffix: str='-mask'):
         """Export a file in X10 or X11 bitmap (XBM) file format.
         
         Image types: INDEXED
@@ -3754,12 +4065,12 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
-        * save_comment (default: False) - Write a comment at the beginning of
-          the file.
+        * include_comment (default: False) - Write a comment at the beginning
+          of the file.
         
         * gimp_comment (default: 'Created with GIMP') - Image description
           (maximum 72 bytes).
@@ -3769,8 +4080,12 @@ class _PyPDB:
         * use_hot_spot (default: False) - Write hotspot information.
         
         * hot_spot_x (default: 0) - X coordinate of hotspot.
+          
+          Minimum value: 0, maximum value: 524288
         
         * hot_spot_y (default: 0) - Y coordinate of hotspot.
+          
+          Minimum value: 0, maximum value: 524288
         
         * prefix (default: 'bitmap') - Identifier prefix [determined from
           filename].
@@ -3793,11 +4108,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3819,11 +4134,13 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         
         * threshold (default: 127) - Alpha threshold.
+          
+          Minimum value: 0, maximum value: 255
         """
         pass
 
@@ -3842,11 +4159,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3864,7 +4181,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -3883,11 +4200,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3905,7 +4222,7 @@ class _PyPDB:
         
         * image - The image to export.
         
-        * file - The file to export to.
+        * file (file to save) - The file to export to.
         
         * options - Export options.
         """
@@ -3922,11 +4239,11 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * file - The file to load.
+        * file (file to open) - The file to load.
         
         Returns:
         
-        * image - Output image.
+        * image (can be None) - Output image.
         """
         pass
 
@@ -3944,6 +4261,8 @@ class _PyPDB:
         * drawable - The affected drawable.
         
         * pressure (default: 0.0) - The pressure of the airbrush strokes.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * strokes - Array of stroke coordinates: { s1.x, s1.y, s2.x, s2.y,
           ..., sn.x, sn.y }.
@@ -4024,7 +4343,7 @@ class _PyPDB:
         
         Returns:
         
-        * brush - The brush.
+        * brush (can be None) - The brush.
         """
         pass
 
@@ -4046,7 +4365,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brush_get_info(self, brush: Gimp.Brush=None) -> Tuple[int, int, int, int]:
+    def gimp_brush_get_info(self, brush: Gimp.Brush=None) -> tuple[int, int, int, int]:
         """Gets information about the brush.
         
         Gets information about the brush: brush extents (width and height),
@@ -4066,33 +4385,6 @@ class _PyPDB:
         * mask_bpp (default: 0) - The brush mask bpp.
         
         * color_bpp (default: 0) - The brush color bpp.
-        """
-        pass
-
-    def gimp_brush_get_pixels(self, brush: Gimp.Brush=None) -> Tuple[int, int, int, GLib.Bytes, int, GLib.Bytes]:
-        """Gets information about the brush.
-        
-        Gets information about the brush: the brush extents (width and height)
-        and its pixels data. The color bpp is zero and pixels empty when
-        the brush is parametric versus raster.
-        
-        Parameters:
-        
-        * brush - The brush.
-        
-        Returns:
-        
-        * width (default: 0) - The brush width.
-        
-        * height (default: 0) - The brush height.
-        
-        * mask_bpp (default: 0) - The brush mask bpp.
-        
-        * mask_bytes - The brush mask data.
-        
-        * color_bpp (default: 0) - The brush color bpp.
-        
-        * color_bytes - The brush color data.
         """
         pass
 
@@ -4147,6 +4439,8 @@ class _PyPDB:
         Returns:
         
         * spacing (default: 0) - The brush spacing.
+          
+          Minimum value: 0, maximum value: 1000
         """
         pass
 
@@ -4311,6 +4605,8 @@ class _PyPDB:
         * brush - The brush.
         
         * spacing (default: 0) - The brush spacing.
+          
+          Minimum value: 0, maximum value: 1000
         """
         pass
 
@@ -4345,7 +4641,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_brushes_get_list(self, filter: str=None) -> Any:
+    def gimp_brushes_get_list(self, filter: str=None) -> list[Gimp.Brush]:
         """Retrieve a complete listing of the available brushes.
         
         This procedure returns a complete listing of available GIMP brushes.
@@ -4358,11 +4654,11 @@ class _PyPDB:
         
         Returns:
         
-        * brush_list - The list of brushes.
+        * brush_list (array of Gimp.Brush elements) - The list of brushes.
         """
         pass
 
-    def gimp_brushes_popup(self, brush_callback: str=None, popup_title: str=None, initial_brush: Gimp.Brush=None, parent_window: GLib.Bytes=None):
+    def gimp_brushes_popup(self, brush_callback: str=None, popup_title: str=None, initial_brush: Optional[Gimp.Brush]=None, parent_window: GLib.Bytes=None):
         """Invokes the GIMP brush selection dialog.
         
         Opens a dialog letting a user choose a brush.
@@ -4374,7 +4670,8 @@ class _PyPDB:
         
         * popup_title - Title of the brush selection dialog.
         
-        * initial_brush - The brush to set as the initial choice.
+        * initial_brush (can be None) - The brush to set as the initial
+          choice.
         
         * parent_window - An optional parent window handle for the popup to be
           set transient to.
@@ -4492,7 +4789,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_buffers_get_name_list(self, filter: str=None) -> List[str]:
+    def gimp_buffers_get_name_list(self, filter: str=None) -> list[str]:
         """Retrieve a complete listing of the available buffers.
         
         This procedure returns a complete listing of available named buffers.
@@ -4573,6 +4870,8 @@ class _PyPDB:
         Returns:
         
         * opacity (default: 0.0) - The channel opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -4615,10 +4914,16 @@ class _PyPDB:
         * name - The channel name.
         
         * width (default: 1) - The channel width.
+          
+          Minimum value: 1, maximum value: 524288
         
         * height (default: 1) - The channel height.
+          
+          Minimum value: 1, maximum value: 524288
         
         * opacity (default: 0.0) - The channel opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * color - The channel compositing color.
         
@@ -4674,6 +4979,8 @@ class _PyPDB:
         * channel - The channel.
         
         * opacity (default: 0.0) - The new channel opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -4813,6 +5120,8 @@ class _PyPDB:
         Returns:
         
         * angle (default: -180.0) - Angle in degrees.
+          
+          Minimum value: -180.0, maximum value: 180.0
         """
         pass
 
@@ -4824,6 +5133,8 @@ class _PyPDB:
         Returns:
         
         * aspect (default: -20.0) - Aspect ratio.
+          
+          Minimum value: -20.0, maximum value: 20.0
         """
         pass
 
@@ -4835,6 +5146,8 @@ class _PyPDB:
         Returns:
         
         * force (default: 0.0) - Brush application force.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -4846,6 +5159,8 @@ class _PyPDB:
         Returns:
         
         * hardness (default: 0.0) - Brush hardness.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -4857,6 +5172,8 @@ class _PyPDB:
         Returns:
         
         * size (default: 0.0) - Brush size in pixels.
+          
+          Minimum value: 0.0
         """
         pass
 
@@ -4868,6 +5185,8 @@ class _PyPDB:
         Returns:
         
         * spacing (default: 0.01) - Brush spacing as fraction of size.
+          
+          Minimum value: 0.01, maximum value: 50.0
         """
         pass
 
@@ -4937,7 +5256,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_feather_radius(self) -> Tuple[float, float]:
+    def gimp_context_get_feather_radius(self) -> tuple[float, float]:
         """Get the feather radius setting.
         
         Returns the feather radius setting.
@@ -4945,8 +5264,12 @@ class _PyPDB:
         Returns:
         
         * feather_radius_x (default: 0.0) - The horizontal feather radius.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * feather_radius_y (default: 0.0) - The vertical feather radius.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         """
         pass
 
@@ -5029,6 +5352,8 @@ class _PyPDB:
         Returns:
         
         * angle (default: -90.0) - ink angle in degrees.
+          
+          Minimum value: -90.0, maximum value: 90.0
         """
         pass
 
@@ -5040,6 +5365,8 @@ class _PyPDB:
         Returns:
         
         * angle (default: -180.0) - ink blob angle in degrees.
+          
+          Minimum value: -180.0, maximum value: 180.0
         """
         pass
 
@@ -5051,6 +5378,8 @@ class _PyPDB:
         Returns:
         
         * aspect (default: 1.0) - ink blob aspect ratio.
+          
+          Minimum value: 1.0, maximum value: 10.0
         """
         pass
 
@@ -5073,6 +5402,8 @@ class _PyPDB:
         Returns:
         
         * size (default: 0.0) - ink blob size in pixels.
+          
+          Minimum value: 0.0, maximum value: 200.0
         """
         pass
 
@@ -5084,6 +5415,8 @@ class _PyPDB:
         Returns:
         
         * size (default: 0.0) - ink size sensitivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5095,6 +5428,8 @@ class _PyPDB:
         Returns:
         
         * speed (default: 0.0) - ink speed sensitivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5106,6 +5441,8 @@ class _PyPDB:
         Returns:
         
         * tilt (default: 0.0) - ink tilt sensitivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5145,6 +5482,8 @@ class _PyPDB:
         Returns:
         
         * dash_offset (default: 0.0) - The line dash offset setting.
+          
+          Minimum value: 0.0, maximum value: 2000.0
         """
         pass
 
@@ -5179,6 +5518,8 @@ class _PyPDB:
         Returns:
         
         * miter_limit (default: 0.0) - The line miter limit setting.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -5190,6 +5531,8 @@ class _PyPDB:
         Returns:
         
         * line_width (default: 0.0) - The line width setting.
+          
+          Minimum value: 0.0, maximum value: 2000.0
         """
         pass
 
@@ -5200,7 +5543,8 @@ class _PyPDB:
         
         Returns:
         
-        * line_width_unit - The line width unit setting.
+        * line_width_unit (percent not allowed, pixels not allowed) - The line
+          width unit setting.
         """
         pass
 
@@ -5224,6 +5568,8 @@ class _PyPDB:
         Returns:
         
         * opacity (default: 0.0) - The opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -5274,21 +5620,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_get_resource(self, type_name: str=None) -> Gimp.Resource:
-        """Get the currently active resource for a type.
-        
-        Returns the currently active resource for the given type name.
-        
-        Parameters:
-        
-        * type_name - The name of the resource type.
-        
-        Returns:
-        
-        * resource - The active resource.
-        """
-        pass
-
     def gimp_context_get_sample_criterion(self) -> Gimp.SelectCriterion:
         """Get the sample criterion setting.
         
@@ -5320,6 +5651,8 @@ class _PyPDB:
         Returns:
         
         * sample_threshold (default: 0.0) - The sample threshold setting.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5332,6 +5665,8 @@ class _PyPDB:
         Returns:
         
         * sample_threshold (default: 0) - The sample threshold setting.
+          
+          Minimum value: 0, maximum value: 255
         """
         pass
 
@@ -5386,7 +5721,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_context_list_paint_methods(self) -> List[str]:
+    def gimp_context_list_paint_methods(self) -> list[str]:
         """Lists the available paint methods.
         
         Lists the names of the available paint methods. Any of the names can be
@@ -5475,6 +5810,8 @@ class _PyPDB:
         Parameters:
         
         * angle (default: -180.0) - Angle in degrees.
+          
+          Minimum value: -180.0, maximum value: 180.0
         """
         pass
 
@@ -5486,6 +5823,8 @@ class _PyPDB:
         Parameters:
         
         * aspect (default: -20.0) - Aspect ratio.
+          
+          Minimum value: -20.0, maximum value: 20.0
         """
         pass
 
@@ -5521,6 +5860,8 @@ class _PyPDB:
         Parameters:
         
         * force (default: 0.0) - Brush application force.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5532,6 +5873,8 @@ class _PyPDB:
         Parameters:
         
         * hardness (default: 0.0) - Brush hardness.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5543,6 +5886,8 @@ class _PyPDB:
         Parameters:
         
         * size (default: 1.0) - Brush size in pixels.
+          
+          Minimum value: 1.0, maximum value: 10000.0
         """
         pass
 
@@ -5554,6 +5899,8 @@ class _PyPDB:
         Parameters:
         
         * spacing (default: 0.01) - Brush spacing as fraction of size.
+          
+          Minimum value: 0.01, maximum value: 50.0
         """
         pass
 
@@ -5674,8 +6021,12 @@ class _PyPDB:
         Parameters:
         
         * feather_radius_x (default: 0.0) - The horizontal feather radius.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * feather_radius_y (default: 0.0) - The vertical feather radius.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         """
         pass
 
@@ -5795,6 +6146,8 @@ class _PyPDB:
         Parameters:
         
         * angle (default: -90.0) - ink angle in degrees.
+          
+          Minimum value: -90.0, maximum value: 90.0
         """
         pass
 
@@ -5806,6 +6159,8 @@ class _PyPDB:
         Parameters:
         
         * angle (default: -180.0) - ink blob angle in degrees.
+          
+          Minimum value: -180.0, maximum value: 180.0
         """
         pass
 
@@ -5817,6 +6172,8 @@ class _PyPDB:
         Parameters:
         
         * aspect (default: 1.0) - ink blob aspect ratio.
+          
+          Minimum value: 1.0, maximum value: 10.0
         """
         pass
 
@@ -5839,6 +6196,8 @@ class _PyPDB:
         Parameters:
         
         * size (default: 0.0) - ink blob size in pixels.
+          
+          Minimum value: 0.0, maximum value: 200.0
         """
         pass
 
@@ -5850,6 +6209,8 @@ class _PyPDB:
         Parameters:
         
         * size (default: 0.0) - ink size sensitivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5861,6 +6222,8 @@ class _PyPDB:
         Parameters:
         
         * speed (default: 0.0) - ink speed sensitivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5872,6 +6235,8 @@ class _PyPDB:
         Parameters:
         
         * tilt (default: 0.0) - ink tilt sensitivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -5922,6 +6287,8 @@ class _PyPDB:
         Parameters:
         
         * dash_offset (default: 0.0) - The line dash offset setting.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -5972,6 +6339,8 @@ class _PyPDB:
         Parameters:
         
         * miter_limit (default: 0.0) - The line miter limit setting.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -5987,6 +6356,8 @@ class _PyPDB:
         Parameters:
         
         * line_width (default: 0.0) - The line width setting.
+          
+          Minimum value: 0.0, maximum value: 2000.0
         """
         pass
 
@@ -6001,7 +6372,8 @@ class _PyPDB:
         
         Parameters:
         
-        * line_width_unit - The line width setting unit.
+        * line_width_unit (percent not allowed, pixels not allowed) - The line
+          width setting unit.
         """
         pass
 
@@ -6028,6 +6400,8 @@ class _PyPDB:
         Parameters:
         
         * opacity (default: 0.0) - The opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -6141,6 +6515,8 @@ class _PyPDB:
         Parameters:
         
         * sample_threshold (default: 0.0) - The sample threshold setting.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -6153,6 +6529,8 @@ class _PyPDB:
         Parameters:
         
         * sample_threshold (default: 0) - The sample threshold setting.
+          
+          Minimum value: 0, maximum value: 255
         """
         pass
 
@@ -6251,6 +6629,8 @@ class _PyPDB:
         * drawable - The affected drawable.
         
         * pressure (default: 0.0) - The pressure.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * convolve_type (default: Gimp.ConvolveType.BLUR) - Convolve type.
         
@@ -6446,6 +6826,8 @@ class _PyPDB:
         * drawable - The affected drawable.
         
         * exposure (default: 0.0) - The exposure of the strokes.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * dodgeburn_type (default: Gimp.DodgeBurnType.DODGE) - The type either
           dodge or burn.
@@ -6475,29 +6857,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_append_filter_private(self, drawable: Gimp.Drawable=None, filter: Gimp.DrawableFilter=None):
-        """Append the specified effect to the top of the list of drawable
-        effects.
-        
-        This procedure adds the specified drawable effect at the top of the
-        effect list of @drawable. The @drawable argument must be the
-        same as the one used when you created the effect with
-        [ctor@Gimp.DrawableFilter.new]. Some effects may be slower than
-        others to render. In order to minimize processing time, it is
-        preferred to customize the operation's arguments as received
-        with [method@Gimp.DrawableFilter.get_config] then sync them to
-        the application with [method@Gimp.DrawableFilter.update] before
-        adding the effect. This function is private and should not be
-        used. Use [method@Gimp.Drawable.append_filter] instead.
-        
-        Parameters:
-        
-        * drawable - The drawable.
-        
-        * filter - The drawable filter to append.
-        """
-        pass
-
     def gimp_drawable_brightness_contrast(self, drawable: Gimp.Drawable=None, brightness: float=-1.0, contrast: float=-1.0):
         """Modify brightness/contrast in the specified drawable.
         
@@ -6510,8 +6869,12 @@ class _PyPDB:
         * drawable - The drawable.
         
         * brightness (default: -1.0) - Brightness adjustment.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * contrast (default: -1.0) - Contrast adjustment.
+          
+          Minimum value: -1.0, maximum value: 1.0
         """
         pass
 
@@ -6537,10 +6900,16 @@ class _PyPDB:
           pixel.
         
         * cyan_red (default: -100.0) - Cyan-Red color balance.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * magenta_green (default: -100.0) - Magenta-Green color balance.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * yellow_blue (default: -100.0) - Yellow-Blue color balance.
+          
+          Minimum value: -100.0, maximum value: 100.0
         """
         pass
 
@@ -6557,10 +6926,16 @@ class _PyPDB:
         * drawable - The drawable.
         
         * hue (default: 0.0) - Hue in degrees.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * saturation (default: 0.0) - Saturation in percent.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * lightness (default: -100.0) - Lightness in percent.
+          
+          Minimum value: -100.0, maximum value: 100.0
         """
         pass
 
@@ -6722,13 +7097,19 @@ class _PyPDB:
         * offset (default: 0.0) - Offset relates to the starting and ending
           coordinates specified for the blend. This parameter is mode
           dependent.
+          
+          Minimum value: 0.0
         
         * supersample (default: False) - Do adaptive supersampling.
         
         * supersample_max_depth (default: 1) - Maximum recursion levels for
           supersampling.
+          
+          Minimum value: 1, maximum value: 9
         
         * supersample_threshold (default: 0.0) - Supersampling threshold.
+          
+          Minimum value: 0.0, maximum value: 4.0
         
         * dither (default: False) - Use dithering to reduce banding.
         
@@ -6831,6 +7212,8 @@ class _PyPDB:
           (12), Y'CbCr Cb (13), Y'CbCr Cr (14), LAB L (15), LAB A
           (16), LAB B (17), LCH C(ab) (18), LCH H(ab) (19), Alpha
           (20)).
+          
+          Minimum value: 0, maximum value: 20
         
         * invert (default: False) - Invert the extracted component.
         
@@ -6876,21 +7259,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_filter_get_arguments(self, filter: Gimp.DrawableFilter=None) -> List[str]:
-        """Returns the currently set filter arguments.
-        
-        This procedure returns the filter's arguments.
-        
-        Parameters:
-        
-        * filter - The filter.
-        
-        Returns:
-        
-        * argnames - The names of the arguments.
-        """
-        pass
-
     def gimp_drawable_filter_get_blend_mode(self, filter: Gimp.DrawableFilter=None) -> Gimp.LayerMode:
         """Get the blending mode of the specified filter.
         
@@ -6926,23 +7294,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_filter_get_number_arguments(self, operation_name: str=None) -> int:
-        """Queries for the number of arguments on the specified filter.
-        
-        This procedure returns the number of arguments on the specified filter.
-        For specific information on each input argument, use
-        'gimp-drawable-filter-get-argument'.
-        
-        Parameters:
-        
-        * operation_name - The procedure name.
-        
-        Returns:
-        
-        * num_args (default: 0) - The number of input arguments.
-        """
-        pass
-
     def gimp_drawable_filter_get_opacity(self, filter: Gimp.DrawableFilter=None) -> float:
         """Get the opacity of the specified filter.
         
@@ -6970,23 +7321,6 @@ class _PyPDB:
         Returns:
         
         * name - The filter's operation name.
-        """
-        pass
-
-    def gimp_drawable_filter_get_pspec(self, operation_name: str=None, arg_num: int=0) -> GObject.ParamSpec:
-        """Queries for information on the specified filter's argument.
-        
-        This procedure returns the #GParamSpec of filter's argument.
-        
-        Parameters:
-        
-        * operation_name - The procedure name.
-        
-        * arg_num (default: 0) - The argument number.
-        
-        Returns:
-        
-        * param_spec - The GParamSpec of the argument.
         """
         pass
 
@@ -7060,41 +7394,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_filter_update(self, filter: Gimp.DrawableFilter=None, propnames: List[str]=None, opacity: float=0.0, blend_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.AUTO, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.AUTO, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.AUTO, auxinputnames: List[str]=None, auxinputs: GObject.Value=None):
-        """Update the settings of the specified filter.
-        
-        This procedure updates the settings of the specified filter all at once.
-        In particular, update will be frozen and will happen only once
-        for all changed settings. This PDB function is internal, meant
-        to be private and its arguments will likely change as filters
-        evolve. It should not be used.
-        
-        Parameters:
-        
-        * filter - The filter.
-        
-        * propnames - Array of property names.
-        
-        * opacity (default: 0.0) - The filter's opacity.
-        
-        * blend_mode (default: Gimp.LayerMode.NORMAL) - The effect blending
-          mode.
-        
-        * blend_space (default: Gimp.LayerColorSpace.AUTO) - The effect
-          blending space.
-        
-        * composite_mode (default: Gimp.LayerCompositeMode.AUTO) - The layer
-          composite mode.
-        
-        * composite_space (default: Gimp.LayerColorSpace.AUTO) - The effect
-          composite space.
-        
-        * auxinputnames - Array of aux input pads.
-        
-        * auxinputs - Array of drawables, one per auxinputnames.
-        """
-        pass
-
     def gimp_drawable_foreground_extract(self, drawable: Gimp.Drawable=None, mode: Gimp.ForegroundExtractMode=Gimp.ForegroundExtractMode.MATTING, mask: Gimp.Drawable=None):
         """Extract the foreground of a drawable using a given trimap.
         
@@ -7141,7 +7440,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_filters(self, drawable: Gimp.Drawable=None) -> Any:
+    def gimp_drawable_get_filters(self, drawable: Gimp.Drawable=None) -> list[Gimp.DrawableFilter]:
         """Returns the list of filters applied to the drawable.
         
         This procedure returns the list of filters which are currently applied
@@ -7154,24 +7453,8 @@ class _PyPDB:
         
         Returns:
         
-        * filters - The list of filters on the drawable.
-        """
-        pass
-
-    def gimp_drawable_get_format(self, drawable: Gimp.Drawable=None) -> str:
-        """Returns the drawable's Babl format.
-        
-        This procedure returns the drawable's Babl format. Note that the actual
-        PDB procedure only transfers the format's encoding. In order to
-        get to the real format, the libbgimp C wrapper must be used.
-        
-        Parameters:
-        
-        * drawable - The drawable.
-        
-        Returns:
-        
-        * format - The drawable's Babl format.
+        * filters (array of Gimp.DrawableFilter elements) - The list of
+          filters on the drawable.
         """
         pass
 
@@ -7190,7 +7473,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_get_offsets(self, drawable: Gimp.Drawable=None) -> Tuple[int, int]:
+    def gimp_drawable_get_offsets(self, drawable: Gimp.Drawable=None) -> tuple[int, int]:
         """Returns the offsets for the drawable.
         
         This procedure returns the specified drawable's offsets. This only makes
@@ -7219,29 +7502,16 @@ class _PyPDB:
         * drawable - The drawable.
         
         * x_coord (default: 0) - The x coordinate.
+          
+          Minimum value: 0
         
         * y_coord (default: 0) - The y coordinate.
+          
+          Minimum value: 0
         
         Returns:
         
         * color - The pixel color.
-        """
-        pass
-
-    def gimp_drawable_get_thumbnail_format(self, drawable: Gimp.Drawable=None) -> str:
-        """Returns the drawable's thumbnail Babl format.
-        
-        This procedure returns the drawable's thumbnail Babl format. Thumbnails
-        are always 8-bit images, see 'gimp-drawable-thumbnail' and
-        'gimp-drawable-sub-thmbnail'.
-        
-        Parameters:
-        
-        * drawable - The drawable.
-        
-        Returns:
-        
-        * format - The drawable's thumbnail Babl format.
         """
         pass
 
@@ -7278,7 +7548,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_histogram(self, drawable: Gimp.Drawable=None, channel: Gimp.HistogramChannel=Gimp.HistogramChannel.VALUE, start_range: float=0.0, end_range: float=0.0) -> Tuple[float, float, float, float, float, float]:
+    def gimp_drawable_histogram(self, drawable: Gimp.Drawable=None, channel: Gimp.HistogramChannel=Gimp.HistogramChannel.VALUE, start_range: float=0.0, end_range: float=0.0) -> tuple[float, float, float, float, float, float]:
         """Returns information on the intensity histogram for the specified
         drawable.
         
@@ -7309,8 +7579,12 @@ class _PyPDB:
         
         * start_range (default: 0.0) - Start of the intensity measurement
           range.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * end_range (default: 0.0) - End of the intensity measurement range.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         Returns:
         
@@ -7344,12 +7618,20 @@ class _PyPDB:
         * hue_range (default: Gimp.HueRange.ALL) - Range of affected hues.
         
         * hue_offset (default: -180.0) - Hue offset in degrees.
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * lightness (default: -100.0) - Lightness modification.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * saturation (default: -100.0) - Saturation modification.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * overlap (default: 0.0) - Overlap other hue channels.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -7442,17 +7724,27 @@ class _PyPDB:
           modify.
         
         * low_input (default: 0.0) - Intensity of lowest input.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * high_input (default: 0.0) - Intensity of highest input.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * clamp_input (default: False) - Clamp input values before applying
           output levels.
         
         * gamma (default: 0.1) - Gamma adjustment factor.
+          
+          Minimum value: 0.1, maximum value: 10.0
         
         * low_output (default: 0.0) - Intensity of lowest output.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * high_output (default: 0.0) - Intensity of highest output.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * clamp_output (default: False) - Clamp final output values.
         """
@@ -7471,7 +7763,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_mask_bounds(self, drawable: Gimp.Drawable=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_drawable_mask_bounds(self, drawable: Gimp.Drawable=None) -> tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection in relation to the
         specified drawable.
         
@@ -7511,7 +7803,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawable_mask_intersect(self, drawable: Gimp.Drawable=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_drawable_mask_intersect(self, drawable: Gimp.Drawable=None) -> tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection in relation to the
         specified drawable.
         
@@ -7538,29 +7830,6 @@ class _PyPDB:
         * width (default: 0) - width of the intersection.
         
         * height (default: 0) - height of the intersection.
-        """
-        pass
-
-    def gimp_drawable_merge_filter_private(self, drawable: Gimp.Drawable=None, filter: Gimp.DrawableFilter=None):
-        """Apply the specified effect directly to the drawable.
-        
-        This procedure applies the specified drawable effect on @drawable and
-        merge it (therefore before non-destructive effects are
-        computed). The @drawable argument must be the same as the one
-        used when you created the effect with
-        [ctor@Gimp.DrawableFilter.new]. Once this is run, @filter is not
-        valid anymore and you should not try to do anything with it. In
-        particular, you must customize the operation's arguments as
-        received with [method@Gimp.DrawableFilter.get_config] then sync
-        them to the application with [method@Gimp.DrawableFilter.update]
-        before merging the effect. This function is private and should
-        not be used. Use [method@Gimp.Drawable.merge_filter] instead.
-        
-        Parameters:
-        
-        * drawable - The drawable.
-        
-        * filter - The drawable filter to merge.
         """
         pass
 
@@ -7634,6 +7903,8 @@ class _PyPDB:
         * drawable - The drawable.
         
         * levels (default: 2) - Levels of posterization.
+          
+          Minimum value: 2, maximum value: 255
         """
         pass
 
@@ -7649,8 +7920,12 @@ class _PyPDB:
         * drawable - The drawable.
         
         * x_coord (default: 0) - The x coordinate.
+          
+          Minimum value: 0
         
         * y_coord (default: 0) - The y coordinate.
+          
+          Minimum value: 0
         
         * color - The pixel color.
         """
@@ -7668,56 +7943,34 @@ class _PyPDB:
         * drawable - The drawable.
         
         * shadows (default: -100.0) - Adjust exposure of shadows.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * highlights (default: -100.0) - Adjust exposure of highlights.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * whitepoint (default: -10.0) - Shift white point.
+          
+          Minimum value: -10.0, maximum value: 10.0
         
         * radius (default: 0.1) - Spatial extent.
+          
+          Minimum value: 0.1, maximum value: 1500.0
         
         * compress (default: 0.0) - Compress the effect on shadows/highlights
           and preserve midtones.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * shadows_ccorrect (default: 0.0) - Adjust saturation of shadows.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * highlights_ccorrect (default: 0.0) - Adjust saturation of
           highlights.
-        """
-        pass
-
-    def gimp_drawable_sub_thumbnail(self, drawable: Gimp.Drawable=None, src_x: int=0, src_y: int=0, src_width: int=1, src_height: int=1, dest_width: int=1, dest_height: int=1) -> Tuple[int, int, int, GLib.Bytes]:
-        """Get a thumbnail of a sub-area of a drawable drawable.
-        
-        This function gets data from which a thumbnail of a drawable preview can
-        be created. Maximum x or y dimension is 1024 pixels. The pixels
-        are returned in RGB[A] or GRAY[A] format. The bpp return value
-        gives the number of bytes in the image.
-        
-        Parameters:
-        
-        * drawable - The drawable.
-        
-        * src_x (default: 0) - The x coordinate of the area.
-        
-        * src_y (default: 0) - The y coordinate of the area.
-        
-        * src_width (default: 1) - The width of the area.
-        
-        * src_height (default: 1) - The height of the area.
-        
-        * dest_width (default: 1) - The thumbnail width.
-        
-        * dest_height (default: 1) - The thumbnail height.
-        
-        Returns:
-        
-        * width (default: 0) - The previews width.
-        
-        * height (default: 0) - The previews height.
-        
-        * bpp (default: 0) - The previews bpp.
-        
-        * thumbnail_data - The thumbnail data.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -7737,36 +7990,12 @@ class _PyPDB:
           the threshold on.
         
         * low_threshold (default: 0.0) - The low threshold value.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * high_threshold (default: 0.0) - The high threshold value.
-        """
-        pass
-
-    def gimp_drawable_thumbnail(self, drawable: Gimp.Drawable=None, width: int=1, height: int=1) -> Tuple[int, int, int, GLib.Bytes]:
-        """Get a thumbnail of a drawable.
-        
-        This function gets data from which a thumbnail of a drawable preview can
-        be created. Maximum x or y dimension is 1024 pixels. The pixels
-        are returned in RGB[A] or GRAY[A] format. The bpp return value
-        gives the number of bytes in the image.
-        
-        Parameters:
-        
-        * drawable - The drawable.
-        
-        * width (default: 1) - The requested thumbnail width.
-        
-        * height (default: 1) - The requested thumbnail height.
-        
-        Returns:
-        
-        * actual_width (default: 0) - The previews width.
-        
-        * actual_height (default: 0) - The previews height.
-        
-        * bpp (default: 0) - The previews bpp.
-        
-        * thumbnail_data - The thumbnail data.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
@@ -7837,7 +8066,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_drawables_popup(self, callback: str=None, popup_title: str=None, drawable_type: str=None, initial_drawable: Gimp.Drawable=None, parent_window: GLib.Bytes=None):
+    def gimp_drawables_popup(self, callback: str=None, popup_title: str=None, drawable_type: str=None, initial_drawable: Optional[Gimp.Drawable]=None, parent_window: GLib.Bytes=None):
         """Invokes the drawable selection dialog.
         
         Opens a dialog letting a user choose an drawable.
@@ -7851,7 +8080,8 @@ class _PyPDB:
         
         * drawable_type - The name of the GIMP_TYPE_DRAWABLE subtype.
         
-        * initial_drawable - The drawable to set as the initial choice.
+        * initial_drawable (can be None) - The drawable to set as the initial
+          choice.
         
         * parent_window - An optional parent window handle for the popup to be
           set transient to.
@@ -7871,7 +8101,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_dynamics_get_name_list(self, filter: str=None) -> List[str]:
+    def gimp_dynamics_get_name_list(self, filter: str=None) -> list[str]:
         """Retrieve the list of loaded paint dynamics.
         
         This procedure returns a list of the paint dynamics that are currently
@@ -7896,7 +8126,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_copy(self, drawables: GObject.Value=None) -> bool:
+    def gimp_edit_copy(self, drawables: list[Gimp.Drawable]=None) -> bool:
         """Copy from the specified drawables.
         
         If there is a selection in the image, then the area specified by the
@@ -7911,7 +8141,8 @@ class _PyPDB:
         
         Parameters:
         
-        * drawables - Drawables to copy from.
+        * drawables (array of Gimp.Drawable elements) - Drawables to copy
+          from.
         
         Returns:
         
@@ -7940,7 +8171,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_cut(self, drawables: GObject.Value=None) -> bool:
+    def gimp_edit_cut(self, drawables: list[Gimp.Drawable]=None) -> bool:
         """Cut from the specified drawables.
         
         If there is a selection in the image, then the area specified by the
@@ -7955,7 +8186,8 @@ class _PyPDB:
         
         Parameters:
         
-        * drawables - The drawables to cut from.
+        * drawables (array of Gimp.Drawable elements) - The drawables to cut
+          from.
         
         Returns:
         
@@ -7964,7 +8196,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_copy(self, drawables: GObject.Value=None, buffer_name: str=None) -> str:
+    def gimp_edit_named_copy(self, drawables: list[Gimp.Drawable]=None, buffer_name: str=None) -> str:
         """Copy into a named buffer.
         
         This procedure works like 'gimp-edit-copy', but additionally stores the
@@ -7974,7 +8206,8 @@ class _PyPDB:
         
         Parameters:
         
-        * drawables - The drawables to copy from.
+        * drawables (array of Gimp.Drawable elements) - The drawables to copy
+          from.
         
         * buffer_name - The name of the buffer to create.
         
@@ -8006,7 +8239,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_named_cut(self, drawables: GObject.Value=None, buffer_name: str=None) -> str:
+    def gimp_edit_named_cut(self, drawables: list[Gimp.Drawable]=None, buffer_name: str=None) -> str:
         """Cut into a named buffer.
         
         This procedure works like 'gimp-edit-cut', but additionally stores the
@@ -8016,7 +8249,8 @@ class _PyPDB:
         
         Parameters:
         
-        * drawables - The drawables to cut from.
+        * drawables (array of Gimp.Drawable elements) - The drawables to cut
+          from.
         
         * buffer_name - The name of the buffer to create.
         
@@ -8063,7 +8297,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_edit_paste(self, drawable: Gimp.Drawable=None, paste_into: bool=False) -> Any:
+    def gimp_edit_paste(self, drawable: Gimp.Drawable=None, paste_into: bool=False) -> list[Gimp.Drawable]:
         """Paste buffer to the specified drawable.
         
         This procedure pastes a copy of the internal GIMP edit buffer to the
@@ -8091,7 +8325,8 @@ class _PyPDB:
         
         Returns:
         
-        * new_drawables - The list of pasted layers.
+        * new_drawables (array of Gimp.Drawable elements) - The list of pasted
+          layers.
         """
         pass
 
@@ -8153,6 +8388,28 @@ class _PyPDB:
         """
         pass
 
+    def gimp_file_create_thumbnail(self, image: Gimp.Image=None, file: Gio.File=None):
+        """Creates a thumbnail of @image for the given @file.
+        
+        This procedure creates a thumbnail for the given @file and stores it
+        according to relevant standards. In particular, it will follow
+        the [Free Desktop Thumbnail Managing
+        Standard](https://specifications.freedesktop.
+        org/thumbnail-spec/latest/thumbsave.html) when relevant.
+        
+        The thumbnail is stored so that it belongs to the given @file. This
+        means you have to save @image under this name first. As a
+        fallback, the call will work if @image was exported or imported
+        as @file. In any other case, this procedure will fail.
+        
+        Parameters:
+        
+        * image - The image.
+        
+        * file - The file the thumbnail belongs to.
+        """
+        pass
+
     def gimp_file_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
         """Loads an image file by invoking the right load handler.
         
@@ -8194,7 +8451,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_file_load_layers(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None) -> Any:
+    def gimp_file_load_layers(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None) -> list[Gimp.Layer]:
         """Loads an image file as layers for an existing image.
         
         This procedure behaves like the file-load procedure but opens the
@@ -8212,11 +8469,11 @@ class _PyPDB:
         
         Returns:
         
-        * layers - The list of loaded layers.
+        * layers (array of Gimp.Layer elements) - The list of loaded layers.
         """
         pass
 
-    def gimp_file_load_thumbnail(self, file: Gio.File=None) -> Tuple[int, int, GLib.Bytes]:
+    def gimp_file_load_thumbnail(self, file: Gio.File=None) -> tuple[int, int, GLib.Bytes]:
         """Loads the thumbnail for a file.
         
         This procedure tries to load a thumbnail that belongs to the given file.
@@ -8240,11 +8497,13 @@ class _PyPDB:
         pass
 
     def gimp_file_save(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
-        """Saves a file by extension.
+        """Saves to XCF or export @image to any supported format by extension.
         
-        This procedure invokes the correct file save handler according to the
-        file's extension and/or prefix. The @options argument is
-        currently unused and should be set to %NULL right now.
+        This procedure invokes the correct file save/export handler according to
+        @file's extension and/or prefix.
+        
+        The @options argument is currently unused and should be set to %NULL
+        right now.
         
         Parameters:
         
@@ -8252,27 +8511,9 @@ class _PyPDB:
         
         * image - Input image.
         
-        * file - The file to save the image in.
+        * file - The file to save or export the image in.
         
         * options - Export option settings.
-        """
-        pass
-
-    def gimp_file_save_thumbnail(self, image: Gimp.Image=None, file: Gio.File=None):
-        """Saves a thumbnail for the given image.
-        
-        This procedure saves a thumbnail for the given image according to the
-        Free Desktop Thumbnail Managing Standard. The thumbnail is saved
-        so that it belongs to the given file. This means you have to
-        save the image under this name first, otherwise this procedure
-        will fail. This procedure may become useful if you want to
-        explicitly save a thumbnail with a file.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        * file - The file the thumbnail belongs to.
         """
         pass
 
@@ -8350,22 +8591,7 @@ class _PyPDB:
         
         Returns:
         
-        * font - The font.
-        """
-        pass
-
-    def gimp_font_get_lookup_name(self, font: Gimp.Font=None) -> str:
-        """Retrieve the font lookup name.
-        
-        Retrieve the font lookup name.
-        
-        Parameters:
-        
-        * font - GimpFont object.
-        
-        Returns:
-        
-        * lookup_name - font lookup name.
+        * font (can be None) - The font.
         """
         pass
 
@@ -8381,25 +8607,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_fonts_get_custom_configs(self) -> Tuple[str, str, str, List[str]]:
-        """Retrieve custom configs.
-        
-        This procedure returns custom FontConfig configs along with the fonts
-        renaming config.
-        
-        Returns:
-        
-        * config - config path.
-        
-        * sysconfig - sysconfig path.
-        
-        * renaming_config - fonts renaming config.
-        
-        * dirs - custom fonts directories.
-        """
-        pass
-
-    def gimp_fonts_get_list(self, filter: str=None) -> Any:
+    def gimp_fonts_get_list(self, filter: str=None) -> list[Gimp.Font]:
         """Retrieve the list of loaded fonts.
         
         This procedure returns a list of the fonts that are currently available.
@@ -8412,11 +8620,11 @@ class _PyPDB:
         
         Returns:
         
-        * font_list - The list of fonts.
+        * font_list (array of Gimp.Font elements) - The list of fonts.
         """
         pass
 
-    def gimp_fonts_popup(self, font_callback: str=None, popup_title: str=None, initial_font: Gimp.Font=None, parent_window: GLib.Bytes=None):
+    def gimp_fonts_popup(self, font_callback: str=None, popup_title: str=None, initial_font: Optional[Gimp.Font]=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp font selection dialog.
         
         Opens a dialog letting a user choose a font.
@@ -8428,7 +8636,7 @@ class _PyPDB:
         
         * popup_title - Title of the font selection dialog.
         
-        * initial_font - The name of the initial font choice.
+        * initial_font (can be None) - The name of the initial font choice.
         
         * parent_window - An optional parent window handle for the popup to be
           set transient to.
@@ -8458,18 +8666,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_color_configuration(self) -> str:
-        """Get a serialized version of the color management configuration.
-        
-        Returns a string that can be deserialized into a GimpColorConfig object
-        representing the current color management configuration.
-        
-        Returns:
-        
-        * config - Serialized color management configuration.
-        """
-        pass
-
     def gimp_get_default_comment(self) -> str:
         """Get the default image comment as specified in the Preferences.
         
@@ -8488,18 +8684,19 @@ class _PyPDB:
         
         Returns:
         
-        * unit - Default unit.
+        * unit (percent not allowed, pixels not allowed) - Default unit.
         """
         pass
 
-    def gimp_get_images(self) -> Any:
+    def gimp_get_images(self) -> list[Gimp.Image]:
         """Returns the list of images currently open.
         
         This procedure returns the list of images currently open in GIMP.
         
         Returns:
         
-        * images - The list of images currently open.
+        * images (array of Gimp.Image elements) - The list of images currently
+          open.
         """
         pass
 
@@ -8514,7 +8711,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_monitor_resolution(self) -> Tuple[float, float]:
+    def gimp_get_monitor_resolution(self) -> tuple[float, float]:
         """Get the monitor resolution as specified in the Preferences.
         
         Returns the resolution of the monitor in pixels/inch. This value is
@@ -8545,7 +8742,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_get_parasite_list(self) -> List[str]:
+    def gimp_get_parasite_list(self) -> list[str]:
         """List all parasites.
         
         Returns a list of all currently attached global parasites.
@@ -8620,7 +8817,7 @@ class _PyPDB:
         
         Returns:
         
-        * gradient - The gradient.
+        * gradient (can be None) - The gradient.
         """
         pass
 
@@ -8676,6 +8873,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * num_samples (default: 2) - The number of samples to take.
+          
+          Minimum value: 2
         
         * reverse (default: False) - Use the reverse gradient.
         
@@ -8711,6 +8910,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         Returns:
         
@@ -8730,6 +8931,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         Returns:
         
@@ -8749,6 +8952,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         Returns:
         
@@ -8767,6 +8972,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         Returns:
         
@@ -8785,6 +8992,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         Returns:
         
@@ -8804,6 +9013,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         Returns:
         
@@ -8822,6 +9033,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         Returns:
         
@@ -8843,6 +9056,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -8863,6 +9078,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -8882,6 +9099,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -8902,6 +9121,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -8923,11 +9144,15 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
         
         * delta (default: -1.0) - The delta to move the segment range.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * control_compress (default: False) - Whether or not to compress the
           neighboring segments.
@@ -8953,6 +9178,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -8973,12 +9200,16 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
         
         * replicate_times (default: 2) - The number of replicas for each
           segment.
+          
+          Minimum value: 2, maximum value: 20
         """
         pass
 
@@ -8994,6 +9225,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -9015,6 +9248,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -9037,6 +9272,8 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
@@ -9056,12 +9293,16 @@ class _PyPDB:
         
         * start_segment (default: 0) - Index of the first segment to operate
           on.
+          
+          Minimum value: 0
         
         * end_segment (default: 0) - Index of the last segment to operate on.
           If negative, the range will extend to the end segment.
         
         * split_parts (default: 2) - The number of uniform divisions to split
           each segment to.
+          
+          Minimum value: 2, maximum value: 1024
         """
         pass
 
@@ -9078,6 +9319,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         * color - The color to set.
         """
@@ -9097,8 +9340,12 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         * pos (default: 0.0) - The position to set the guidepoint to.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         Returns:
         
@@ -9119,8 +9366,12 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         * pos (default: 0.0) - The position to set the guidepoint to.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         Returns:
         
@@ -9141,6 +9392,8 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         * color - The color to set.
         """
@@ -9160,8 +9413,12 @@ class _PyPDB:
         * gradient - The gradient.
         
         * segment (default: 0) - The index of a segment within the gradient.
+          
+          Minimum value: 0
         
         * pos (default: 0.0) - The position to set the right endpoint to.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         Returns:
         
@@ -9181,7 +9438,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_gradients_get_list(self, filter: str=None) -> Any:
+    def gimp_gradients_get_list(self, filter: str=None) -> list[Gimp.Gradient]:
         """Retrieve the list of loaded gradients.
         
         This procedure returns a list of the gradients that are currently
@@ -9194,11 +9451,12 @@ class _PyPDB:
         
         Returns:
         
-        * gradient_list - The list of gradients.
+        * gradient_list (array of Gimp.Gradient elements) - The list of
+          gradients.
         """
         pass
 
-    def gimp_gradients_popup(self, gradient_callback: str=None, popup_title: str=None, initial_gradient: Gimp.Gradient=None, parent_window: GLib.Bytes=None):
+    def gimp_gradients_popup(self, gradient_callback: str=None, popup_title: str=None, initial_gradient: Optional[Gimp.Gradient]=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp gradients selection dialog.
         
         Opens a dialog letting a user choose a gradient.
@@ -9210,7 +9468,7 @@ class _PyPDB:
         
         * popup_title - Title of the gradient selection dialog.
         
-        * initial_gradient - The initial gradient choice.
+        * initial_gradient (can be None) - The initial gradient choice.
         
         * parent_window - An optional parent window handle for the popup to be
           set transient to.
@@ -9256,19 +9514,26 @@ class _PyPDB:
         """
         pass
 
-    def gimp_group_layer_new(self, image: Gimp.Image=None) -> Gimp.GroupLayer:
+    def gimp_group_layer_new(self, image: Gimp.Image=None, name: str=None) -> Gimp.GroupLayer:
         """Create a new group layer.
         
-        This procedure creates a new group layer. Attributes such as layer mode
-        and opacity should be set with explicit procedure calls. Add the
-        new group layer (which is a kind of layer) with
-        [method@image.insert_layer]. Other procedures useful with group
-        layers: [method@image_reorder_item], [method@item.get_parent],
-        [method@item.get_children], [method@item.is_group].
+        This procedure creates a new group layer with a given @name. If @name is
+        %NULL, GIMP will choose a name using its default layer name
+        algorithm. The new group layer still needs to be added to the
+        image, as this is not automatic. Add the new layer with the
+        [method@Image.insert_layer] method. Other attributes such as
+        layer mask, modes and offsets should be set with explicit
+        procedure calls.
+        
+        Other procedures useful with group layers: [method@Image.reorder_item],
+        [method@Item.get_parent], [method@Item.get_children],
+        [method@Item.is_group].
         
         Parameters:
         
         * image - The image to which to add the group layer.
+        
+        * name - The group layer name.
         
         Returns:
         
@@ -9463,6 +9728,8 @@ class _PyPDB:
         Returns:
         
         * guide (default: 1) - The new guide.
+          
+          Minimum value: 1
         """
         pass
 
@@ -9479,13 +9746,19 @@ class _PyPDB:
         
         * position_x (default: 0) - The sample point's x-offset from left of
           image.
+          
+          Minimum value: 0
         
         * position_y (default: 0) - The sample point's y-offset from top of
           image.
+          
+          Minimum value: 0
         
         Returns:
         
         * sample_point (default: 1) - The new sample point.
+          
+          Minimum value: 1
         """
         pass
 
@@ -9505,6 +9778,8 @@ class _PyPDB:
         Returns:
         
         * guide (default: 1) - The new guide.
+          
+          Minimum value: 1
         """
         pass
 
@@ -9518,6 +9793,44 @@ class _PyPDB:
         * image - The image.
         
         * parasite - The parasite to attach to an image.
+        """
+        pass
+
+    def gimp_image_autocrop(self, image: Gimp.Image=None, drawable: Optional[Gimp.Drawable]=None):
+        """Remove empty borders from the image.
+        
+        Remove empty borders from the @image based on empty borders of the input
+        @drawable.
+        
+        The input drawable serves as a base for detecting cropping extents
+        (transparency or background color). With a %NULL input drawable,
+        the image itself will serve as a base for detecting cropping
+        extents.
+        
+        Parameters:
+        
+        * image - Input image).
+        
+        * drawable (can be None) - Input drawable.
+        """
+        pass
+
+    def gimp_image_autocrop_selected_layers(self, image: Gimp.Image=None, drawable: Optional[Gimp.Drawable]=None):
+        """Crop the selected layers based on empty borders of the input
+        drawable.
+        
+        Crop the selected layers of the input @image based on empty borders of
+        the input @drawable. The input drawable serves as a base for
+        detecting cropping extents (transparency or background color),
+        and is not necessarily among the cropped layers (the current
+        selected layers). With a %NULL input drawable, the image itself
+        will serve as a base for detecting cropping extents.
+        
+        Parameters:
+        
+        * image - Input image.
+        
+        * drawable (can be None) - Input drawable.
         """
         pass
 
@@ -9535,27 +9848,6 @@ class _PyPDB:
         Parameters:
         
         * image - The image.
-        """
-        pass
-
-    def gimp_image_convert_color_profile(self, image: Gimp.Image=None, color_profile: GLib.Bytes=None, intent: Gimp.ColorRenderingIntent=Gimp.ColorRenderingIntent.PERCEPTUAL, bpc: bool=False):
-        """Convert the image's layers to a color profile.
-        
-        This procedure converts from the image's color profile (or the default
-        RGB or grayscale profile if none is set) to the given color
-        profile. Only RGB and grayscale color profiles are accepted,
-        according to the image's type.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        * color_profile - The serialized color profile.
-        
-        * intent (default: Gimp.ColorRenderingIntent.PERCEPTUAL) - Rendering
-          intent.
-        
-        * bpc (default: False) - Black point compensation.
         """
         pass
 
@@ -9696,13 +9988,21 @@ class _PyPDB:
         * image - The image.
         
         * new_width (default: 1) - New image width: (0 < new_width <= width).
+          
+          Minimum value: 1, maximum value: 524288
         
         * new_height (default: 1) - New image height: (0 < new_height <=
           height).
+          
+          Minimum value: 1, maximum value: 524288
         
         * offx (default: 0) - X offset: (0 <= offx <= (width - new_width)).
+          
+          Minimum value: 0
         
         * offy (default: 0) - Y offset: (0 <= offy <= (height - new_height)).
+          
+          Minimum value: 0
         """
         pass
 
@@ -9733,6 +10033,8 @@ class _PyPDB:
         * image - The image.
         
         * guide (default: 1) - The ID of the guide to be removed.
+          
+          Minimum value: 1
         """
         pass
 
@@ -9748,6 +10050,8 @@ class _PyPDB:
         
         * sample_point (default: 1) - The ID of the sample point to be
           removed.
+          
+          Minimum value: 1
         """
         pass
 
@@ -9781,7 +10085,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_export_path_to_file(self, image: Gimp.Image=None, file: Gio.File=None, path: Gimp.Path=None):
+    def gimp_image_export_path_to_file(self, image: Gimp.Image=None, file: Gio.File=None, path: Optional[Gimp.Path]=None):
         """Save a path as an SVG file.
         
         This procedure creates an SVG file to save a Path object, that is, a
@@ -9795,11 +10099,12 @@ class _PyPDB:
         
         * file - The SVG file to create.
         
-        * path - The path object to export, or %NULL for all in the image.
+        * path (can be None) - The path object to export, or %NULL for all in
+          the image.
         """
         pass
 
-    def gimp_image_export_path_to_string(self, image: Gimp.Image=None, path: Gimp.Path=None) -> str:
+    def gimp_image_export_path_to_string(self, image: Gimp.Image=None, path: Optional[Gimp.Path]=None) -> str:
         """Save a path as an SVG string.
         
         This procedure works like [method@Gimp.Image.export_path_to_file] but
@@ -9811,7 +10116,8 @@ class _PyPDB:
         
         * image - The image.
         
-        * path - The path object to export, or %NULL for all in the image.
+        * path (can be None) - The path object to export, or %NULL for all in
+          the image.
         
         Returns:
         
@@ -9834,10 +10140,14 @@ class _PyPDB:
         
         * guide (default: 1) - The ID of the current guide (0 if first
           invocation).
+          
+          Minimum value: 0
         
         Returns:
         
         * next_guide (default: 1) - The next guide's ID.
+          
+          Minimum value: 1
         """
         pass
 
@@ -9857,10 +10167,14 @@ class _PyPDB:
         
         * sample_point (default: 1) - The ID of the current sample point (0 if
           first invocation).
+          
+          Minimum value: 1
         
         Returns:
         
         * next_sample_point (default: 1) - The next sample point's ID.
+          
+          Minimum value: 1
         """
         pass
 
@@ -10012,6 +10326,8 @@ class _PyPDB:
         * image - The image.
         
         * tattoo (default: 1) - The tattoo of the channel to find.
+          
+          Minimum value: 1
         
         Returns:
         
@@ -10019,7 +10335,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_channels(self, image: Gimp.Image=None) -> Any:
+    def gimp_image_get_channels(self, image: Gimp.Image=None) -> list[Gimp.Channel]:
         """Returns the list of channels contained in the specified image.
         
         This procedure returns the list of channels contained in the specified
@@ -10034,23 +10350,8 @@ class _PyPDB:
         
         Returns:
         
-        * channels - The list of channels contained in the image.
-        """
-        pass
-
-    def gimp_image_get_color_profile(self, image: Gimp.Image=None) -> GLib.Bytes:
-        """Returns the image's color profile.
-        
-        This procedure returns the image's color profile, or NULL if the image
-        has no color profile assigned.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        Returns:
-        
-        * profile_data - The image's serialized color profile.
+        * channels (array of Gimp.Channel elements) - The list of channels
+          contained in the image.
         """
         pass
 
@@ -10107,25 +10408,6 @@ class _PyPDB:
         Returns:
         
         * mode (default: Gimp.LayerMode.NORMAL) - The layer mode.
-        """
-        pass
-
-    def gimp_image_get_effective_color_profile(self, image: Gimp.Image=None) -> GLib.Bytes:
-        """Returns the color profile that is used for the image.
-        
-        This procedure returns the color profile that is actually used for this
-        image, which is the profile returned by
-        'gimp-image-get-color-profile' if the image has a profile
-        assigned, or a generated default RGB or grayscale profile,
-        according to the image's type.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        Returns:
-        
-        * profile_data - The image's serialized color profile.
         """
         pass
 
@@ -10194,6 +10476,8 @@ class _PyPDB:
         * image - The image.
         
         * guide (default: 1) - The guide.
+          
+          Minimum value: 1
         
         Returns:
         
@@ -10213,6 +10497,8 @@ class _PyPDB:
         * image - The image.
         
         * guide (default: 1) - The guide.
+          
+          Minimum value: 1
         
         Returns:
         
@@ -10305,6 +10591,8 @@ class _PyPDB:
         * image - The image.
         
         * tattoo (default: 1) - The tattoo of the layer to find.
+          
+          Minimum value: 1
         
         Returns:
         
@@ -10312,7 +10600,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_layers(self, image: Gimp.Image=None) -> Any:
+    def gimp_image_get_layers(self, image: Gimp.Image=None) -> list[Gimp.Layer]:
         """Returns the list of root layers contained in the specified image.
         
         This procedure returns the list of root layers contained in the
@@ -10330,22 +10618,8 @@ class _PyPDB:
         
         Returns:
         
-        * layers - The list of layers contained in the image.
-        """
-        pass
-
-    def gimp_image_get_metadata(self, image: Gimp.Image=None) -> str:
-        """Returns the image's metadata.
-        
-        Returns exif/iptc/xmp metadata from the image.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        Returns:
-        
-        * metadata_string - The exif/ptc/xmp metadata as a string.
+        * layers (array of Gimp.Layer elements) - The list of layers contained
+          in the image.
         """
         pass
 
@@ -10403,7 +10677,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_parasite_list(self, image: Gimp.Image=None) -> List[str]:
+    def gimp_image_get_parasite_list(self, image: Gimp.Image=None) -> list[str]:
         """List all parasites.
         
         Returns a list of the names of all currently attached parasites. These
@@ -10449,6 +10723,8 @@ class _PyPDB:
         * image - The image.
         
         * tattoo (default: 1) - The tattoo of the path to find.
+          
+          Minimum value: 1
         
         Returns:
         
@@ -10456,7 +10732,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_paths(self, image: Gimp.Image=None) -> Any:
+    def gimp_image_get_paths(self, image: Gimp.Image=None) -> list[Gimp.Path]:
         """Returns the list of paths contained in the specified image.
         
         This procedure returns the list of paths contained in the specified
@@ -10468,7 +10744,8 @@ class _PyPDB:
         
         Returns:
         
-        * paths - The list of paths contained in the image.
+        * paths (array of Gimp.Path elements) - The list of paths contained in
+          the image.
         """
         pass
 
@@ -10488,7 +10765,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_resolution(self, image: Gimp.Image=None) -> Tuple[float, float]:
+    def gimp_image_get_resolution(self, image: Gimp.Image=None) -> tuple[float, float]:
         """Returns the specified image's resolution.
         
         This procedure returns the specified image's resolution in dots per
@@ -10509,7 +10786,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_sample_point_position(self, image: Gimp.Image=None, sample_point: int=1) -> Tuple[int, int]:
+    def gimp_image_get_sample_point_position(self, image: Gimp.Image=None, sample_point: int=1) -> tuple[int, int]:
         """Get position of a sample point on an image.
         
         This procedure takes an image and a sample point ID as input and returns
@@ -10521,6 +10798,8 @@ class _PyPDB:
         * image - The image.
         
         * sample_point (default: 1) - The guide.
+          
+          Minimum value: 1
         
         Returns:
         
@@ -10532,7 +10811,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_selected_channels(self, image: Gimp.Image=None) -> Any:
+    def gimp_image_get_selected_channels(self, image: Gimp.Image=None) -> list[Gimp.Channel]:
         """Returns the specified image's selected channels.
         
         This procedure returns the list of selected channels in the specified
@@ -10544,11 +10823,12 @@ class _PyPDB:
         
         Returns:
         
-        * channels - The list of selected channels in the image.
+        * channels (array of Gimp.Channel elements) - The list of selected
+          channels in the image.
         """
         pass
 
-    def gimp_image_get_selected_drawables(self, image: Gimp.Image=None) -> Any:
+    def gimp_image_get_selected_drawables(self, image: Gimp.Image=None) -> list[Gimp.Drawable]:
         """Get the image's selected drawables.
         
         This procedure returns the list of selected drawable in the specified
@@ -10564,11 +10844,12 @@ class _PyPDB:
         
         Returns:
         
-        * drawables - The list of selected drawables in the image.
+        * drawables (array of Gimp.Drawable elements) - The list of selected
+          drawables in the image.
         """
         pass
 
-    def gimp_image_get_selected_layers(self, image: Gimp.Image=None) -> Any:
+    def gimp_image_get_selected_layers(self, image: Gimp.Image=None) -> list[Gimp.Layer]:
         """Returns the specified image's selected layers.
         
         This procedure returns the list of selected layers in the specified
@@ -10580,11 +10861,12 @@ class _PyPDB:
         
         Returns:
         
-        * layers - The list of selected layers in the image.
+        * layers (array of Gimp.Layer elements) - The list of selected layers
+          in the image.
         """
         pass
 
-    def gimp_image_get_selected_paths(self, image: Gimp.Image=None) -> Any:
+    def gimp_image_get_selected_paths(self, image: Gimp.Image=None) -> list[Gimp.Path]:
         """Returns the specified image's selected paths.
         
         This procedure returns the list of selected paths in the specified
@@ -10596,7 +10878,8 @@ class _PyPDB:
         
         Returns:
         
-        * paths - The list of selected paths in the image.
+        * paths (array of Gimp.Path elements) - The list of selected paths in
+          the image.
         """
         pass
 
@@ -10649,22 +10932,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_get_simulation_profile(self, image: Gimp.Image=None) -> GLib.Bytes:
-        """Returns the image's simulation color profile.
-        
-        This procedure returns the image's simulation color profile, or NULL if
-        the image has no simulation color profile assigned.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        Returns:
-        
-        * profile_data - The image's serialized simulation color profile.
-        """
-        pass
-
     def gimp_image_get_tattoo_state(self, image: Gimp.Image=None) -> int:
         """Returns the tattoo state associated with the image.
         
@@ -10680,6 +10947,8 @@ class _PyPDB:
         Returns:
         
         * tattoo_state (default: 1) - The tattoo state.
+          
+          Minimum value: 1
         """
         pass
 
@@ -10697,7 +10966,7 @@ class _PyPDB:
         
         Returns:
         
-        * unit - The unit.
+        * unit (percent not allowed, pixels not allowed) - The unit.
         """
         pass
 
@@ -10744,7 +11013,7 @@ class _PyPDB:
         
         Returns:
         
-        * bgcolor - The image's grid background color.
+        * bgcolor (can be None) - The image's grid background color.
         """
         pass
 
@@ -10759,11 +11028,11 @@ class _PyPDB:
         
         Returns:
         
-        * fgcolor - The image's grid foreground color.
+        * fgcolor (can be None) - The image's grid foreground color.
         """
         pass
 
-    def gimp_image_grid_get_offset(self, image: Gimp.Image=None) -> Tuple[float, float]:
+    def gimp_image_grid_get_offset(self, image: Gimp.Image=None) -> tuple[float, float]:
         """Gets the offset of an image's grid.
         
         This procedure retrieves the horizontal and vertical offset of an
@@ -10781,7 +11050,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_get_spacing(self, image: Gimp.Image=None) -> Tuple[float, float]:
+    def gimp_image_grid_get_spacing(self, image: Gimp.Image=None) -> tuple[float, float]:
         """Gets the spacing of an image's grid.
         
         This procedure retrieves the horizontal and vertical spacing of an
@@ -10814,7 +11083,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_grid_set_background_color(self, image: Gimp.Image=None, bgcolor: Gegl.Color=None):
+    def gimp_image_grid_set_background_color(self, image: Gimp.Image=None, bgcolor: Optional[Gegl.Color]=None):
         """Gets the background color of an image's grid.
         
         This procedure sets the background color of an image's grid.
@@ -10823,11 +11092,11 @@ class _PyPDB:
         
         * image - The image.
         
-        * bgcolor - The new background color.
+        * bgcolor (can be None) - The new background color.
         """
         pass
 
-    def gimp_image_grid_set_foreground_color(self, image: Gimp.Image=None, fgcolor: Gegl.Color=None):
+    def gimp_image_grid_set_foreground_color(self, image: Gimp.Image=None, fgcolor: Optional[Gegl.Color]=None):
         """Gets the foreground color of an image's grid.
         
         This procedure sets the foreground color of an image's grid.
@@ -10836,7 +11105,7 @@ class _PyPDB:
         
         * image - The image.
         
-        * fgcolor - The new foreground color.
+        * fgcolor (can be None) - The new foreground color.
         """
         pass
 
@@ -10902,7 +11171,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_import_paths_from_file(self, image: Gimp.Image=None, file: Gio.File=None, merge: bool=False, scale: bool=False) -> Any:
+    def gimp_image_import_paths_from_file(self, image: Gimp.Image=None, file: Gio.File=None, merge: bool=False, scale: bool=False) -> list[Gimp.Path]:
         """Import paths from an SVG file.
         
         This procedure imports paths from an SVG file. SVG elements other than
@@ -10920,11 +11189,12 @@ class _PyPDB:
         
         Returns:
         
-        * paths - The list of newly created paths.
+        * paths (array of Gimp.Path elements) - The list of newly created
+          paths.
         """
         pass
 
-    def gimp_image_import_paths_from_string(self, image: Gimp.Image=None, string: str=None, length: int=0, merge: bool=False, scale: bool=False) -> Any:
+    def gimp_image_import_paths_from_string(self, image: Gimp.Image=None, string: str=None, length: int=0, merge: bool=False, scale: bool=False) -> list[Gimp.Path]:
         """Import paths from an SVG string.
         
         This procedure works like [method@Gimp.Image.import_paths_from_file] but
@@ -10947,11 +11217,12 @@ class _PyPDB:
         
         Returns:
         
-        * paths - The list of newly created paths.
+        * paths (array of Gimp.Path elements) - The list of newly created
+          paths.
         """
         pass
 
-    def gimp_image_insert_channel(self, image: Gimp.Image=None, channel: Gimp.Channel=None, parent: Gimp.Channel=None, position: int=0):
+    def gimp_image_insert_channel(self, image: Gimp.Image=None, channel: Gimp.Channel=None, parent: Optional[Gimp.Channel]=None, position: int=0):
         """Add the specified channel to the image.
         
         This procedure adds the specified channel to the image at the given
@@ -10967,13 +11238,13 @@ class _PyPDB:
         
         * channel - The channel.
         
-        * parent - The parent channel.
+        * parent (can be None) - The parent channel.
         
         * position (default: 0) - The channel position.
         """
         pass
 
-    def gimp_image_insert_layer(self, image: Gimp.Image=None, layer: Gimp.Layer=None, parent: Gimp.Layer=None, position: int=0):
+    def gimp_image_insert_layer(self, image: Gimp.Image=None, layer: Gimp.Layer=None, parent: Optional[Gimp.Layer]=None, position: int=0):
         """Add the specified layer to the image.
         
         This procedure adds the specified layer to the image at the given
@@ -10995,13 +11266,13 @@ class _PyPDB:
         
         * layer - The layer.
         
-        * parent - The parent layer.
+        * parent (can be None) - The parent layer.
         
         * position (default: 0) - The layer position.
         """
         pass
 
-    def gimp_image_insert_path(self, image: Gimp.Image=None, path: Gimp.Path=None, parent: Gimp.Path=None, position: int=0):
+    def gimp_image_insert_path(self, image: Gimp.Image=None, path: Gimp.Path=None, parent: Optional[Gimp.Path]=None, position: int=0):
         """Add the specified path to the image.
         
         This procedure adds the specified path to the image at the given
@@ -11017,7 +11288,7 @@ class _PyPDB:
         
         * path - The path.
         
-        * parent - The parent path.
+        * parent (can be None) - The parent path.
         
         * position (default: 0) - The path position.
         """
@@ -11137,8 +11408,12 @@ class _PyPDB:
         Parameters:
         
         * width (default: 1) - The width of the image.
+          
+          Minimum value: 1, maximum value: 524288
         
         * height (default: 1) - The height of the image.
+          
+          Minimum value: 1, maximum value: 524288
         
         * type (default: Gimp.ImageBaseType.RGB) - The type of image.
         
@@ -11160,8 +11435,12 @@ class _PyPDB:
         Parameters:
         
         * width (default: 1) - The width of the image.
+          
+          Minimum value: 1, maximum value: 524288
         
         * height (default: 1) - The height of the image.
+          
+          Minimum value: 1, maximum value: 524288
         
         * type (default: Gimp.ImageBaseType.RGB) - The type of image.
         
@@ -11173,7 +11452,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_pick_color(self, image: Gimp.Image=None, drawables: GObject.Value=None, x: float=0.0, y: float=0.0, sample_merged: bool=False, sample_average: bool=False, average_radius: float=0.0) -> Gegl.Color:
+    def gimp_image_pick_color(self, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, x: float=0.0, y: float=0.0, sample_merged: bool=False, sample_average: bool=False, average_radius: float=0.0) -> Gegl.Color:
         """Determine the color at the given coordinates.
         
         This tool determines the color at the specified coordinates. The
@@ -11195,7 +11474,8 @@ class _PyPDB:
         
         * image - The image.
         
-        * drawables - The drawables to pick from.
+        * drawables (array of Gimp.Drawable elements) - The drawables to pick
+          from.
         
         * x (default: 0.0) - x coordinate of upper-left corner of rectangle.
         
@@ -11208,10 +11488,12 @@ class _PyPDB:
           pixels in a specified radius.
         
         * average_radius (default: 0.0) - The radius of pixels to average.
+          
+          Minimum value: 0.0
         
         Returns:
         
-        * color - The return color.
+        * color (can be None) - The return color.
         """
         pass
 
@@ -11365,7 +11647,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_reorder_item(self, image: Gimp.Image=None, item: Gimp.Item=None, parent: Gimp.Item=None, position: int=0):
+    def gimp_image_reorder_item(self, image: Gimp.Image=None, item: Gimp.Item=None, parent: Optional[Gimp.Item]=None, position: int=0):
         """Reorder the specified item within its item tree.
         
         Reorders or moves item within an item tree. Requires parent is %NULL or
@@ -11387,7 +11669,7 @@ class _PyPDB:
         
         * item - The item to reorder.
         
-        * parent - The new parent item.
+        * parent (can be None) - The new parent item.
         
         * position (default: 0) - The new position of the item.
         """
@@ -11409,8 +11691,12 @@ class _PyPDB:
         * image - The image.
         
         * new_width (default: 1) - New image width.
+          
+          Minimum value: 1, maximum value: 524288
         
         * new_height (default: 1) - New image height.
+          
+          Minimum value: 1, maximum value: 524288
         
         * offx (default: 0) - x offset between upper left corner of old and
           new images: (new - old).
@@ -11462,8 +11748,12 @@ class _PyPDB:
         * image - The image.
         
         * new_width (default: 1) - New image width.
+          
+          Minimum value: 1, maximum value: 524288
         
         * new_height (default: 1) - New image height.
+          
+          Minimum value: 1, maximum value: 524288
         """
         pass
 
@@ -11573,8 +11863,12 @@ class _PyPDB:
           bounding box.
         
         * width (default: 0.0) - The width of the ellipse.
+          
+          Minimum value: 0.0
         
         * height (default: 0.0) - The height of the ellipse.
+          
+          Minimum value: 0.0
         """
         pass
 
@@ -11649,8 +11943,12 @@ class _PyPDB:
         * y (default: 0.0) - y coordinate of upper-left corner of rectangle.
         
         * width (default: 0.0) - The width of the rectangle.
+          
+          Minimum value: 0.0
         
         * height (default: 0.0) - The height of the rectangle.
+          
+          Minimum value: 0.0
         """
         pass
 
@@ -11676,29 +11974,20 @@ class _PyPDB:
         * y (default: 0.0) - y coordinate of upper-left corner of rectangle.
         
         * width (default: 0.0) - The width of the rectangle.
+          
+          Minimum value: 0.0
         
         * height (default: 0.0) - The height of the rectangle.
+          
+          Minimum value: 0.0
         
         * corner_radius_x (default: 0.0) - The corner radius in X direction.
+          
+          Minimum value: 0.0, maximum value: 524288.0
         
         * corner_radius_y (default: 0.0) - The corner radius in Y direction.
-        """
-        pass
-
-    def gimp_image_set_color_profile(self, image: Gimp.Image=None, color_profile: GLib.Bytes=None):
-        """Sets the image's color profile.
-        
-        This procedure sets the image's color profile, or unsets it if NULL is
-        passed as 'color_profile'. This procedure does no color
-        conversion. However, it will change the pixel format of all
-        layers to contain the babl space matching the profile. You must
-        call this procedure before adding layers to the image.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        * color_profile - The new serialized color profile.
+          
+          Minimum value: 0.0, maximum value: 524288.0
         """
         pass
 
@@ -11772,19 +12061,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_metadata(self, image: Gimp.Image=None, metadata_string: str=None):
-        """Set the image's metadata.
-        
-        Sets exif/iptc/xmp metadata on the image.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        * metadata_string - The exif/ptc/xmp metadata as a string.
-        """
-        pass
-
     def gimp_image_set_palette(self, image: Gimp.Image=None, new_palette: Gimp.Palette=None) -> Gimp.Palette:
         """Set the image's colormap to a copy of @palette.
         
@@ -11823,7 +12099,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_set_selected_channels(self, image: Gimp.Image=None, channels: GObject.Value=None):
+    def gimp_image_set_selected_channels(self, image: Gimp.Image=None, channels: list[Gimp.Channel]=None):
         """Sets the specified image's selected channels.
         
         The channels are set as the selected channels in the image. Any previous
@@ -11835,11 +12111,12 @@ class _PyPDB:
         
         * image - The image.
         
-        * channels - The list of channels to select.
+        * channels (array of Gimp.Channel elements) - The list of channels to
+          select.
         """
         pass
 
-    def gimp_image_set_selected_layers(self, image: Gimp.Image=None, layers: GObject.Value=None):
+    def gimp_image_set_selected_layers(self, image: Gimp.Image=None, layers: list[Gimp.Layer]=None):
         """Sets the specified image's selected layers.
         
         The layers are set as the selected layers in the image. Any previous
@@ -11851,11 +12128,12 @@ class _PyPDB:
         
         * image - The image.
         
-        * layers - The list of layers to select.
+        * layers (array of Gimp.Layer elements) - The list of layers to
+          select.
         """
         pass
 
-    def gimp_image_set_selected_paths(self, image: Gimp.Image=None, paths: GObject.Value=None):
+    def gimp_image_set_selected_paths(self, image: Gimp.Image=None, paths: list[Gimp.Path]=None):
         """Sets the specified image's selected paths.
         
         The paths are set as the selected paths in the image.
@@ -11864,7 +12142,7 @@ class _PyPDB:
         
         * image - The image.
         
-        * paths - The list of paths to select.
+        * paths (array of Gimp.Path elements) - The list of paths to select.
         """
         pass
 
@@ -11894,21 +12172,6 @@ class _PyPDB:
         
         * intent (default: Gimp.ColorRenderingIntent.PERCEPTUAL) - A
           GimpColorRenderingIntent.
-        """
-        pass
-
-    def gimp_image_set_simulation_profile(self, image: Gimp.Image=None, color_profile: GLib.Bytes=None):
-        """Sets the image's simulation color profile.
-        
-        This procedure sets the image's simulation color profile, or unsets it
-        if NULL is passed as 'color_profile'. This procedure does no
-        color conversion.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        * color_profile - The new serialized simulation color profile.
         """
         pass
 
@@ -11948,6 +12211,8 @@ class _PyPDB:
         * image - The image.
         
         * tattoo_state (default: 1) - The new image tattoo state.
+          
+          Minimum value: 1
         """
         pass
 
@@ -11963,7 +12228,7 @@ class _PyPDB:
         
         * image - The image.
         
-        * unit - The new image unit.
+        * unit (percent not allowed, pixels not allowed) - The new image unit.
         """
         pass
 
@@ -12009,34 +12274,6 @@ class _PyPDB:
         Parameters:
         
         * image - The image.
-        """
-        pass
-
-    def gimp_image_thumbnail(self, image: Gimp.Image=None, width: int=1, height: int=1) -> Tuple[int, int, int, GLib.Bytes]:
-        """Get a thumbnail of an image.
-        
-        This function gets data from which a thumbnail of an image preview can
-        be created. Maximum x or y dimension is 1024 pixels. The pixels
-        are returned in RGB[A] or GRAY[A] format. The bpp return value
-        gives the number of bits per pixel in the image.
-        
-        Parameters:
-        
-        * image - The image.
-        
-        * width (default: 1) - The requested thumbnail width.
-        
-        * height (default: 1) - The requested thumbnail height.
-        
-        Returns:
-        
-        * actual_width (default: 0) - The previews width.
-        
-        * actual_height (default: 0) - The previews height.
-        
-        * bpp (default: 0) - The previews bpp.
-        
-        * thumbnail_data - The thumbnail data.
         """
         pass
 
@@ -12228,7 +12465,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_children(self, item: Gimp.Item=None) -> Any:
+    def gimp_item_get_children(self, item: Gimp.Item=None) -> list[Gimp.Item]:
         """Returns the item's list of children.
         
         This procedure returns the list of items which are children of the
@@ -12240,7 +12477,8 @@ class _PyPDB:
         
         Returns:
         
-        * children - The item's list of children.
+        * children (array of Gimp.Item elements) - The item's list of
+          children.
         """
         pass
 
@@ -12370,7 +12608,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_item_get_parasite_list(self, item: Gimp.Item=None) -> List[str]:
+    def gimp_item_get_parasite_list(self, item: Gimp.Item=None) -> list[str]:
         """List all parasites.
         
         Returns a list of all parasites currently attached the an item.
@@ -12414,6 +12652,8 @@ class _PyPDB:
         Returns:
         
         * tattoo (default: 1) - The item tattoo.
+          
+          Minimum value: 1
         """
         pass
 
@@ -12719,6 +12959,8 @@ class _PyPDB:
         * item - The item.
         
         * tattoo (default: 1) - The new item tattoo.
+          
+          Minimum value: 1
         """
         pass
 
@@ -13214,26 +13456,21 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_copy(self, layer: Gimp.Layer=None, add_alpha: bool=False) -> Gimp.Layer:
+    def gimp_layer_copy(self, layer: Gimp.Layer=None) -> Gimp.Layer:
         """Copy a layer.
         
         This procedure copies the specified layer and returns the copy. The
         newly copied layer is for use within the original layer's image.
-        It should not be subsequently added to any other image. The
-        copied layer can optionally have an added alpha channel. This is
-        useful if the background layer in an image is being copied and
-        added to the same image.
+        It should not be subsequently added to any other image.
         
         Parameters:
         
         * layer - The layer to copy.
         
-        * add_alpha (default: False) - Add an alpha channel to the copied
-          layer.
-        
         Returns:
         
-        * layer_copy - The newly copied layer.
+        * layer_copy - The newly copied layer. The object belongs to libgimp
+          and you should not free it.
         """
         pass
 
@@ -13440,6 +13677,8 @@ class _PyPDB:
         Returns:
         
         * opacity (default: 0.0) - The layer opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -13479,36 +13718,46 @@ class _PyPDB:
         """
         pass
 
-    def gimp_layer_new(self, image: Gimp.Image=None, width: int=1, height: int=1, type: Gimp.ImageType=Gimp.ImageType.RGB_IMAGE, name: str=None, opacity: float=0.0, mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL) -> Gimp.Layer:
+    def gimp_layer_new(self, image: Gimp.Image=None, name: str=None, width: int=1, height: int=1, type: Gimp.ImageType=Gimp.ImageType.RGB_IMAGE, opacity: float=0.0, mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL) -> Gimp.Layer:
         """Create a new layer.
         
-        This procedure creates a new layer with the specified width, height, and
-        type. If @name is %NULL, a default layer name will be used.
-        Opacity, and mode are also supplied parameters. The new layer
-        still needs to be added to the image, as this is not automatic.
-        Add the new layer with the 'gimp-image-insert-layer' command.
-        Other attributes such as layer mask modes, and offsets should be
-        set with explicit procedure calls.
+        This procedure creates a new layer with the specified @width, @height
+        and @type. If @name is %NULL, a default layer name will be used.
+        @opacity and @mode are also supplied parameters.
+        
+        The new layer still needs to be added to the image as this is not
+        automatic. Add the new layer with the
+        [method@Image.insert_layer] method.
+        
+        Other attributes such as layer mask modes and offsets should be set with
+        explicit procedure calls.
         
         Parameters:
         
         * image - The image to which to add the layer.
         
+        * name - The layer name.
+        
         * width (default: 1) - The layer width.
+          
+          Minimum value: 1, maximum value: 524288
         
         * height (default: 1) - The layer height.
+          
+          Minimum value: 1, maximum value: 524288
         
         * type (default: Gimp.ImageType.RGB_IMAGE) - The layer type.
         
-        * name - The layer name.
-        
         * opacity (default: 0.0) - The layer opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * mode (default: Gimp.LayerMode.NORMAL) - The layer combination mode.
         
         Returns:
         
-        * layer - The newly created layer.
+        * layer - The newly created layer. The object belongs to libgimp and
+          you should not free it.
         """
         pass
 
@@ -13586,8 +13835,12 @@ class _PyPDB:
         * layer - The layer.
         
         * new_width (default: 1) - New layer width.
+          
+          Minimum value: 1, maximum value: 524288
         
         * new_height (default: 1) - New layer height.
+          
+          Minimum value: 1, maximum value: 524288
         
         * offx (default: 0) - x offset between upper left corner of old and
           new layers: (old - new).
@@ -13624,8 +13877,12 @@ class _PyPDB:
         * layer - The layer.
         
         * new_width (default: 1) - New layer width.
+          
+          Minimum value: 1, maximum value: 524288
         
         * new_height (default: 1) - New layer height.
+          
+          Minimum value: 1, maximum value: 524288
         
         * local_origin (default: False) - Use a local origin (as opposed to
           the image origin).
@@ -13762,6 +14019,8 @@ class _PyPDB:
         * layer - The layer.
         
         * opacity (default: 0.0) - The new layer opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
@@ -13901,6 +14160,8 @@ class _PyPDB:
         * drawable - The affected drawable.
         
         * fade_out (default: 0.0) - Fade out parameter.
+          
+          Minimum value: 0.0
         
         * strokes - Array of stroke coordinates: { s1.x, s1.y, s2.x, s2.y,
           ..., sn.x, sn.y }.
@@ -13909,6 +14170,8 @@ class _PyPDB:
           method to use.
         
         * gradient_length (default: 0.0) - Length of gradient to draw.
+          
+          Minimum value: 0.0
         """
         pass
 
@@ -13977,7 +14240,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_css(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Gio.File=None, string: str='palette.css'):
+    def gimp_palette_export_css(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Optional[Gio.File]=None, string: str='palette.css'):
         """Export the active palette as a CSS stylesheet with the color entry
         name as their class name, and the color itself as the color
         attribute.
@@ -13989,14 +14252,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * dirname - Folder for the output file.
+        * dirname (folder to select) (can be None) - Folder for the output
+          file.
         
         * string (default: 'palette.css') - The name of the file to create (if
           a file with this name already exist, it will be replaced).
         """
         pass
 
-    def gimp_palette_export_java(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Gio.File=None, string: str='palette.java'):
+    def gimp_palette_export_java(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Optional[Gio.File]=None, string: str='palette.java'):
         """Export the active palette as a
         java.util.Hashtable&lt;String,Color&gt;.
         
@@ -14007,7 +14271,8 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * dirname - Folder for the output file.
+        * dirname (folder to select) (can be None) - Folder for the output
+          file.
         
         * string (default: 'palette.java') - The name of the file to create
           (if a file with this name already exist, it will be
@@ -14015,7 +14280,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_export_php(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Gio.File=None, string: str='palette.php'):
+    def gimp_palette_export_php(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Optional[Gio.File]=None, string: str='palette.php'):
         """Export the active palette as a PHP dictionary (name => color).
         
         Menu label: P_HP dictionary...
@@ -14025,14 +14290,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * dirname - Folder for the output file.
+        * dirname (folder to select) (can be None) - Folder for the output
+          file.
         
         * string (default: 'palette.php') - The name of the file to create (if
           a file with this name already exist, it will be replaced).
         """
         pass
 
-    def gimp_palette_export_python(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Gio.File=None, string: str='palette.py'):
+    def gimp_palette_export_python(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Optional[Gio.File]=None, string: str='palette.py'):
         """Export the active palette as a Python dictionary (name: color).
         
         Menu label: _Python dictionary...
@@ -14042,14 +14308,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * dirname - Folder for the output file.
+        * dirname (folder to select) (can be None) - Folder for the output
+          file.
         
         * string (default: 'palette.py') - The name of the file to create (if
           a file with this name already exist, it will be replaced).
         """
         pass
 
-    def gimp_palette_export_text(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Gio.File=None, string: str='palette.txt'):
+    def gimp_palette_export_text(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirname: Optional[Gio.File]=None, string: str='palette.txt'):
         """Write all the colors in a palette to a text file, one hexadecimal
         value per line (no names).
         
@@ -14060,7 +14327,8 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * dirname - Folder for the output file.
+        * dirname (folder to select) (can be None) - Folder for the output
+          file.
         
         * string (default: 'palette.txt') - The name of the file to create (if
           a file with this name already exist, it will be replaced).
@@ -14079,33 +14347,7 @@ class _PyPDB:
         
         Returns:
         
-        * palette - The palette.
-        """
-        pass
-
-    def gimp_palette_get_bytes(self, palette: Gimp.Palette=None, format: GObject.Value=None) -> Tuple[GLib.Bytes, int]:
-        """Returns the palette's colormap.
-        
-        This procedure returns a palette's colormap as a bytes array with all
-        colors converted to a given Babl @format. The byte-size of the
-        returned colormap depends on the number of colors and on the
-        bytes-per-pixel size of @format. E.g. that the following
-        equality is ensured:
-        
-        ```C g_bytes_get_size (colormap) == num_colors *
-        babl_format_get_bytes_per_pixel (format) ```.
-        
-        Parameters:
-        
-        * palette - The palette.
-        
-        * format - The desired color format.
-        
-        Returns:
-        
-        * colormap - The image's colormap.
-        
-        * num_colors (default: 0) - The number of colors in the palette.
+        * palette (can be None) - The palette.
         """
         pass
 
@@ -14210,25 +14452,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palette_set_bytes(self, palette: Gimp.Palette=None, format: GObject.Value=None, colormap: GLib.Bytes=None):
-        """Sets the entries in the image's colormap.
-        
-        This procedure sets the entries in the specified palette in one go. The
-        number of entries depens on the size of @colormap and the
-        bytes-per-pixel size of @format. The procedure will fail if the
-        size of @colormap is not an exact multiple of the number of
-        bytes per pixel of @format.
-        
-        Parameters:
-        
-        * palette - The palette.
-        
-        * format - The desired color format.
-        
-        * colormap - The new colormap values.
-        """
-        pass
-
     def gimp_palette_set_columns(self, palette: Gimp.Palette=None, columns: int=0):
         """Sets the number of columns used to display the palette.
         
@@ -14241,6 +14464,8 @@ class _PyPDB:
         * palette - The palette.
         
         * columns (default: 0) - The new number of columns.
+          
+          Minimum value: 0, maximum value: 64
         """
         pass
 
@@ -14290,7 +14515,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_palettes_get_list(self, filter: str=None) -> Any:
+    def gimp_palettes_get_list(self, filter: str=None) -> list[Gimp.Palette]:
         """Retrieves a list of all of the available palettes.
         
         This procedure returns a complete listing of available palettes. Each
@@ -14303,11 +14528,12 @@ class _PyPDB:
         
         Returns:
         
-        * palette_list - The list of palettes.
+        * palette_list (array of Gimp.Palette elements) - The list of
+          palettes.
         """
         pass
 
-    def gimp_palettes_popup(self, palette_callback: str=None, popup_title: str=None, initial_palette: Gimp.Palette=None, parent_window: GLib.Bytes=None):
+    def gimp_palettes_popup(self, palette_callback: str=None, popup_title: str=None, initial_palette: Optional[Gimp.Palette]=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp palette selection dialog.
         
         Opens a dialog letting a user choose a palette.
@@ -14319,7 +14545,8 @@ class _PyPDB:
         
         * popup_title - Title of the palette selection dialog.
         
-        * initial_palette - The palette to set as the initial choice.
+        * initial_palette (can be None) - The palette to set as the initial
+          choice.
         
         * parent_window - An optional parent window handle for the popup to be
           set transient to.
@@ -14609,6 +14836,8 @@ class _PyPDB:
         
         * precision (default: 0.1) - The precision used for approximating
           straight portions of the stroke.
+          
+          Minimum value: 0.0
         
         Returns:
         
@@ -14616,7 +14845,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_path_stroke_get_point_at_dist(self, path: Gimp.Path=None, stroke_id: int=0, dist: float=0.0, precision: float=0.0) -> Tuple[float, float, float, bool]:
+    def gimp_path_stroke_get_point_at_dist(self, path: Gimp.Path=None, stroke_id: int=0, dist: float=0.0, precision: float=0.0) -> tuple[float, float, float, bool]:
         """Get point at a specified distance along the stroke.
         
         This will return the x,y position of a point at a given distance along
@@ -14649,7 +14878,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_path_stroke_get_points(self, path: Gimp.Path=None, stroke_id: int=0) -> Tuple[Gimp.PathStrokeType, Gimp.DoubleArray, bool]:
+    def gimp_path_stroke_get_points(self, path: Gimp.Path=None, stroke_id: int=0) -> tuple[Gimp.PathStrokeType, Gimp.DoubleArray, bool]:
         """Returns the control points of a stroke.
         
         Returns the control points of a stroke. The interpretation of the
@@ -14675,7 +14904,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_path_stroke_interpolate(self, path: Gimp.Path=None, stroke_id: int=0, precision: float=0.0) -> Tuple[Gimp.DoubleArray, bool]:
+    def gimp_path_stroke_interpolate(self, path: Gimp.Path=None, stroke_id: int=0, precision: float=0.0) -> tuple[Gimp.DoubleArray, bool]:
         """Returns polygonal approximation of the stroke.
         
         Returns polygonal approximation of the stroke.
@@ -14804,11 +15033,11 @@ class _PyPDB:
         
         Returns:
         
-        * pattern - The pattern.
+        * pattern (can be None) - The pattern.
         """
         pass
 
-    def gimp_pattern_get_info(self, pattern: Gimp.Pattern=None) -> Tuple[int, int, int]:
+    def gimp_pattern_get_info(self, pattern: Gimp.Pattern=None) -> tuple[int, int, int]:
         """Gets information about the pattern.
         
         Gets information about the pattern: the pattern extents (width and
@@ -14828,28 +15057,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pattern_get_pixels(self, pattern: Gimp.Pattern=None) -> Tuple[int, int, int, GLib.Bytes]:
-        """Gets information about the pattern (including pixels).
-        
-        Gets information about the pattern: the pattern extents (width and
-        height), its bpp, and its pixel data.
-        
-        Parameters:
-        
-        * pattern - The pattern.
-        
-        Returns:
-        
-        * width (default: 0) - The pattern width.
-        
-        * height (default: 0) - The pattern height.
-        
-        * bpp (default: 0) - The pattern bpp.
-        
-        * color_bytes - The pattern data.
-        """
-        pass
-
     def gimp_patterns_close_popup(self, pattern_callback: str=None):
         """Close the pattern selection dialog.
         
@@ -14862,7 +15069,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_patterns_get_list(self, filter: str=None) -> Any:
+    def gimp_patterns_get_list(self, filter: str=None) -> list[Gimp.Pattern]:
         """Retrieve a complete listing of the available patterns.
         
         This procedure returns a complete listing of available GIMP patterns.
@@ -14875,11 +15082,12 @@ class _PyPDB:
         
         Returns:
         
-        * pattern_list - The list of patterns.
+        * pattern_list (array of Gimp.Pattern elements) - The list of
+          patterns.
         """
         pass
 
-    def gimp_patterns_popup(self, pattern_callback: str=None, popup_title: str=None, initial_pattern: Gimp.Pattern=None, parent_window: GLib.Bytes=None):
+    def gimp_patterns_popup(self, pattern_callback: str=None, popup_title: str=None, initial_pattern: Optional[Gimp.Pattern]=None, parent_window: GLib.Bytes=None):
         """Invokes the Gimp pattern selection.
         
         Opens the pattern selection dialog.
@@ -14891,7 +15099,8 @@ class _PyPDB:
         
         * popup_title - Title of the pattern selection dialog.
         
-        * initial_pattern - The pattern to set as the initial choice.
+        * initial_pattern (can be None) - The pattern to set as the initial
+          choice.
         
         * parent_window - An optional parent window handle for the popup to be
           set transient to.
@@ -14920,528 +15129,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_pdb_add_proc_menu_path(self, procedure_name: str=None, menu_path: str=None):
-        """Register an additional menu path for a plug-in procedure.
-        
-        This procedure installs an additional menu entry for the given
-        procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure for which to install the menu path.
-        
-        * menu_path - The procedure's additional menu path.
-        """
-        pass
-
-    def gimp_pdb_dump(self, file: Gio.File=None):
-        """Dumps the current contents of the procedural database.
-        
-        This procedure dumps the contents of the procedural database to the
-        specified file. The file will contain all of the information
-        provided for each registered procedure.
-        
-        Parameters:
-        
-        * file - The dump filename.
-        """
-        pass
-
-    def gimp_pdb_get_data(self, identifier: str=None) -> GLib.Bytes:
-        """Returns data associated with the specified identifier.
-        
-        This procedure returns any data which may have been associated with the
-        specified identifier. The data is a variable length array of
-        bytes. If no data has been associated with the identifier, an
-        error is returned.
-        
-        Parameters:
-        
-        * identifier - The identifier associated with data.
-        
-        Returns:
-        
-        * data - A byte array containing data.
-        """
-        pass
-
-    def gimp_pdb_get_proc_argument(self, procedure_name: str=None, arg_num: int=0) -> GObject.ParamSpec:
-        """Queries the procedural database for information on the specified
-        procedure's argument.
-        
-        This procedure returns the #GParamSpec of procedure_name's argument.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        * arg_num (default: 0) - The argument number.
-        
-        Returns:
-        
-        * param_spec - The GParamSpec of the argument.
-        """
-        pass
-
-    def gimp_pdb_get_proc_attribution(self, procedure_name: str=None) -> Tuple[str, str, str]:
-        """Queries the procedural database for attribution information on the
-        specified procedure.
-        
-        This procedure returns attribution information on the specified
-        procedure. The authors, copyright information and date are
-        returned.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        Returns:
-        
-        * authors - Authors of the procedure.
-        
-        * copyright - The copyright.
-        
-        * date - Copyright date.
-        """
-        pass
-
-    def gimp_pdb_get_proc_documentation(self, procedure_name: str=None) -> Tuple[str, str, str]:
-        """Queries the procedural database for documentation on the specified
-        procedure.
-        
-        This procedure returns documentation on the specified procedure. A short
-        blurb, detailed help and help_id.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        Returns:
-        
-        * blurb - A short blurb.
-        
-        * help - Detailed procedure help.
-        
-        * help_id - The procedure help_id.
-        """
-        pass
-
-    def gimp_pdb_get_proc_image_types(self, procedure_name: str=None) -> str:
-        """Queries the procedural database for the image types supported by the
-        specified procedure.
-        
-        This procedure returns the image types supported by the specified
-        procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        Returns:
-        
-        * image_types - The image types.
-        """
-        pass
-
-    def gimp_pdb_get_proc_info(self, procedure_name: str=None) -> Tuple[Gimp.PDBProcType, int, int]:
-        """Queries the procedural database for information on the specified
-        procedure.
-        
-        This procedure returns information on the specified procedure. The
-        procedure type, number of input, and number of return values are
-        returned. For specific information on each input argument and
-        return value, use the 'gimp-pdb-db-proc-argument' and
-        'gimp-pdb-db-proc-return-value' procedures.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        Returns:
-        
-        * proc_type (default: Gimp.PDBProcType.INTERNAL) - The procedure type.
-        
-        * num_args (default: 0) - The number of input arguments.
-        
-        * num_values (default: 0) - The number of return values.
-        """
-        pass
-
-    def gimp_pdb_get_proc_menu_label(self, procedure_name: str=None) -> str:
-        """Queries the procedural database for the procedure's menu label.
-        
-        This procedure returns the menu label of the specified procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        Returns:
-        
-        * menu_label - The menu_label.
-        """
-        pass
-
-    def gimp_pdb_get_proc_menu_paths(self, procedure_name: str=None) -> List[str]:
-        """Queries the procedural database for the procedure's menu paths.
-        
-        This procedure returns the menu paths of the specified procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        Returns:
-        
-        * menu_paths - The menu paths of the plug-in.
-        """
-        pass
-
-    def gimp_pdb_get_proc_return_value(self, procedure_name: str=None, val_num: int=0) -> GObject.ParamSpec:
-        """Queries the procedural database for information on the specified
-        procedure's return value.
-        
-        This procedure returns the #GParamSpec of procedure_name's return value.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        * val_num (default: 0) - The return value number.
-        
-        Returns:
-        
-        * param_spec - The GParamSpec of the return value.
-        """
-        pass
-
-    def gimp_pdb_proc_exists(self, procedure_name: str=None) -> bool:
-        """Checks if the specified procedure exists in the procedural database.
-        
-        This procedure checks if the specified procedure is registered in the
-        procedural database.
-        
-        Parameters:
-        
-        * procedure_name - The procedure name.
-        
-        Returns:
-        
-        * exists (default: False) - Whether a procedure of that name is
-          registered.
-        """
-        pass
-
-    def gimp_pdb_query(self, name: str=None, blurb: str=None, help: str=None, authors: str=None, copyright: str=None, date: str=None, proc_type: str=None) -> List[str]:
-        """Queries the procedural database for its contents using regular
-        expression matching.
-        
-        This procedure queries the contents of the procedural database. It is
-        supplied with seven arguments matching procedures on { name,
-        blurb, help, authors, copyright, date, procedure type}. This is
-        accomplished using regular expression matching. For instance, to
-        find all procedures with "jpeg" listed in the blurb, all seven
-        arguments can be supplied as ".*", except for the second, which
-        can be supplied as ".*jpeg.*". There are two return arguments
-        for this procedure. The first is the number of procedures
-        matching the query. The second is a concatenated list of
-        procedure names corresponding to those matching the query. If no
-        matching entries are found, then the returned string is NULL and
-        the number of entries is 0.
-        
-        Parameters:
-        
-        * name - The regex for procedure name.
-        
-        * blurb - The regex for procedure blurb.
-        
-        * help - The regex for procedure help.
-        
-        * authors - The regex for procedure authors.
-        
-        * copyright - The regex for procedure copyright.
-        
-        * date - The regex for procedure date.
-        
-        * proc_type - The regex for procedure type: { 'Internal GIMP
-          procedure', 'GIMP Plug-in', 'GIMP Extension', 'Temporary
-          Procedure' }.
-        
-        Returns:
-        
-        * procedure_names - The list of procedure names.
-        """
-        pass
-
-    def gimp_pdb_set_batch_interpreter(self, procedure_name: str=None, interpreter_name: str=None):
-        """Registers a batch interpreter procedure.
-        
-        Registers a procedural database procedure to be called with the command
-        line interface options --batch-interpreter and --batch.
-        
-        Parameters:
-        
-        * procedure_name - The name of the procedure to be used for running
-          batch commands.
-        
-        * interpreter_name - A public-facing name for the interpreter, such as
-          "Python 3".
-        """
-        pass
-
-    def gimp_pdb_set_data(self, identifier: str=None, data: GLib.Bytes=None):
-        """Associates the specified identifier with the supplied data.
-        
-        This procedure associates the supplied data with the provided
-        identifier. The data may be subsequently retrieved by a call to
-        'procedural-db-get-data'.
-        
-        Parameters:
-        
-        * identifier - The identifier associated with data.
-        
-        * data - A byte array containing data.
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_handles_raw(self, procedure_name: str=None):
-        """Registers a file handler procedure as capable of handling raw camera
-        files.
-        
-        Registers a file handler procedure as capable of handling raw digital
-        camera files. Use this procedure only to register raw load
-        handlers, calling it on a save handler will generate an error.
-        
-        Parameters:
-        
-        * procedure_name - The name of the procedure to enable raw handling
-          for.
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_handles_remote(self, procedure_name: str=None):
-        """Registers a file handler procedure as capable of handling remote
-        URIs.
-        
-        Registers a file handler procedure as capable of handling remote URIs.
-        This allows GIMP to call the procedure directly for all kinds of
-        URIs, not only on local file:// URIs.
-        
-        Parameters:
-        
-        * procedure_name - The name of the procedure to enable remote URIs
-          for.
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_handles_vector(self, procedure_name: str=None):
-        """Registers a load handler procedure as handling vector formats.
-        
-        Registers a file handler procedure as handling vector image formats. Use
-        this procedure only to register a GimpVectorLoadProcedure,
-        calling it on any other handler will generate an error.
-        
-        Parameters:
-        
-        * procedure_name - The name of the vector load procedure.
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_load_handler(self, procedure_name: str=None, extensions: str=None, prefixes: str=None, magics: str=None):
-        """Registers a file load handler procedure.
-        
-        Registers a procedural database procedure to be called to load files of
-        a particular file format using magic file information.
-        
-        Parameters:
-        
-        * procedure_name - The name of the procedure to be used for loading.
-        
-        * extensions - comma separated list of extensions this handler can
-          load (i.e. "jpg,jpeg").
-        
-        * prefixes - comma separated list of prefixes this handler can load
-          (i.e. "http:,ftp:").
-        
-        * magics - comma separated list of magic file information this handler
-          can load (i.e. "0,string,GIF").
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_mime_types(self, procedure_name: str=None, mime_types: str=None):
-        """Associates MIME types with a file handler procedure.
-        
-        Registers MIME types for a file handler procedure. This allows GIMP to
-        determine the MIME type of the file opened or saved using this
-        procedure. It is recommended that only one MIME type is
-        registered per file procedure; when registering more than one
-        MIME type, GIMP will associate the first one with files opened
-        or saved with this procedure.
-        
-        Parameters:
-        
-        * procedure_name - The name of the procedure to associate a MIME type
-          with.
-        
-        * mime_types - A comma-separated list of MIME types, such as
-          "image/jpeg".
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_priority(self, procedure_name: str=None, priority: int=0):
-        """Sets the priority of a file handler procedure.
-        
-        Sets the priority of a file handler procedure. When more than one
-        procedure matches a given file, the procedure with the lowest
-        priority is used; if more than one procedure has the lowest
-        priority, it is unspecified which one of them is used. The
-        default priority for file handler procedures is 0.
-        
-        Parameters:
-        
-        * procedure_name - The name of the procedure to set the priority of.
-        
-        * priority (default: 0) - The procedure priority.
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_save_handler(self, procedure_name: str=None, extensions: str=None, prefixes: str=None):
-        """Registers a file save handler procedure.
-        
-        Registers a procedural database procedure to be called to save files in
-        a particular file format.
-        
-        Parameters:
-        
-        * procedure_name - The name of the procedure to be used for saving.
-        
-        * extensions - comma separated list of extensions this handler can
-          save (i.e. "jpg,jpeg").
-        
-        * prefixes - comma separated list of prefixes this handler can save
-          (i.e. "http:,ftp:").
-        """
-        pass
-
-    def gimp_pdb_set_file_proc_thumbnail_loader(self, load_proc: str=None, thumb_proc: str=None):
-        """Associates a thumbnail loader with a file load procedure.
-        
-        Some file formats allow for embedded thumbnails, other file formats
-        contain a scalable image or provide the image data in different
-        resolutions. A file plug-in for such a format may register a
-        special procedure that allows GIMP to load a thumbnail preview
-        of the image. This procedure is then associated with the
-        standard load procedure using this function.
-        
-        Parameters:
-        
-        * load_proc - The name of the file load procedure.
-        
-        * thumb_proc - The name of the thumbnail load procedure.
-        """
-        pass
-
-    def gimp_pdb_set_proc_attribution(self, procedure_name: str=None, authors: str=None, copyright: str=None, date: str=None):
-        """Set the attribution for a plug-in procedure.
-        
-        This procedure sets the attribution for the given procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure for which to install the menu path.
-        
-        * authors - Authors of the procedure.
-        
-        * copyright - The copyright.
-        
-        * date - Copyright date.
-        """
-        pass
-
-    def gimp_pdb_set_proc_documentation(self, procedure_name: str=None, blurb: str=None, help: str=None, help_id: str=None):
-        """Set the documentation for a plug-in procedure.
-        
-        This procedure sets the documentation for the given procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure for which to install the menu path.
-        
-        * blurb - A short blurb.
-        
-        * help - Detailed procedure help.
-        
-        * help_id - The procedure help_id.
-        """
-        pass
-
-    def gimp_pdb_set_proc_icon(self, procedure_name: str=None, icon_type: Gimp.IconType=Gimp.IconType.ICON_NAME, icon_data: GLib.Bytes=None):
-        """Register an icon for a plug-in procedure.
-        
-        This procedure installs an icon for the given procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure for which to install the icon.
-        
-        * icon_type (default: Gimp.IconType.ICON_NAME) - The type of the icon.
-        
-        * icon_data - The procedure's icon. The format depends on the
-          'icon_type' parameter.
-        """
-        pass
-
-    def gimp_pdb_set_proc_image_types(self, procedure_name: str=None, image_types: str=None):
-        """Set the supported image types for a plug-in procedure.
-        
-        This procedure sets the supported images types for the given procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure for which to install the menu path.
-        
-        * image_types - The procedure's supported image types.
-        """
-        pass
-
-    def gimp_pdb_set_proc_menu_label(self, procedure_name: str=None, menu_label: str=None):
-        """Set the menu label for a plug-in procedure.
-        
-        This procedure sets the menu label for the given procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure for which to install the menu path.
-        
-        * menu_label - The procedure's menu label.
-        """
-        pass
-
-    def gimp_pdb_set_proc_sensitivity_mask(self, procedure_name: str=None, mask: int=0):
-        """Set the sensitivity mask for a plug-in procedure.
-        
-        This procedure sets the sensitivity mask for the given procedure.
-        
-        Parameters:
-        
-        * procedure_name - The procedure.
-        
-        * mask (default: 0) - The procedure's sensitivity mask.
-        """
-        pass
-
-    def gimp_pdb_temp_name(self) -> str:
-        """Generates a unique temporary PDB name.
-        
-        This procedure generates a temporary PDB entry name that is guaranteed
-        to be unique.
-        
-        Returns:
-        
-        * temp_name - A unique temporary name for a temporary PDB entry.
-        """
-        pass
-
     def gimp_pencil(self, drawable: Gimp.Drawable=None, strokes: Gimp.DoubleArray=None):
         """Paint in the current brush without sub-pixel sampling.
         
@@ -15458,95 +15145,6 @@ class _PyPDB:
         
         * strokes - Array of stroke coordinates: { s1.x, s1.y, s2.x, s2.y,
           ..., sn.x, sn.y }.
-        """
-        pass
-
-    def gimp_plug_in_get_pdb_error_handler(self) -> Gimp.PDBErrorHandler:
-        """Retrieves the active error handler for procedure calls.
-        
-        This procedure retrieves the currently active error handler for
-        procedure calls made by the calling plug-in. See
-        'gimp-plugin-set-pdb-error-handler' for details.
-        
-        Returns:
-        
-        * handler (default: Gimp.PDBErrorHandler.INTERNAL) - Who is
-          responsible for handling procedure call errors.
-        """
-        pass
-
-    def gimp_plug_in_help_register(self, domain_name: str=None, domain_file: Gio.File=None):
-        """Register a help path for a plug-in.
-        
-        This procedure registers user documentation for the calling plug-in with
-        the GIMP help system. The domain_uri parameter points to the
-        root directory where the plug-in help is installed. For each
-        supported language there should be a file called 'gimp-help.xml'
-        that maps the help IDs to the actual help files.
-        
-        Parameters:
-        
-        * domain_name - The XML namespace of the plug-in's help pages.
-        
-        * domain_file - The root URI of the plug-in's help pages.
-        """
-        pass
-
-    def gimp_plug_in_menu_branch_register(self, menu_path: str=None, menu_name: str=None):
-        """Register a sub-menu.
-        
-        This procedure installs a sub-menu which does not belong to any
-        procedure. The menu-name should be the untranslated menu label.
-        GIMP will look up the translation in the textdomain registered
-        for the plug-in.
-        
-        Parameters:
-        
-        * menu_path - The sub-menu's menu path.
-        
-        * menu_name - The name of the sub-menu.
-        """
-        pass
-
-    def gimp_plug_in_set_pdb_error_handler(self, handler: Gimp.PDBErrorHandler=Gimp.PDBErrorHandler.INTERNAL):
-        """Sets an error handler for procedure calls.
-        
-        This procedure changes the way that errors in procedure calls are
-        handled. By default GIMP will raise an error dialog if a
-        procedure call made by a plug-in fails. Using this procedure the
-        plug-in can change this behavior. If the error handler is set to
-        %GIMP_PDB_ERROR_HANDLER_PLUGIN, then the plug-in is responsible
-        for calling 'gimp-get-pdb-error' and handling the error whenever
-        one if its procedure calls fails. It can do this by displaying
-        the error message or by forwarding it in its own return values.
-        
-        Parameters:
-        
-        * handler (default: Gimp.PDBErrorHandler.INTERNAL) - Who is
-          responsible for handling procedure call errors.
-        """
-        pass
-
-    def gimp_plug_ins_query(self, search_string: str=None) -> Tuple[List[str], List[str], List[str], Gimp.Int32Array]:
-        """Queries the plug-in database for its contents.
-        
-        This procedure queries the contents of the plug-in database.
-        
-        Parameters:
-        
-        * search_string - If not an empty string then use this as a search
-          pattern.
-        
-        Returns:
-        
-        * procedures - The plug-in procedure name.
-        
-        * accelerators - String representing keyboard accelerator (could be
-          empty string).
-        
-        * locations - Location of the plug-in program.
-        
-        * install_times - Time that the plug-in was installed.
         """
         pass
 
@@ -15590,35 +15188,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_progress_init(self, message: str=None, gdisplay: Gimp.Display=None):
-        """Initializes the progress bar for the current plug-in.
-        
-        Initializes the progress bar for the current plug-in. It is only valid
-        to call this procedure from a plug-in.
-        
-        Parameters:
-        
-        * message - Message to use in the progress dialog.
-        
-        * gdisplay - GimpDisplay to update progressbar in, or %NULL for a
-          separate window.
-        """
-        pass
-
-    def gimp_progress_install(self, progress_callback: str=None):
-        """Installs a progress callback for the current plug-in.
-        
-        This function installs a temporary PDB procedure which will handle all
-        progress calls made by this plug-in and any procedure it calls.
-        Calling this function multiple times simply replaces the old
-        progress callbacks.
-        
-        Parameters:
-        
-        * progress_callback - The callback PDB proc to call.
-        """
-        pass
-
     def gimp_progress_pulse(self):
         """Pulses the progress bar for the current plug-in.
         
@@ -15640,32 +15209,6 @@ class _PyPDB:
         Parameters:
         
         * message - Message to use in the progress dialog.
-        """
-        pass
-
-    def gimp_progress_uninstall(self, progress_callback: str=None):
-        """Uninstalls the progress callback for the current plug-in.
-        
-        This function uninstalls any progress callback installed with
-        'gimp-progress-install' before.
-        
-        Parameters:
-        
-        * progress_callback - The name of the callback registered for this
-          progress.
-        """
-        pass
-
-    def gimp_progress_update(self, percentage: float=0.0):
-        """Updates the progress bar for the current plug-in.
-        
-        Updates the progress bar for the current plug-in. It is only valid to
-        call this procedure from a plug-in.
-        
-        Parameters:
-        
-        * percentage (default: 0.0) - Percentage of progress completed which
-          must be between 0.0 and 1.0.
         """
         pass
 
@@ -15708,80 +15251,6 @@ class _PyPDB:
         Returns:
         
         * resource_copy - A copy of the resource.
-        """
-        pass
-
-    def gimp_resource_get_by_identifiers(self, type_name: str=None, resource_name: str=None, collection: str=None, is_internal: bool=False) -> Gimp.Resource:
-        """Returns the resource contained in a given file with a given name.
-        
-        Returns a resource specifically stored in a given file path, under a
-        given name (a single path may be a collection containing several
-        resources).
-        
-        Parameters:
-        
-        * type_name - The name of the resource type.
-        
-        * resource_name - The name of the resource.
-        
-        * collection - The collection identifier.
-        
-        * is_internal (default: False) - Whether this is the identifier for
-          internal data.
-        
-        Returns:
-        
-        * resource - The resource.
-        """
-        pass
-
-    def gimp_resource_get_by_name(self, type_name: str=None, resource_name: str=None) -> Gimp.Resource:
-        """Returns a resource with the given name.
-        
-        Returns an existing resource having the given name. Returns %NULL when
-        no resource exists of that name. There may be many fonts having
-        the same name. See 'gimp-font-get-by-name'.
-        
-        Parameters:
-        
-        * type_name - The name of the resource type e.g. GimpFont.
-        
-        * resource_name - The name of the resource.
-        
-        Returns:
-        
-        * resource - The resource.
-        """
-        pass
-
-    def gimp_resource_get_identifiers(self, resource: Gimp.Resource=None) -> Tuple[bool, str, str]:
-        """Returns a triplet identifying the resource.
-        
-        This procedure returns 2 strings and a boolean. The first string is the
-        resource name, similar to what you would obtain calling
-        'gimp-resource-get-name'. The second is an opaque identifier for
-        the collection this resource belongs to.
-        
-        *Note*: as far as GIMP is concerned, a collection of resource usually
-        corresponds to a single file on disk (which may or may not
-        contain several resources). Therefore the identifier may be
-        derived from the local file path. Nevertheless you should not
-        use this string as such as this is not guaranteed to be always
-        the case. You should consider it as an opaque identifier only to
-        be used again through _'gimp-resource-get-by-identifier'.
-        
-        Parameters:
-        
-        * resource - The resource.
-        
-        Returns:
-        
-        * is_internal (default: False) - Whether this is the identifier for
-          internal data.
-        
-        * name - The resource's name.
-        
-        * collection_id - The resource's collection identifier.
         """
         pass
 
@@ -15954,10 +15423,12 @@ class _PyPDB:
         * image - The image.
         
         * radius (default: 0) - Radius of border (in pixels).
+          
+          Minimum value: 0
         """
         pass
 
-    def gimp_selection_bounds(self, image: Gimp.Image=None) -> Tuple[bool, int, int, int, int]:
+    def gimp_selection_bounds(self, image: Gimp.Image=None) -> tuple[bool, int, int, int, int]:
         """Find the bounding box of the current selection.
         
         This procedure returns whether there is a selection for the specified
@@ -16002,30 +15473,8 @@ class _PyPDB:
         * image - The image.
         
         * radius (default: 0.0) - Radius of feather (in pixels).
-        """
-        pass
-
-    def gimp_selection_float(self, drawables: GObject.Value=None, offx: int=0, offy: int=0) -> Gimp.Layer:
-        """Float the selection from the specified drawable with initial offsets
-        as specified.
-        
-        This procedure determines the region of the specified drawable that lies
-        beneath the current selection. The region is then cut from the
-        drawable and the resulting data is made into a new layer which
-        is instantiated as a floating selection. The offsets allow
-        initial positioning of the new floating selection.
-        
-        Parameters:
-        
-        * drawables - The drawables from which to float selection.
-        
-        * offx (default: 0) - x offset for translation.
-        
-        * offy (default: 0) - y offset for translation.
-        
-        Returns:
-        
-        * layer - The floated layer.
+          
+          Minimum value: 0.0
         """
         pass
 
@@ -16054,6 +15503,8 @@ class _PyPDB:
         * image - The image.
         
         * steps (default: 0) - Steps of grow (in pixels).
+          
+          Minimum value: 0
         """
         pass
 
@@ -16141,6 +15592,8 @@ class _PyPDB:
         * image - The image.
         
         * steps (default: 0) - Steps of shrink (in pixels).
+          
+          Minimum value: 0
         """
         pass
 
@@ -16181,6 +15634,8 @@ class _PyPDB:
         Returns:
         
         * value (default: 0) - Value of the selection.
+          
+          Minimum value: 0, maximum value: 255
         """
         pass
 
@@ -16196,6 +15651,8 @@ class _PyPDB:
         * drawable - The affected drawable.
         
         * pressure (default: 0.0) - The pressure of the smudge strokes.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * strokes - Array of stroke coordinates: { s1.x, s1.y, s2.x, s2.y,
           ..., sn.x, sn.y }.
@@ -16235,7 +15692,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_font(self, image: Gimp.Image=None, drawable: Gimp.Drawable=None, x: float=0.0, y: float=0.0, text: str=None, border: int=-1, antialias: bool=False, size: float=0.0, font: Gimp.Font=None) -> Gimp.Layer:
+    def gimp_text_font(self, image: Gimp.Image=None, drawable: Optional[Gimp.Drawable]=None, x: float=0.0, y: float=0.0, text: str=None, border: int=-1, antialias: bool=False, size: float=0.0, font: Gimp.Font=None) -> Gimp.Layer:
         """Add text at the specified location as a floating selection or a new
         layer.
         
@@ -16254,7 +15711,8 @@ class _PyPDB:
         
         * image - The image.
         
-        * drawable - The affected drawable: (%NULL for a new text layer).
+        * drawable (can be None) - The affected drawable: (%NULL for a new
+          text layer).
         
         * x (default: 0.0) - The x coordinate for the left of the text
           bounding box.
@@ -16265,20 +15723,25 @@ class _PyPDB:
         * text - The text to generate (in UTF-8 encoding).
         
         * border (default: -1) - The size of the border.
+          
+          Minimum value: -1
         
         * antialias (default: False) - Antialiasing.
         
         * size (default: 0.0) - The size of text in pixels.
+          
+          Minimum value: 0.0
         
         * font - The font.
         
         Returns:
         
-        * text_layer - The new text layer or %NULL if no layer was created.
+        * text_layer (can be None) - The new text layer or %NULL if no layer
+          was created.
         """
         pass
 
-    def gimp_text_get_extents_font(self, text: str=None, size: float=0.0, font: Gimp.Font=None) -> Tuple[int, int, int, int]:
+    def gimp_text_get_extents_font(self, text: str=None, size: float=0.0, font: Gimp.Font=None) -> tuple[int, int, int, int]:
         """Get extents of the bounding box for the specified text.
         
         This tool returns the width and height of a bounding box for the
@@ -16298,6 +15761,8 @@ class _PyPDB:
         * text - The text to generate (in UTF-8 encoding).
         
         * size (default: 0.0) - The size of text in either pixels or points.
+          
+          Minimum value: 0.0
         
         * font - The name of the font.
         
@@ -16377,7 +15842,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_text_layer_get_font_size(self, layer: Gimp.TextLayer=None) -> Tuple[float, Gimp.Unit]:
+    def gimp_text_layer_get_font_size(self, layer: Gimp.TextLayer=None) -> tuple[float, Gimp.Unit]:
         """Get the font size from a text layer.
         
         This procedure returns the size of the font which is used in a text
@@ -16392,7 +15857,8 @@ class _PyPDB:
         
         * font_size (default: 0.0) - The font size.
         
-        * unit - The unit used for the font size.
+        * unit (percent not allowed, pixels not allowed) - The unit used for
+          the font size.
         """
         pass
 
@@ -16548,12 +16014,17 @@ class _PyPDB:
     def gimp_text_layer_new(self, image: Gimp.Image=None, text: str=None, font: Gimp.Font=None, size: float=0.0, unit: Gimp.Unit=None) -> Gimp.TextLayer:
         """Creates a new text layer.
         
-        This procedure creates a new text layer. The arguments are kept as
-        simple as necessary for the normal case. All text attributes,
-        however, can be modified with the appropriate
-        gimp_text_layer_set_*() procedures. The new layer still needs to
-        be added to the image, as this is not automatic. Add the new
-        layer using 'gimp-image-insert-layer'.
+        This procedure creates a new text layer displaying the specified @text.
+        By default the width and height of the layer will be determined
+        by the @text contents, the @font, @size and @unit.
+        
+        The new layer still needs to be added to the image as this is not
+        automatic. Add the new layer with the
+        [method@Image.insert_layer] method.
+        
+        The arguments are kept as simple as necessary for the basic case. All
+        text attributes, however, can be modified with the appropriate
+        `gimp_text_layer_set_*()` procedures.
         
         Parameters:
         
@@ -16564,12 +16035,15 @@ class _PyPDB:
         * font - The font to write the text with.
         
         * size (default: 0.0) - The size of text in either pixels or points.
+          
+          Minimum value: 0.0, maximum value: 8192.0
         
-        * unit - The units of specified size.
+        * unit (percent not allowed) - The units of specified size.
         
         Returns:
         
-        * layer - The new text layer.
+        * layer - The new text layer. The object belongs to libgimp and you
+          should not free it.
         """
         pass
 
@@ -16585,8 +16059,12 @@ class _PyPDB:
         * layer - The text layer.
         
         * width (default: 0.0) - The new box width in pixels.
+          
+          Minimum value: 0.0, maximum value: 524288.0
         
         * height (default: 0.0) - The new box height in pixels.
+          
+          Minimum value: 0.0, maximum value: 524288.0
         """
         pass
 
@@ -16657,8 +16135,11 @@ class _PyPDB:
         * layer - The text layer.
         
         * font_size (default: 0.0) - The font size.
+          
+          Minimum value: 0.0, maximum value: 8192.0
         
-        * unit - The unit to use for the font size.
+        * unit (percent not allowed, pixels not allowed) - The unit to use for
+          the font size.
         """
         pass
 
@@ -16687,6 +16168,8 @@ class _PyPDB:
         * layer - The text layer.
         
         * indent (default: -8192.0) - The indentation for the first line.
+          
+          Minimum value: -8192.0, maximum value: 8192.0
         """
         pass
 
@@ -16745,6 +16228,8 @@ class _PyPDB:
         
         * letter_spacing (default: -8192.0) - The additional letter spacing to
           use.
+          
+          Minimum value: -8192.0, maximum value: 8192.0
         """
         pass
 
@@ -16760,6 +16245,8 @@ class _PyPDB:
         
         * line_spacing (default: -8192.0) - The additional line spacing to
           use.
+          
+          Minimum value: -8192.0, maximum value: 8192.0
         """
         pass
 
@@ -16794,49 +16281,6 @@ class _PyPDB:
         """
         pass
 
-    def gimp_unit_get_data(self, unit_id: int=0) -> Tuple[str, float, int, str, str]:
-        """Returns the various data pertaining to a given unit ID.
-        
-        This procedure returns all properties making up an unit. It is only
-        meant for internal usage to query non built-in units and it is a
-        programming error to use it directly, in particular for any of
-        the built-in units.
-        
-        Parameters:
-        
-        * unit_id (default: 0) - The unit's integer ID.
-        
-        Returns:
-        
-        * name - The unit's name.
-        
-        * factor (default: 0.0) - The unit's factor.
-        
-        * digits (default: 0) - The unit's number of digits.
-        
-        * symbol - The unit's symbol.
-        
-        * abbreviation - The unit's abbreviation.
-        """
-        pass
-
-    def gimp_unit_get_deletion_flag(self, unit: Gimp.Unit=None) -> bool:
-        """Returns the deletion flag of the unit.
-        
-        This procedure returns the deletion flag of the unit. If this value is
-        TRUE the unit's definition will not be saved in the user's
-        unitrc file on gimp exit.
-        
-        Parameters:
-        
-        * unit - The unit.
-        
-        Returns:
-        
-        * deletion_flag (default: False) - The unit's deletion flag.
-        """
-        pass
-
     def gimp_unit_new(self, name: str=None, factor: float=0.0, digits: int=0, symbol: str=None, abbreviation: str=None) -> Gimp.Unit:
         """Creates a new unit.
         
@@ -16859,22 +16303,7 @@ class _PyPDB:
         
         Returns:
         
-        * unit - The new unit.
-        """
-        pass
-
-    def gimp_unit_set_deletion_flag(self, unit: Gimp.Unit=None, deletion_flag: bool=False):
-        """Sets the deletion flag of a unit.
-        
-        This procedure sets the unit's deletion flag. If the deletion flag of a
-        unit is TRUE on gimp exit, this unit's definition will not be
-        saved in the user's unitrc.
-        
-        Parameters:
-        
-        * unit - The unit.
-        
-        * deletion_flag (default: False) - The new deletion flag of the unit.
+        * unit (percent not allowed, pixels not allowed) - The new unit.
         """
         pass
 
@@ -16925,7 +16354,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_align_layers(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, horizontal_style: str='none', horizontal_base: str='left-edge', vertical_style: str='none', vertical_base: str='top-edge', grid_size: int=10, ignore_bottom_layer: bool=True, use_bottom_layer: bool=False):
+    def plug_in_align_layers(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, horizontal_style: str='none', horizontal_base: str='left-edge', vertical_style: str='none', vertical_base: str='top-edge', grid_size: int=10, ignore_bottom_layer: bool=True, use_bottom_layer: bool=False):
         """Align all visible layers of the image.
         
         Image types: *
@@ -16940,7 +16369,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * horizontal_style (default: 'none')
           
@@ -16961,6 +16390,8 @@ class _PyPDB:
           Allowed values: 'top-edge', 'center', 'bottom-edge'
         
         * grid_size (default: 10) - Grid.
+          
+          Minimum value: 1, maximum value: 200
         
         * ignore_bottom_layer (default: True) - Ignore the bottom layer even
           if visible.
@@ -16970,7 +16401,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationoptimize(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None) -> Gimp.Image:
+    def plug_in_animationoptimize(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None) -> Gimp.Image:
         """Modify image to reduce size when saved as GIF animation.
         
         Image types: *
@@ -16981,7 +16412,7 @@ class _PyPDB:
         animation in an attempt to reduce the final file size.
         
         If a frame of theanimation can use the 'combine' mode, this procedure
-        attempts to maximize the number of ajdacent pixels having the
+        attempts to maximize the number of adjacent pixels having the
         same color, whichimproves the compression for some image formats
         such as GIF or MNG.
         
@@ -16991,7 +16422,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         Returns:
         
@@ -16999,7 +16430,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationoptimize_diff(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None) -> Gimp.Image:
+    def plug_in_animationoptimize_diff(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None) -> Gimp.Image:
         """Reduce file size where combining layers is possible.
         
         Image types: *
@@ -17018,7 +16449,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         Returns:
         
@@ -17026,7 +16457,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_animationplay(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_animationplay(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Preview a GIMP layer-based animation.
         
         Image types: *
@@ -17039,11 +16470,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_animationunoptimize(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None) -> Gimp.Image:
+    def plug_in_animationunoptimize(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None) -> Gimp.Image:
         """Remove optimization to make editing easier.
         
         Image types: *
@@ -17060,7 +16491,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         Returns:
         
@@ -17068,43 +16499,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_autocrop(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawable: Gimp.Drawable=None):
-        """Remove empty borders from the image.
-        
-        Remove empty borders from the image.
-        
-        Parameters:
-        
-        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
-        
-        * image - Input image).
-        
-        * drawable - Input drawable.
-        """
-        pass
-
-    def plug_in_autocrop_layer(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawable: Gimp.Drawable=None):
-        """Crop the selected layers based on empty borders of the input
-        drawable.
-        
-        Crop the selected layers of the input "image" based on empty borders of
-        the input "drawable".
-        
-        The input drawable serves as a base for detecting cropping extents
-        (transparency or background color), and is not necessarily among
-        the cropped layers (the current selected layers).
-        
-        Parameters:
-        
-        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
-        
-        * image - Input image).
-        
-        * drawable - Input drawable.
-        """
-        pass
-
-    def plug_in_blinds(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, angle_displacement: int=30, num_segments: int=3, orientation: str='horizontal', bg_transparent: bool=False):
+    def plug_in_blinds(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, angle_displacement: int=30, num_segments: int=3, orientation: str='horizontal', bg_transparent: bool=False):
         """Simulate an image painted on window blinds.
         
         Image types: RGB*, GRAY*
@@ -17119,11 +16514,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * angle_displacement (default: 30) - Angle of Displacement.
+          
+          Minimum value: 0, maximum value: 90
         
         * num_segments (default: 3) - Number of segments in blinds.
+          
+          Minimum value: 1, maximum value: 1024
         
         * orientation (default: 'horizontal') - The orientation.
           
@@ -17133,7 +16532,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_borderaverage(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, thickness: int=3, bucket_exponent: str='levels-16') -> Gegl.Color:
+    def plug_in_borderaverage(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, thickness: int=3, bucket_exponent: str='levels-16') -> Gegl.Color:
         """Set foreground to the average color of the image border.
         
         Image types: RGB*
@@ -17146,9 +16545,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * thickness (default: 3) - Border size to take in count.
+          
+          Minimum value: 0
         
         * bucket_exponent (default: 'levels-16') - Bits for bucket size.
           
@@ -17158,7 +16559,8 @@ class _PyPDB:
         
         Returns:
         
-        * borderaverage - The average color of the specified border.
+        * borderaverage (can be None) - The average color of the specified
+          border.
         """
         pass
 
@@ -17184,7 +16586,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_checkerboard(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, psychobilly: bool=False, check_size: int=10):
+    def plug_in_checkerboard(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, psychobilly: bool=False, check_size: int=10):
         """Create a checkerboard pattern.
         
         Image types: RGB*, GRAY*
@@ -17199,15 +16601,17 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * psychobilly (default: False) - Render a psychobilly checkerboard.
         
         * check_size (default: 10) - Size of the checks.
+          
+          Minimum value: 1, maximum value: 524288
         """
         pass
 
-    def plug_in_cml_explorer(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, parameter_file: Gio.File=None):
+    def plug_in_cml_explorer(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, parameter_file: Gio.File=None):
         """Create abstract Coupled-Map Lattice patterns.
         
         Image types: RGB*, GRAY*
@@ -17225,14 +16629,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * parameter_file - The parameter file from which CML_explorer makes an
-          image. This argument is only used in non-interactive runs.
+        * parameter_file (file to open) - The parameter file from which
+          CML_explorer makes an image. This argument is only used in
+          non-interactive runs.
         """
         pass
 
-    def plug_in_colormap_remap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, map: GLib.Bytes=None):
+    def plug_in_colormap_remap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, map: GLib.Bytes=None):
         """Rearrange the colormap.
         
         Image types: INDEXED*
@@ -17248,13 +16653,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * map - Remap array for the colormap.
         """
         pass
 
-    def plug_in_colormap_swap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, index1: int=0, index2: int=0):
+    def plug_in_colormap_swap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, index1: int=0, index2: int=0):
         """Swap two colors in the colormap.
         
         Image types: INDEXED*
@@ -17269,15 +16674,19 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * index1 (default: 0) - First index in the colormap.
+          
+          Minimum value: 0, maximum value: 255
         
         * index2 (default: 0) - Second (other) index in the colormap.
+          
+          Minimum value: 0, maximum value: 255
         """
         pass
 
-    def plug_in_compose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, image_2: Gimp.Image=None, image_3: Gimp.Image=None, image_4: Gimp.Image=None, compose_type: str='rgb') -> Gimp.Image:
+    def plug_in_compose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, image_2: Optional[Gimp.Image]=None, image_3: Optional[Gimp.Image]=None, image_4: Optional[Gimp.Image]=None, compose_type: str='rgb') -> Gimp.Image:
         """Create an image using multiple gray images as color channels.
         
         Image types: GRAY*
@@ -17292,13 +16701,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * image_2 - Second input image.
+        * image_2 (can be None) - Second input image.
         
-        * image_3 - Third input image.
+        * image_3 (can be None) - Third input image.
         
-        * image_4 - Fourth input image.
+        * image_4 (can be None) - Fourth input image.
         
         * compose_type (default: 'rgb') - What to compose: "RGB", "RGBA",
           "HSV", "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
@@ -17314,7 +16723,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_curve_bend(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, rotation: float=0.0, smoothing: bool=True, antialias: bool=True, work_on_copy: bool=False, curve_type: str='smooth', curve_border: str='upper', upper_point_x: Gimp.DoubleArray=None, upper_point_y: Gimp.DoubleArray=None, lower_point_x: Gimp.DoubleArray=None, lower_point_y: Gimp.DoubleArray=None, upper_val_y: GLib.Bytes=None, lower_val_y: GLib.Bytes=None) -> Gimp.Layer:
+    def plug_in_curve_bend(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, rotation: float=0.0, smoothing: bool=True, antialias: bool=True, work_on_copy: bool=False, curve_type: str='smooth', curve_border: str='upper', upper_point_x: Gimp.DoubleArray=None, upper_point_y: Gimp.DoubleArray=None, lower_point_x: Gimp.DoubleArray=None, lower_point_y: Gimp.DoubleArray=None, upper_val_y: GLib.Bytes=None, lower_val_y: GLib.Bytes=None) -> Gimp.Layer:
         """Bend the image using two control curves.
         
         Image types: RGB*, GRAY*
@@ -17341,10 +16750,12 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * rotation (default: 0.0) - Direction {angle 0 to 360 degree } of the
           bend effect.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * smoothing (default: True) - Smoothing.
         
@@ -17396,7 +16807,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_decompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, decompose_type: str='rgb', layers_mode: bool=True, use_registration: bool=False) -> Tuple[Gimp.Image, Gimp.Image, Gimp.Image, Gimp.Image]:
+    def plug_in_decompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, decompose_type: str='rgb', layers_mode: bool=True, use_registration: bool=False) -> tuple[Gimp.Image, Gimp.Image, Gimp.Image, Gimp.Image]:
         """Decompose an image into separate colorspace components.
         
         Image types: RGB*
@@ -17412,7 +16823,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * decompose_type (default: 'rgb') - The model to decompose to.
           
@@ -17431,15 +16842,18 @@ class _PyPDB:
         
         * new_image_1 - Output gray image 1.
         
-        * new_image_2 - Output gray image 2 (N/A for single channel extract).
+        * new_image_2 (can be None) - Output gray image 2 (N/A for single
+          channel extract).
         
-        * new_image_3 - Output gray image 3 (N/A for single channel extract).
+        * new_image_3 (can be None) - Output gray image 3 (N/A for single
+          channel extract).
         
-        * new_image_4 - Output gray image 4 (N/A for single channel extract).
+        * new_image_4 (can be None) - Output gray image 4 (N/A for single
+          channel extract).
         """
         pass
 
-    def plug_in_depth_merge(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, source_1: Gimp.Drawable=None, depth_map_1: Gimp.Drawable=None, source_2: Gimp.Drawable=None, depth_map_2: Gimp.Drawable=None, overlap: float=0.0, offset: float=0.0, scale_1: float=1.0, scale_2: float=1.0):
+    def plug_in_depth_merge(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, source_1: Optional[Gimp.Drawable]=None, depth_map_1: Optional[Gimp.Drawable]=None, source_2: Optional[Gimp.Drawable]=None, depth_map_2: Optional[Gimp.Drawable]=None, overlap: float=0.0, offset: float=0.0, scale_1: float=1.0, scale_2: float=1.0):
         """Combine two images using depth maps (z-buffers).
         
         Image types: RGB*, GRAY*
@@ -17456,27 +16870,35 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * source_1 - Source 1.
+        * source_1 (can be None) - Source 1.
         
-        * depth_map_1 - Depth map 1.
+        * depth_map_1 (can be None) - Depth map 1.
         
-        * source_2 - Source 2.
+        * source_2 (can be None) - Source 2.
         
-        * depth_map_2 - Depth map 2.
+        * depth_map_2 (can be None) - Depth map 2.
         
         * overlap (default: 0.0) - Overlap.
+          
+          Minimum value: 0.0, maximum value: 2.0
         
         * offset (default: 0.0) - Depth relative offset.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * scale_1 (default: 1.0) - Depth relative scale 1.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * scale_2 (default: 1.0) - Depth relative scale 2.
+          
+          Minimum value: -1.0, maximum value: 1.0
         """
         pass
 
-    def plug_in_despeckle(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, radius: int=3, type: str='adaptive', black: int=7, white: int=248):
+    def plug_in_despeckle(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, radius: int=3, type: str='adaptive', black: int=7, white: int=248):
         """Remove speckle noise from the image.
         
         Image types: RGB*, GRAY*
@@ -17492,9 +16914,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * radius (default: 3) - Filter box radius.
+          
+          Minimum value: 1, maximum value: 30
         
         * type (default: 'adaptive') - Filter type.
           
@@ -17502,12 +16926,16 @@ class _PyPDB:
           'recursive-adaptive'
         
         * black (default: 7) - Black level.
+          
+          Minimum value: -1, maximum value: 255
         
         * white (default: 248) - White level.
+          
+          Minimum value: 0, maximum value: 256
         """
         pass
 
-    def plug_in_destripe(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, avg_width: int=36, create_histogram: bool=False):
+    def plug_in_destripe(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, avg_width: int=36, create_histogram: bool=False):
         """Remove vertical stripe artifacts from the image.
         
         Image types: RGB*, GRAY*
@@ -17522,15 +16950,17 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * avg_width (default: 36) - Averaging filter width.
+          
+          Minimum value: 2, maximum value: 100
         
         * create_histogram (default: False) - Output a histogram.
         """
         pass
 
-    def plug_in_drawable_compose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, drawable_2: Gimp.Drawable=None, drawable_3: Gimp.Drawable=None, drawable_4: Gimp.Drawable=None, compose_type: str='rgb') -> Gimp.Image:
+    def plug_in_drawable_compose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, drawable_2: Optional[Gimp.Drawable]=None, drawable_3: Optional[Gimp.Drawable]=None, drawable_4: Optional[Gimp.Drawable]=None, compose_type: str='rgb') -> Gimp.Image:
         """Compose an image from multiple drawables of gray images.
         
         Image types: GRAY*
@@ -17544,13 +16974,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * drawable_2 - Second input drawable.
+        * drawable_2 (can be None) - Second input drawable.
         
-        * drawable_3 - Third input drawable.
+        * drawable_3 (can be None) - Third input drawable.
         
-        * drawable_4 - Fourth input drawable.
+        * drawable_4 (can be None) - Fourth input drawable.
         
         * compose_type (default: 'rgb') - What to compose: "RGB", "RGBA",
           "HSV", "HSL", "CMYK", "LAB", "LCH", "YCbCr_ITU_R470",
@@ -17566,7 +16996,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_film(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, film_height: int=0, film_color: Gegl.Color=None, number_start: int=1, number_font: Gimp.Font=None, number_color: Gegl.Color=None, at_top: bool=True, at_bottom: bool=True, images: GObject.Value=None, picture_height: float=0.695, picture_spacing: float=0.04, hole_offset: float=0.058, hole_width: float=0.052, hole_height: float=0.081, hole_spacing: float=0.081, number_height: float=0.052) -> Gimp.Image:
+    def plug_in_film(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, film_height: int=0, film_color: Optional[Gegl.Color]=None, number_start: int=1, number_font: Gimp.Font=None, number_color: Optional[Gegl.Color]=None, at_top: bool=True, at_bottom: bool=True, images: list[Gimp.Image]=None, picture_height: float=0.695, picture_spacing: float=0.04, hole_offset: float=0.058, hole_width: float=0.052, hole_height: float=0.081, hole_spacing: float=0.081, number_height: float=0.052) -> Gimp.Image:
         """Combine several images on a film strip.
         
         Image types: *
@@ -17581,43 +17011,61 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * film_height (default: 0) - Height of film (0: fit to images).
+          
+          Minimum value: 0, maximum value: 524288
         
-        * film_color - Color of the film.
+        * film_color (can be None) - Color of the film.
         
         * number_start (default: 1) - Start index for numbering.
+          
+          Minimum value: 0
         
         * number_font - Font for drawing numbers.
         
-        * number_color - Color for numbers.
+        * number_color (can be None) - Color for numbers.
         
         * at_top (default: True) - Draw numbers at top.
         
         * at_bottom (default: True) - Draw numbers at bottom.
         
-        * images - Images to be used for film.
+        * images (array of Gimp.Image elements) - Images to be used for film.
         
         * picture_height (default: 0.695) - As fraction of the strip height.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * picture_spacing (default: 0.04) - The spacing between 2 images, as
           fraction of the strip height.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * hole_offset (default: 0.058) - The offset from the edge of film, as
           fraction of the strip height.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * hole_width (default: 0.052) - The width of the holes, as fraction of
           the strip height.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * hole_height (default: 0.081) - The height of the holes, as fraction
           of the strip height.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * hole_spacing (default: 0.081) - The distance between holes, as
           fraction of the strip height.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * number_height (default: 0.052) - The height of drawn numbers, as
           fraction of the strip height.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         Returns:
         
@@ -17625,7 +17073,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_flame(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, brightness: float=1.0, contrast: float=1.0, gamma: float=1.0, sample_density: float=5.0, spatial_oversample: int=2, spatial_filter_radius: float=0.75, zoom: float=0.0, x: float=0.0, y: float=0.0):
+    def plug_in_flame(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, brightness: float=1.0, contrast: float=1.0, gamma: float=1.0, sample_density: float=5.0, spatial_oversample: int=2, spatial_filter_radius: float=0.75, zoom: float=0.0, x: float=0.0, y: float=0.0):
         """Create cosmic recursive fractal flames.
         
         Image types: RGB*
@@ -17640,29 +17088,47 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * brightness (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 5.0
         
         * contrast (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 5.0
         
         * gamma (default: 1.0)
+          
+          Minimum value: 1.0, maximum value: 5.0
         
         * sample_density (default: 5.0)
+          
+          Minimum value: 0.1, maximum value: 20.0
         
         * spatial_oversample (default: 2)
+          
+          Minimum value: 1, maximum value: 4
         
         * spatial_filter_radius (default: 0.75)
+          
+          Minimum value: 0.0, maximum value: 4.0
         
         * zoom (default: 0.0)
+          
+          Minimum value: -4.0, maximum value: 4.0
         
         * x (default: 0.0)
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * y (default: 0.0)
+          
+          Minimum value: -2.0, maximum value: 2.0
         """
         pass
 
-    def plug_in_fractalexplorer(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, fractal_type: str='mandelbrot', xmin: float=-2.0, xmax: float=2.0, ymin: float=-1.5, ymax: float=1.5, iter: float=50.0, cx: float=-0.75, cy: float=-0.2, color_mode: str='colormap', red_stretch: float=1.0, green_stretch: float=1.0, blue_stretch: float=1.0, red_mode: str='red-cos', green_mode: str='green-cos', blue_mode: str='blue-sin', red_invert: bool=False, green_invert: bool=False, blue_invert: bool=False, n_colors: int=512, use_loglog_smoothing: bool=False):
+    def plug_in_fractalexplorer(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, fractal_type: str='mandelbrot', xmin: float=-2.0, xmax: float=2.0, ymin: float=-1.5, ymax: float=1.5, iter: float=50.0, cx: float=-0.75, cy: float=-0.2, color_mode: str='colormap', red_stretch: float=1.0, green_stretch: float=1.0, blue_stretch: float=1.0, red_mode: str='red-cos', green_mode: str='green-cos', blue_mode: str='blue-sin', red_invert: bool=False, green_invert: bool=False, blue_invert: bool=False, n_colors: int=512, use_loglog_smoothing: bool=False):
         """Render fractal art.
         
         Image types: RGB*, GRAY*
@@ -17677,7 +17143,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * fractal_type (default: 'mandelbrot') - Type of Fractal Pattern.
           
@@ -17685,18 +17151,32 @@ class _PyPDB:
           'barnsley-3', 'spider', 'man-o-war', 'lambda', 'sierpinski'
         
         * xmin (default: -2.0) - X min fractal image delimiter.
+          
+          Minimum value: -3.0, maximum value: 3.0
         
         * xmax (default: 2.0) - X max fractal image delimiter.
+          
+          Minimum value: -3.0, maximum value: 3.0
         
         * ymin (default: -1.5) - Y min fractal image delimiter.
+          
+          Minimum value: -3.0, maximum value: 3.0
         
         * ymax (default: 1.5) - Y max fractal image delimiter.
+          
+          Minimum value: -3.0, maximum value: 3.0
         
         * iter (default: 50.0) - Iteration value.
+          
+          Minimum value: 1.0, maximum value: 1000.0
         
         * cx (default: -0.75) - cx value.
+          
+          Minimum value: -2.5, maximum value: 2.5
         
         * cy (default: -0.2) - cy value.
+          
+          Minimum value: -2.5, maximum value: 2.5
         
         * color_mode (default: 'colormap') - Apply specified color map or
           active gradient to final image.
@@ -17704,10 +17184,16 @@ class _PyPDB:
           Allowed values: 'colormap', 'gradient'
         
         * red_stretch (default: 1.0) - Red stretching factor.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * green_stretch (default: 1.0) - Green stretching factor.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blue_stretch (default: 1.0) - Blue stretching factor.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * red_mode (default: 'red-cos') - Red application mode.
           
@@ -17728,13 +17214,15 @@ class _PyPDB:
         * blue_invert (default: False) - Blue inversion mode.
         
         * n_colors (default: 512) - Number of Colors for mapping.
+          
+          Minimum value: 2, maximum value: 8192
         
         * use_loglog_smoothing (default: False) - Use log log smoothing to
           eliminate "banding" in the result.
         """
         pass
 
-    def plug_in_gfig(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_gfig(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Create geometric shapes.
         
         Image types: RGB*, GRAY*
@@ -17754,11 +17242,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_gflare(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, gflare_name: str='Default', center_x: int=128, center_y: int=128, radius: float=100.0, rotation: float=0.0, hue: float=0.0, vector_angle: float=60.0, vector_length: float=400.0, use_asupsample: bool=False, asupsample_max_depth: int=3, asupsample_threshold: float=0.2):
+    def plug_in_gflare(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, gflare_name: str='Default', center_x: int=128, center_y: int=128, radius: float=100.0, rotation: float=0.0, hue: float=0.0, vector_angle: float=60.0, vector_length: float=400.0, use_asupsample: bool=False, asupsample_max_depth: int=3, asupsample_threshold: float=0.2):
         """Produce a lense flare effect using gradients.
         
         Image types: RGB*, GRAY*
@@ -17778,38 +17266,56 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * gflare_name (default: 'Default') - Name of the GFlare to render.
         
         * center_x (default: 128) - X coordinate of center of GFlare.
+          
+          Minimum value: -524288, maximum value: 524288
         
         * center_y (default: 128) - Y coordinate of center of GFlare.
+          
+          Minimum value: -524288, maximum value: 524288
         
         * radius (default: 100.0) - Radius of GFlare (pixel).
+          
+          Minimum value: 1.0, maximum value: 524288.0
         
         * rotation (default: 0.0) - Rotation of GFlare (degree).
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * hue (default: 0.0) - Hue rotation of GFlare (degree).
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * vector_angle (default: 60.0) - Vector angle for second flares
           (degree).
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * vector_length (default: 400.0) - Vector length for second flares
           (percentage of Radius).
+          
+          Minimum value: 0.0, maximum value: 10000.0
         
         * use_asupsample (default: False) - Use adaptive supersampling while
           rendering.
         
         * asupsample_max_depth (default: 3) - Max depth for adaptive
           supersampling.
+          
+          Minimum value: 0, maximum value: 10
         
         * asupsample_threshold (default: 0.2) - Threshold for adaptive
           supersampling.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
-    def plug_in_gimpressionist(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, preset: str=None):
+    def plug_in_gimpressionist(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, preset: str=None):
         """Performs various artistic operations.
         
         Image types: RGB*, GRAY*
@@ -17824,13 +17330,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * preset - Preset Name.
         """
         pass
 
-    def plug_in_goat_exercise_c(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_goat_exercise_c(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Plug-in example in C.
         
         Image types: *
@@ -17845,11 +17351,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_goat_exercise_python(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_goat_exercise_python(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Plug-in example in Python 3.
         
         Image types: *
@@ -17864,11 +17370,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_goat_exercise_vala(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_goat_exercise_vala(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Plug-in example in Vala.
         
         Image types: RGB*, INDEXED*, GRAY*
@@ -17883,11 +17389,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_gradmap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_gradmap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Recolor the image using colors from the active gradient.
         
         Image types: RGB*, GRAY*
@@ -17908,11 +17414,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_grid(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, hwidth: int=1, hspace: int=16, hoffset: int=8, hcolor: Gegl.Color=None, vwidth: int=1, vspace: int=16, voffset: int=8, vcolor: Gegl.Color=None, iwidth: int=0, ispace: int=2, ioffset: int=6, icolor: Gegl.Color=None):
+    def plug_in_grid(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, hwidth: int=1, hspace: int=16, hoffset: int=8, hcolor: Optional[Gegl.Color]=None, vwidth: int=1, vspace: int=16, voffset: int=8, vcolor: Optional[Gegl.Color]=None, iwidth: int=0, ispace: int=2, ioffset: int=6, icolor: Optional[Gegl.Color]=None):
         """Draw a grid on the image.
         
         Image types: *
@@ -17928,35 +17434,53 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * hwidth (default: 1) - Horizontal width.
+          
+          Minimum value: 0, maximum value: 524288
         
         * hspace (default: 16) - Horizontal spacing.
+          
+          Minimum value: 1, maximum value: 524288
         
         * hoffset (default: 8) - Horizontal offset.
+          
+          Minimum value: 0, maximum value: 524288
         
-        * hcolor - Horizontal color.
+        * hcolor (can be None) - Horizontal color.
         
         * vwidth (default: 1) - Vertical width.
+          
+          Minimum value: 0, maximum value: 524288
         
         * vspace (default: 16) - Vertical spacing.
+          
+          Minimum value: 1, maximum value: 524288
         
         * voffset (default: 8) - Vertical offset.
+          
+          Minimum value: 0, maximum value: 524288
         
-        * vcolor - Vertical color.
+        * vcolor (can be None) - Vertical color.
         
         * iwidth (default: 0) - Intersection width.
+          
+          Minimum value: 0, maximum value: 524288
         
         * ispace (default: 2) - Intersection spacing.
+          
+          Minimum value: 1, maximum value: 524288
         
         * ioffset (default: 6) - Intersection offset.
+          
+          Minimum value: 0, maximum value: 524288
         
-        * icolor - Intersection color.
+        * icolor (can be None) - Intersection color.
         """
         pass
 
-    def plug_in_guillotine(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None) -> Any:
+    def plug_in_guillotine(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None) -> list[Gimp.Image]:
         """Slice the image into subimages using guides.
         
         Image types: *
@@ -17972,15 +17496,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         Returns:
         
-        * images - Output images.
+        * images (array of Gimp.Image elements) - Output images.
         """
         pass
 
-    def plug_in_hot(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, mode: str='ntsc', action: str='reduce-luminance', new_layer: bool=True):
+    def plug_in_hot(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, mode: str='ntsc', action: str='reduce-luminance', new_layer: bool=True):
         """Find and fix pixels that may be unsafely bright.
         
         Image types: RGB
@@ -17999,7 +17523,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * mode (default: 'ntsc') - Signal mode.
           
@@ -18013,7 +17537,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_ifscompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_ifscompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Create an Iterated Function System (IFS) fractal.
         
         Image types: *
@@ -18034,11 +17558,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_imagemap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_imagemap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Create a clickable imagemap.
         
         Image types: *
@@ -18051,11 +17575,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_jigsaw(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, x: int=5, y: int=5, style: str='square', blend_lines: int=3, blend_amount: float=0.5):
+    def plug_in_jigsaw(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, x: int=5, y: int=5, style: str='square', blend_lines: int=3, blend_amount: float=0.5):
         """Add a jigsaw-puzzle pattern to the image.
         
         Image types: RGB*
@@ -18070,24 +17594,32 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * x (default: 5) - Number of pieces going across.
+          
+          Minimum value: 1, maximum value: 20
         
         * y (default: 5) - Number of pieces going down.
+          
+          Minimum value: 1, maximum value: 20
         
         * style (default: 'square') - The style/shape of the jigsaw puzzle.
           
           Allowed values: 'square', 'curved'
         
         * blend_lines (default: 3) - Degree of slope of each piece's edge.
+          
+          Minimum value: 0, maximum value: 10
         
         * blend_amount (default: 0.5) - The amount of highlighting on the
           edges of each piece.
+          
+          Minimum value: 0.0, maximum value: 1.0
         """
         pass
 
-    def plug_in_lic(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, effect_channel: str='brightness', effect_operator: str='gradient', effect_convolve: str='with-source-image', effect_image: Gimp.Drawable=None, filter_length: float=5.0, noise_magnitude: float=2.0, integration_steps: float=25.0, min_value: float=-25.0, max_value: float=25.0):
+    def plug_in_lic(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, effect_channel: str='brightness', effect_operator: str='gradient', effect_convolve: str='with-source-image', effect_image: Optional[Gimp.Drawable]=None, filter_length: float=5.0, noise_magnitude: float=2.0, integration_steps: float=25.0, min_value: float=-25.0, max_value: float=25.0):
         """Special effects that nobody understands.
         
         Image types: RGB*
@@ -18102,7 +17634,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * effect_channel (default: 'brightness') - Effect Channel.
           
@@ -18116,21 +17648,31 @@ class _PyPDB:
           
           Allowed values: 'with-white-noise', 'with-source-image'
         
-        * effect_image - Effect image.
+        * effect_image (can be None) - Effect image.
         
         * filter_length (default: 5.0) - Filter length.
+          
+          Minimum value: 0.1, maximum value: 64.0
         
         * noise_magnitude (default: 2.0) - Noise Magnitude.
+          
+          Minimum value: 1.0, maximum value: 5.0
         
         * integration_steps (default: 25.0) - Integration steps.
+          
+          Minimum value: 1.0, maximum value: 40.0
         
         * min_value (default: -25.0) - Minimum value.
+          
+          Minimum value: -100.0, maximum value: 0.0
         
         * max_value (default: 25.0) - Maximum value.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
-    def plug_in_lighting(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, bump_drawable: Gimp.Drawable=None, env_drawable: Gimp.Drawable=None, do_bumpmap: bool=True, do_envmap: bool=True, bumpmap_type: str='bumpmap-linear', bumpmap_max_height: float=0.1, light_type_1: str='light-point', light_color_1: Gegl.Color=None, light_intensity_1: float=1.0, light_position_x_1: float=-1.0, light_position_y_1: float=-1.0, light_position_z_1: float=1.0, light_direction_x_1: float=-1.0, light_direction_y_1: float=-1.0, light_direction_z_1: float=1.0, ambient_intensity: float=0.2, diffuse_intensity: float=0.5, diffuse_reflectivity: float=0.4, specular_reflectivity: float=0.5, highlight: float=27.0, metallic: bool=False, antialiasing: bool=False, new_image: bool=False, transparent_background: bool=False, distance: float=0.25):
+    def plug_in_lighting(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, bump_drawable: Optional[Gimp.Drawable]=None, env_drawable: Optional[Gimp.Drawable]=None, do_bumpmap: bool=True, do_envmap: bool=True, bumpmap_type: str='bumpmap-linear', bumpmap_max_height: float=0.1, light_type_1: str='light-point', light_color_1: Optional[Gegl.Color]=None, light_intensity_1: float=1.0, light_position_x_1: float=-1.0, light_position_y_1: float=-1.0, light_position_z_1: float=1.0, light_direction_x_1: float=-1.0, light_direction_y_1: float=-1.0, light_direction_z_1: float=1.0, ambient_intensity: float=0.2, diffuse_intensity: float=0.5, diffuse_reflectivity: float=0.4, specular_reflectivity: float=0.5, highlight: float=27.0, metallic: bool=False, antialiasing: bool=False, new_image: bool=False, transparent_background: bool=False, distance: float=0.25):
         """Apply various lighting effects to an image.
         
         Image types: RGB*
@@ -18145,11 +17687,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * bump_drawable - Bumpmap drawable (set to NULL if disabled).
+        * bump_drawable (can be None) - Bumpmap drawable (set to NULL if
+          disabled).
         
-        * env_drawable - Environmentmap drawable (set to NULL if disabled).
+        * env_drawable (can be None) - Environmentmap drawable (set to NULL if
+          disabled).
         
         * do_bumpmap (default: True) - Enable bumpmapping.
         
@@ -18162,15 +17706,19 @@ class _PyPDB:
         
         * bumpmap_max_height (default: 0.1) - The maximum height of the
           bumpmap.
+          
+          Minimum value: 0.0, maximum value: 3.4028234663852886e+38
         
         * light_type_1 (default: 'light-point') - Type of light source.
           
           Allowed values: 'light-none', 'light-directional', 'light-point',
           'light-spot'
         
-        * light_color_1 - Light source color.
+        * light_color_1 (can be None) - Light source color.
         
         * light_intensity_1 (default: 1.0) - Light source intensity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * light_position_x_1 (default: -1.0) - Light source position (x,y,z).
         
@@ -18188,17 +17736,27 @@ class _PyPDB:
         
         * ambient_intensity (default: 0.2) - Material ambient intensity
           (Glowing).
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * diffuse_intensity (default: 0.5) - Material diffuse intensity
           (Bright).
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * diffuse_reflectivity (default: 0.4) - Material diffuse reflectivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * specular_reflectivity (default: 0.5) - Material specular
           reflectivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * highlight (default: 27.0) - Material highlight (note, it's
           exponential) (Polished).
+          
+          Minimum value: 0.0
         
         * metallic (default: False) - Make surfaces look metallic.
         
@@ -18210,10 +17768,12 @@ class _PyPDB:
           transparent.
         
         * distance (default: 0.25) - Distance of observer from surface.
+          
+          Minimum value: 0.0, maximum value: 2.0
         """
         pass
 
-    def plug_in_map_object(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, map_type: str='map-plane', viewpoint_x: float=0.5, viewpoint_y: float=0.5, viewpoint_z: float=2.0, position_x: float=0.5, position_y: float=0.5, position_z: float=0.0, first_axis_x: float=1.0, first_axis_y: float=0.0, first_axis_z: float=0.0, second_axis_x: float=0.0, second_axis_y: float=1.0, second_axis_z: float=0.0, rotation_angle_x: float=0.0, rotation_angle_y: float=0.0, rotation_angle_z: float=0.0, light_type: str='point-light', light_color: Gegl.Color=None, light_position_x: float=-0.5, light_position_y: float=-0.5, light_position_z: float=2.0, light_direction_x: float=-1.0, light_direction_y: float=-1.0, light_direction_z: float=1.0, ambient_intensity: float=0.3, diffuse_intensity: float=1.0, diffuse_reflectivity: float=0.5, specular_reflectivity: float=0.5, highlight: float=27.0, antialiasing: bool=True, depth: float=3.0, threshold: float=0.25, tiled: bool=False, new_image: bool=False, new_layer: bool=False, transparent_background: bool=False, sphere_radius: float=0.25, box_front_drawable: Gimp.Drawable=None, box_back_drawable: Gimp.Drawable=None, box_top_drawable: Gimp.Drawable=None, box_bottom_drawable: Gimp.Drawable=None, box_left_drawable: Gimp.Drawable=None, box_right_drawable: Gimp.Drawable=None, x_scale: float=0.5, y_scale: float=0.5, z_scale: float=0.5, cyl_top_drawable: Gimp.Drawable=None, cyl_bottom_drawable: Gimp.Drawable=None, cylinder_radius: float=0.25, cylinder_length: float=0.25):
+    def plug_in_map_object(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, map_type: str='map-plane', viewpoint_x: float=0.5, viewpoint_y: float=0.5, viewpoint_z: float=2.0, position_x: float=0.5, position_y: float=0.5, position_z: float=0.0, first_axis_x: float=1.0, first_axis_y: float=0.0, first_axis_z: float=0.0, second_axis_x: float=0.0, second_axis_y: float=1.0, second_axis_z: float=0.0, rotation_angle_x: float=0.0, rotation_angle_y: float=0.0, rotation_angle_z: float=0.0, light_type: str='point-light', light_color: Optional[Gegl.Color]=None, light_position_x: float=-0.5, light_position_y: float=-0.5, light_position_z: float=2.0, light_direction_x: float=-1.0, light_direction_y: float=-1.0, light_direction_z: float=1.0, ambient_intensity: float=0.3, diffuse_intensity: float=1.0, diffuse_reflectivity: float=0.5, specular_reflectivity: float=0.5, highlight: float=27.0, antialiasing: bool=True, depth: float=3.0, threshold: float=0.25, tiled: bool=False, new_image: bool=False, new_layer: bool=False, transparent_background: bool=False, sphere_radius: float=0.25, box_front_drawable: Optional[Gimp.Drawable]=None, box_back_drawable: Optional[Gimp.Drawable]=None, box_top_drawable: Optional[Gimp.Drawable]=None, box_bottom_drawable: Optional[Gimp.Drawable]=None, box_left_drawable: Optional[Gimp.Drawable]=None, box_right_drawable: Optional[Gimp.Drawable]=None, x_scale: float=0.5, y_scale: float=0.5, z_scale: float=0.5, cyl_top_drawable: Optional[Gimp.Drawable]=None, cyl_bottom_drawable: Optional[Gimp.Drawable]=None, cylinder_radius: float=0.25, cylinder_length: float=0.25):
         """Map the image to an object (plane, sphere, box or cylinder).
         
         Image types: RGB*
@@ -18228,7 +17788,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * map_type (default: 'map-plane') - Type of mapping.
           
@@ -18241,34 +17801,58 @@ class _PyPDB:
         * viewpoint_z (default: 2.0) - Position of viewpoint (x,y,z).
         
         * position_x (default: 0.5) - Object position (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * position_y (default: 0.5) - Object position (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * position_z (default: 0.0) - Object position (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * first_axis_x (default: 1.0) - First axis of object (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * first_axis_y (default: 0.0) - First axis of object (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * first_axis_z (default: 0.0) - First axis of object (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * second_axis_x (default: 0.0) - Second axis of object (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * second_axis_y (default: 1.0) - Second axis of object (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * second_axis_z (default: 0.0) - Second axis of object (x,y,z).
+          
+          Minimum value: -1.0, maximum value: 2.0
         
         * rotation_angle_x (default: 0.0) - Rotation about X axis in degrees.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * rotation_angle_y (default: 0.0) - Rotation about Y axis in degrees.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * rotation_angle_z (default: 0.0) - Rotation about Z axis in degrees.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * light_type (default: 'point-light') - Type of lightsource.
           
           Allowed values: 'point-light', 'directional-light', 'no-light'
         
-        * light_color - Light source color.
+        * light_color (can be None) - Light source color.
         
         * light_position_x (default: -0.5) - Light source position (x,y,z).
         
@@ -18283,24 +17867,38 @@ class _PyPDB:
         * light_direction_z (default: 1.0) - Light source direction (x,y,z).
         
         * ambient_intensity (default: 0.3) - Material ambient intensity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * diffuse_intensity (default: 1.0) - Material diffuse intensity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * diffuse_reflectivity (default: 0.5) - Material diffuse reflectivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * specular_reflectivity (default: 0.5) - Material specular
           reflectivity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * highlight (default: 27.0) - Material highlight (note, it's
           exponential).
+          
+          Minimum value: 0.0
         
         * antialiasing (default: True) - Apply antialiasing.
         
         * depth (default: 3.0) - Antialiasing quality. Higher is better, but
           slower.
+          
+          Minimum value: 1.0, maximum value: 5.0
         
         * threshold (default: 0.25) - Stop when pixel differences are smaller
           than this value.
+          
+          Minimum value: 0.001, maximum value: 1000.0
         
         * tiled (default: False) - Tile source image.
         
@@ -18313,37 +17911,51 @@ class _PyPDB:
           transparent.
         
         * sphere_radius (default: 0.25) - Sphere radius.
+          
+          Minimum value: 0.0
         
-        * box_front_drawable - Box front face (set this to NULL if not used).
+        * box_front_drawable (can be None) - Box front face (set this to NULL
+          if not used).
         
-        * box_back_drawable - Box back face.
+        * box_back_drawable (can be None) - Box back face.
         
-        * box_top_drawable - Box top face.
+        * box_top_drawable (can be None) - Box top face.
         
-        * box_bottom_drawable - Box bottom face.
+        * box_bottom_drawable (can be None) - Box bottom face.
         
-        * box_left_drawable - Box left face.
+        * box_left_drawable (can be None) - Box left face.
         
-        * box_right_drawable - Box right face.
+        * box_right_drawable (can be None) - Box right face.
         
         * x_scale (default: 0.5) - Box X size.
+          
+          Minimum value: 0.0
         
         * y_scale (default: 0.5) - Box Y size.
+          
+          Minimum value: 0.0
         
         * z_scale (default: 0.5) - Box Z size.
+          
+          Minimum value: 0.0
         
-        * cyl_top_drawable - Cylinder top face (set this to NULL if not used).
+        * cyl_top_drawable (can be None) - Cylinder top face (set this to NULL
+          if not used).
         
-        * cyl_bottom_drawable - Cylinder bottom face (set this to NULL if not
-          used).
+        * cyl_bottom_drawable (can be None) - Cylinder bottom face (set this
+          to NULL if not used).
         
         * cylinder_radius (default: 0.25) - Cylinder radius.
+          
+          Minimum value: 0.0
         
         * cylinder_length (default: 0.25) - Cylinder length.
+          
+          Minimum value: 0.0
         """
         pass
 
-    def plug_in_metadata_editor(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, parent_handle: GLib.Bytes=None):
+    def plug_in_metadata_editor(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, parent_handle: GLib.Bytes=None):
         """Edit metadata (IPTC, EXIF, XMP).
         
         Image types: *
@@ -18360,14 +17972,14 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * parent_handle - The opaque handle of the window to set this
           plug-in's dialog transient to.
         """
         pass
 
-    def plug_in_metadata_viewer(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_metadata_viewer(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """View metadata (Exif, IPTC, XMP).
         
         Image types: *
@@ -18383,11 +17995,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_nl_filter(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, alpha: float=0.3, radius: float=0.3333333333333333, filter: str='alpha-trim'):
+    def plug_in_nl_filter(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, alpha: float=0.3, radius: float=0.3333333333333333, filter: str='alpha-trim'):
         """Nonlinear swiss army knife filter.
         
         Image types: RGB, GRAY
@@ -18403,11 +18015,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * alpha (default: 0.3) - The amount of the filter to apply.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * radius (default: 0.3333333333333333) - The filter radius.
+          
+          Minimum value: 0.3333333333333333, maximum value: 1.0
         
         * filter (default: 'alpha-trim') - The Filter to Run.
           
@@ -18415,7 +18031,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_pagecurl(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, colors: str='fg-bg', edge: str='lower-right', orientation: str='vertical', shade: bool=True, opacity: float=0.0) -> Gimp.Layer:
+    def plug_in_pagecurl(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, colors: str='fg-bg', edge: str='lower-right', orientation: str='vertical', shade: bool=True, opacity: float=0.0) -> Gimp.Layer:
         """Curl up one of the image corners.
         
         Image types: RGB*, GRAY*
@@ -18430,7 +18046,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * colors (default: 'fg-bg')
           
@@ -18449,6 +18065,8 @@ class _PyPDB:
         * shade (default: True) - Shade the region under the curl.
         
         * opacity (default: 0.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         Returns:
         
@@ -18456,7 +18074,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_palettemap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_palettemap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Recolor the image using colors from the active palette.
         
         Image types: RGB*, GRAY*
@@ -18476,7 +18094,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
@@ -18497,7 +18115,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_qbist(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, anti_aliasing: bool=True):
+    def plug_in_qbist(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, anti_aliasing: bool=True):
         """Generate a huge variety of abstract patterns.
         
         Image types: RGB*
@@ -18514,14 +18132,14 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * anti_aliasing (default: True) - Enable anti-aliasing using an
           oversampling algorithm.
         """
         pass
 
-    def plug_in_recompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_recompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Recompose an image that was previously decomposed.
         
         Image types: GRAY*
@@ -18538,11 +18156,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_retinex(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, scale: int=240, nscales: int=3, scales_mode: str='uniform', cvar: float=1.2):
+    def plug_in_retinex(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, scale: int=240, nscales: int=3, scales_mode: str='uniform', cvar: float=1.2):
         """Enhance contrast using the Retinex method.
         
         Image types: RGB*
@@ -18561,11 +18179,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * scale (default: 240) - Biggest scale value.
+          
+          Minimum value: 16, maximum value: 250
         
         * nscales (default: 3) - Number of scales.
+          
+          Minimum value: 0, maximum value: 8
         
         * scales_mode (default: 'uniform') - Retinex distribution through
           scales.
@@ -18573,33 +18195,12 @@ class _PyPDB:
           Allowed values: 'uniform', 'low', 'high'
         
         * cvar (default: 1.2) - Variance value.
+          
+          Minimum value: 0.0, maximum value: 4.0
         """
         pass
 
-    def plug_in_run_tests(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, dirpath: str='C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\3.0\\batcher', prefix: str='test_', modules: List[str]=None, ignored_modules: List[str]=None, output_stream: str='stderr', verbose: bool=False):
-        """Runs automated tests in the specified directory path.
-        
-        Parameters:
-        
-        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
-        
-        * dirpath (default: 'C:\\Users\\Kamil\\AppData\\Roaming\\GIMP\\3.0\\batcher')
-          - Directory path containing test modules.
-        
-        * prefix (default: 'test_') - Prefix of test modules.
-        
-        * modules - Modules to include.
-        
-        * ignored_modules - Modules to ignore.
-        
-        * output_stream (default: 'stderr') - Output stream or file path to
-          write output to.
-        
-        * verbose (default: False) - If True, writes more detailed output.
-        """
-        pass
-
-    def plug_in_sample_colorize(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, sample_drawable: Gimp.Drawable=None, hold_inten: bool=True, orig_inten: bool=True, rnd_subcolors: bool=False, guess_missing: bool=True, in_low: int=0, in_high: int=255, gamma: float=1.0, out_low: int=0, out_high: int=255):
+    def plug_in_sample_colorize(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, sample_drawable: Optional[Gimp.Drawable]=None, hold_inten: bool=True, orig_inten: bool=True, rnd_subcolors: bool=False, guess_missing: bool=True, in_low: int=0, in_high: int=255, gamma: float=1.0, out_low: int=0, out_high: int=255):
         """Colorize image using a sample image as a guide.
         
         Image types: RGB*, GRAY*
@@ -18610,10 +18211,10 @@ class _PyPDB:
         the help of a
         
         sample (color) layer. It analyzes all colors in the sample layer. The
-        sample colors are sorted by brightness (== intentisty) and
-        amount and stored in a sample colortable (where brightness is
-        the index) The pixels of the destination layer are remapped with
-        the help of the sample colortable. If use_subcolors is TRUE, the
+        sample colors are sorted by brightness (== intensity) and amount
+        and stored in a sample colortable (where brightness is the
+        index) The pixels of the destination layer are remapped with the
+        help of the sample colortable. If use_subcolors is TRUE, the
         remapping process uses all sample colors of the corresponding
         brightness-intensity and distributes the subcolors according to
         their amount in the sample (If the sample has 5 green, 3 yellow,
@@ -18648,9 +18249,10 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * sample_drawable - Sample drawable (should be of Type RGB or RGBA).
+        * sample_drawable (can be None) - Sample drawable (should be of Type
+          RGB or RGBA).
         
         * hold_inten (default: True) - Hold brightness intensity levels.
         
@@ -18665,14 +18267,24 @@ class _PyPDB:
           the sample.
         
         * in_low (default: 0) - Intensity of lowest input.
+          
+          Minimum value: 0, maximum value: 254
         
         * in_high (default: 255) - Intensity of highest input.
+          
+          Minimum value: 1, maximum value: 255
         
         * gamma (default: 1.0) - Gamma adjustment factor, 1.0 is linear.
+          
+          Minimum value: 0.1, maximum value: 10.0
         
         * out_low (default: 0) - Lowest sample color intensity.
+          
+          Minimum value: 0, maximum value: 254
         
         * out_high (default: 255) - Highest sample color intensity.
+          
+          Minimum value: 1, maximum value: 255
         """
         pass
 
@@ -18771,6 +18383,8 @@ class _PyPDB:
         * ip - The IP on which to listen for requests.
         
         * port (default: 0) - The port on which to listen for requests.
+          
+          Minimum value: 0
         
         * logfile - The file to log activity to.
         """
@@ -18787,7 +18401,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sel2path(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, align_threshold: float=0.5, corner_always_threshold: float=60.0, corner_surround: int=4, corner_threshold: float=100.0, error_threshold: float=0.4, filter_alternative_surround: int=1, filter_epsilon: float=10.0, filter_iteration_count: int=4, filter_percent: float=0.33, filter_secondary_surround: int=3, filter_surround: int=2, keep_knees: bool=False, line_reversion_threshold: float=0.01, line_threshold: float=0.5, reparametrize_improvement: float=0.01, reparametrize_threshold: float=1.0, subdivide_search: float=0.1, subdivide_surround: int=4, subdivide_threshold: float=0.03, tangent_surround: int=3):
+    def plug_in_sel2path(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, align_threshold: float=0.5, corner_always_threshold: float=60.0, corner_surround: int=4, corner_threshold: float=100.0, error_threshold: float=0.4, filter_alternative_surround: int=1, filter_epsilon: float=10.0, filter_iteration_count: int=4, filter_percent: float=0.33, filter_secondary_surround: int=3, filter_surround: int=2, keep_knees: bool=False, line_reversion_threshold: float=0.01, line_threshold: float=0.5, reparametrize_improvement: float=0.01, reparametrize_threshold: float=1.0, subdivide_search: float=0.1, subdivide_surround: int=4, subdivide_threshold: float=0.03, tangent_surround: int=3):
         """Converts a selection to a path.
         
         Image types: *
@@ -18800,50 +18414,72 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * align_threshold (default: 0.5) - If two endpoints are closer than
           this, they are made to be equal.
+          
+          Minimum value: 0.2, maximum value: 2.0
         
         * corner_always_threshold (default: 60.0) - If the angle defined by a
           point and its predecessors and successors is smaller than
           this, it's a corner, even if it's within 'corner_surround'
           pixels of a point with a smaller angle.
+          
+          Minimum value: 30.0, maximum value: 180.0
         
         * corner_surround (default: 4) - Number of points to consider when
           determining if a point is a corner or not.
+          
+          Minimum value: 3, maximum value: 8
         
         * corner_threshold (default: 100.0) - If a point, its predecessors,
           and its successors define an angle smaller than this, it's a
           corner.
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * error_threshold (default: 0.4) - Amount of error at which a fitted
           spline is unacceptable. If any pixel is further away than
           this from the fitted curve, we try again.
+          
+          Minimum value: 0.2, maximum value: 10.0
         
         * filter_alternative_surround (default: 1) - A second number of
           adjacent points to consider when filtering.
+          
+          Minimum value: 1, maximum value: 10
         
         * filter_epsilon (default: 10.0) - If the angles between the vectors
           produced by filter_surround and filter_alternative_surround
           points differ by more than this, use the one from
           filter_alternative_surround.
+          
+          Minimum value: 5.0, maximum value: 40.0
         
         * filter_iteration_count (default: 4) - Number of times to smooth
           original data points.  Increasing this number dramatically
           --- to 50 or so --- can produce vastly better results. But
           if any points that 'should' be corners aren't found, the
           curve goes to hell around that point.
+          
+          Minimum value: 4, maximum value: 70
         
         * filter_percent (default: 0.33) - To produce the new point, use the
           old point plus this times the neighbors.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * filter_secondary_surround (default: 3) - Number of adjacent points
           to consider if 'filter_surround' points defines a straight
           line.
+          
+          Minimum value: 3, maximum value: 10
         
         * filter_surround (default: 2) - Number of adjacent points to consider
           when filtering.
+          
+          Minimum value: 2, maximum value: 10
         
         * keep_knees (default: False) - Says whether or not to remove 'knee'
           points after finding the outline.
@@ -18853,14 +18489,20 @@ class _PyPDB:
           if it would otherwise be changed back to a curve. This is
           weighted by the square of the curve length, to make shorter
           curves more likely to be reverted.
+          
+          Minimum value: 0.01, maximum value: 0.2
         
         * line_threshold (default: 0.5) - How many pixels (on the average) a
           spline can diverge from the line determined by its endpoints
           before it is changed to a straight line.
+          
+          Minimum value: 0.2, maximum value: 4.0
         
         * reparametrize_improvement (default: 0.01) - If reparameterization
           doesn't improve the fit by this much percent, stop doing it.
           Amount of error at which it is pointless to reparameterize.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * reparametrize_threshold (default: 1.0) - Amount of error at which it
           is pointless to reparameterize.  This happens, for example,
@@ -18869,25 +18511,35 @@ class _PyPDB:
           for the Newton-Raphson iteration to improve it.  It may be
           that it would be better to detect the cases where we didn't
           find any corners.
+          
+          Minimum value: 1.0, maximum value: 50.0
         
         * subdivide_search (default: 0.1) - Percentage of the curve away from
           the worst point to look for a better place to subdivide.
+          
+          Minimum value: 0.05, maximum value: 1.0
         
         * subdivide_surround (default: 4) - Number of points to consider when
           deciding whether a given point is a better place to
           subdivide.
+          
+          Minimum value: 2, maximum value: 10
         
         * subdivide_threshold (default: 0.03) - How many pixels a point can
           diverge from a straight line and still be considered a
           better place to subdivide.
+          
+          Minimum value: 0.01, maximum value: 1.0
         
         * tangent_surround (default: 3) - Number of points to look at on
           either side of a point when computing the approximation to
           the tangent at that point.
+          
+          Minimum value: 2, maximum value: 10
         """
         pass
 
-    def plug_in_small_tiles(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, num_tiles: int=2):
+    def plug_in_small_tiles(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, num_tiles: int=2):
         """Tile image into smaller versions of the original.
         
         Image types: RGB*, GRAY*
@@ -18902,13 +18554,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * num_tiles (default: 2) - Number of tiles to make.
+          
+          Minimum value: 2, maximum value: 6
         """
         pass
 
-    def plug_in_smooth_palette(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, width: int=256, height: int=64, n_tries: int=50, show_image: bool=True) -> Tuple[Gimp.Image, Gimp.Layer]:
+    def plug_in_smooth_palette(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, width: int=256, height: int=64, n_tries: int=50, show_image: bool=True) -> tuple[Gimp.Image, Gimp.Layer]:
         """Derive a smooth color palette from the image.
         
         Image types: RGB*
@@ -18923,13 +18577,19 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * width (default: 256) - Width.
+          
+          Minimum value: 2, maximum value: 524288
         
         * height (default: 64) - Height.
+          
+          Minimum value: 2, maximum value: 524288
         
         * n_tries (default: 50) - Search depth.
+          
+          Minimum value: 1, maximum value: 1024
         
         * show_image (default: True) - Show image.
         
@@ -18941,7 +18601,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_sparkle(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, lum_threshold: float=0.01, flare_inten: float=0.5, spike_len: int=20, spike_points: int=4, spike_angle: int=15, density: float=1.0, transparency: float=0.0, random_hue: float=0.0, random_saturation: float=0.0, preserve_luminosity: bool=False, inverse: bool=False, border: bool=False, color_type: str='natural-color'):
+    def plug_in_sparkle(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, lum_threshold: float=0.01, flare_inten: float=0.5, spike_len: int=20, spike_points: int=4, spike_angle: int=15, density: float=1.0, transparency: float=0.0, random_hue: float=0.0, random_saturation: float=0.0, preserve_luminosity: bool=False, inverse: bool=False, border: bool=False, color_type: str='natural-color'):
         """Turn bright spots into starry sparkles.
         
         Image types: RGB*, GRAY*
@@ -18957,28 +18617,46 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * lum_threshold (default: 0.01) - Adjust the luminosity threshold.
+          
+          Minimum value: 0.0, maximum value: 0.1
         
         * flare_inten (default: 0.5) - Adjust the flare intensity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * spike_len (default: 20) - Adjust the spike length (in pixels).
+          
+          Minimum value: 1, maximum value: 100
         
         * spike_points (default: 4) - Adjust the number of spikes.
+          
+          Minimum value: 1, maximum value: 16
         
         * spike_angle (default: 15) - Adjust the spike angle (-1 causes a
           random angle to be chosen).
+          
+          Minimum value: -1, maximum value: 360
         
         * density (default: 1.0) - Adjust the spike density.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * transparency (default: 0.0) - Adjust the opacity of the spikes.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * random_hue (default: 0.0) - Adjust how much the hue should be
           changed randomly.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * random_saturation (default: 0.0) - Adjust how much the saturation
           should be changed randomly.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * preserve_luminosity (default: False) - Should the luminosity be
           preserved?.
@@ -18994,7 +18672,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_spheredesigner(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_spheredesigner(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Create an image of a textured sphere.
         
         Image types: RGB*, GRAY*
@@ -19011,11 +18689,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def plug_in_spyrogimp(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, curve_type: str='spyrograph', shape: str='circle', sides: int=3, morph: float=0.0, fixed_teeth: int=96, moving_teeth: int=36, hole_percent: float=100.0, margin: int=0, equal_w_h: bool=False, pattern_rotation: float=0.0, shape_rotation: float=0.0, tool: str='preview', long_gradient: bool=False):
+    def plug_in_spyrogimp(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, curve_type: str='spyrograph', shape: str='circle', sides: int=3, morph: float=0.0, fixed_teeth: int=96, moving_teeth: int=36, hole_percent: float=100.0, margin: int=0, equal_w_h: bool=False, pattern_rotation: float=0.0, shape_rotation: float=0.0, tool: str='preview', long_gradient: bool=False):
         """Draw spyrographs using current tool settings and selection.
         
         Image types: *
@@ -19031,7 +18709,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * curve_type (default: 'spyrograph') - Curve Type.
           
@@ -19044,26 +18722,42 @@ class _PyPDB:
         
         * sides (default: 3) - Number of sides of fixed gear (3 or greater).
           Only used by some shapes.
+          
+          Minimum value: 3
         
         * morph (default: 0.0) - Morph shape of fixed gear, between 0 and 1.
           Only used by some shapes.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * fixed_teeth (default: 96) - Number of teeth for fixed gear.
+          
+          Minimum value: 0
         
         * moving_teeth (default: 36) - Number of teeth for fixed gear.
+          
+          Minimum value: 0
         
         * hole_percent (default: 100.0) - Location of hole in moving gear in
           percent, where 100 means that the hole is at the edge of the
           gear, and 0 means the hole is at the center.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * margin (default: 0) - Margin from selection, in pixels.
+          
+          Minimum value: 0
         
         * equal_w_h (default: False) - Make width and height equal.
         
         * pattern_rotation (default: 0.0) - Pattern rotation, in degrees.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * shape_rotation (default: 0.0) - Shape rotation of fixed gear, in
           degrees.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * tool (default: 'preview') - Tool.
           
@@ -19076,7 +18770,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_tile(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, new_width: int=1, new_height: int=1, new_image: bool=True) -> Tuple[Gimp.Image, Gimp.Layer]:
+    def plug_in_tile(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, new_width: int=1, new_height: int=1, new_image: bool=True) -> tuple[Gimp.Image, Gimp.Layer]:
         """Create an array of copies of the image.
         
         Image types: *
@@ -19096,19 +18790,23 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * new_width (default: 1) - New (tiled) image width.
+          
+          Minimum value: 1, maximum value: 524288
         
         * new_height (default: 1) - New (tiled) image height.
+          
+          Minimum value: 1, maximum value: 524288
         
         * new_image (default: True) - Create a new image.
         
         Returns:
         
-        * new_image - Output image (NULL if new-image == FALSE).
+        * new_image (can be None) - Output image (NULL if new-image == FALSE).
         
-        * new_layer - Output layer (NULL if new-image == FALSE).
+        * new_layer (can be None) - Output layer (NULL if new-image == FALSE).
         """
         pass
 
@@ -19126,7 +18824,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_warp(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, amount: float=10.0, warp_map: Gimp.Drawable=None, iter: int=5, dither: float=0.0, angle: float=90.0, wrap_type: str='wrap', mag_map: Gimp.Drawable=None, mag_use: bool=False, substeps: int=1, grad_map: Gimp.Drawable=None, grad_scale: float=0.0, vector_map: Gimp.Drawable=None, vector_scale: float=0.0, vector_angle: float=0.0):
+    def plug_in_warp(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, amount: float=10.0, warp_map: Optional[Gimp.Drawable]=None, iter: int=5, dither: float=0.0, angle: float=90.0, wrap_type: str='wrap', mag_map: Optional[Gimp.Drawable]=None, mag_use: bool=False, substeps: int=1, grad_map: Optional[Gimp.Drawable]=None, grad_scale: float=0.0, vector_map: Optional[Gimp.Drawable]=None, vector_scale: float=0.0, vector_angle: float=0.0):
         """Twist or smear image in many different ways.
         
         Image types: RGB*, GRAY*
@@ -19143,43 +18841,53 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * amount (default: 10.0) - Pixel displacement multiplier.
         
-        * warp_map - Displacement control map.
+        * warp_map (can be None) - Displacement control map.
         
         * iter (default: 5) - Iteration count.
+          
+          Minimum value: 1, maximum value: 100
         
         * dither (default: 0.0) - Random dither amount.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * angle (default: 90.0) - Angle of gradient vector rotation.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * wrap_type (default: 'wrap') - Wrap type.
           
           Allowed values: 'wrap', 'smear', 'black', 'color'
         
-        * mag_map - Magnitude control map.
+        * mag_map (can be None) - Magnitude control map.
         
         * mag_use (default: False) - Use magnitude map.
         
         * substeps (default: 1) - Substeps between image updates.
+          
+          Minimum value: 1, maximum value: 100
         
-        * grad_map - Gradient control map.
+        * grad_map (can be None) - Gradient control map.
         
         * grad_scale (default: 0.0) - Scaling factor for gradient map (0=don't
           use).
         
-        * vector_map - Fixed vector control map.
+        * vector_map (can be None) - Fixed vector control map.
         
         * vector_scale (default: 0.0) - Scaling factor for fixed vector map
           (0=don't use).
         
         * vector_angle (default: 0.0) - Angle for fixed vector map.
+          
+          Minimum value: 0.0, maximum value: 360.0
         """
         pass
 
-    def plug_in_wavelet_decompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, scales: int=5, create_group: bool=True, create_masks: bool=False):
+    def plug_in_wavelet_decompose(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, scales: int=5, create_group: bool=True, create_masks: bool=False):
         """Wavelet decompose.
         
         Image types: RGB*, GRAY*
@@ -19194,9 +18902,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * scales (default: 5) - Number of scales.
+          
+          Minimum value: 1, maximum value: 7
         
         * create_group (default: True) - Create a layer group to store the
           decomposition.
@@ -19217,7 +18927,7 @@ class _PyPDB:
         """
         pass
 
-    def plug_in_zealouscrop(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def plug_in_zealouscrop(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Autocrop unused space from edges and middle.
         
         Image types: *
@@ -19230,7 +18940,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
@@ -19263,7 +18973,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_foggify(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, name: str='Clouds', color: Gegl.Color=None, turbulence: float=1.0, opacity: float=100.0):
+    def python_fu_foggify(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, name: str='Clouds', color: Optional[Gegl.Color]=None, turbulence: float=1.0, opacity: float=100.0):
         """Add a layer of fog.
         
         Image types: RGB*, GRAY*
@@ -19278,19 +18988,23 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * name (default: 'Clouds') - Layer name.
         
-        * color - Fog color.
+        * color (can be None) - Fog color.
         
         * turbulence (default: 1.0) - Turbulence.
+          
+          Minimum value: 0.0, maximum value: 7.0
         
         * opacity (default: 100.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
-    def python_fu_gradient_save_as_css(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, gradient: Gimp.Gradient=None, file: Gio.File=None):
+    def python_fu_gradient_save_as_css(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, gradient: Optional[Gimp.Gradient]=None, file: Gio.File=None):
         """Creates a new palette from a given gradient.
         
         Menu label: Save Gradient as CSS...
@@ -19302,13 +19016,13 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * gradient
+        * gradient (can be None)
         
-        * file
+        * file (file to save)
         """
         pass
 
-    def python_fu_histogram_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, file: Gio.File=None, bucket_size: float=0.01, sample_average: bool=False, output_format: str='percent'):
+    def python_fu_histogram_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, file: Gio.File=None, bucket_size: float=0.01, sample_average: bool=False, output_format: str='percent'):
         """Exports the image histogram to a text file (CSV).
         
         Image types: *
@@ -19337,11 +19051,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * file - Histogram export file.
+        * file (file to save) - Histogram export file.
         
         * bucket_size (default: 0.01) - Bucket Size.
+          
+          Minimum value: 0.001, maximum value: 1.0
         
         * sample_average (default: False) - Sample Average.
         
@@ -19351,7 +19067,7 @@ class _PyPDB:
         """
         pass
 
-    def python_fu_palette_offset(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Gimp.Palette=None, amount: int=1) -> Gimp.Palette:
+    def python_fu_palette_offset(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Optional[Gimp.Palette]=None, amount: int=1) -> Gimp.Palette:
         """Offset the colors in a palette.
         
         Menu label: _Offset Palette...
@@ -19365,18 +19081,20 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * palette - Palette.
+        * palette (can be None) - Palette.
         
         * amount (default: 1) - Offset.
+          
+          Minimum value: 1
         
         Returns:
         
-        * new_palette - The newly created palette when read-only, otherwise
-          the input palette.
+        * new_palette (can be None) - The newly created palette when
+          read-only, otherwise the input palette.
         """
         pass
 
-    def python_fu_palette_sort(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Gimp.Palette=None, selections: str='all', slice_expr: str=None, channel1: str='luma', ascending1: bool=True, channel2: str='saturation', ascending2: bool=True, quantize: float=0.0, pchannel: str='luma', pquantize: float=0.0) -> Gimp.Palette:
+    def python_fu_palette_sort(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Optional[Gimp.Palette]=None, selections: str='all', slice_expr: str=None, channel1: str='luma', ascending1: bool=True, channel2: str='saturation', ascending2: bool=True, quantize: float=0.0, pchannel: str='luma', pquantize: float=0.0) -> Gimp.Palette:
         """Sort the colors in a palette.
         
         Menu label: _Sort Palette...
@@ -19393,7 +19111,7 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * palette - Palette.
+        * palette (can be None) - Palette.
         
         * selections (default: 'all') - Selections.
           
@@ -19430,6 +19148,8 @@ class _PyPDB:
         * ascending2 (default: True) - Ascending.
         
         * quantize (default: 0.0) - Quantization.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * pchannel (default: 'luma') - Partitioning channel.
           
@@ -19439,14 +19159,16 @@ class _PyPDB:
           'chroma-lchab', 'hue-lchab'
         
         * pquantize (default: 0.0) - Partition quantization.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         Returns:
         
-        * new_palette - Palette.
+        * new_palette (can be None) - Palette.
         """
         pass
 
-    def python_fu_palette_to_gradient(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Gimp.Palette=None) -> Gimp.Gradient:
+    def python_fu_palette_to_gradient(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Optional[Gimp.Palette]=None) -> Gimp.Gradient:
         """Create a gradient using colors from the palette.
         
         Menu label: Palette to _Gradient
@@ -19458,15 +19180,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * palette - Palette.
+        * palette (can be None) - Palette.
         
         Returns:
         
-        * new_gradient - The newly created gradient.
+        * new_gradient (can be None) - The newly created gradient.
         """
         pass
 
-    def python_fu_palette_to_gradient_repeating(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Gimp.Palette=None) -> Gimp.Gradient:
+    def python_fu_palette_to_gradient_repeating(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Optional[Gimp.Palette]=None) -> Gimp.Gradient:
         """Create a repeating gradient using colors from the palette.
         
         Menu label: Palette to _Repeating Gradient
@@ -19478,15 +19200,15 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * palette - Palette.
+        * palette (can be None) - Palette.
         
         Returns:
         
-        * new_gradient - The newly created gradient.
+        * new_gradient (can be None) - The newly created gradient.
         """
         pass
 
-    def script_fu_add_bevel(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=5, toggle: bool=True, toggle_2: bool=False):
+    def script_fu_add_bevel(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=5, toggle: bool=True, toggle_2: bool=False):
         """Add a beveled border to an image.
         
         Image types: RGB*
@@ -19499,9 +19221,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 5) - Thickness.
+          
+          Minimum value: 0, maximum value: 30
         
         * toggle (default: True) - Work on copy.
         
@@ -19509,7 +19233,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_addborder(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=12, adjustment_2: int=12, color: Gegl.Color=None, adjustment_3: int=25, toggle: bool=True):
+    def script_fu_addborder(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=12, adjustment_2: int=12, color: Optional[Gegl.Color]=None, adjustment_3: int=25, toggle: bool=True):
         """Add a border around an image.
         
         Image types: *
@@ -19522,21 +19246,27 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 12) - Border X size.
+          
+          Minimum value: 1, maximum value: 250
         
         * adjustment_2 (default: 12) - Border Y size.
+          
+          Minimum value: 1, maximum value: 250
         
-        * color - Border color.
+        * color (can be None) - Border color.
         
         * adjustment_3 (default: 25) - Delta value on color.
+          
+          Minimum value: 1, maximum value: 255
         
         * toggle (default: True) - Allow resizing.
         """
         pass
 
-    def script_fu_blend_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=3, adjustment_2: int=0, toggle: bool=True):
+    def script_fu_blend_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=3, adjustment_2: int=0, toggle: bool=True):
         """Create intermediate layers to blend two or more layers over a
         background as an animation.
         
@@ -19550,17 +19280,21 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 3) - Intermediate frames.
+          
+          Minimum value: 1, maximum value: 1024
         
         * adjustment_2 (default: 0) - Max. blur radius.
+          
+          Minimum value: 0, maximum value: 1024
         
         * toggle (default: True) - Looped.
         """
         pass
 
-    def script_fu_burn_in_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, color: Gegl.Color=None, toggle: bool=False, adjustment: int=100, adjustment_2: int=7, adjustment_3: int=50, toggle_2: bool=True, toggle_3: bool=False, adjustment_4: int=50):
+    def script_fu_burn_in_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, color: Optional[Gegl.Color]=None, toggle: bool=False, adjustment: int=100, adjustment_2: int=7, adjustment_3: int=50, toggle_2: bool=True, toggle_3: bool=False, adjustment_4: int=50):
         """Create intermediate layers to produce an animated 'burn-in'
         transition between two layers.
         
@@ -19574,27 +19308,35 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * color - Glow color.
+        * color (can be None) - Glow color.
         
         * toggle (default: False) - Fadeout.
         
         * adjustment (default: 100) - Fadeout width.
+          
+          Minimum value: 1, maximum value: 3000
         
         * adjustment_2 (default: 7) - Corona width.
+          
+          Minimum value: 1, maximum value: 2342
         
         * adjustment_3 (default: 50) - After glow.
+          
+          Minimum value: 1, maximum value: 1024
         
         * toggle_2 (default: True) - Add glowing.
         
         * toggle_3 (default: False) - Prepare for GIF.
         
         * adjustment_4 (default: 50) - Speed (pixels/frame).
+          
+          Minimum value: 1, maximum value: 1024
         """
         pass
 
-    def script_fu_carve_it(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, toggle: bool=True):
+    def script_fu_carve_it(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, otherImage: Optional[Gimp.Image]=None, drawable: Optional[Gimp.Drawable]=None, toggle: bool=True):
         """Use the specified drawable as a stencil to carve from the specified
         image.
         
@@ -19608,17 +19350,17 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * otherImage - Mask image.
+        * otherImage (can be None) - Mask image.
         
-        * drawable - Mask drawable.
+        * drawable (can be None) - Mask drawable.
         
         * toggle (default: True) - Carve white areas.
         """
         pass
 
-    def script_fu_circuit(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=17, adjustment_2: int=3, toggle: bool=False, toggle_2: bool=True, toggle_3: bool=True):
+    def script_fu_circuit(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=17, adjustment_2: int=3, toggle: bool=False, toggle_2: bool=True, toggle_3: bool=True):
         """Fill the selected region (or alpha) with traces like those on a
         circuit board.
         
@@ -19632,11 +19374,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 17) - Oilify mask size.
+          
+          Minimum value: 3, maximum value: 50
         
         * adjustment_2 (default: 3) - Circuit seed.
+          
+          Minimum value: 1, maximum value: 3000000
         
         * toggle (default: False) - No background (only for separate layer).
         
@@ -19646,7 +19392,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_clothify(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=9, adjustment_2: int=9, adjustment_3: float=135.0, adjustment_4: float=45.0, adjustment_5: int=3):
+    def script_fu_clothify(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=9, adjustment_2: int=9, adjustment_3: float=135.0, adjustment_4: float=45.0, adjustment_5: int=3):
         """Add a cloth-like texture to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -19659,21 +19405,31 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 9) - Blur X.
+          
+          Minimum value: 3, maximum value: 100
         
         * adjustment_2 (default: 9) - Blur Y.
+          
+          Minimum value: 3, maximum value: 100
         
         * adjustment_3 (default: 135.0) - Azimuth.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * adjustment_4 (default: 45.0) - Elevation.
+          
+          Minimum value: 0.5, maximum value: 90.0
         
         * adjustment_5 (default: 3) - Depth.
+          
+          Minimum value: 1, maximum value: 50
         """
         pass
 
-    def script_fu_coffee_stain(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=3, toggle: bool=True, gradient: Gimp.Gradient=None):
+    def script_fu_coffee_stain(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=3, toggle: bool=True, gradient: Gimp.Gradient=None):
         """Add layers of stain or blotch marks.
         
         Image types: RGB*
@@ -19686,9 +19442,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 3) - Number of stains to add.
+          
+          Minimum value: 1, maximum value: 10
         
         * toggle (default: True) - Darken only.
         
@@ -19696,7 +19454,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_difference_clouds(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def script_fu_difference_clouds(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Solid noise applied with Difference layer mode.
         
         Image types: RGB* GRAY*
@@ -19709,11 +19467,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def script_fu_distress_selection(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: float=0.5, adjustment_2: int=8, adjustment_3: int=4, adjustment_4: int=2, toggle: bool=True, toggle_2: bool=True):
+    def script_fu_distress_selection(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: float=0.5, adjustment_2: int=8, adjustment_3: int=4, adjustment_4: int=2, toggle: bool=True, toggle_2: bool=True):
         """Distress the selection.
         
         Image types: RGB*,GRAY*
@@ -19726,15 +19484,23 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 0.5) - Threshold.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * adjustment_2 (default: 8) - Spread.
+          
+          Minimum value: 0, maximum value: 512
         
         * adjustment_3 (default: 4) - Granularity (1 is low).
+          
+          Minimum value: 1, maximum value: 25
         
         * adjustment_4 (default: 2) - Smooth.
+          
+          Minimum value: 1, maximum value: 150
         
         * toggle (default: True) - Smooth horizontally.
         
@@ -19742,7 +19508,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_drop_shadow(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=4, adjustment_2: int=4, adjustment_3: int=15, color: Gegl.Color=None, adjustment_4: int=60, toggle: bool=True):
+    def script_fu_drop_shadow(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=4, adjustment_2: int=4, adjustment_3: int=15, color: Optional[Gegl.Color]=None, adjustment_4: int=60, toggle: bool=True):
         """Add a drop shadow to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -19755,17 +19521,25 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 4) - Offset X.
+          
+          Minimum value: -4096, maximum value: 4096
         
         * adjustment_2 (default: 4) - Offset Y.
+          
+          Minimum value: -4096, maximum value: 4096
         
         * adjustment_3 (default: 15) - Blur radius.
+          
+          Minimum value: 0, maximum value: 1024
         
-        * color - Color.
+        * color (can be None) - Color.
         
         * adjustment_4 (default: 60) - Opacity.
+          
+          Minimum value: 0, maximum value: 100
         
         * toggle (default: True) - Allow resizing.
         """
@@ -19791,14 +19565,20 @@ class _PyPDB:
         * string_2 (default: 'Sans') - Filter (regexp).
         
         * adjustment (default: 32) - Font size (pixels).
+          
+          Minimum value: 2, maximum value: 1000
         
         * adjustment_2 (default: 10) - Border (pixels).
+          
+          Minimum value: 0, maximum value: 200
         
         * option (default: 0) - Color scheme.
+          
+          Minimum value: 0, maximum value: 1
         """
         pass
 
-    def script_fu_fuzzy_border(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, color: Gegl.Color=None, adjustment: int=16, toggle: bool=True, adjustment_2: float=4.0, toggle_2: bool=False, adjustment_3: int=100, toggle_3: bool=True, toggle_4: bool=True):
+    def script_fu_fuzzy_border(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, color: Optional[Gegl.Color]=None, adjustment: int=16, toggle: bool=True, adjustment_2: float=4.0, toggle_2: bool=False, adjustment_3: int=100, toggle_3: bool=True, toggle_4: bool=True):
         """Add a jagged, fuzzy border to an image.
         
         Image types: RGB* GRAY*
@@ -19811,19 +19591,25 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * color - Color.
+        * color (can be None) - Color.
         
         * adjustment (default: 16) - Border size.
+          
+          Minimum value: 1, maximum value: 300
         
         * toggle (default: True) - Blur border.
         
         * adjustment_2 (default: 4.0) - Granularity (1 is Low).
+          
+          Minimum value: 1.0, maximum value: 16.0
         
         * toggle_2 (default: False) - Add shadow.
         
         * adjustment_3 (default: 100) - Shadow weight (%).
+          
+          Minimum value: 0, maximum value: 100
         
         * toggle_3 (default: True) - Work on copy.
         
@@ -19842,14 +19628,18 @@ class _PyPDB:
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
         * adjustment (default: 400) - Width.
+          
+          Minimum value: 1, maximum value: 2000
         
         * adjustment_2 (default: 30) - Height.
+          
+          Minimum value: 1, maximum value: 2000
         
         * toggle (default: False) - Gradient reverse.
         """
         pass
 
-    def script_fu_guide_new(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, option: int=0, adjustment: int=0):
+    def script_fu_guide_new(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, option: int=0, adjustment: int=0):
         """Add a guide at the orientation and position specified (in pixels).
         
         Image types: *
@@ -19862,15 +19652,19 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * option (default: 0) - Direction.
+          
+          Minimum value: 0, maximum value: 1
         
         * adjustment (default: 0) - Position.
+          
+          Minimum value: -524288, maximum value: 524288
         """
         pass
 
-    def script_fu_guide_new_percent(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, option: int=0, adjustment: float=50.0):
+    def script_fu_guide_new_percent(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, option: int=0, adjustment: float=50.0):
         """Add a guide at the position specified as a percentage of the image
         size.
         
@@ -19884,15 +19678,19 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * option (default: 0) - Direction.
+          
+          Minimum value: 0, maximum value: 1
         
         * adjustment (default: 50.0) - Position (in %).
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
-    def script_fu_guides_from_selection(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def script_fu_guides_from_selection(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Create four guides around the bounding box of the current selection.
         
         Image types: *
@@ -19905,11 +19703,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def script_fu_guides_remove(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def script_fu_guides_remove(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Remove all horizontal and vertical guides.
         
         Image types: *
@@ -19922,11 +19720,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def script_fu_lava(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=10, adjustment_2: int=10, adjustment_3: int=7, gradient: Gimp.Gradient=None, toggle: bool=True, toggle_2: bool=True, toggle_3: bool=False):
+    def script_fu_lava(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=10, adjustment_2: int=10, adjustment_3: int=7, gradient: Gimp.Gradient=None, toggle: bool=True, toggle_2: bool=True, toggle_3: bool=False):
         """Fill the current selection with lava.
         
         Image types: RGB* GRAY*
@@ -19939,13 +19737,19 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 10) - Seed.
+          
+          Minimum value: 1, maximum value: 30000
         
         * adjustment_2 (default: 10) - Size.
+          
+          Minimum value: 0, maximum value: 100
         
         * adjustment_3 (default: 7) - Roughness.
+          
+          Minimum value: 3, maximum value: 50
         
         * gradient - Gradient.
         
@@ -19957,7 +19761,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_line_nova(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=200, adjustment_2: float=1.0, adjustment_3: int=100, adjustment_4: int=30):
+    def script_fu_line_nova(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=200, adjustment_2: float=1.0, adjustment_3: int=100, adjustment_4: int=30):
         """Fill a layer with rays emanating outward from its center using the
         foreground color.
         
@@ -19971,15 +19775,23 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 200) - Number of lines.
+          
+          Minimum value: 40, maximum value: 1000
         
         * adjustment_2 (default: 1.0) - Sharpness (degrees).
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * adjustment_3 (default: 100) - Offset radius.
+          
+          Minimum value: 0, maximum value: 2000
         
         * adjustment_4 (default: 30) - Randomness.
+          
+          Minimum value: 1, maximum value: 2000
         """
         pass
 
@@ -19996,10 +19808,16 @@ class _PyPDB:
         * string (default: 'Ellipse') - Name.
         
         * adjustment (default: 20) - Width.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_2 (default: 20) - Height.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_3 (default: 25.0) - Spacing.
+          
+          Minimum value: 1.0, maximum value: 100.0
         """
         pass
 
@@ -20016,12 +19834,20 @@ class _PyPDB:
         * string (default: 'Ellipse') - Name.
         
         * adjustment (default: 20) - Width.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_2 (default: 20) - Height.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_3 (default: 4) - Feathering.
+          
+          Minimum value: 1, maximum value: 100
         
         * adjustment_4 (default: 25.0) - Spacing.
+          
+          Minimum value: 1.0, maximum value: 100.0
         """
         pass
 
@@ -20038,10 +19864,16 @@ class _PyPDB:
         * string (default: 'Rectangle') - Name.
         
         * adjustment (default: 20) - Width.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_2 (default: 20) - Height.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_3 (default: 25.0) - Spacing.
+          
+          Minimum value: 1.0, maximum value: 100.0
         """
         pass
 
@@ -20058,16 +19890,24 @@ class _PyPDB:
         * string (default: 'Rectangle') - Name.
         
         * adjustment (default: 20) - Width.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_2 (default: 20) - Height.
+          
+          Minimum value: 1, maximum value: 200
         
         * adjustment_3 (default: 4) - Feathering.
+          
+          Minimum value: 1, maximum value: 100
         
         * adjustment_4 (default: 25.0) - Spacing.
+          
+          Minimum value: 1.0, maximum value: 100.0
         """
         pass
 
-    def script_fu_old_photo(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, toggle: bool=True, adjustment: int=20, toggle_2: bool=True, toggle_3: bool=False, toggle_4: bool=True):
+    def script_fu_old_photo(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, toggle: bool=True, adjustment: int=20, toggle_2: bool=True, toggle_3: bool=False, toggle_4: bool=True):
         """Make an image look like an old photo.
         
         Image types: RGB* GRAY*
@@ -20080,11 +19920,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * toggle (default: True) - Defocus.
         
         * adjustment (default: 20) - Border size.
+          
+          Minimum value: 0, maximum value: 300
         
         * toggle_2 (default: True) - Sepia.
         
@@ -20109,6 +19951,8 @@ class _PyPDB:
         * string_2 (default: 'mybrush') - File name.
         
         * adjustment (default: 25.0) - Spacing.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         """
         pass
 
@@ -20128,7 +19972,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_perspective_shadow(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: float=45.0, adjustment_2: float=5.0, adjustment_3: float=1.0, adjustment_4: int=3, color: Gegl.Color=None, adjustment_5: int=80, enum: Gimp.InterpolationType=Gimp.InterpolationType.LINEAR, toggle: bool=False):
+    def script_fu_perspective_shadow(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: float=45.0, adjustment_2: float=5.0, adjustment_3: float=1.0, adjustment_4: int=3, color: Optional[Gegl.Color]=None, adjustment_5: int=80, enum: Gimp.InterpolationType=Gimp.InterpolationType.LINEAR, toggle: bool=False):
         """Add a perspective shadow to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -20141,19 +19985,29 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 45.0) - Angle.
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * adjustment_2 (default: 5.0) - Relative distance of horizon.
+          
+          Minimum value: 0.1, maximum value: 24.1
         
         * adjustment_3 (default: 1.0) - Relative length of shadow.
+          
+          Minimum value: 0.1, maximum value: 24.0
         
         * adjustment_4 (default: 3) - Blur radius.
+          
+          Minimum value: 0, maximum value: 1024
         
-        * color - Color.
+        * color (can be None) - Color.
         
         * adjustment_5 (default: 80) - Opacity.
+          
+          Minimum value: 0, maximum value: 100
         
         * enum (default: Gimp.InterpolationType.LINEAR) - Interpolation.
         
@@ -20161,7 +20015,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_reverse_layers(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def script_fu_reverse_layers(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Reverse the order of layers in the image.
         
         Image types: *
@@ -20174,11 +20028,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def script_fu_ripply_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: float=3.0, adjustment_2: int=15, option: int=0):
+    def script_fu_ripply_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: float=3.0, adjustment_2: int=15, option: int=0):
         """Create a multi-layer image by adding a ripple effect to the current
         layer.
         
@@ -20192,17 +20046,23 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 3.0) - Rippling strength.
+          
+          Minimum value: 0.0, maximum value: 256.0
         
         * adjustment_2 (default: 15) - Number of frames.
+          
+          Minimum value: 0, maximum value: 256
         
         * option (default: 0) - Edge behavior.
+          
+          Minimum value: 0, maximum value: 2
         """
         pass
 
-    def script_fu_round_corners(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=15, toggle: bool=True, adjustment_2: int=8, adjustment_3: int=8, adjustment_4: int=15, toggle_2: bool=True, toggle_3: bool=True):
+    def script_fu_round_corners(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=15, toggle: bool=True, adjustment_2: int=8, adjustment_3: int=8, adjustment_4: int=15, toggle_2: bool=True, toggle_3: bool=True):
         """Round the corners of an image and optionally add a drop-shadow and
         background.
         
@@ -20216,17 +20076,25 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 15) - Edge radius.
+          
+          Minimum value: 0, maximum value: 4096
         
         * toggle (default: True) - Add drop-shadow.
         
         * adjustment_2 (default: 8) - Shadow X offset.
+          
+          Minimum value: -4096, maximum value: 4096
         
         * adjustment_3 (default: 8) - Shadow Y offset.
+          
+          Minimum value: -4096, maximum value: 4096
         
         * adjustment_4 (default: 15) - Blur radius.
+          
+          Minimum value: 0, maximum value: 1024
         
         * toggle_2 (default: True) - Add background.
         
@@ -20234,7 +20102,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_selection_round(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: float=1.0):
+    def script_fu_selection_round(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: float=1.0):
         """This procedure is deprecated! Use
         'script-fu-selection-rounded-rectangle' instead.
         
@@ -20246,13 +20114,15 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 1.0) - Relative radius.
+          
+          Minimum value: 0.0, maximum value: 128.0
         """
         pass
 
-    def script_fu_selection_rounded_rectangle(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=50, toggle: bool=False):
+    def script_fu_selection_rounded_rectangle(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=50, toggle: bool=False):
         """Round the corners of the current selection.
         
         Image types: *
@@ -20265,15 +20135,17 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 50) - Radius (%).
+          
+          Minimum value: 0, maximum value: 100
         
         * toggle (default: False) - Concave.
         """
         pass
 
-    def script_fu_set_cmap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, palette: Gimp.Palette=None):
+    def script_fu_set_cmap(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, palette: Gimp.Palette=None):
         """Change the colormap of an image to the colors in a specified palette.
         
         Image types: INDEXED*
@@ -20286,13 +20158,13 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * palette - Palette.
         """
         pass
 
-    def script_fu_slide(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, string: str='GIMP', string_2: str='32', font: Gimp.Font=None, color: Gegl.Color=None, toggle: bool=True):
+    def script_fu_slide(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, string: str='GIMP', string_2: str='32', font: Gimp.Font=None, color: Optional[Gegl.Color]=None, toggle: bool=True):
         """Add a slide-film like frame, sprocket holes, and labels to an image.
         
         Image types: RGB GRAY
@@ -20305,7 +20177,7 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * string (default: 'GIMP') - Text.
         
@@ -20313,13 +20185,13 @@ class _PyPDB:
         
         * font - Font.
         
-        * color - Font color.
+        * color (can be None) - Font color.
         
         * toggle (default: True) - Work on copy.
         """
         pass
 
-    def script_fu_sota_chrome_it(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=-80, adjustment_2: int=-47, adjustment_3: float=0.75, filename: Gio.File=None, color: Gegl.Color=None, color_2: Gegl.Color=None, toggle: bool=True):
+    def script_fu_sota_chrome_it(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=-80, adjustment_2: int=-47, adjustment_3: float=0.75, filename: Optional[Gio.File]=None, color: Optional[Gegl.Color]=None, color_2: Optional[Gegl.Color]=None, toggle: bool=True):
         """Add a chrome effect to the selected region (or alpha) using a
         specified (grayscale) stencil.
         
@@ -20333,25 +20205,31 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: -80) - Chrome saturation.
+          
+          Minimum value: -100, maximum value: 100
         
         * adjustment_2 (default: -47) - Chrome lightness.
+          
+          Minimum value: -100, maximum value: 100
         
         * adjustment_3 (default: 0.75) - Chrome factor.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
-        * filename - Environment map.
+        * filename (file to open) (can be None) - Environment map.
         
-        * color - Highlight balance.
+        * color (can be None) - Highlight balance.
         
-        * color_2 - Chrome balance.
+        * color_2 (can be None) - Chrome balance.
         
         * toggle (default: True) - Chrome white areas.
         """
         pass
 
-    def script_fu_spinning_globe(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, otherImage: Gimp.Image=None, drawable: Gimp.Drawable=None, adjustment: int=10, toggle: bool=False, toggle_2: bool=True, adjustment_2: int=63, toggle_3: bool=True):
+    def script_fu_spinning_globe(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=10, toggle: bool=False, toggle_2: bool=True, adjustment_2: int=63, toggle_3: bool=True):
         """Create an animation by mapping the current image onto a spinning
         sphere.
         
@@ -20363,23 +20241,27 @@ class _PyPDB:
         
         * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         
-        * otherImage - The Image.
+        * image - The input image.
         
-        * drawable - The Layer.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 10) - Frames.
+          
+          Minimum value: 1, maximum value: 360
         
         * toggle (default: False) - Turn from left to right.
         
         * toggle_2 (default: True) - Transparent background.
         
         * adjustment_2 (default: 63) - Index to n colors (0 = remain RGB).
+          
+          Minimum value: 0, maximum value: 256
         
         * toggle_3 (default: True) - Work on copy.
         """
         pass
 
-    def script_fu_test_sphere_v3(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=100, adjustment_2: float=45.0, toggle: bool=True, color: Gegl.Color=None, color_2: Gegl.Color=None, brush: Gimp.Brush=None, string: str='Tiny-Fu rocks!', text: str='Hello,\nWorld!', pattern: Gimp.Pattern=None, gradient: Gimp.Gradient=None, toggle_2: bool=False, font: Gimp.Font=None, adjustment_3: int=50, palette: Gimp.Palette=None, filename: Gio.File=None, option: int=0, enum: Gimp.InterpolationType=Gimp.InterpolationType.LINEAR, dirname: Gio.File=None, otherImage: Gimp.Image=None, layer: Gimp.Layer=None, channel: Gimp.Channel=None, drawable: Gimp.Drawable=None, vectors: Gimp.Path=None):
+    def script_fu_test_sphere_v3(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=100, adjustment_2: float=45.0, toggle: bool=True, color: Optional[Gegl.Color]=None, color_2: Optional[Gegl.Color]=None, brush: Gimp.Brush=None, string: str='Tiny-Fu rocks!', text: str='Hello,\nWorld!', pattern: Gimp.Pattern=None, gradient: Gimp.Gradient=None, toggle_2: bool=False, font: Gimp.Font=None, adjustment_3: int=50, palette: Gimp.Palette=None, filename: Optional[Gio.File]=None, option: int=0, enum: Gimp.InterpolationType=Gimp.InterpolationType.LINEAR, dirname: Optional[Gio.File]=None, otherImage: Optional[Gimp.Image]=None, layer: Optional[Gimp.Layer]=None, channel: Optional[Gimp.Channel]=None, drawable: Optional[Gimp.Drawable]=None, vectors: Optional[Gimp.Path]=None):
         """Plug-in example in Scheme.
         
         Image types: *
@@ -20392,17 +20274,21 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 100) - Radius (in pixels).
+          
+          Minimum value: 1, maximum value: 5000
         
         * adjustment_2 (default: 45.0) - Lighting (degrees).
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * toggle (default: True) - Shadow.
         
-        * color - Background color.
+        * color (can be None) - Background color.
         
-        * color_2 - Sphere color.
+        * color_2 (can be None) - Sphere color.
         
         * brush - Brush.
         
@@ -20419,30 +20305,34 @@ class _PyPDB:
         * font - Font.
         
         * adjustment_3 (default: 50) - Font size (pixels).
+          
+          Minimum value: 1, maximum value: 1000
         
         * palette - Palette.
         
-        * filename - Environment map.
+        * filename (file to open) (can be None) - Environment map.
         
         * option (default: 0) - Orientation.
+          
+          Minimum value: 0, maximum value: 1
         
         * enum (default: Gimp.InterpolationType.LINEAR) - Interpolation.
         
-        * dirname - Output directory.
+        * dirname (folder to select) (can be None) - Output directory.
         
-        * otherImage - Image.
+        * otherImage (can be None) - Image.
         
-        * layer - Layer.
+        * layer (can be None) - Layer.
         
-        * channel - Channel.
+        * channel (can be None) - Channel.
         
-        * drawable - Drawable.
+        * drawable (can be None) - Drawable.
         
-        * vectors - Vectors.
+        * vectors (can be None) - Vectors.
         """
         pass
 
-    def script_fu_tile_blur(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=5, toggle: bool=True, toggle_2: bool=True, option: int=0):
+    def script_fu_tile_blur(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=5, toggle: bool=True, toggle_2: bool=True, option: int=0):
         """Blur the edges of an image so the result tiles seamlessly.
         
         Image types: RGB*
@@ -20455,19 +20345,23 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 5) - Radius.
+          
+          Minimum value: 0, maximum value: 128
         
         * toggle (default: True) - Blur vertically.
         
         * toggle_2 (default: True) - Blur horizontally.
         
         * option (default: 0) - Blur type.
+          
+          Minimum value: 0, maximum value: 1
         """
         pass
 
-    def script_fu_unsharp_mask(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=5, adjustment_2: int=50):
+    def script_fu_unsharp_mask(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=5, adjustment_2: int=50):
         """Make a new image from the current layer by applying the unsharp mask
         method.
         
@@ -20480,15 +20374,19 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 5) - Mask size.
+          
+          Minimum value: 1, maximum value: 100
         
         * adjustment_2 (default: 50) - Mask opacity.
+          
+          Minimum value: 0, maximum value: 100
         """
         pass
 
-    def script_fu_waves_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: float=10.0, adjustment_2: float=10.0, adjustment_3: int=6, toggle: bool=False):
+    def script_fu_waves_anim(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: float=10.0, adjustment_2: float=10.0, adjustment_3: int=6, toggle: bool=False):
         """Create a multi-layer image with an effect like a stone was thrown
         into the current image.
         
@@ -20502,19 +20400,25 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 10.0) - Amplitude.
+          
+          Minimum value: 1.0, maximum value: 101.0
         
         * adjustment_2 (default: 10.0) - Wavelength.
+          
+          Minimum value: 0.1, maximum value: 100.0
         
         * adjustment_3 (default: 6) - Number of frames.
+          
+          Minimum value: 1, maximum value: 512
         
         * toggle (default: False) - Invert direction.
         """
         pass
 
-    def script_fu_weave(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: float=30.0, adjustment_2: float=10.0, adjustment_3: float=75.0, adjustment_4: float=75.0, adjustment_5: float=200.0, adjustment_6: float=50.0, adjustment_7: float=100.0):
+    def script_fu_weave(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: float=30.0, adjustment_2: float=10.0, adjustment_3: float=75.0, adjustment_4: float=75.0, adjustment_5: float=200.0, adjustment_6: float=50.0, adjustment_7: float=100.0):
         """Create a new layer filled with a weave effect to be used as an
         overlay or bump map.
         
@@ -20528,25 +20432,39 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: 30.0) - Ribbon width.
+          
+          Minimum value: 0.0, maximum value: 256.0
         
         * adjustment_2 (default: 10.0) - Ribbon spacing.
+          
+          Minimum value: 0.0, maximum value: 256.0
         
         * adjustment_3 (default: 75.0) - Shadow darkness.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * adjustment_4 (default: 75.0) - Shadow depth.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * adjustment_5 (default: 200.0) - Thread length.
+          
+          Minimum value: 0.0, maximum value: 256.0
         
         * adjustment_6 (default: 50.0) - Thread density.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * adjustment_7 (default: 100.0) - Thread intensity.
+          
+          Minimum value: 0.0, maximum value: 100.0
         """
         pass
 
-    def script_fu_xach_effect(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None, adjustment: int=-1, adjustment_2: int=-1, color: Gegl.Color=None, adjustment_3: int=66, color_2: Gegl.Color=None, adjustment_4: int=100, adjustment_5: int=12, adjustment_6: int=5, adjustment_7: int=5, toggle: bool=True):
+    def script_fu_xach_effect(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=-1, adjustment_2: int=-1, color: Optional[Gegl.Color]=None, adjustment_3: int=66, color_2: Optional[Gegl.Color]=None, adjustment_4: int=100, adjustment_5: int=12, adjustment_6: int=5, adjustment_7: int=5, toggle: bool=True):
         """Add a subtle translucent 3D effect to the selected region (or alpha).
         
         Image types: RGB* GRAY*
@@ -20559,31 +20477,45 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         * adjustment (default: -1) - Highlight X offset.
+          
+          Minimum value: -100, maximum value: 100
         
         * adjustment_2 (default: -1) - Highlight Y offset.
+          
+          Minimum value: -100, maximum value: 100
         
-        * color - Highlight color.
+        * color (can be None) - Highlight color.
         
         * adjustment_3 (default: 66) - Highlight opacity.
+          
+          Minimum value: 0, maximum value: 255
         
-        * color_2 - Drop shadow color.
+        * color_2 (can be None) - Drop shadow color.
         
         * adjustment_4 (default: 100) - Drop shadow opacity.
+          
+          Minimum value: 0, maximum value: 100
         
         * adjustment_5 (default: 12) - Drop shadow blur radius.
+          
+          Minimum value: 0, maximum value: 255
         
         * adjustment_6 (default: 5) - Drop shadow X offset.
+          
+          Minimum value: 0, maximum value: 255
         
         * adjustment_7 (default: 5) - Drop shadow Y offset.
+          
+          Minimum value: 0, maximum value: 255
         
         * toggle (default: True) - Keep selection.
         """
         pass
 
-    def test_export_plug_ins(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def test_export_plug_ins(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Run file export plug-in tests.
         
         Image types: *
@@ -20598,11 +20530,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def test_import_plug_ins(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None):
+    def test_import_plug_ins(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
         """Run file import plug-in tests.
         
         Image types: *
@@ -20617,11 +20549,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         """
         pass
 
-    def twain_acquire(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: GObject.Value=None) -> Any:
+    def twain_acquire(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None) -> list[Gimp.Image]:
         """Capture an image from a TWAIN datasource.
         
         Image types: *
@@ -20636,11 +20568,11 @@ class _PyPDB:
         
         * image - The input image.
         
-        * drawables - The input drawables.
+        * drawables (array of Gimp.Drawable elements) - The input drawables.
         
         Returns:
         
-        * images - Array of acquired images.
+        * images (array of Gimp.Image elements) - Array of acquired images.
         """
         pass
 
@@ -20657,34 +20589,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__aces_rrt(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """ACES RRT
-        
-        HDR to SDR proofing filter/mapping curve that is an approximation of
-        the ACES RRT (Reference Rendering Transform). When feeding
-        scene-refereed imagery into this op, the result is suitable
-        for display referred transform to sRGB or output display
-        using regular ICC matric profiles as the ODT. Note that for
-        the time being, this is a luminance only approximation of the
-        ACES RRT; without desaturation of highlights and shadows nor
-        red hue modifications.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -20712,6 +20618,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -20737,16 +20645,28 @@ class _PyPDB:
           Allowed values: 'rgb', 'hsl'
         
         * cpn_1_frequency (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * cpn_2_frequency (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * cpn_3_frequency (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * cpn_1_phaseshift (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * cpn_2_phaseshift (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * cpn_3_phaseshift (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * cpn_1_keep (default: False)
         
@@ -20757,6 +20677,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -20788,101 +20710,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__alpha_inpaint(self, drawable_: Gimp.Drawable=None, seek_distance: int=10, seek_reduction: float=0.6, min_iter: int=20, min_neighbors: int=1, max_iter: int=800, iterations: int=23, histogram: float=0.5, ring_gap1: float=1.1, ring_gap2: float=1.9, ring_gap3: float=3.2, ring_gap4: float=4.1, scale_needles: int=5, rounds: int=16, chance_try: float=0.015, chance_retry: float=0.9, chance_neighbor: float=1.0, metric_dist_powk: float=1.8, metric_empty_hay_score: float=0.275, metric_empty_needle_score: float=0.18, metric_cohesion: float=0.13, ring_twist: float=0.0, direction_invariant: bool=True, source_neighbors: int=8, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Heal transparent
-        
-        Replaces transparent pixels with good candidate pixels found in the
-        neighborhood of the missing pixel.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * seek_distance (default: 10) - Maximum distance in neighborhood we
-          look for better candidates per improvement.
-        
-        * seek_reduction (default: 0.6) - factor seek distance is shortened,
-          until we're about 2px short per iteration, 1.0 means no
-          reduction.
-        
-        * min_iter (default: 20) - Ensuring that we get results even with low
-          retry chance.
-        
-        * min_neighbors (default: 1) - minimum neighbors that must be set
-          before we consider setting.
-        
-        * max_iter (default: 800) - Mostly a saftey valve, so that we
-          terminate.
-        
-        * iterations (default: 23) - number of improvement iterations, after
-          initial search - that each probe gets.
-        
-        * histogram (default: 0.5) - only consider pixels whose neighborhood
-          color distribution is smaller than specified, set to 1.0 for
-          much faster processing, but needing lower seek distance to
-          yield ok results.
-        
-        * ring_gap1 (default: 1.1) - radius, in pixels of nearest to pixel
-          circle of neighborhood metric.
-        
-        * ring_gap2 (default: 1.9) - radius, in pixels of second nearest to
-          pixel circle.
-        
-        * ring_gap3 (default: 3.2) - radius, in pixels of third pixel circle.
-        
-        * ring_gap4 (default: 4.1) - radius, in pixels of fourth pixel circle
-          (not always in use).
-        
-        * scale_needles (default: 5)
-        
-        * rounds (default: 16) - number of improvement iterations, after
-          initial search - that each probe gets.
-        
-        * chance_try (default: 0.015) - The chance that a candidate pixel
-          probe will start being filled in.
-        
-        * chance_retry (default: 0.9) - The chance that a pixel probe gets an
-          improvement in an iteration.
-        
-        * chance_neighbor (default: 1.0) - The chance of trying to find
-          neighbor improvements.
-        
-        * metric_dist_powk (default: 1.8) - influences the (lack of)
-          importance of further away pixels.
-        
-        * metric_empty_hay_score (default: 0.275) - score given to pixels that
-          are empty, in the search neighborhood of pixel, this being
-          at default or higher value sometimes discourages some of the
-          good very nearby matches.
-        
-        * metric_empty_needle_score (default: 0.18) - the score given in the
-          metric to an empty spot.
-        
-        * metric_cohesion (default: 0.13) - influences the importance of probe
-          spatial proximity.
-        
-        * ring_twist (default: 0.0) - incremental twist per circle, in
-          radians.
-        
-        * direction_invariant (default: True) - wheter we normalize feature
-          vector to start with highest energy ray.
-        
-        * source_neighbors (default: 8) - pick neighbor of neighbors as
-          starting point if good, 4connected 8conntected or 12/16 with
-          longer teleport.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -20904,6 +20733,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -20924,6 +20755,8 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * refraction_index (default: 1.7)
+          
+          Minimum value: 1.0, maximum value: 100.0
         
         * keep_surroundings (default: False) - Keep image unchanged, where not
           affected by the lens.
@@ -20933,73 +20766,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__average(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """average
-        
-        Image blending operation 'average' (<tt>c = (cA + aB)/2</tt>).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__band_tune(self, drawable_: Gimp.Drawable=None, radius1: float=1.1, scale1: float=-1.6, bw1: float=0.375, radius2: float=10.0, scale2: float=0.0, bw2: float=0.375, show_mask: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Band tune
-        
-        Parametric band equalizer for tuning frequency bands of image, the op
-        provides abstracted input parameters that control two
-        difference of gaussians driven band pass filters used as
-        adjustments of the image signal.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * radius1 (default: 1.1) - Features size for detail band, used for
-          noise removal.
-        
-        * scale1 (default: -1.6) - Scaling factor for image features at
-          radius, -1 cancels them out 1.0 edge enhances.
-        
-        * bw1 (default: 0.375) - lower values narrower band, higher values
-          wider band - default value presumed to provide good band
-          separation.
-        
-        * radius2 (default: 10.0) - Features size for edge band, used to
-          compensate for loss of edges in detail pass.
-        
-        * scale2 (default: 0.0) - Scaling factor for image features at radius,
-          -1 cancels them out 1.0 edge enhances.
-        
-        * bw2 (default: 0.375) - lower values narrower band, higher values
-          wider band - default value presumed to provide good band
-          separation.
-        
-        * show_mask (default: False)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21019,10 +20787,16 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * subdivisions (default: 1) - Number of subdivisions.
+          
+          Minimum value: 0, maximum value: 15
         
         * x_scale (default: 1) - Horizontal pattern scale.
+          
+          Minimum value: 1
         
         * y_scale (default: 1) - Vertical pattern scale.
+          
+          Minimum value: 1
         
         * rotation (default: '0') - Pattern rotation angle.
           
@@ -21043,6 +20817,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21085,18 +20861,28 @@ class _PyPDB:
         
         * radius (default: 3.0) - Radius of softening for making bump of the
           shape.
+          
+          Minimum value: 1.0, maximum value: 8.0
         
         * elevation (default: 25.0) - Elevation angle of the Bevel.
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * depth (default: 40) - Emboss depth - Brings out depth and detail of
           the bump bevel.
+          
+          Minimum value: 1, maximum value: 100
         
         * azimuth (default: 68.0) - Direction of a light source illuminating
           and shading the bevel.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21119,61 +20905,18 @@ class _PyPDB:
         
         * blur_radius (default: 4.0) - Radius of square pixel region, (width
           and height will be radius*2+1).
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * edge_preservation (default: 8.0) - Amount of edge preservation.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__bilateral_filter_fast(self, drawable_: Gimp.Drawable=None, r_sigma: float=50.0, s_sigma: int=8, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Bilateral Box Filter
-        
-        A fast approximation of bilateral filter, using a box-filter instead
-        of a gaussian blur.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * r_sigma (default: 50.0) - Level of smoothness.
-        
-        * s_sigma (default: 8) - Radius of square pixel region, (width and
-          height will be radius*2+1).
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__blend_reflect(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """blend-reflect
-        
-        Image blending operation 'blend-reflect' (<tt>c = cB>=1.0?1.0:cA*cA /
-        (1.0-cB)</tt>).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21195,16 +20938,24 @@ class _PyPDB:
         * threshold (default: 50.0) - Glow-area brightness threshold.
         
         * softness (default: 25.0) - Glow-area edge softness.
+          
+          Minimum value: 0.0
         
         * radius (default: 10.0) - Glow radius.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * strength (default: 50.0) - Glow strength.
+          
+          Minimum value: 0.0
         
         * limit_exposure (default: False) - Don't over-expose highlights.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21230,15 +20981,21 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
         
         * x (default: 0.5) - Horizontal justification 0.0 is left 0.5 centered
           and 1.0 right.
+          
+          Minimum value: -2.0, maximum value: 3.0
         
         * y (default: 0.5) - Vertical justification 0.0 is top 0.5 middle and
           1.0 bottom.
+          
+          Minimum value: -2.0, maximum value: 3.0
         
         * horizontal_margin (default: 0.0)
         
@@ -21249,6 +21006,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21269,63 +21028,14 @@ class _PyPDB:
         
         * radius (default: 4) - Radius of square pixel region, (width and
           height will be radius*2+1).
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__boxblur(self, drawable_: Gimp.Drawable=None, radius: int=4, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """BoxBlur
-        
-        Blur resulting from averaging the colors of a square neighborhood.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * radius (default: 4) - Radius of square pixel region, (width and
-          height will be radius*2+1).
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__boxblur_1d(self, drawable_: Gimp.Drawable=None, radius: int=4, orientation: str='horizontal', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """1D Box Blur
-        
-        Blur resulting from averaging the colors of a row neighborhood.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * radius (default: 4) - Radius of row pixel region, (size will be
-          radius*2+1).
-        
-        * orientation (default: 'horizontal') - The orientation of the blur -
-          hor/ver.
           
-          Allowed values: 'horizontal', 'vertical'
+          Minimum value: 0, maximum value: 1000
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21349,12 +21059,18 @@ class _PyPDB:
         
         * contrast (default: 1.0) - Magnitude of contrast scaling >1.0
           brighten < 1.0 darken.
+          
+          Minimum value: -5.0, maximum value: 5.0
         
         * brightness (default: 0.0) - Amount to increase brightness.
+          
+          Minimum value: -3.0, maximum value: 3.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21380,6 +21096,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21403,6 +21121,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21427,7 +21147,7 @@ class _PyPDB:
         
         * type (default: 'linear') - Type of map.
           
-          Allowed values: 'linear', 'spherical', 'sinusodial'
+          Allowed values: 'linear', 'spherical', 'sinusoidal'
         
         * compensate (default: True) - Compensate for darkening.
         
@@ -21436,23 +21156,39 @@ class _PyPDB:
         * tiled (default: False) - Tiled bumpmap.
         
         * azimuth (default: 135.0)
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * elevation (default: 45.0)
+          
+          Minimum value: 0.5, maximum value: 90.0
         
         * depth (default: 3)
+          
+          Minimum value: 1, maximum value: 65
         
         * offset_x (default: 0)
+          
+          Minimum value: -20000, maximum value: 20000
         
         * offset_y (default: 0)
+          
+          Minimum value: -20000, maximum value: 20000
         
         * waterlevel (default: 0.0) - Level that full transparency should
           represent.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * ambient (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21476,13 +21212,19 @@ class _PyPDB:
         * radius (default: 300) - Neighborhood taken into account, this is the
           radius in pixels taken into account when deciding which
           colors map to which gray values.
+          
+          Minimum value: 2, maximum value: 6000
         
         * samples (default: 4) - Number of samples to do per iteration looking
           for the range of colors.
+          
+          Minimum value: 1, maximum value: 1000
         
         * iterations (default: 10) - Number of iterations, a higher number of
           iterations provides less noisy results at a computational
           cost.
+          
+          Minimum value: 1, maximum value: 1000
         
         * enhance_shadows (default: False) - When enabled details in shadows
           are boosted at the expense of noise.
@@ -21490,6 +21232,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21518,6 +21262,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21540,12 +21286,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * mask_radius (default: 7.0)
+          
+          Minimum value: 0.0, maximum value: 50.0
         
         * pct_black (default: 0.2)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21572,6 +21324,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21602,6 +21356,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21621,21 +21377,33 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * scale (default: 1.0) - The scale of the noise function.
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * shape (default: 2.0) - Interpolate between Manhattan and Euclidean
           distance.
+          
+          Minimum value: 1.0, maximum value: 2.0
         
         * rank (default: 1) - Select the n-th closest point.
+          
+          Minimum value: 1, maximum value: 3
         
         * iterations (default: 1) - The number of noise octaves.
+          
+          Minimum value: 1, maximum value: 20
         
         * palettize (default: False) - Fill each cell with a random color.
         
         * seed (default: 0) - The random seed for the noise function.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21658,26 +21426,46 @@ class _PyPDB:
         * preserve_luminosity (default: False)
         
         * rr_gain (default: 1.0) - Set the red amount for the red channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * rg_gain (default: 0.0) - Set the green amount for the red channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * rb_gain (default: 0.0) - Set the blue amount for the red channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * gr_gain (default: 0.0) - Set the red amount for the green channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * gg_gain (default: 1.0) - Set the green amount for the green channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * gb_gain (default: 0.0) - Set the blue amount for the green channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * br_gain (default: 0.0) - Set the red amount for the blue channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * bg_gain (default: 0.0) - Set the green amount for the blue channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * bb_gain (default: 1.0) - Set the blue amount for the blue channel.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21697,8 +21485,12 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * x (default: 16) - Horizontal width of cells pixels.
+          
+          Minimum value: 1
         
         * y (default: 16) - Vertical width of cells pixels.
+          
+          Minimum value: 1
         
         * x_offset (default: 0) - Horizontal offset (from origin) for start of
           grid.
@@ -21715,6 +21507,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21741,6 +21535,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21767,6 +21563,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21789,16 +21587,26 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * grid_size (default: 23.0)
+          
+          Minimum value: 0.0, maximum value: 150.0
         
         * saturation (default: 2.5)
+          
+          Minimum value: 0.0, maximum value: 30.0
         
         * angle (default: 45.0)
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * line_thickness (default: 0.4)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21821,6 +21629,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21845,14 +21655,22 @@ class _PyPDB:
         * to_color - Replacement color.
         
         * red_threshold (default: 0.0) - Red threshold of the input color.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * green_threshold (default: 0.0) - Green threshold of the input color.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blue_threshold (default: 0.0) - Blue threshold of the input color.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21878,6 +21696,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21899,18 +21719,28 @@ class _PyPDB:
         * src_clockwise (default: False) - Switch to clockwise.
         
         * src_from (default: 0.0) - Start angle of the source color range.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * src_to (default: 90.0) - End angle of the source color range.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * dest_clockwise (default: False) - Switch to clockwise.
         
         * dest_from (default: 0.0) - Start angle of the destination color
           range.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * dest_to (default: 90.0) - End angle of the destination color range.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * threshold (default: 0.0) - Colors with a saturation less than this
           will treated as gray.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * gray_mode (default: 'change-to') - Treat as this: Gray colors from
           above source range will be treated as if they had this hue
@@ -21920,13 +21750,19 @@ class _PyPDB:
           Allowed values: 'treat-as', 'change-to'
         
         * hue (default: 0.0) - Hue value for above gray settings.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * saturation (default: 0.0) - Saturation value for above gray
           settings.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21948,13 +21784,19 @@ class _PyPDB:
         
         * original_temperature (default: 6500.0) - Estimated temperature of
           the light source in Kelvin the image was taken with.
+          
+          Minimum value: 1000.0, maximum value: 12000.0
         
         * intended_temperature (default: 6500.0) - Corrected estimation of the
           temperature of the light source in Kelvin.
+          
+          Minimum value: 1000.0, maximum value: 12000.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -21977,13 +21819,19 @@ class _PyPDB:
         
         * transparency_threshold (default: 0.0) - The limit below which colors
           become transparent.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * opacity_threshold (default: 1.0) - The limit above which colors
           remain opaque.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22059,6 +21907,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22092,41 +21942,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__connected_components(self, drawable_: Gimp.Drawable=None, separator: Gegl.Color=None, invert: bool=False, base: float=0.0, step: float=1.0, normalize: bool=True, linear: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Connected Components
-        
-        Fills each connected region of the input, separated from the rest of
-        the input by a given color, with a unique color.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * separator - Component separator color.
-        
-        * invert (default: False) - Invert the separator region.
-        
-        * base (default: 0.0) - Base index.
-        
-        * step (default: 1.0) - Index step.
-        
-        * normalize (default: True) - Normalize output to the range [base,base
-          + step].
-        
-        * linear (default: False) - Linear output.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22148,12 +21965,16 @@ class _PyPDB:
         
         * sampling_points (default: 0) - Number of curve sampling points.  0
           for exact calculation.
+          
+          Minimum value: 0, maximum value: 65536
         
         * curve - The contrast curve.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22177,6 +21998,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22209,6 +22032,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22280,6 +22105,8 @@ class _PyPDB:
         * divisor (default: 1.0)
         
         * offset (default: 0.0)
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * red (default: True)
         
@@ -22300,6 +22127,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22324,6 +22153,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22358,118 +22189,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__ctx_script(self, drawable_: Gimp.Drawable=None, u8: bool=False, d: str='duration 5.0   # duration of this page/scene\n\nrgba 0 0 0 (0=0 3=1.0) paint\n\n\nsave\nglobalAlpha (0=0 1=1.0)\n\ntranslate 50% 50% \nscale 100^ 100^\n\ntranslate -0.6 -0.6 scale 0.041 0.041 g M0 0m24.277 20.074m-.473.020m-1.607 1.364m.148.745m.097.182c5.014.017.027.034.041.051c.495.602 1.252.616 1.736.726c.484.110.843.406 1.020.729l-.010 0c.149.270.440-1.029.334-1.932c-.085-.725-.417-1.263-.840-1.616z gray0F G g M0 0m24.679 1.686c.029 0.056 0.081 0c.099.016.217.122.258.242c.041.120 1.672 8.369-.655 13.117c-2.327 4.748-7.474 6.185-10.439 6.165c-4.982.073-9.310-1.706-11.300-5.760c2.161-.073 2.879-2.166 2.914-3.909c.011-.538.854-6.389 1.047-6.646c.053-.065.131-.032.169.027c.810 1.266 1.555 1.920 2.648 2.518c1.737.750 2.868 1.026 5.430.570c2.563-.456 6.783-1.977 9.550-6.130c.106-.136.209-.186.296-.196z rgb.549.502.451F G g g Y9.339 11.583O2.856 3.200B0 0 1 0 6.283 0G gray1F G g g Y9.955 11.701O1.718 2.089B0 0 1 0 6.283 0G gray0F G g B9.961 10.547.783 0 6.283 0gray1F G g W.979.202 0-.204.979 0 0 0 1g Y.016 12.121O2.432 3.136B0 0 1 0 6.283 0G gray0F G g B2.168 10.276 1.324 0 6.283 0gray1F G g M0 0m18.543 16.076c-.174-.121.034-.311.411-.324c.226-.010.513.048.813.219c.809.462.836 1.031.571 1.154gray0F G g M0 0m19.337 16.213c-1.594 2.213-4.031 3.547-8.009 2.984c-.519-.069-.913.615 1.453.712c2.966.121 5.525-.764 7.267-3.182z gray0F G g M0 0m18.995 17.907c-.661-.276-1.568.662-1.225.914c.527.338 2.364 1.513 2.752 1.719c.450.239 1.092-.188 1.092-.188l.200-.377c0 0-.010-.771-.456-1.010c-.291-.154-1.504-.686-2.355-1.055c0 0-.010 0-.010 0z rgb.949.518.051F G g M0 0m21.071 20.510c.084.297.380.162.559.262c.179.100.221.422.517.336c.296-.085.685-.784.601-1.081c-.084-.297-.380-.162-.559-.262c-.179-.100-.221-.422-.517-.337c-.297.085-.685.784-.601 1.082z gray.733F G g g Y15.632 11.590O3.750 3.828B0 0 1 0 6.283 0G gray1F G g g Y16.539 11.730O2.322 2.545B0 0 1 0 6.283 0G gray0F G g B16.539 10.344.997 0 6.283 0gray1F G g M0 0m23.353 19.831c-.354.005-.671.119-.880.341c-.613.639-.497 1.610-.029 2.216c-.078-.261-.171-.718-.033-.816c.160-.115.532.539.838.350c.305-.189-.289-.712.010-.959c.312-.247.734.444.997.133c.225-.274-.505-.683-.390-.872c.106-.174.610-.005.858.118c-.417-.348-.924-.517-1.372-.511z rgb.549.502.451F G\nrestore\n\nsave\ntranslate (0=50 1=75 2=33  4=65 5=50)% (0=50 1=75 2=23 3=40 4=14 5=50)%\nscale (0=30 3=60 5=30)^ (0=30 3=60 5=30)^\n\ntranslate -0.5 -0.5\n\nrgba 1 1 1 0.4\nm 0.43956786,0.90788066 c 0.0195929,0.0102943 0.0716181,0.0218038 0.10361884,-0.0167646 L 0.93768705,0.37887837 c 0.019925,-0.0342044 -0.00963,-0.0544608 -0.0308834,-0.0508084 -0.17965502,0.0285588 -0.35466092,-0.055125 -0.45096394,-0.21253089 -0.0176003,-0.02988716 -0.0594422,-0.01560777 -0.0594422,0.0139473 0,0.0591101 0.003321,0.49845135 0.001991,0.70699722 0.00039042,0.0283487 0.0157362,0.0529866 0.0408456,0.070733 F\nf 0.0525 0 0.9905 0\np 0.0 1.0 1.0 0.66 1.0\np 0.2 1 0.66 0 1.0\np 0.5 1 0.0 0 1.0\np 1.0 0.4 0.0 0.53 1.0\nm 0.39772584,0.91850721 h -0.0664159 c -0.15408489,0 -0.27894675,-0.12486192 -0.27894675,-0.2789468 0,-0.15408489 0.12486186,-0.27861466 0.27894675,-0.27894675 l 0.18585599,0.0000662 c 0.0111839,0.00017138 0.0158287,0.001542 0.0263337,0.0134822 0.11733258,0.14373102 0.3018009,0.36870115 0.3942639,0.49195316 0.0185394,0.0332794 -0.0106225,0.0505515 -0.0228143,0.0505207 F\nf 0.697 0.17 0.4318 0.884\np 0.0 0.26 0.26 1 1.0\np 0.3 0 1 1 0.4\np 1.0 0 1 0.26 1.0\nm 0.43956786,0.90788066 c 0.0195929,0.0102943 0.0716181,0.0218038 0.10361884,-0.0167646 L 0.93768705,0.37887837 c 0.019925,-0.0342044 -0.00963,-0.0544608 -0.0308834,-0.0508084 -0.17965502,0.0285588 -0.35466092,-0.055125 -0.45096394,-0.21253089 -0.0176003,-0.02988716 -0.0594422,-0.01560777 -0.0594422,0.0139473 0,0.0591101 0.003321,0.49845135 0.001991,0.70699722 0.0039042,0.0283487 0.0157362,0.0529866 0.0408456,0.070733 F\nrestore\n\nnewPage\nduration 1\ngray (0=0 1=1) paint\n\nnewPage\nduration 1\nrgba 0 0 0 (0=1.0 1=0) paint\n\nnewPage\nduration 2\nsave\n rgba\n conicGradient 50% 50%  (0=0 5=14) 7\n addStop 0.0 1 0 0 1\n addStop (0=0.5 1=0.8  2=0.5) 1 0 0 0.0\n addStop 1.0 1 0 0 1.0\n\n paint\nrestore\n\nnewPage\nrgb 1 1 0 paint\nduration 1\n', play: bool=False, loop_scene: bool=False, page: int=0, time: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Ctx script
-        
-        Renders a ctx vector graphics script.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * u8 (default: False) - Render using R'aG'AB'a u8 (rather than linear
-          RaGaBaA float); the user->device space color maping is
-          identity by default; thus changing the meaning of colors set
-          in the script.
-        
-        * d (default: 'duration 5.0   # duration of this page/scene  rgba 0 0
-          0 (0=0 3=1.0) paint   save globalAlpha (0=0 1=1.0)
-          translate 50% 50%  scale 100^ 100^  translate -0.6 -0.6
-          scale 0.041 0.041 g M0 0m24.277 20.074m-.473.020m-1.607
-          1.364m.148.745m.097.182c5.014.017.027.034.041.051c.495.602
-          1.252.616 1.736.726c.484.110.843.406 1.020.729l-.010 0c.149.
-          270.440-1.029.334-1.932c-.085-.725-.417-1.263-.840-1.616z
-          gray0F G g M0 0m24.679 1.686c.029 0.056 0.081
-          0c.099.016.217.122.258.242c.041.120 1.672 8.369-.655
-          13.117c-2.327 4.748-7.474 6.185-10.439
-          6.165c-4.982.073-9.310-1.706-11.300-5.760c2.161-.073
-          2.879-2.166 2.914-3.909c.011-.538.854-6.389
-          1.047-6.646c.053-.065.131-.032.169.027c.810 1.266 1.555
-          1.920 2.648 2.518c1.737.750 2.868 1.026 5.430.570c2.563-.456
-          6.783-1.977 9.550-6.130c.106-.136.209-.186.296-.196z
-          rgb.549.502.451F G g g Y9.339 11.583O2.856 3.200B0 0 1 0
-          6.283 0G gray1F G g g Y9.955 11.701O1.718 2.089B0 0 1 0
-          6.283 0G gray0F G g B9.961 10.547.783 0 6.283 0gray1F G g
-          W.979.202 0-.204.979 0 0 0 1g Y.016 12.121O2.432 3.136B0 0 1
-          0 6.283 0G gray0F G g B2.168 10.276 1.324 0 6.283 0gray1F G
-          g M0 0m18.543 16.076c-.174-.121.034-.311.411-.324c.226-.010.
-          513.048.813.219c.809.462.836 1.031.571 1.154gray0F G g M0
-          0m19.337 16.213c-1.594 2.213-4.031 3.547-8.009
-          2.984c-.519-.069-.913.615 1.453.712c2.966.121 5.525-.764
-          7.267-3.182z gray0F G g M0 0m18.995
-          17.907c-.661-.276-1.568.662-1.225.914c.527.338 2.364 1.513
-          2.752 1.719c.450.239 1.092-.188 1.092-.188l.200-.377c0
-          0-.010-.771-.456-1.010c-.291-.154-1.504-.686-2.355-1.055c0
-          0-.010 0-.010 0z rgb.949.518.051F G g M0 0m21.071 20.510c.08
-          4.297.380.162.559.262c.179.100.221.422.517.336c.296-.085.685
-          -.784.601-1.081c-.084-.297-.380-.162-.559-.262c-.179-.100-.2
-          21-.422-.517-.337c-.297.085-.685.784-.601 1.082z gray.733F G
-          g g Y15.632 11.590O3.750 3.828B0 0 1 0 6.283 0G gray1F G g g
-          Y16.539 11.730O2.322 2.545B0 0 1 0 6.283 0G gray0F G g
-          B16.539 10.344.997 0 6.283 0gray1F G g M0 0m23.353
-          19.831c-.354.005-.671.119-.880.341c-.613.639-.497 1.610-.029
-          2.216c-.078-.261-.171-.718-.033-.816c.160-.115.532.539.838.3
-          50c.305-.189-.289-.712.010-.959c.312-.247.734.444.997.133c.2
-          25-.274-.505-.683-.390-.872c.106-.174.610-.005.858.118c-.417
-          -.348-.924-.517-1.372-.511z rgb.549.502.451F G restore  save
-          translate (0=50 1=75 2=33  4=65 5=50)% (0=50 1=75 2=23 3=40
-          4=14 5=50)% scale (0=30 3=60 5=30)^ (0=30 3=60 5=30)^
-          translate -0.5 -0.5  rgba 1 1 1 0.4 m 0.43956786,0.90788066
-          c 0.0195929,0.0102943 0.0716181,0.0218038
-          0.10361884,-0.0167646 L 0.93768705,0.37887837 c
-          0.019925,-0.0342044 -0.00963,-0.0544608
-          -0.0308834,-0.0508084 -0.17965502,0.0285588
-          -0.35466092,-0.055125 -0.45096394,-0.21253089
-          -0.0176003,-0.02988716 -0.0594422,-0.01560777
-          -0.0594422,0.0139473 0,0.0591101 0.003321,0.49845135
-          0.001991,0.70699722 0.00039042,0.0283487 0.0157362,0.0529866
-          0.0408456,0.070733 F f 0.0525 0 0.9905 0 p 0.0 1.0 1.0 0.66
-          1.0 p 0.2 1 0.66 0 1.0 p 0.5 1 0.0 0 1.0 p 1.0 0.4 0.0 0.53
-          1.0 m 0.39772584,0.91850721 h -0.0664159 c -0.15408489,0
-          -0.27894675,-0.12486192 -0.27894675,-0.2789468 0,-0.15408489
-          0.12486186,-0.27861466 0.27894675,-0.27894675 l
-          0.18585599,0.0000662 c 0.0111839,0.00017138
-          0.0158287,0.001542 0.0263337,0.0134822 0.11733258,0.14373102
-          0.3018009,0.36870115 0.3942639,0.49195316
-          0.0185394,0.0332794 -0.0106225,0.0505515
-          -0.0228143,0.0505207 F f 0.697 0.17 0.4318 0.884 p 0.0 0.26
-          0.26 1 1.0 p 0.3 0 1 1 0.4 p 1.0 0 1 0.26 1.0 m
-          0.43956786,0.90788066 c 0.0195929,0.0102943
-          0.0716181,0.0218038 0.10361884,-0.0167646 L
-          0.93768705,0.37887837 c 0.019925,-0.0342044
-          -0.00963,-0.0544608 -0.0308834,-0.0508084
-          -0.17965502,0.0285588 -0.35466092,-0.055125
-          -0.45096394,-0.21253089 -0.0176003,-0.02988716
-          -0.0594422,-0.01560777 -0.0594422,0.0139473 0,0.0591101
-          0.003321,0.49845135 0.001991,0.70699722 0.0039042,0.0283487
-          0.0157362,0.0529866 0.0408456,0.070733 F restore  newPage
-          duration 1 gray (0=0 1=1) paint  newPage duration 1 rgba 0 0
-          0 (0=1.0 1=0) paint  newPage duration 2 save  rgba
-          conicGradient 50% 50%  (0=0 5=14) 7  addStop 0.0 1 0 0 1
-          addStop (0=0.5 1=0.8  2=0.5) 1 0 0 0.0  addStop 1.0 1 0 0
-          1.0   paint restore  newPage rgb 1 1 0 paint duration 1 ') -
-          A string containing a ctx protocol document.
-        
-        * play (default: False)
-        
-        * loop_scene (default: False)
-        
-        * page (default: 0)
-        
-        * time (default: 0.0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22491,16 +22212,24 @@ class _PyPDB:
         
         * tile_size (default: 10.0) - Average diameter of each tile (in
           pixels).
+          
+          Minimum value: 0.0, maximum value: 256.0
         
         * tile_saturation (default: 2.5) - Expand tiles by this amount.
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * bg_color - The tiles' background color.
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22529,60 +22258,14 @@ class _PyPDB:
           Allowed values: 'horizontal', 'vertical'
         
         * size (default: 1) - Block size of deinterlacing rows/columns.
+          
+          Minimum value: 0, maximum value: 100
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__demosaic_bimedian(self, drawable_: Gimp.Drawable=None, pattern: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Demosaic With Bimedian Interpolation
-        
-        Performs a grayscale2color demosaicing of an image, using bimedian
-        interpolation.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * pattern (default: 0) - Bayer pattern used, 0 seems to work for some
-          nikon files, 2 for some Fuji files.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__demosaic_simple(self, drawable_: Gimp.Drawable=None, pattern: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Demosaic Without Interpolation
-        
-        Performs a naive grayscale2color demosaicing of an image, no
-        interpolation.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * pattern (default: 0) - Bayer pattern used, 0 seems to work for some
-          nikon files, 2 for some Fuji files.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22606,10 +22289,14 @@ class _PyPDB:
           Allowed values: 'size8x8', 'size16x16'
         
         * sigma (default: 5.0) - Noise standard deviation.
+          
+          Minimum value: 1.0, maximum value: 100.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22630,12 +22317,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * radius1 (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * radius2 (default: 2.0)
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22655,37 +22348,67 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * red_frequency (default: 0.815) - Light frequency (red).
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * green_frequency (default: 1.221) - Light frequency (green).
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * blue_frequency (default: 1.123) - Light frequency (blue).
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * red_contours (default: 0.821) - Number of contours (red).
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * green_contours (default: 0.821) - Number of contours (green).
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * blue_contours (default: 0.974) - Number of contours (blue).
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * red_sedges (default: 0.61) - Number of sharp edges (red).
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * green_sedges (default: 0.677) - Number of sharp edges (green).
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blue_sedges (default: 0.636) - Number of sharp edges (blue).
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * brightness (default: 0.066) - Brightness and shifting/fattening of
           contours.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * scattering (default: 37.126) - Scattering (speed vs. quality).
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * polarization (default: -0.473) - Polarization.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * width (default: 200) - Width of the generated buffer.
+          
+          Minimum value: 0
         
         * height (default: 200) - Height of the generated buffer.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22719,9 +22442,13 @@ class _PyPDB:
         
         * amount_x (default: 0.0) - Displace multiplier for X or radial
           direction.
+          
+          Minimum value: -500.0, maximum value: 500.0
         
         * amount_y (default: 0.0) - Displace multiplier for Y or tangent
           (degrees) direction.
+          
+          Minimum value: -500.0, maximum value: 500.0
         
         * center (default: False) - Center the displacement around a specified
           point.
@@ -22733,6 +22460,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22757,6 +22486,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22786,17 +22517,25 @@ class _PyPDB:
           Allowed values: 'above', 'below'
         
         * threshold_lo (default: 0.0001)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * threshold_hi (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * averaging (default: 0) - Number of computations for grayscale
           averaging.
+          
+          Minimum value: 0, maximum value: 1000
         
         * normalize (default: True) - Normalize output to range 0.0 to 1.0.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22818,12 +22557,20 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * red_levels (default: 6) - Number of levels for red channel.
+          
+          Minimum value: 2, maximum value: 65536
         
         * green_levels (default: 6) - Number of levels for green channel.
+          
+          Minimum value: 2, maximum value: 65536
         
         * blue_levels (default: 6) - Number of levels for blue channel.
+          
+          Minimum value: 2, maximum value: 65536
         
         * alpha_levels (default: 256) - Number of levels for alpha channel.
+          
+          Minimum value: 2, maximum value: 65536
         
         * dither_method (default: 'floyd-steinberg') - The dithering method to
           use.
@@ -22833,35 +22580,14 @@ class _PyPDB:
           'xor-covariant', 'blue-noise', 'blue-noise-covariant'
         
         * seed (default: 0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__ditto(self, drawable_: Gimp.Drawable=None, sampler_type: str='nearest', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Ditto
-        
-        Test op to do a 1:1 map of input to output, while sampling.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * sampler_type (default: 'nearest') - Sampler used internally.
           
-          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22890,6 +22616,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22912,17 +22640,25 @@ class _PyPDB:
         
         * n_iterations (default: 3) - Number of filtering iterations. A value
           between 2 and 4 is usually enough.
+          
+          Minimum value: 1, maximum value: 5
         
         * spatial_factor (default: 30.0) - Spatial standard deviation of the
           blur kernel, measured in pixels.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * edge_preservation (default: 0.8) - Amount of edge preservation. This
           quantity is inversely proportional to the range standard
           deviation of the blur kernel.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22946,6 +22682,8 @@ class _PyPDB:
         * y (default: 20.0) - Vertical shadow offset.
         
         * radius (default: 10.0)
+          
+          Minimum value: 0.0
         
         * grow_shape (default: 'circle') - The shape to expand or contract the
           shadow in.
@@ -22955,14 +22693,20 @@ class _PyPDB:
         * grow_radius (default: 0.0) - The distance to expand the shadow
           before blurring; a negative value will contract the shadow
           instead.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * color - The shadow's color (defaults to 'black').
         
         * opacity (default: 0.5)
+          
+          Minimum value: 0.0, maximum value: 2.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -22987,6 +22731,8 @@ class _PyPDB:
           'differential', 'laplace'
         
         * amount (default: 2.0) - Edge detection amount.
+          
+          Minimum value: 1.0, maximum value: 10.0
         
         * border_behavior (default: 'clamp') - Edge detection behavior.
           
@@ -22995,6 +22741,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23016,6 +22764,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23035,12 +22785,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * radius (default: 5.0) - Radius of effect (in pixels).
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * amount (default: 0.0) - Strength of Effect.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23069,6 +22825,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23092,14 +22850,22 @@ class _PyPDB:
           Allowed values: 'emboss', 'bumpmap'
         
         * azimuth (default: 30.0) - Light angle (degrees).
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * elevation (default: 45.0) - Elevation angle (degrees).
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * depth (default: 20) - Filter width.
+          
+          Minimum value: 1, maximum value: 100
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23119,12 +22885,16 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * row_height (default: 10) - Resolution in pixels.
+          
+          Minimum value: 2, maximum value: 16
         
         * limit (default: False) - Limit line width.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23147,13 +22917,19 @@ class _PyPDB:
           EV.
         
         * steps (default: 13) - Log2 of source's discretization steps.
+          
+          Minimum value: 8, maximum value: 32
         
         * sigma (default: 8.0) - Weight distribution sigma controlling
           response contributions.
+          
+          Minimum value: 0.0, maximum value: 32.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23173,12 +22949,16 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * black_level (default: 0.0) - Adjust the black level.
+          
+          Minimum value: -0.1, maximum value: 0.1
         
         * exposure (default: 0.0) - Relative brightness change in stops.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23202,6 +22982,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23223,10 +23005,14 @@ class _PyPDB:
         * path (default: '') - path of file to write to.
         
         * tile (default: 0) - tile size to use.
+          
+          Minimum value: 0, maximum value: 2048
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23251,17 +23037,27 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * alpha (default: 1.0) - Gradient threshold for detail enhancement.
+          
+          Minimum value: 0.0, maximum value: 2.0
         
         * beta (default: 0.9) - Strength of local detail enhancement.
+          
+          Minimum value: 0.1, maximum value: 2.0
         
         * saturation (default: 0.8) - Global color saturation factor.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * noise (default: 0.0) - Gradient threshold for lowering detail
           enhancement.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23283,6 +23079,8 @@ class _PyPDB:
         * color - Color of paint to use for filling.
         
         * opacity (default: 1.0) - The fill opacity to use.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * fill_rule (default: 'nonzero') - how to determine what to fill
           (nonzero|evenodd).
@@ -23294,6 +23092,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23317,8 +23117,12 @@ class _PyPDB:
           Allowed values: 'gaussian', 'lens'
         
         * blur_radius (default: 25.0) - Out-of-focus blur radius.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * highlight_factor (default: 0.0) - Relative highlight strength.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * highlight_threshold_low (default: 0.0)
         
@@ -23334,14 +23138,24 @@ class _PyPDB:
         * y (default: 0.5)
         
         * radius (default: 0.75) - Focus-region outer radius.
+          
+          Minimum value: 0.0
         
         * focus (default: 0.25) - Focus-region inner limit.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * midpoint (default: 0.5) - Focus-transition midpoint.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * aspect_ratio (default: 0.0)
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * rotation (default: 0.0)
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * high_quality (default: False) - Generate more accurate and
           consistent output (slower).
@@ -23349,6 +23163,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23374,22 +23190,36 @@ class _PyPDB:
           'barnsley-3', 'spider', 'man-o-war', 'lambda', 'sierpinski'
         
         * iter (default: 50)
+          
+          Minimum value: 1, maximum value: 1000
         
         * zoom (default: 300.0) - Zoom in the fractal space.
+          
+          Minimum value: 1e-07, maximum value: 10000000.0
         
         * shiftx (default: 0.0) - X shift in the fractal space.
         
         * shifty (default: 0.0) - Y shift in the fractal space.
         
         * cx (default: -0.75) - CX (No effect in Mandelbrot and Sierpinski).
+          
+          Minimum value: -2.5, maximum value: 2.5
         
         * cy (default: -0.2) - CY (No effect in Mandelbrot and Sierpinski).
+          
+          Minimum value: -2.5, maximum value: 2.5
         
         * redstretch (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * greenstretch (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * bluestretch (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * redmode (default: 'cosine')
           
@@ -23410,12 +23240,16 @@ class _PyPDB:
         * blueinvert (default: False)
         
         * ncolors (default: 256)
+          
+          Minimum value: 2, maximum value: 8192
         
         * useloglog (default: False)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23439,20 +23273,36 @@ class _PyPDB:
           Allowed values: 'mandelbrot', 'julia'
         
         * X1 (default: -1.0) - X1 value, position.
+          
+          Minimum value: -50.0, maximum value: 50.0
         
         * X2 (default: 0.5) - X2 value, position.
+          
+          Minimum value: -50.0, maximum value: 50.0
         
         * Y1 (default: -1.0) - Y1 value, position.
+          
+          Minimum value: -50.0, maximum value: 50.0
         
         * Y2 (default: 1.0) - Y2 value, position.
+          
+          Minimum value: -50.0, maximum value: 50.0
         
         * JX (default: 0.5) - Julia seed X value, position.
+          
+          Minimum value: -50.0, maximum value: 50.0
         
         * JY (default: 0.5) - Julia seed Y value, position.
+          
+          Minimum value: -50.0, maximum value: 50.0
         
         * depth (default: 3)
+          
+          Minimum value: 1, maximum value: 65536
         
         * bailout (default: 10000.0)
+          
+          Minimum value: 0.0
         
         * abyss_policy (default: 'loop') - How to deal with pixels outside of
           the input buffer.
@@ -23462,6 +23312,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23490,6 +23342,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23511,9 +23365,13 @@ class _PyPDB:
         
         * std_dev_x (default: 1.5) - Standard deviation for the horizontal
           axis.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * std_dev_y (default: 1.5) - Standard deviation (spatial scale
           factor).
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * filter (default: 'auto') - How the gaussian kernel is discretized.
           
@@ -23529,6 +23387,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23549,12 +23409,18 @@ class _PyPDB:
         
         * blur_radius (default: 5.0) - Radius of square pixel region, (width
           and height will be radius*2+1).
+          
+          Minimum value: 1.0, maximum value: 1000.0
         
         * max_delta (default: 0.2) - Maximum delta.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23575,6 +23441,8 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * std_dev (default: 1.5) - Standard deviation (spatial scale factor).
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * orientation (default: 'horizontal') - The orientation of the blur -
           hor/ver.
@@ -23595,6 +23463,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23656,6 +23526,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23680,6 +23552,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23704,6 +23578,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23733,49 +23609,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__gradient_map(self, drawable_: Gimp.Drawable=None, color1: Gegl.Color=None, stop1: float=0.0, color2: Gegl.Color=None, stop2: float=1.0, color3: Gegl.Color=None, stop3: float=1.0, color4: Gegl.Color=None, stop4: float=1.0, color5: Gegl.Color=None, stop5: float=1.0, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Gradient Map
-        
-        Applies a color gradient.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * color1
-        
-        * stop1 (default: 0.0)
-        
-        * color2
-        
-        * stop2 (default: 1.0)
-        
-        * color3
-        
-        * stop3 (default: 1.0)
-        
-        * color4
-        
-        * stop4 (default: 1.0)
-        
-        * color5
-        
-        * stop5 (default: 1.0)
-        
-        * srgb (default: False)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23797,32 +23632,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__gray_component_replacement(self, drawable_: Gimp.Drawable=None, inklimit: float=250.0, amount: float=100.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Gray Component Replacement
-        
-        Reduces total ink-coverage by transferring color from CMY to K
-        component.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * inklimit (default: 250.0)
-        
-        * amount (default: 100.0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23842,8 +23653,12 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * x (default: 32) - Horizontal width of cells pixels.
+          
+          Minimum value: 1
         
         * y (default: 32) - Vertical width of cells pixels.
+          
+          Minimum value: 1
         
         * x_offset (default: 0) - Horizontal offset (from origin) for start of
           grid.
@@ -23852,14 +23667,20 @@ class _PyPDB:
           grid.
         
         * line_width (default: 4) - Width of grid lines in pixels.
+          
+          Minimum value: 0
         
         * line_height (default: 4) - Height of grid lines in pixels.
+          
+          Minimum value: 0
         
         * line_color - Color of the grid lines.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23879,12 +23700,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * std_dev (default: 4.0) - Standard deviation (spatial scale factor).
+          
+          Minimum value: 0.0, maximum value: 10000.0
         
         * contrast (default: 1.0) - Contrast of high-pass.
+          
+          Minimum value: 0.0, maximum value: 5.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23904,14 +23731,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * hue (default: 0.0) - Hue adjustment.
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * chroma (default: 0.0) - Chroma adjustment.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * lightness (default: 0.0) - Lightness adjustment.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23935,6 +23770,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23958,6 +23795,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -23977,6 +23816,8 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * division (default: 8) - The number of divisions.
+          
+          Minimum value: 0, maximum value: 64
         
         * illusion_type (default: 'type1') - Type of illusion.
           
@@ -23985,6 +23826,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24018,6 +23861,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24043,6 +23888,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24072,45 +23919,32 @@ class _PyPDB:
         * y (default: 0.0) - Vertical shadow offset.
         
         * radius (default: 7.5)
+          
+          Minimum value: 0.0, maximum value: 40.0
         
         * grow_radius (default: 4.0) - The distance to expand the shadow
           before blurring; a negative value will contract the shadow
           instead.
+          
+          Minimum value: 1.0, maximum value: 30.0
         
         * opacity (default: 1.2)
+          
+          Minimum value: 0.0, maximum value: 2.0
         
         * value - The color to paint over the input.
         
         * cover (default: 60.0) - Median Blur covers unaffected pixels. Making
           this slider too high will make it outline-like. So only
           slide it as high as you need to cover thin shape corners.
+          
+          Minimum value: 50.0, maximum value: 100.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__integral_image(self, drawable_: Gimp.Drawable=None, squared: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Integral Image
-        
-        Compute integral and squared integral image.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * squared (default: False) - Add squared values sum to the output.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24133,6 +23967,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24155,6 +23991,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24180,6 +24018,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24205,6 +24045,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24227,9 +24069,13 @@ class _PyPDB:
         
         * quality (default: 90) - JPEG compression quality (between 1 and
           100).
+          
+          Minimum value: 1, maximum value: 100
         
         * smoothing (default: 0) - Smoothing factor from 1 to 100; 0 disables
           smoothing.
+          
+          Minimum value: 0, maximum value: 100
         
         * optimize (default: True) - Use optimized huffman tables.
         
@@ -24242,6 +24088,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24267,13 +24115,19 @@ class _PyPDB:
         * color - The color to render (defaults to 'black').
         
         * radius (default: 1.5) - Standard deviation for the horizontal axis.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * opacity (default: 1.0) - Global opacity value that is always used on
           top of the optional auxiliary input buffer.
+          
+          Minimum value: -10.0, maximum value: 10.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24299,6 +24153,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24320,6 +24176,8 @@ class _PyPDB:
         * composite_op (default: 'gegl:over') - Composite operation to use.
         
         * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * x (default: 0.0) - Horizontal position in pixels.
         
@@ -24333,6 +24191,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24367,6 +24227,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24386,8 +24248,12 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * radius (default: 10.0) - Blur radius.
+          
+          Minimum value: 0.0
         
         * highlight_factor (default: 0.0) - Relative highlight strength.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * highlight_threshold_low (default: 0.0)
         
@@ -24400,79 +24266,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__lens_correct(self, drawable_: Gimp.Drawable=None, maker: str='none', Camera: str='none', Lens: str='none', focal: float=20.0, center: bool=True, cx: int=0, cy: int=0, rscale: float=0.5, correct: bool=True, red_a: float=0.0, red_b: float=0.0, red_c: float=0.0, red_d: float=1.0, green_a: float=0.0, green_b: float=0.0, green_c: float=0.0, green_d: float=1.0, blue_a: float=0.0, blue_b: float=0.0, blue_c: float=0.0, blue_d: float=1.0, alpha_a: float=0.0, alpha_b: float=0.0, alpha_c: float=0.0, alpha_d: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Copies image performing lens distortion correction.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * maker (default: 'none') - Write lens maker correctly.
-        
-        * Camera (default: 'none') - Write camera name correctly.
-        
-        * Lens (default: 'none') - Write your lens model with uppercase
-          letters.
-        
-        * focal (default: 20.0) - Calculate b value from focal.
-        
-        * center (default: True) - If you want center.
-        
-        * cx (default: 0) - Coordinates of lens center.
-        
-        * cy (default: 0) - Coordinates of lens center.
-        
-        * rscale (default: 0.5) - Scale of the image.
-        
-        * correct (default: True) - Autocorrect D values for lens correction
-          models.
-        
-        * red_a (default: 0.0)
-        
-        * red_b (default: 0.0)
-        
-        * red_c (default: 0.0)
-        
-        * red_d (default: 1.0)
-        
-        * green_a (default: 0.0)
-        
-        * green_b (default: 0.0)
-        
-        * green_c (default: 0.0)
-        
-        * green_d (default: 1.0)
-        
-        * blue_a (default: 0.0)
-        
-        * blue_b (default: 0.0)
-        
-        * blue_c (default: 0.0)
-        
-        * blue_d (default: 1.0)
-        
-        * alpha_a (default: 0.0)
-        
-        * alpha_b (default: 0.0)
-        
-        * alpha_c (default: 0.0)
-        
-        * alpha_d (default: 1.0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24492,22 +24287,36 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * main (default: 0.0) - Amount of second-order distortion.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * edge (default: 0.0) - Amount of fourth-order distortion.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * zoom (default: 0.0) - Rescale overall image size.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * x_shift (default: 0.0) - Effect center offset in X.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * y_shift (default: 0.0) - Effect center offset in Y.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * brighten (default: 0.0) - Adjust brightness in corners.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * background
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24533,6 +24342,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24563,45 +24374,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__line_profile(self, drawable_: Gimp.Drawable=None, x0: int=0, x1: int=0, y0: int=0, y1: int=0, width: int=1024, height: int=256, min: float=500.0, max: float=8.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Line Profile
-        
-        Renders luminance profiles for red green and blue components along
-        the specified line in the input buffer, plotted in a buffer
-        of the specified size.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * x0 (default: 0) - Start x coordinate.
-        
-        * x1 (default: 0) - End x coordinate.
-        
-        * y0 (default: 0) - Start y coordinate.
-        
-        * y1 (default: 0) - End y coordinate.
-        
-        * width (default: 1024)
-        
-        * height (default: 256)
-        
-        * min (default: 500.0) - Value at bottom.
-        
-        * max (default: 8.0) - Value at top.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24635,6 +24409,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24654,8 +24430,12 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * x_period (default: 128.0) - Period for X axis.
+          
+          Minimum value: 0.0
         
         * y_period (default: 128.0) - Period for Y axis.
+          
+          Minimum value: 0.0
         
         * x_amplitude (default: 0.0) - Amplitude for X axis (logarithmic
           scale).
@@ -24668,6 +24448,8 @@ class _PyPDB:
         * y_phase (default: 0.0) - Phase for Y axis.
         
         * angle (default: 90.0) - Axis separation angle.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * offset (default: 0.0) - Value offset.
         
@@ -24678,13 +24460,19 @@ class _PyPDB:
         * y_offset (default: 0.0) - Offset for Y axis.
         
         * rotation (default: 0.0) - Pattern rotation angle.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * supersampling (default: 1) - Number of samples along each axis per
           pixel.
+          
+          Minimum value: 1, maximum value: 8
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24713,6 +24501,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24735,19 +24525,29 @@ class _PyPDB:
           neighborhood average for computing local contrast. If 0 is
           used a global threshold is used instead of one based on
           local contrast.
+          
+          Minimum value: 0.0
         
         * aa_factor (default: 1) - Rough target of levels of accuracy for
           antialiasing, 1 to disable antialiasing.
+          
+          Minimum value: 1, maximum value: 256
         
         * low (default: 0.5) - Thresholding level, 0.5 towards 0 to minimize
           shadows and towards 1.0 to minimize highlights.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * high (default: 1.0) - Maximum values to include, above this gets set
           to 0.
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24771,13 +24571,21 @@ class _PyPDB:
           Allowed values: 'finite', 'infinite', 'fading', 'fading-fixed-length'
         
         * angle (default: 45.0) - Shadow angle.
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * length (default: 100.0) - Shadow length.
+          
+          Minimum value: 0.0
         
         * midpoint (default: 100.0) - Shadow fade midpoint.
+          
+          Minimum value: 0.0
         
         * midpoint_rel (default: 0.5) - Shadow fade midpoint, as a factor of
           the shadow length.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * color - Shadow color.
         
@@ -24789,6 +24597,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24812,6 +24622,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24834,14 +24646,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * contrast (default: 0.1) - The amount of contrast compression.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * saturation (default: 0.8) - Global color saturation factor.
+          
+          Minimum value: 0.0, maximum value: 2.0
         
         * detail (default: 1.0) - Level of emphasis on image gradient details.
+          
+          Minimum value: 1.0, maximum value: 99.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24872,6 +24692,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24894,6 +24716,8 @@ class _PyPDB:
         * scaling (default: 1.0) - scaling factor of displacement, indicates
           how large spatial displacement a relative mapping value of
           1.0 corresponds to.
+          
+          Minimum value: 0.0, maximum value: 5000.0
         
         * sampler_type (default: 'cubic')
           
@@ -24906,6 +24730,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24928,12 +24754,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * iterations (default: 10)
+          
+          Minimum value: 1, maximum value: 10000
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24943,7 +24775,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__matting_levin(self, drawable_: Gimp.Drawable=None, epsilon: int=-6, radius: int=1, threshold: float=0.02, lambda: float=100.0, levels: int=4, active_levels: int=2, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__matting_levin(self, drawable_: Gimp.Drawable=None, epsilon: int=-6, radius: int=1, threshold: float=0.02, lambda_: float=100.0, levels: int=4, active_levels: int=2, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Matting Levin
         
         Given a sparse user supplied tri-map and an input image, create a
@@ -24955,21 +24787,35 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * epsilon (default: -6) - Log of the error weighting.
+          
+          Minimum value: -9, maximum value: -1
         
         * radius (default: 1) - Radius of the processing window.
+          
+          Minimum value: 1, maximum value: 3
         
         * threshold (default: 0.02) - Alpha threshold for multilevel
           processing.
+          
+          Minimum value: 0.0, maximum value: 0.1
         
-        * lambda (default: 100.0) - Trimap influence factor.
+        * lambda_ (default: 100.0) - Trimap influence factor.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * levels (default: 4) - Number of downsampled levels to use.
+          
+          Minimum value: 0, maximum value: 8
         
         * active_levels (default: 2) - Number of levels to perform solving.
+          
+          Minimum value: 0, maximum value: 8
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -24989,8 +24835,12 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * x (default: 16) - Horizontal width of cells pixels.
+          
+          Minimum value: 1
         
         * y (default: 16) - Vertical width of cells pixels.
+          
+          Minimum value: 1
         
         * algorithm_type (default: 'depth-first') - Maze algorithm type.
           
@@ -24999,6 +24849,8 @@ class _PyPDB:
         * tileable (default: False)
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * fg_color - The foreground color.
         
@@ -25007,6 +24859,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25028,10 +24882,14 @@ class _PyPDB:
         
         * dampness (default: 0.95) - The value represents the contribution of
           the past to the new frame.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25052,10 +24910,14 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * iterations (default: 20) - Controls the number of iterations.
+          
+          Minimum value: 0, maximum value: 500
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25081,10 +24943,16 @@ class _PyPDB:
         
         * radius (default: 3) - Neighborhood radius, a negative value will
           calculate with inverted percentiles.
+          
+          Minimum value: -400, maximum value: 400
         
         * percentile (default: 50.0) - Neighborhood color percentile.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * alpha_percentile (default: 50.0) - Neighborhood alpha percentile.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * abyss_policy (default: 'clamp') - How image edges are handled.
           
@@ -25096,6 +24964,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25115,28 +24985,50 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * m_angle (default: 0.0) - Rotation applied to the mirrors.
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * r_angle (default: 0.0) - Rotation applied to the result.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * n_segs (default: 6) - Number of mirrors to use.
+          
+          Minimum value: 2, maximum value: 24
         
         * c_x (default: 0.5) - position of symmetry center in output.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * c_y (default: 0.5) - position of symmetry center in output.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * o_x (default: 0.0) - X axis ratio for the center of mirroring.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * o_y (default: 0.0) - Y axis ratio for the center of mirroring.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * trim_x (default: 0.0) - X axis ratio for trimming mirror expanse.
+          
+          Minimum value: 0.0, maximum value: 0.5
         
         * trim_y (default: 0.0) - Y axis ratio for trimming mirror expanse.
+          
+          Minimum value: 0.0, maximum value: 0.5
         
         * input_scale (default: 100.0) - Scale factor to make rendering size
           bigger.
+          
+          Minimum value: 0.1, maximum value: 100.0
         
         * output_scale (default: 1.0) - Scale factor to make rendering size
           bigger.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * clip (default: True)
         
@@ -25145,6 +25037,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25169,6 +25063,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25190,14 +25086,22 @@ class _PyPDB:
         * preserve_luminosity (default: False)
         
         * red (default: 0.333)
+          
+          Minimum value: -5.0, maximum value: 5.0
         
         * green (default: 0.333)
+          
+          Minimum value: -5.0, maximum value: 5.0
         
         * blue (default: 0.333)
+          
+          Minimum value: -5.0, maximum value: 5.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25224,15 +25128,23 @@ class _PyPDB:
         
         * tile_size (default: 15.0) - Average diameter of each tile (in
           pixels).
+          
+          Minimum value: 1.0, maximum value: 1000.0
         
         * tile_height (default: 4.0) - Apparent height of each tile (in
           pixels).
+          
+          Minimum value: 1.0, maximum value: 1000.0
         
         * tile_neatness (default: 0.65) - Deviation from perfectly formed
           tiles.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * color_variation (default: 0.2) - Magnitude of random color
           variations.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * color_averaging (default: True) - Tile color based on average of
           subsumed pixels.
@@ -25243,20 +25155,28 @@ class _PyPDB:
           edges.
         
         * tile_spacing (default: 1.0) - Inter-tile spacing (in pixels).
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * joints_color
         
         * light_color
         
         * light_dir (default: 135.0) - Direction of light-source (in degrees).
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * antialiasing (default: True) - Enables smoother tile output.
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25281,10 +25201,14 @@ class _PyPDB:
         
         * angle (default: 5.0) - Rotation blur angle. A large angle may take
           some time to render.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25305,12 +25229,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * length (default: 10.0) - Length of blur in pixels.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * angle (default: 0.0) - Angle of blur in degrees.
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25330,14 +25260,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * center_x (default: 0.5)
+          
+          Minimum value: -10.0, maximum value: 10.0
         
         * center_y (default: 0.5)
+          
+          Minimum value: -10.0, maximum value: 10.0
         
         * factor (default: 0.1)
+          
+          Minimum value: -10.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25365,6 +25303,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25374,88 +25314,119 @@ class _PyPDB:
         """
         pass
 
-    def gegl__negation(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """negation
-        
-        Image blending operation 'negation' (<tt>c = 1.0 -
-        fabs(1.0-cA-cB)</tt>).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__negative_darkroom(self, drawable_: Gimp.Drawable=None, curve: str='fujicrystal', exposure: float=0.0, expC: float=60.0, expM: float=60.0, expY: float=60.0, clip: bool=True, boost: float=1.0, contrast: float=1.0, dodge: float=1.0, preflash: bool=False, flashC: float=0.0, flashM: float=0.0, flashY: float=0.0, illum: bool=False, illumX: float=0.965, illumZ: float=0.829, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__negative_darkroom(self, drawable_: Gimp.Drawable=None, curve: str='kodakultra', exposure: float=0.0, expC: float=60.0, expM: float=60.0, expY: float=60.0, clip: bool=True, add_fog: float=0.0, boost_c: float=1.0, boost: float=1.0, boost_y: float=1.0, contrast_r: float=1.0, contrast: float=1.0, contrast_b: float=1.0, dodge: float=1.0, preflash: bool=False, flashC: float=0.0, flashM: float=0.0, flashY: float=0.0, illum: bool=False, illumX: float=0.965, illumZ: float=0.829, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Negative Darkroom
         
-        Simulate a negative film enlargement in an analog darkroom.
+        Simulate a film enlargement in an analog darkroom.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * curve (default: 'fujicrystal') - Hardcoded characteristic curve and
+        * curve (default: 'kodakultra') - Hardcoded characteristic curve and
           color data.
           
-          Allowed values: 'fujicrystal', 'ilfobrom1', 'ilfobrom2', 'ilfobrom3',
-          'ilfobrom4', 'ilfordmg4', 'fomabromc', 'fomabromn',
-          'fomabromsp', 'fomabroms', 'fomabromvar'
+          Allowed values: 'kodakultra', 'kodakportra', 'kodaksupra',
+          'kodakektachrome3', 'fujicrystal', 'ilfobrom1', 'ilfobrom2',
+          'ilfobrom3', 'ilfobrom4', 'ilfordmg4', 'fomabromc',
+          'fomabromn', 'fomabromsp', 'fomabroms', 'fomabromvar'
         
         * exposure (default: 0.0) - Base enlargement exposure.
+          
+          Minimum value: -20.0, maximum value: 10.0
         
         * expC (default: 60.0) - Cyan filter compensation for the negative
           image.
+          
+          Minimum value: 0.0, maximum value: 300.0
         
         * expM (default: 60.0) - Magenta filter compensation for the negative
           image.
+          
+          Minimum value: 0.0, maximum value: 300.0
         
         * expY (default: 60.0) - Yellow filter compensation for the negative
           image.
+          
+          Minimum value: 0.0, maximum value: 300.0
         
         * clip (default: True) - Clip base + fog to have a pure white output
           value.
         
+        * add_fog (default: 0.0) - Artificially reintroduce base and fog.
+          
+          Minimum value: -2.0, maximum value: 4.0
+        
+        * boost_c (default: 1.0) - Boost paper density to take advantage of
+          increased dynamic range of a monitor compared to a
+          photographic paper.
+          
+          Minimum value: 0.25, maximum value: 10.0
+        
         * boost (default: 1.0) - Boost paper density to take advantage of
           increased dynamic range of a monitor compared to a
           photographic paper.
+          
+          Minimum value: 0.25, maximum value: 10.0
+        
+        * boost_y (default: 1.0) - Boost paper density to take advantage of
+          increased dynamic range of a monitor compared to a
+          photographic paper.
+          
+          Minimum value: 0.25, maximum value: 10.0
+        
+        * contrast_r (default: 1.0) - Increase red contrast for papers with
+          fixed contrast (usually color papers).
+          
+          Minimum value: 0.25, maximum value: 4.0
         
         * contrast (default: 1.0) - Increase contrast for papers with fixed
           contrast (usually color papers).
+          
+          Minimum value: 0.25, maximum value: 4.0
+        
+        * contrast_b (default: 1.0) - Increase blue contrast for papers with
+          fixed contrast (usually color papers).
+          
+          Minimum value: 0.25, maximum value: 4.0
         
         * dodge (default: 1.0) - The f-stop of dodge/burn for pure white/black
           auxiliary input.
+          
+          Minimum value: -4.0, maximum value: 4.0
         
         * preflash (default: False) - Show preflash controls.
         
         * flashC (default: 0.0) - Preflash the negative with red light to
           reduce contrast of the print.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * flashM (default: 0.0) - Preflash the negative with green light to
           reduce contrast of the print.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * flashY (default: 0.0) - Preflash the negative with blue light to
           reduce contrast of the print.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * illum (default: False) - Show illuminant controls.
         
         * illumX (default: 0.965) - Adjust the X tristimulus value for output.
+          
+          Minimum value: 0.7, maximum value: 1.3
         
         * illumZ (default: 0.829) - Adjust the Z tristimulus value for output.
+          
+          Minimum value: 0.7, maximum value: 1.3
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25485,8 +25456,12 @@ class _PyPDB:
         
         * period2 (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
+          
+          Minimum value: 0.0, maximum value: 200.0
         
         * angle2 (default: 15.0)
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * pattern3 (default: 'line') - Halftoning/dot pattern to use.
           
@@ -25494,8 +25469,12 @@ class _PyPDB:
         
         * period3 (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
+          
+          Minimum value: 0.0, maximum value: 200.0
         
         * angle3 (default: 45.0)
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * pattern4 (default: 'line') - Halftoning/dot pattern to use.
           
@@ -25503,8 +25482,12 @@ class _PyPDB:
         
         * period4 (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
+          
+          Minimum value: 0.0, maximum value: 200.0
         
         * angle4 (default: 0.0)
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * pattern (default: 'line') - Halftoning/dot pattern to use.
           
@@ -25512,29 +25495,45 @@ class _PyPDB:
         
         * period (default: 12.0) - The number of pixels across one repetition
           of a base pattern at base resolution.
+          
+          Minimum value: 0.0, maximum value: 200.0
         
         * angle (default: 75.0) - Angle offset for patterns.
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * black_pullout (default: 1.0) - How much of common gray to pull out
           of CMY.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * aa_samples (default: 16) - Number of samples that are averaged for
           antialiasing the result.
+          
+          Minimum value: 1, maximum value: 128
         
         * turbulence (default: 0.0) - Color saturation dependent compression
           of period.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blocksize (default: -1.0) - Number of periods per tile, this tiling
           avoids high frequency anomaly that angle boost causes.
+          
+          Minimum value: -1.0, maximum value: 64.0
         
         * angleboost (default: 0.0) - Multiplication factor for desired
           rotation of the local space for texture, the way this is
           computed makes it weak for desaturated colors and possibly
           stronger where there is color.
+          
+          Minimum value: 0.0, maximum value: 4.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25555,18 +25554,30 @@ class _PyPDB:
         
         * holdness (default: 2) - A high value lowers the randomness of the
           noise.
+          
+          Minimum value: 1, maximum value: 8
         
         * lightness_distance (default: 40.0)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * chroma_distance (default: 40.0)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * hue_distance (default: 3.0)
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25587,18 +25598,30 @@ class _PyPDB:
         
         * holdness (default: 2) - A high value lowers the randomness of the
           noise.
+          
+          Minimum value: 1, maximum value: 8
         
         * hue_distance (default: 3.0)
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * saturation_distance (default: 0.04)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * value_distance (default: 0.04)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25618,14 +25641,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * pct_random (default: 50.0)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * repeat (default: 1)
+          
+          Minimum value: 1, maximum value: 100
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25645,14 +25676,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * pct_random (default: 50.0)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * repeat (default: 1)
+          
+          Minimum value: 1, maximum value: 100
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25673,10 +25712,14 @@ class _PyPDB:
         
         * iterations (default: 4) - Controls the number of iterations; lower
           values give less plastic results.
+          
+          Minimum value: 0, maximum value: 32
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25706,18 +25749,30 @@ class _PyPDB:
           unticked a linear noise distribution is used instead.
         
         * red (default: 0.2)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * green (default: 0.2)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blue (default: 0.2)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * alpha (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25737,14 +25792,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * pct_random (default: 50.0)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * repeat (default: 1)
+          
+          Minimum value: 1, maximum value: 100
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25764,24 +25827,38 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * x_size (default: 4.0) - Horizontal texture size.
+          
+          Minimum value: 0.1, maximum value: 16.0
         
         * y_size (default: 4.0) - Vertical texture size.
+          
+          Minimum value: 0.1, maximum value: 16.0
         
         * detail (default: 1) - Detail level.
+          
+          Minimum value: 0, maximum value: 15
         
         * tileable (default: False) - Create a tileable output.
         
         * turbulent (default: False) - Make a turbulent noise.
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * width (default: 1024) - Width of the generated buffer.
+          
+          Minimum value: 0
         
         * height (default: 768) - Height of the generated buffer.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25801,14 +25878,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * amount_x (default: 5) - Horizontal spread amount.
+          
+          Minimum value: 0, maximum value: 512
         
         * amount_y (default: 5) - Vertical spread amount.
+          
+          Minimum value: 0, maximum value: 512
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25830,6 +25915,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25850,6 +25937,8 @@ class _PyPDB:
         
         * scale (default: 10.0) - The amount by which to scale the height
           values.
+          
+          Minimum value: 0.0
         
         * x_component (default: 'red') - The component used for the X
           coordinates.
@@ -25873,6 +25962,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25895,8 +25986,12 @@ class _PyPDB:
         
         * square_size (default: 20) - Size of an edge of square the mesh
           consists of.
+          
+          Minimum value: 5, maximum value: 1000
         
         * rigidity (default: 100) - The number of deformation iterations.
+          
+          Minimum value: 0, maximum value: 10000
         
         * asap_deformation (default: False) - ASAP deformation is performed
           when TRUE, ARAP deformation otherwise.
@@ -25904,6 +25999,8 @@ class _PyPDB:
         * mls_weights (default: False) - Use MLS weights.
         
         * mls_weights_alpha (default: 1.0) - Alpha parameter of MLS weights.
+          
+          Minimum value: 0.1, maximum value: 2.0
         
         * preserve_model (default: False) - When TRUE the model will not be
           freed.
@@ -25915,6 +26012,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25938,6 +26037,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25958,17 +26059,25 @@ class _PyPDB:
         
         * mask_radius (default: 4) - Radius of circle around pixel, can also
           be scaled per pixel by a buffer on the aux pad.
+          
+          Minimum value: 1, maximum value: 100
         
         * exponent (default: 8) - Exponent for processing; controls smoothness
           - can be scaled per pixel with a buffer on the aux2 pad.
+          
+          Minimum value: 1, maximum value: 20
         
         * intensities (default: 128) - Histogram size.
+          
+          Minimum value: 8, maximum value: 256
         
         * use_inten (default: True) - Use pixel luminance values.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -25990,10 +26099,14 @@ class _PyPDB:
         
         * value (default: 1.0) - Global opacity value that is always used on
           top of the optional auxiliary input buffer.
+          
+          Minimum value: -10.0, maximum value: 10.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26017,6 +26130,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26048,42 +26163,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__paint_select(self, drawable_: Gimp.Drawable=None, mode: str='add', use_local_region: bool=False, region_x: int=0, region_y: int=0, region_width: int=0, region_height: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Paint Select
-        
-        
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * mode (default: 'add') - Either to add to or subtract from the mask.
           
-          Allowed values: 'add', 'subtract'
-        
-        * use_local_region (default: False) - Perform graphcut in a local
-          region.
-        
-        * region_x (default: 0)
-        
-        * region_y (default: 0)
-        
-        * region_width (default: 0)
-        
-        * region_height (default: 0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26105,18 +26186,30 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * pan (default: 0.0) - Horizontal camera panning.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * tilt (default: 0.0) - Vertical camera panning.
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * spin (default: 0.0) - Spin angle around camera axis.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * zoom (default: 100.0) - Zoom level.
+          
+          Minimum value: 0.01, maximum value: 1000.0
         
         * width (default: -1) - output/rendering width in pixels, -1 for input
           width.
+          
+          Minimum value: -1, maximum value: 10000
         
         * height (default: -1) - output/rendering height in pixels, -1 for
           input height.
+          
+          Minimum value: -1, maximum value: 10000
         
         * inverse (default: False) - Do the inverse mapping, useful for
           touching up zenith, nadir or other parts of panorama.
@@ -26131,6 +26224,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26156,13 +26251,19 @@ class _PyPDB:
         
         * stroke_width (default: 2.0) - The width of the brush used to stroke
           the path.
+          
+          Minimum value: 0.0, maximum value: 200.0
         
         * stroke_opacity (default: 1.0) - Opacity of stroke, note, does not
           behave like SVG since at the moment stroking is done using
           an airbrush tool.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * stroke_hardness (default: 0.6) - Hardness of the brush, 0.0 for a
           soft brush, 1.0 for a hard brush.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * fill_rule (default: 'nonzero') - How to determine what to fill
           (nonzero|evenodd).
@@ -26170,12 +26271,16 @@ class _PyPDB:
         * transform (default: '') - SVG style description of transform.
         
         * fill_opacity (default: 1.0) - The fill opacity to use.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * d - A GeglVector representing the path of the stroke.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26199,11 +26304,17 @@ class _PyPDB:
         * uri (default: '') - uri of file to load.
         
         * page (default: 1) - Page to render.
+          
+          Minimum value: 1, maximum value: 10000
         
         * pages (default: 1) - Total pages, provided as a visual read-only
           property.
+          
+          Minimum value: 1, maximum value: 10000
         
         * ppi (default: 200.0) - Point/pixels per inch.
+          
+          Minimum value: 10.0, maximum value: 2400.0
         
         * password (default: '') - Password to use for decryption of PDF, or
           blank for none.
@@ -26211,6 +26322,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26236,10 +26349,14 @@ class _PyPDB:
         * zoff (default: -1.0)
         
         * n (default: 3)
+          
+          Minimum value: 0, maximum value: 20
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26259,16 +26376,26 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * mask_radius (default: 10.0)
+          
+          Minimum value: 0.0, maximum value: 50.0
         
         * sharpness (default: 0.5)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * black (default: 0.2)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * white (default: 0.2)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26288,14 +26415,20 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * levels (default: 0) - Number of blend levels.
+          
+          Minimum value: 0, maximum value: 16
         
         * gamma (default: 1.0) - Gamma factor for blend-level spacing.
+          
+          Minimum value: 0.0
         
         * linear_mask (default: True) - Use linear mask values.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26319,6 +26452,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26342,8 +26477,12 @@ class _PyPDB:
           Allowed values: 'diamond', 'round', 'square'
         
         * size_x (default: 16) - Width of blocks in pixels.
+          
+          Minimum value: 1
         
         * size_y (default: 16) - Height of blocks in pixels.
+          
+          Minimum value: 1
         
         * offset_x (default: 0) - Horizontal offset of blocks in pixels.
         
@@ -26351,15 +26490,21 @@ class _PyPDB:
         
         * ratio_x (default: 1.0) - Horizontal size ratio of a pixel inside
           each block.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * ratio_y (default: 1.0) - Vertical size ratio of a pixel inside each
           block.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * background - Color used to fill the background.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26380,20 +26525,30 @@ class _PyPDB:
         
         * turbulence (default: 1.0) - High values give more variation in
           details.
+          
+          Minimum value: 0.0, maximum value: 7.0
         
         * x (default: 0) - X start of the generated buffer.
         
         * y (default: 0) - Y start of the generated buffer.
         
         * width (default: 1024) - Width of the generated buffer.
+          
+          Minimum value: 0
         
         * height (default: 768) - Height of the generated buffer.
+          
+          Minimum value: 0
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26421,6 +26576,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26442,14 +26599,20 @@ class _PyPDB:
         * path (default: '') - Target path and filename, use '-' for stdout.
         
         * compression (default: 3) - PNG compression level from 1 to 9.
+          
+          Minimum value: 1, maximum value: 9
         
         * bitdepth (default: 16) - 8 and 16 are the currently accepted values.
+          
+          Minimum value: 8, maximum value: 16
         
         * metadata - Object to supply image metadata.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26469,8 +26632,12 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * depth (default: 100.0)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * angle (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * bw (default: False) - Start from the right instead of the left.
         
@@ -26480,14 +26647,20 @@ class _PyPDB:
         * polar (default: True) - Map the image to a circle.
         
         * pole_x (default: 0) - Origin point for the polar coordinates.
+          
+          Minimum value: 0
         
         * pole_y (default: 0) - Origin point for the polar coordinates.
+          
+          Minimum value: 0
         
         * middle (default: True) - Let origin point to be the middle one.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26507,10 +26680,14 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * levels (default: 8) - number of levels per component.
+          
+          Minimum value: 1, maximum value: 64
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26536,6 +26713,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26559,10 +26738,14 @@ class _PyPDB:
         * rawformat (default: True)
         
         * bitdepth (default: 16) - 8 and 16 are the currently accepted values.
+          
+          Minimum value: 8, maximum value: 16
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26596,33 +26779,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__rawbayer_load(self, drawable_: Gimp.Drawable=None, path: str='/tmp/test.raw', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Raw image loader, wrapping dcraw with pipes, provides the raw bayer
-        grid as grayscale, if the fileformat is .rawbayer it will use
-        this loader instead of the normal dcraw loader, if the
-        fileformat is .rawbayerS it will swap the returned 16bit
-        numbers (the pnm loader is apparently buggy).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '/tmp/test.raw') - Path of file to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26646,14 +26804,20 @@ class _PyPDB:
         * y (default: 42.0) - Vertical position.
         
         * width (default: 23.0) - Horizontal extent.
+          
+          Minimum value: 0.0
         
         * height (default: 42.0) - Vertical extent.
+          
+          Minimum value: 0.0
         
         * color - Color to render.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26677,14 +26841,20 @@ class _PyPDB:
           matrices, separated by semicolons).
         
         * first_iteration (default: 0) - First iteration.
+          
+          Minimum value: 0, maximum value: 20
         
         * iterations (default: 3) - Number of iterations.
+          
+          Minimum value: 0, maximum value: 20
         
         * fade_color - Color to fade transformed images towards, with a rate
           depending on its alpha.
         
         * fade_opacity (default: 1.0) - Amount by which to scale the opacity
           of each transformed image.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * paste_below (default: False) - Paste transformed images below each
           other.
@@ -26697,6 +26867,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26716,10 +26888,14 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * threshold (default: 0.4) - Red eye threshold.
+          
+          Minimum value: 0.0, maximum value: 0.8
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26744,6 +26920,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -26755,6 +26933,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26777,16 +26957,24 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * brightness (default: 0.0) - Overall brightness of the image.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * chromatic (default: 0.0) - Adaptation to color variation across the
           image.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * light (default: 1.0) - Adaptation to light variation across the
           image.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26809,6 +26997,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26832,6 +27022,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -26839,6 +27031,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26870,6 +27064,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26893,6 +27089,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26916,6 +27114,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26935,12 +27135,20 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * amplitude (default: 25.0)
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * period (default: 200.0)
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * phi (default: 0.0)
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * angle (default: 0.0)
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * sampler_type (default: 'cubic')
           
@@ -26959,6 +27167,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -26982,15 +27192,21 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
         
         * degrees (default: 0.0) - Angle to rotate (counter-clockwise).
+          
+          Minimum value: -720.0, maximum value: 720.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27010,6 +27226,8 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -27025,6 +27243,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27044,6 +27264,8 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * scale (default: 1.0) - Scale, strength of effect.
+          
+          Minimum value: 0.0, maximum value: 10.0
         
         * colorspace (default: 'Native')
           
@@ -27052,6 +27274,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27079,6 +27303,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27103,6 +27329,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27126,6 +27354,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -27134,12 +27364,18 @@ class _PyPDB:
           handled.
         
         * x (default: 0.0) - Horizontal scale factor.
+          
+          Minimum value: -9000.0, maximum value: 9000.0
         
         * y (default: 0.0) - Vertical scale factor.
+          
+          Minimum value: -9000.0, maximum value: 9000.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27163,6 +27399,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -27171,12 +27409,18 @@ class _PyPDB:
           handled.
         
         * x (default: 100.0) - Horizontal size.
+          
+          Minimum value: -9000.0, maximum value: 9000.0
         
         * y (default: 100.0) - Vertical size.
+          
+          Minimum value: -9000.0, maximum value: 9000.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27200,6 +27444,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -27208,12 +27454,18 @@ class _PyPDB:
           handled.
         
         * x (default: -1.0) - Horizontal size.
+          
+          Minimum value: -9000.0, maximum value: 9000.0
         
         * y (default: -1.0) - Vertical size.
+          
+          Minimum value: -9000.0, maximum value: 9000.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27234,18 +27486,26 @@ class _PyPDB:
         
         * max_refine_scale (default: 5) - Maximal scale of refinement points
           to be used for the interpolation mesh.
+          
+          Minimum value: 0, maximum value: 100000
         
         * xoff (default: 0) - How much horizontal offset should applied to the
           paste.
+          
+          Minimum value: -100000, maximum value: 100000
         
         * yoff (default: 0) - How much horizontal offset should applied to the
           paste.
+          
+          Minimum value: -100000, maximum value: 100000
         
         * error_msg (default: '') - An error message in case of a failure.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27266,77 +27526,26 @@ class _PyPDB:
         
         * max_refine_scale (default: 2000) - Maximal amount of refinement
           points to be used for the interpolation mesh.
+          
+          Minimum value: 0, maximum value: 100000
         
         * xoff (default: 0) - How much horizontal offset should applied to the
           paste.
+          
+          Minimum value: 0, maximum value: 100000
         
         * yoff (default: 0) - How much vertical offset should applied to the
           paste.
+          
+          Minimum value: 0, maximum value: 100000
         
         * error_msg (default: '') - An error message in case of a failure.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__segment_kmeans(self, drawable_: Gimp.Drawable=None, n_clusters: int=5, max_iterations: int=5, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """K-means Segmentation
-        
-        Segment colors using K-means clustering.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * n_clusters (default: 5) - Number of clusters.
-        
-        * max_iterations (default: 5) - Maximum number of iterations.
-        
-        * seed (default: 0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__selective_hue_saturation(self, drawable_: Gimp.Drawable=None, hue_sel_center: float=180.0, hue_sel_width: float=50.0, hue: float=0.0, saturation: float=0.0, lightness: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Selective Hue-Saturation
-        
-        Selective adjust Hue, Saturation and Lightness.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * hue_sel_center (default: 180.0) - Center of Hue selection interval
-          .
-        
-        * hue_sel_width (default: 50.0) - Width of Hue selection interval  .
-        
-        * hue (default: 0.0) - Hue adjustment.
-        
-        * saturation (default: 0.0) - Saturation adjustment.
-        
-        * lightness (default: 0.0) - Lightness adjustment.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27356,12 +27565,16 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * scale (default: 1.0) - Strength of the sepia effect.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * srgb (default: True) - Use sRGB gamma instead of linear.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27381,24 +27594,40 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * shadows (default: 0.0) - Adjust exposure of shadows.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * highlights (default: 0.0) - Adjust exposure of highlights.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * whitepoint (default: 0.0) - Shift white point.
+          
+          Minimum value: -10.0, maximum value: 10.0
         
         * radius (default: 100.0) - Spatial extent.
+          
+          Minimum value: 0.1, maximum value: 1500.0
         
         * compress (default: 50.0) - Compress the effect on shadows/highlights
           and preserve midtones.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * shadows_ccorrect (default: 100.0) - Adjust saturation of shadows.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * highlights_ccorrect (default: 50.0) - Adjust saturation of
           highlights.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27418,22 +27647,36 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * shadows (default: 0.0) - Adjust exposure of shadows.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * highlights (default: 0.0) - Adjust exposure of highlights.
+          
+          Minimum value: -100.0, maximum value: 100.0
         
         * whitepoint (default: 0.0) - Shift white point.
+          
+          Minimum value: -10.0, maximum value: 10.0
         
         * compress (default: 50.0) - Compress the effect on shadows/highlights
           and preserve midtones.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * shadows_ccorrect (default: 100.0) - Adjust saturation of shadows.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * highlights_ccorrect (default: 50.0) - Adjust saturation of
           highlights.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27457,6 +27700,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -27468,6 +27713,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27487,50 +27734,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * shift (default: 5) - Maximum amount to shift.
+          
+          Minimum value: 0, maximum value: 200
         
         * direction (default: 'horizontal')
           
           Allowed values: 'horizontal', 'vertical'
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__shuffle_search(self, drawable_: Gimp.Drawable=None, iterations: int=3, chance: int=100, phase: int=0, levels: int=3, center_bias: int=18, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Optimize Dither
-        
-        Shuffles pixels, and quantization with neighbors to optimize dither,
-        by shuffling neighboring pixels.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * iterations (default: 3) - How many times to run optimization.
-        
-        * chance (default: 100) - Chance of doing optimization.
-        
-        * phase (default: 0)
-        
-        * levels (default: 3) - Only used if no aux image is provided.
-        
-        * center_bias (default: 18)
-        
-        * seed (default: 0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27550,14 +27769,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * scale (default: 1.0) - The scale of the noise function.
+          
+          Minimum value: 0.0, maximum value: 20.0
         
         * iterations (default: 1) - The number of noise octaves.
+          
+          Minimum value: 1, maximum value: 20
         
         * seed (default: 0) - The random seed for the noise function.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27577,12 +27804,20 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * x_scale (default: 15.0) - Scale value for x axis.
+          
+          Minimum value: 0.0001
         
         * y_scale (default: 15.0) - Scale value for y axis.
+          
+          Minimum value: 0.0001
         
         * complexity (default: 1.0) - Complexity factor.
+          
+          Minimum value: 0.0, maximum value: 15.0
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * tiling (default: True) - If set, the pattern generated will tile.
         
@@ -27598,14 +27833,22 @@ class _PyPDB:
           Allowed values: 'linear', 'bilinear', 'sinusoidal'
         
         * blend_power (default: 0.0) - Power used to stretch the blend.
+          
+          Minimum value: -7.5, maximum value: 7.5
         
         * width (default: 1024) - Width of the generated buffer.
+          
+          Minimum value: 0
         
         * height (default: 768) - Height of the generated buffer.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27625,14 +27868,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * cluster_size (default: 32) - Size of a region side.
+          
+          Minimum value: 2
         
         * compactness (default: 20) - Cluster size.
+          
+          Minimum value: 1, maximum value: 40
         
         * iterations (default: 1) - Number of iterations.
+          
+          Minimum value: 1, maximum value: 30
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27654,57 +27905,19 @@ class _PyPDB:
         
         * radius (default: 8) - Radius of square pixel region, (width and
           height will be radius*2+1).
+          
+          Minimum value: 0, maximum value: 100
         
         * pairs (default: 2) - Number of pairs; higher number preserves more
           acute features.
+          
+          Minimum value: 1, maximum value: 2
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__soft_burn(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """soft-burn
-        
-        Image blending operation 'soft-burn' (<tt>c = (cA+cB<1.0)?0.5*cB /
-        (1.0 - cA):1.0-0.5*(1.0 - cA) / cB</tt>).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__soft_dodge(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """soft-dodge
-        
-        Image blending operation 'soft-dodge' (<tt>c = (cA+cB<1.0)?0.5*cA /
-        (1.0 - cB):1.0-0.5*(1.0 - cB)/cA</tt>).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27734,6 +27947,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27753,14 +27968,22 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * glow_radius (default: 10.0)
+          
+          Minimum value: 1.0, maximum value: 50.0
         
         * brightness (default: 0.3)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sharpness (default: 0.85)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27784,12 +28007,18 @@ class _PyPDB:
           Allowed values: 'radial', 'horizontal', 'vertical'
         
         * angle_of_view (default: 0.0) - Camera angle of view.
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * curvature (default: 1.0) - Spherical cap apex angle, as a fraction
           of the co-angle of view.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * amount (default: 1.0) - Displacement scaling factor (negative values
           refer to the inverse displacement).
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * sampler_type (default: 'linear') - Mathematical method for
           reconstructing pixel values.
@@ -27799,6 +28028,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27826,12 +28057,20 @@ class _PyPDB:
         * y (default: 0.5) - Spiral origin Y coordinate.
         
         * radius (default: 100.0) - Spiral radius.
+          
+          Minimum value: 1.0
         
         * base (default: 2.0) - Logarithmic spiral base.
+          
+          Minimum value: 1.0
         
         * balance (default: 0.0) - Area balance between the two colors.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * rotation (default: 0.0) - Spiral rotation.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * direction (default: 'cw') - Spiral swirl direction.
           
@@ -27842,12 +28081,18 @@ class _PyPDB:
         * color2
         
         * width (default: 1024) - Width of the generated buffer.
+          
+          Minimum value: 0
         
         * height (default: 768) - Height of the generated buffer.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27868,18 +28113,30 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * pan (default: 0.0) - Horizontal camera panning.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * tilt (default: 90.0) - Vertical camera panning.
+          
+          Minimum value: -180.0, maximum value: 180.0
         
         * spin (default: 0.0) - Spin angle around camera axis.
+          
+          Minimum value: -360.0, maximum value: 360.0
         
         * zoom (default: 100.0) - Zoom level.
+          
+          Minimum value: 0.01, maximum value: 1000.0
         
         * width (default: -1) - output/rendering width in pixels, -1 for input
           width.
+          
+          Minimum value: -1, maximum value: 10000
         
         * height (default: -1) - output/rendering height in pixels, -1 for
           input height.
+          
+          Minimum value: -1, maximum value: 10000
         
         * inverse (default: False) - Do the inverse mapping, useful for
           touching up zenith, nadir or other parts of panorama.
@@ -27894,6 +28151,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27915,13 +28174,19 @@ class _PyPDB:
         * radius (default: 300) - Neighborhood taken into account, for
           enhancement ideal values are close to the longest side of
           the image, increasing this increases the runtime.
+          
+          Minimum value: 2, maximum value: 6000
         
         * samples (default: 5) - Number of samples to do per iteration looking
           for the range of colors.
+          
+          Minimum value: 2, maximum value: 500
         
         * iterations (default: 5) - Number of iterations, a higher number of
           iterations provides a less noisy rendering at a
           computational cost.
+          
+          Minimum value: 1, maximum value: 1000
         
         * enhance_shadows (default: False) - When enabled also enhances shadow
           regions - when disabled a more natural result is yielded.
@@ -27929,6 +28194,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27959,6 +28226,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27984,6 +28253,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -27993,7 +28264,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__styles(self, drawable_: Gimp.Drawable=None, guichange: str='outlineshadow', color_fill: Gegl.Color=None, color_policy: str='multiply', enableoutline: bool=False, outline_opacity: float=1.0, outline_x: float=0.0, outline_y: float=0.0, outline_grow_shape: str='circle', outline_blur: float=0.0, outline: float=12.0, outline_color: Gegl.Color=None, shadow_opacity: float=0.0, shadow_x: float=10.0, shadow_y: float=10.0, shadow_color: Gegl.Color=None, shadow_grow_radius: float=0.0, shadow_radius: float=12.0, enablebevel: bool=False, bevel_blend: str='multiply', bevel_type: str='bumpbevel', bevel_depth: int=100, bevel_elevation: float=55.0, bevel_azimuth: float=75.0, bevel_radius: float=5.0, bevel_outlow: float=0.0, bevel_outhigh: float=1.0, bevel_dark: float=0.0, enableinnerglow: bool=False, ig_blend: str='normal', ig_radius: float=6.0, ig_grow_radius: float=5.0, ig_opacity: float=1.0, ig_value: Gegl.Color=None, ig_treatment: float=60.0, enableimage: bool=False, image_src: str='', image_opacity: float=1.0, image_saturation: float=1.0, image_lightness: float=0.0, enablespecialoutline: bool=False, enableoutlinebevel: bool=True, os_blend: str='multiply', os_depth: int=15, os_elevation: float=47.0, os_azimuth: float=55.0, os_radius: float=3.0, enableimageoutline: bool=False, os_src: str='', os_src_opacity: float=1.0, os_outlow: float=0.0, os_outhigh: float=1.0, os_dark: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__styles(self, drawable_: Gimp.Drawable=None, guichange: str='outlineshadow', color_fill: Gegl.Color=None, color_policy: str='multiply', enableoutline: bool=False, outline_opacity: float=1.0, outline_x: float=0.0, outline_y: float=0.0, outline_grow_shape: str='circle', outline_blur: float=0.0, outline: float=12.0, outline_color: Gegl.Color=None, shadow_opacity: float=0.0, shadow_x: float=10.0, shadow_y: float=10.0, shadow_color: Gegl.Color=None, shadow_grow_radius: float=0.0, shadow_radius: float=12.0, enablebevel: bool=False, bevel_blend: str='multiply', bevel_type: str='bumpbevel', bevel_depth: int=65, bevel_elevation: float=55.0, bevel_azimuth: float=75.0, bevel_radius: float=5.0, bevel_outlow: float=0.0, bevel_outhigh: float=1.0, bevel_dark: float=0.0, enableinnerglow: bool=False, ig_blend: str='normal', ig_radius: float=6.0, ig_grow_radius: float=5.0, ig_opacity: float=1.0, ig_value: Gegl.Color=None, ig_treatment: float=60.0, enableimage: bool=False, image_src: str='', image_opacity: float=1.0, image_saturation: float=1.0, image_lightness: float=0.0, enablespecialoutline: bool=False, enableoutlinebevel: bool=True, os_blend: str='multiply', os_depth: int=15, os_elevation: float=47.0, os_azimuth: float=55.0, os_radius: float=3.0, enableimageoutline: bool=False, os_src: str='', os_src_opacity: float=1.0, os_outlow: float=0.0, os_outhigh: float=1.0, os_dark: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """GEGL Styles
         
         An engine to style text and add popular effects to alpha channel
@@ -28018,6 +28289,8 @@ class _PyPDB:
         * enableoutline (default: False) - Disable or enable the outline.
         
         * outline_opacity (default: 1.0) - Opacity of the outline.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * outline_x (default: 0.0) - Horizontal outline offset.
         
@@ -28029,13 +28302,19 @@ class _PyPDB:
           Allowed values: 'square', 'circle', 'diamond'
         
         * outline_blur (default: 0.0) - A mild blur for the outline.
+          
+          Minimum value: 0.0, maximum value: 3.0
         
         * outline (default: 12.0) - The distance to expand the outline.
+          
+          Minimum value: 0.0
         
         * outline_color - Color of the outline (defaults to 'black') .
         
         * shadow_opacity (default: 0.0) - Shadow opacity which will also
           enable or disable the shadow glow effect.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * shadow_x (default: 10.0) - Horizontal axis of the shadow glow.
         
@@ -28045,8 +28324,12 @@ class _PyPDB:
         
         * shadow_grow_radius (default: 0.0) - The distance to expand the
           shadow before blurring.
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * shadow_radius (default: 12.0) - The shadow’s blur range.
+          
+          Minimum value: 0.0
         
         * enablebevel (default: False) - Whether to add a bevel effect.
         
@@ -28058,26 +28341,40 @@ class _PyPDB:
           
           Allowed values: 'chamferbevel', 'bumpbevel'
         
-        * bevel_depth (default: 100) - Emboss depth for the bevel.
+        * bevel_depth (default: 65) - Emboss depth for the bevel.
+          
+          Minimum value: 1, maximum value: 100
         
         * bevel_elevation (default: 55.0) - Emboss elevation of the bevel.
+          
+          Minimum value: 55.0, maximum value: 125.0
         
         * bevel_azimuth (default: 75.0) - Emboss azimuth of the bevel.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * bevel_radius (default: 5.0) - Internal gaussian blur to inflate the
           bump bevel. This option does not work on chamfer.
+          
+          Minimum value: 1.0, maximum value: 8.0
         
         * bevel_outlow (default: 0.0) - Levels low output as a light
           adjustment for the bevel.
+          
+          Minimum value: 0.0, maximum value: 0.2
         
         * bevel_outhigh (default: 1.0) - Levels high output as a light
           adjustment for the bevel.
+          
+          Minimum value: 1.0, maximum value: 1.2
         
         * bevel_dark (default: 0.0) - This instructs the bevel to ignore image
           details if there is an image file overlay below it. It also
           allows bevel to work better when the user selects darker
           colors. The effect is noticeable on bump bevel but barely
           effects chamfer bevel.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * enableinnerglow (default: False) - Whether to add the inner glow
           effect.
@@ -28088,16 +28385,24 @@ class _PyPDB:
           'colordodge', 'plus'
         
         * ig_radius (default: 6.0) - Blur control of the inner glow.
+          
+          Minimum value: 0.0, maximum value: 30.0
         
         * ig_grow_radius (default: 5.0) - The distance to expand the inner
           glow before blurring.
+          
+          Minimum value: 1.0, maximum value: 30.0
         
         * ig_opacity (default: 1.0) - Opacity of the inner glow.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * ig_value - The color of the inner glow.
         
         * ig_treatment (default: 60.0) - Cover pixels that inner glow might
           miss.
+          
+          Minimum value: 50.0, maximum value: 85.0
         
         * enableimage (default: False) - Whether to enable or disable the
           image file upload.
@@ -28108,12 +28413,18 @@ class _PyPDB:
         
         * image_opacity (default: 1.0) - Opacity of the image file overlay
           that was uploaded. .
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * image_saturation (default: 1.0) - Saturation adjustment of the
           uploaded image file or whatever is on canvas.
+          
+          Minimum value: 0.0, maximum value: 3.0
         
         * image_lightness (default: 0.0) - Lightness adjustment of the
           uploaded image file or whatever is on canvas.
+          
+          Minimum value: -20.0, maximum value: 20.0
         
         * enablespecialoutline (default: False) - Turn on advanced outline
           abilities.
@@ -28126,14 +28437,22 @@ class _PyPDB:
           Allowed values: 'multiply', 'add', 'hardlight', 'darken', 'colordodge'
         
         * os_depth (default: 15) - Emboss depth for the outline bevel.
+          
+          Minimum value: 1, maximum value: 100
         
         * os_elevation (default: 47.0) - Emboss elevation for the outline
           bevel.
+          
+          Minimum value: 0.0, maximum value: 180.0
         
         * os_azimuth (default: 55.0) - Emboss azimuth for the outline bevel.
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * os_radius (default: 3.0) - Internal gaussian blur to inflate the
           outline bevel.
+          
+          Minimum value: 1.0, maximum value: 8.0
         
         * enableimageoutline (default: False) - Whether to enable or disable
           the image file upload.
@@ -28143,21 +28462,31 @@ class _PyPDB:
           ...).
         
         * os_src_opacity (default: 1.0) - Outline image opacity adjustment.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * os_outlow (default: 0.0) - Levels low output as a light adjustment
           for the outline bevel.
+          
+          Minimum value: 0.0, maximum value: 0.2
         
         * os_outhigh (default: 1.0) - Levels high output as a light adjustment
           for the outline bevel.
+          
+          Minimum value: 1.0, maximum value: 1.2
         
         * os_dark (default: 0.0) - This instructs the outline bevel to ignore
           image details if there is an image file overlay below it. It
           also allows outline bevel to work better when the user
           selects darker colors.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28185,27 +28514,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__subtractive(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """subtractive
-        
-        Image blending operation 'subtractive' (<tt>c = cA+cB-1.0</tt>).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28231,18 +28541,28 @@ class _PyPDB:
         * center_y (default: 0.5) - Y coordinates of the center of supernova.
         
         * radius (default: 20) - Radius of supernova.
+          
+          Minimum value: 1, maximum value: 20000
         
         * spokes_count (default: 100) - Number of spokes.
+          
+          Minimum value: 1, maximum value: 1024
         
         * random_hue (default: 0) - Random hue.
+          
+          Minimum value: 0, maximum value: 360
         
         * color - The color of supernova.
         
         * seed (default: 0) - The random seed for spokes and random hue.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28266,6 +28586,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28295,6 +28617,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28316,6 +28640,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28339,6 +28665,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28362,6 +28690,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28385,21 +28715,31 @@ class _PyPDB:
         * font (default: 'Sans') - Font family (utf8).
         
         * size (default: 10.0) - Font size in pixels.
+          
+          Minimum value: 0.0, maximum value: 2048.0
         
         * color - Color for the text (defaults to 'black').
         
         * wrap (default: -1) - Sets the width in pixels at which long lines
           will wrap. Use -1 for no wrapping.
+          
+          Minimum value: -1, maximum value: 1000000
         
         * vertical_wrap (default: -1) - Sets the height in pixels according to
           which the text is vertically justified. Use -1 for no
           vertical justification.
+          
+          Minimum value: -1, maximum value: 1000000
         
         * alignment (default: 0) - Alignment for multi-line text (0=Left,
           1=Center, 2=Right).
+          
+          Minimum value: 0, maximum value: 2
         
         * vertical_alignment (default: 0) - Vertical text alignment (0=Top,
           1=Middle, 2=Bottom).
+          
+          Minimum value: 0, maximum value: 2
         
         * width (default: 0) - Rendered width in pixels. (read only).
         
@@ -28408,6 +28748,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28434,10 +28776,14 @@ class _PyPDB:
         
         * depth (default: 4) - Apparent depth of the rendered canvas effect;
           from 1 (very flat) to 50 (very deep).
+          
+          Minimum value: 1, maximum value: 50
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28459,12 +28805,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * value (default: 0.5) - Lowest value to be included.
+          
+          Minimum value: -200.0, maximum value: 200.0
         
         * high (default: 1.0) - Highest value to be included as white.
+          
+          Minimum value: -200.0, maximum value: 200.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28488,12 +28840,16 @@ class _PyPDB:
         * uri (default: '') - URI for file to load.
         
         * directory (default: 1) - Image file directory (subfile).
+          
+          Minimum value: 1
         
         * metadata - Object to receive image metadata.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28516,15 +28872,21 @@ class _PyPDB:
         
         * bitdepth (default: -1) - -1, 8, 16, 32 and 64 are the currently
           accepted values, -1 means auto.
+          
+          Minimum value: -1, maximum value: 64
         
         * fp (default: -1) - floating point -1 means auto, 0 means integer, 1
           means float.
+          
+          Minimum value: -1, maximum value: 1
         
         * metadata - Object to receive image metadata.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28550,6 +28912,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28569,12 +28933,18 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * tile_width (default: 25)
+          
+          Minimum value: 5, maximum value: 500
         
         * tile_height (default: 25)
+          
+          Minimum value: 5, maximum value: 500
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28594,10 +28964,16 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * tile_width (default: 155) - Width of the tile.
+          
+          Minimum value: 1
         
         * tile_height (default: 56) - Height of the tile.
+          
+          Minimum value: 1
         
         * move_rate (default: 25.0) - Move rate.
+          
+          Minimum value: 1.0, maximum value: 100.0
         
         * wrap_around (default: False) - Wrap the fractional tiles.
         
@@ -28614,10 +28990,14 @@ class _PyPDB:
         * bg_color - The tiles' background color.
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28640,6 +29020,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28663,6 +29045,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -28673,6 +29057,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28698,6 +29084,8 @@ class _PyPDB:
         * origin_y (default: 0.0) - Y coordinate of origin.
         
         * near_z (default: 0.0) - Z coordinate of the near clipping plane.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
           internally.
@@ -28709,6 +29097,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28731,6 +29121,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28751,15 +29143,23 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * std_dev (default: 3.0) - Expressed as standard deviation, in pixels.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * scale (default: 0.5) - Scaling factor for unsharp-mask, the strength
           of effect.
+          
+          Minimum value: 0.0, maximum value: 300.0
         
         * threshold (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28782,6 +29182,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28808,12 +29210,18 @@ class _PyPDB:
         
         * lower_threshold (default: 0.0) - The minimum difference in value at
           which to propagate a pixel.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * upper_threshold (default: 1.0) - The maximum difference in value at
           which to propagate a pixel.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * rate (default: 1.0) - The strength with which to propagate a pixel
           to its neighbors.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * color - Color to use for the "Only color" and "Color to peaks"
           modes.
@@ -28833,6 +29241,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28852,6 +29262,8 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * radius (default: 10.0) - Maximal blur radius.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * linear_mask (default: False) - Use linear mask values.
         
@@ -28861,6 +29273,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28883,10 +29297,14 @@ class _PyPDB:
         
         * width (default: 2.0) - The width of the brush used to stroke the
           path.
+          
+          Minimum value: 0.0, maximum value: 200.0
         
         * opacity (default: 1.0) - Opacity of stroke, note, does not behave
           like SVG since at the moment stroking is done using an
           airbrush tool.
+          
+          Minimum value: -2.0, maximum value: 2.0
         
         * transform (default: '') - svg style description of transform.
         
@@ -28895,6 +29313,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28929,6 +29349,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -28959,64 +29381,41 @@ class _PyPDB:
         
         * radius (default: 1.2) - How far out vignetting goes as portion of
           half image diagonal.
+          
+          Minimum value: 0.0
         
         * softness (default: 0.8)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * gamma (default: 2.0) - Falloff linearity.
+          
+          Minimum value: 0.0
         
         * proportion (default: 1.0) - How close we are to image proportions.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * squeeze (default: 0.0) - Aspect ratio to use, -0.5 = 1:2, 0.0 = 1:1,
           0.5 = 2:1, -1.0 = 1:inf 1.0 = inf:1, this is applied after
           proportion is taken into account, to directly use squeeze
           factor as proportions, set proportion to 0.0.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * x (default: 0.5)
         
         * y (default: 0.5)
         
         * rotation (default: 0.0)
+          
+          Minimum value: 0.0, maximum value: 360.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__voronoi_diagram(self, drawable_: Gimp.Drawable=None, metric: str='euclidean', mask: Gegl.Color=None, invert: bool=False, seed_edges: bool=False, abyss_policy: str='none', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Voronoi Diagram
-        
-        Paints each non-seed pixel with the color of the nearest seed pixel.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * metric (default: 'euclidean') - Metric to use for the distance
-          calculation.
           
-          Allowed values: 'euclidean', 'manhattan', 'chebyshev'
-        
-        * mask - Unseeded region color.
-        
-        * invert (default: False) - Invert mask.
-        
-        * seed_edges (default: False) - Whether the image edges are also
-          seeded.
-        
-        * abyss_policy (default: 'none') - How image edges are handled.
-          
-          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29036,12 +29435,20 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * strength (default: 50.0)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * size (default: 40.0)
+          
+          Minimum value: 1.0, maximum value: 10000.0
         
         * hardness (default: 0.5)
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * spacing (default: 0.01)
+          
+          Minimum value: 0.0, maximum value: 100.0
         
         * stroke
         
@@ -29053,6 +29460,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29072,11 +29481,17 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * size (default: 32)
+          
+          Minimum value: 8
         
         * smoothness (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * regularization (default: 0) - trade-off between superpixel
           regularity and adherence to object boundaries.
+          
+          Minimum value: 0, maximum value: 50
         
         * fill (default: 'average') - How to fill superpixels.
           
@@ -29085,6 +29500,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29117,6 +29534,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29137,10 +29556,14 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * radius (default: 1.0) - Radius of the wavelet blur.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29161,6 +29584,8 @@ class _PyPDB:
         * drawable_ - Drawable.
         
         * radius (default: 1.0) - Radius of the wavelet blur.
+          
+          Minimum value: 0.0, maximum value: 1500.0
         
         * orientation (default: 'horizontal') - The orientation of the blur -
           hor/ver.
@@ -29170,6 +29595,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29193,12 +29620,20 @@ class _PyPDB:
         * y (default: 0.5)
         
         * amplitude (default: 25.0) - Amplitude of the ripple.
+          
+          Minimum value: 0.0, maximum value: 1000.0
         
         * period (default: 100.0) - Period (wavelength) of the ripple.
+          
+          Minimum value: 0.1, maximum value: 1000.0
         
         * phi (default: 0.0)
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * aspect (default: 1.0)
+          
+          Minimum value: 0.1, maximum value: 10.0
         
         * sampler_type (default: 'cubic') - Mathematical method for
           reconstructing pixel values.
@@ -29210,6 +29645,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29235,6 +29672,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29256,10 +29695,14 @@ class _PyPDB:
         * path (default: '') - Target path and filename, use '-' for stdout.
         
         * quality (default: 90) - WebP compression quality.
+          
+          Minimum value: 1, maximum value: 100
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29281,6 +29724,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29302,13 +29747,19 @@ class _PyPDB:
         * whirl (default: 90.0) - Whirl angle (degrees).
         
         * pinch (default: 0.0) - Pinch amount.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * radius (default: 1.0) - Radius (1.0 is the largest circle that fits
           in the image, and 2.0 goes all the way to the corners).
+          
+          Minimum value: 0.0, maximum value: 2.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29341,15 +29792,23 @@ class _PyPDB:
         
         * threshold (default: 10) - Higher values restrict the effect to fewer
           areas of the image.
+          
+          Minimum value: 0, maximum value: 50
         
         * strength (default: 10) - Higher values increase the magnitude of the
           effect.
+          
+          Minimum value: 1, maximum value: 100
         
         * seed (default: 0)
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29373,6 +29832,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29396,6 +29857,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29422,6 +29885,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29448,6 +29913,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29472,6 +29939,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29496,6 +29965,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29519,6 +29990,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29542,6 +30015,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29565,6 +30040,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29588,6 +30065,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29611,6 +30090,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29635,6 +30116,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29661,6 +30144,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29685,6 +30170,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29711,6 +30198,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29734,6 +30223,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29757,6 +30248,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29780,6 +30273,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29803,6 +30298,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29826,6 +30323,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29849,6 +30348,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29873,6 +30374,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29896,6 +30399,8 @@ class _PyPDB:
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
         * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * merge_filter_ (default: False) - Merge filter.
         
@@ -29913,6 +30418,10 @@ class PDBProcedure(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def __call__(self, **kwargs):
+        pass
+
+    @staticmethod
+    def _process_arg_name(arg_name):
         pass
 
     @property
