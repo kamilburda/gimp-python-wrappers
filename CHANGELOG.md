@@ -1,3 +1,9 @@
+5.1
+===
+
+* The stub generator is now guaranteed to be accessible in GIMP even if no images are opened.
+
+
 5.0
 ===
 

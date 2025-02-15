@@ -85,6 +85,7 @@ procedure.register_procedure(
      ' for GIMP PDB procedures and GEGL operations.'),
   ),
   attribution=('Kamil Burda', '', '2023'),
+  sensitivity_mask=Gimp.ProcedureSensitivityMask.ALWAYS,
 )
 
 procedure.main()
