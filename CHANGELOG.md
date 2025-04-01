@@ -1,3 +1,9 @@
+5.2
+===
+
+* Clarified contents of Readme for improved readability.
+
+
 5.1
 ===
 
