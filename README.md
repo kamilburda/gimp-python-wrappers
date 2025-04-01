@@ -1,6 +1,6 @@
 # Wrappers for GIMP Python Plug-ins
 
-This repository aims to improve development of Python plug-ins for [GIMP 3](https://www.gimp.org/downloads/devel/) by providing the following:
+This repository aims to improve development of Python plug-ins for [GIMP 3](https://www.gimp.org/) by providing the following:
 
 * A simplified means to call GIMP plug-ins, built-in procedures, and apply layer effects (GEGL operations):
   ```
