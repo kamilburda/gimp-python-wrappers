@@ -76,6 +76,9 @@ def register_procedure(
 
       Underscores in argument names (``_``) are automatically replaced with
       hyphens (``-``).
+
+      For documentation on the ``Gimp.Procedure.add_*_argument`` functions, see:
+      https://lazka.github.io/pgi-docs/#Gimp-3.0/classes/Procedure.html
     return_values: List of return values.
       See ``arguments`` for more information about the contents and format of
       the list.
@@ -84,6 +87,9 @@ def register_procedure(
       one of the ``Gimp.Procedure.add_*_return_value`` functions (e.g. the
       ``'boolean'`` type corresponds to the
       `Gimp.Procedure.add_boolean_return_value` function).
+
+      For documentation on the ``Gimp.Procedure.add_*_return_value`` functions,
+      see: https://lazka.github.io/pgi-docs/#Gimp-3.0/classes/Procedure.html
     menu_label: Name of the menu entry in the GIMP user interface.
     menu_path: Path of the menu entry in the GIMP user interface.
       This can be a single string or a list of strings if you want your
@@ -108,6 +114,9 @@ def register_procedure(
       corresponds to one of the ``Gimp.Procedure.add_*_aux_argument``
       functions (e.g. the ``'boolean'`` type corresponds to the
       `Gimp.Procedure.add_boolean_aux_argument` function).
+
+      For documentation on the ``Gimp.Procedure.add_*_aux_argument`` functions,
+      see: https://lazka.github.io/pgi-docs/#Gimp-3.0/classes/Procedure.html
     run_data: Custom parameters passed to ``procedure`` as its last argument.
       ``procedure`` should only contain the run data as its last argument if
       ``run_data`` is not ``None``.
