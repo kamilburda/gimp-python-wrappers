@@ -3,6 +3,7 @@
 
 from collections.abc import Iterable
 import functools
+import inspect
 import sys
 from typing import Callable, List, Optional, Tuple, Type, Union
 
@@ -39,6 +40,10 @@ def register_procedure(
       init_ui: bool = True,
       pdb_procedure_type: Gimp.PDBProcType = Gimp.PDBProcType.PLUGIN,
       additional_init: Optional[Callable] = None,
+      export_metadata: bool = False,
+      interpreter_name: Optional[str] = None,
+      extract_func: Optional[Callable] = None,
+      extract_data: Optional[Iterable] = None,
 ):
   # noinspection PyUnresolvedReferences
   """Registers a function as a GIMP procedure.
@@ -129,6 +134,20 @@ def register_procedure(
       You can use this function to call registration-related functions not
       available via this function, e.g. `Gimp.Procedure.set_argument_sync`
       on individual procedure arguments.
+    export_metadata: Indicates whether GIMP should handle metadata exporting.
+      Applicable only if ``procedure_type`` is `Gimp.ExportProcedure` and
+      otherwise ignored.
+      See the documentation for `Gimp.ExportProcedure` for more information.
+    interpreter_name: Name of the batch interpreter to be registered.
+      Applicable only if ``procedure_type`` is `Gimp.BatchProcedure` and
+      otherwise ignored.
+      See the documentation for `Gimp.BatchProcedure` for more information.
+    extract_func: See `Gimp.VectorLoadProcedure.new()` for more information.
+      Applicable only if ``procedure_type`` is `Gimp.VectorLoadProcedure` and
+      otherwise ignored.
+    extract_data: See `Gimp.VectorLoadProcedure.new()` for more information.
+      Applicable only if ``procedure_type`` is `Gimp.VectorLoadProcedure` and
+      otherwise ignored.
 
   Example:
 
@@ -198,6 +217,10 @@ def register_procedure(
   proc_dict['init_ui'] = init_ui
   proc_dict['pdb_procedure_type'] = pdb_procedure_type
   proc_dict['additional_init'] = additional_init
+  proc_dict['export_metadata'] = export_metadata
+  proc_dict['interpreter_name'] = interpreter_name
+  proc_dict['extract_func'] = extract_func
+  proc_dict['extract_data'] = extract_data
 
 
 def _parse_and_check_parameters(parameters):
@@ -319,13 +342,48 @@ def _do_create_procedure(plugin_instance, proc_name):
   else:
     return None
 
-  procedure = proc_dict['procedure_type'].new(
-    plugin_instance,
-    proc_name,
-    proc_dict['pdb_procedure_type'],
-    _get_procedure_wrapper(
-      proc_dict['procedure'], proc_dict['procedure_type'], proc_dict['init_ui']),
-    proc_dict['run_data'])
+  if not inspect.isclass(proc_dict['procedure_type']):
+    raise TypeError('procedure_type is not a valid class type')
+
+  procedure_wrapper = _get_procedure_wrapper(
+    proc_dict['procedure'], proc_dict['procedure_type'], proc_dict['init_ui'])
+
+  if issubclass(proc_dict['procedure_type'], Gimp.ExportProcedure):
+    procedure = proc_dict['procedure_type'].new(
+      plugin_instance,
+      proc_name,
+      proc_dict['pdb_procedure_type'],
+      proc_dict['export_metadata'],
+      procedure_wrapper,
+      proc_dict['run_data'],
+    )
+  elif issubclass(proc_dict['procedure_type'], Gimp.BatchProcedure):
+    procedure = proc_dict['procedure_type'].new(
+      plugin_instance,
+      proc_name,
+      proc_dict['interpreter_name'],
+      proc_dict['pdb_procedure_type'],
+      procedure_wrapper,
+      proc_dict['run_data'],
+    )
+  elif issubclass(proc_dict['procedure_type'], Gimp.VectorLoadProcedure):
+    procedure = proc_dict['procedure_type'].new(
+      plugin_instance,
+      proc_name,
+      proc_dict['pdb_procedure_type'],
+      proc_dict['extract_func'],
+      proc_dict['extract_data'],
+      procedure_wrapper,
+      proc_dict['run_data'],
+    )
+  else:
+    procedure = proc_dict['procedure_type'].new(
+      plugin_instance,
+      proc_name,
+      proc_dict['pdb_procedure_type'],
+      procedure_wrapper,
+      proc_dict['run_data'],
+    )
 
   if proc_dict['arguments'] is not None:
     for name, params in proc_dict['arguments'].items():
