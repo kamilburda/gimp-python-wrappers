@@ -127,6 +127,8 @@ Within the main file of your plug-in (a Python script with same name as its pare
 
 At the end of your main Python file (`some-plug-in.py` in the example above), call `procedure.main()`.
 
+For some argument/return value types, e.g. `Gegl.Color`, the default value can be a valid `Gegl.Color` object. In that case, you must call `Gegl.init()` first before instantiating the default objects as otherwise plug-in registration will fail (the plug-in will crash). Alternatively, you can pass a function returning a list to the `arguments` parameter rather than the list itself to delay the creation of the default values until it's necessary, at which point `Gegl.init()` will have been automatically called already.
+
 
 ## Regenerating the `pypdb.pyi` stub file
 
