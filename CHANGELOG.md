@@ -1,3 +1,8 @@
+# 5.4
+
+* Provided a workaround for registration of procedure arguments or return values whose type represents a GIMP-related object, e.g. `Gegl.Color`.
+
+
 # 5.3
 
 * Allowed registration of procedures of type `Gimp.ExportProcedure`, `Gimp.BatchProcedure` and `Gimp.VectorLoadProcedure`.
