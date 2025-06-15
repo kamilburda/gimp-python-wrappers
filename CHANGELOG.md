@@ -1,7 +1,7 @@
 # 5.5
 
 * pypdb: Fixed handling of enum values if a GIMP installation contains PyGObject version 3.50.0 or later.
-* pypdb: Fixed GEGL operations containing `_` in their names not being accessible (via `__getitem__()`).
+* pypdb: Fixed GEGL operations containing `_` in their names not being accessible.
 * pypdb: Passing positional arguments to GIMP PDB procedures now yields a clearer error message.
 * procedure: Added `init_gegl` parameter that allows toggling automatic calling of `Gegl.init()` when a procedure starts.
 
