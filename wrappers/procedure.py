@@ -188,8 +188,7 @@ def register_procedure(
 
   Example:
 
-    >>> import pygimplib as pg
-    >>> pg.register_procedure(
+    >>> register_procedure(
     ...   plug_in_awesome_filter,
     ...   arguments=[
     ...     [
@@ -304,10 +303,6 @@ def _parse_and_check_parameters(parameters):
 
 def set_use_locale(enabled):
   """If ``True``, enables plug-in localization, ``False`` otherwise.
-
-  You do not need to call this function explicitly as pygimplib will call it
-  automatically. If the `locale` directory under the main plug-in directory
-  exists, localization will be enabled.
 
   You can call this function explicitly to enable localization if you use a
   custom localization approach that does not rely on the presence of the
