@@ -51,7 +51,7 @@ class _PyPDB:
     def remove_from_cache(self, name: str):
         pass
 
-    def _create_proc(self, proc_name):
+    def _create_proc(self, canonical_name, orig_name):
         pass
 
     @staticmethod
