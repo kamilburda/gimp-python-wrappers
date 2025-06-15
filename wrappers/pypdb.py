@@ -249,7 +249,7 @@ class GimpPDBProcedure(PDBProcedure):
 
     super().__init__(pypdb_instance, name)
 
-  def __call__(self, **kwargs):
+  def __call__(self, *args, **kwargs):
     """Calls a GIMP PDB procedure.
 
     All arguments must be specified as keyword arguments.
@@ -257,6 +257,9 @@ class GimpPDBProcedure(PDBProcedure):
     Return values from the procedure are returned as a tuple of values. If the
     procedure does not define any return value, ``None`` is returned.
     """
+    if args:
+      raise TypeError('positional arguments are not allowed; specify keyword arguments instead')
+
     config = self._create_config_for_call(**kwargs)
 
     result = self._proc.run(config)
