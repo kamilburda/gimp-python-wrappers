@@ -1,3 +1,15 @@
+# 6.0
+
+* Bumped up the GIMP version requirement to 3.2 (due to a critical bug preventing plug-in registration from working for GIMP 3.2 or later).
+* Updated the generated stubs to include new features introduced in GIMP 3.2.
+* pypdb: Added support for layer effects introduced in GIMP 3.1.4.
+* pypdb: Added support for several `gimp:*` layer effects for GIMP versions earlier than 3.1.4.
+* pypdb: Added `must_be_merged` property to indicate that a layer effect cannot be applied non-destructively.
+* pypdb: Several GEGL operations are no longer available as layer effects as they were also hidden in GIMP 3.2 (due to being redundant or not useful).
+* Fixed a critical bug preventing plug-in registration from working for GIMP 3.2 or later.
+* Fixed a bug in stub generator causing incompatibility with Python 3.11 and below.
+
+
 # 5.5
 
 * pypdb: Fixed handling of enum values if a GIMP installation contains PyGObject version 3.50.0 or later.
