@@ -475,7 +475,7 @@ def _add_proc_params_or_retvals_to_docstring(
         subsequent_indent=_BODY_INDENT + ' ' * len(param_prefix),
         break_on_hyphens=False)
 
-      additional_description = f'\n{_BODY_INDENT}{' ' * len(param_prefix)}' * 2 + additional_description
+      additional_description = f'\n{_BODY_INDENT}{" " * len(param_prefix)}' * 2 + additional_description
       param_str += additional_description
 
     proc_params += param_str
