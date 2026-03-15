@@ -20,8 +20,8 @@ from gi.repository import GLib
 
 _PROCEDURE_NAMES_AND_DATA = {}
 _USE_LOCALE = False
-_INIT_PROCEDURES_FUNC = None
-_QUIT_FUNC = None
+_INIT_PROCEDURES_FUNC: Optional[Callable] = None
+_QUIT_FUNC: Optional[Callable] = None
 
 
 def register_procedure(
@@ -341,33 +341,41 @@ def main():
 
   Call this function at the very end of your main plug-in script.
   """
-  # noinspection PyPep8Naming
-  PyPlugIn = _create_plugin_class()
+  if _USE_LOCALE:
+    del PyPlugIn.do_set_i18n
+
+  if not _INIT_PROCEDURES_FUNC:
+    del PyPlugIn.do_init_procedures
+
+  if not _QUIT_FUNC:
+    del PyPlugIn.do_quit
 
   # noinspection PyUnresolvedReferences
   Gimp.main(PyPlugIn.__gtype__, sys.argv)
 
 
-def _create_plugin_class(class_name='PyPlugIn', bases=(Gimp.PlugIn,)):
-  class_dict = {}
+class PyPlugIn(Gimp.PlugIn):
 
-  class_dict['do_query_procedures'] = _do_query_procedures
-  class_dict['do_create_procedure'] = _do_create_procedure
+  def do_query_procedures(self):
+    return _do_query_procedures(self)
 
-  if not _USE_LOCALE:
-    class_dict['do_set_i18n'] = _disable_locale
+  def do_create_procedure(self, *args, **kwargs):
+    return _do_create_procedure(self, *args, **kwargs)
 
-  if _INIT_PROCEDURES_FUNC:
-    class_dict['do_init_procedures'] = _INIT_PROCEDURES_FUNC
+  def do_set_i18n(self, *args, **kwargs):
+    return False
 
-  if _QUIT_FUNC:
-    class_dict['do_quit'] = _QUIT_FUNC
+  def do_init_procedures(self):
+    if _INIT_PROCEDURES_FUNC:
+      return _INIT_PROCEDURES_FUNC(self)
+    else:
+      return super().do_init_procedures()
 
-  return type(
-    class_name,
-    bases,
-    class_dict,
-  )
+  def do_quit(self):
+    if _QUIT_FUNC:
+      return _QUIT_FUNC(self)
+    else:
+      return super().do_quit()
 
 
 def _do_query_procedures(_plugin_instance):
@@ -489,10 +497,6 @@ def _get_add_param_func(procedure, param_type, param_group):
     return getattr(procedure, f'add_{param_type}_{param_group}')
   except AttributeError:
     raise ValueError(f'type "{param_type}" is not valid')
-
-
-def _disable_locale(_plugin_instance, _name):
-  return False
 
 
 def _get_procedure_wrapper(func, procedure_type, init_ui, init_gegl):
