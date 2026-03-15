@@ -18,6 +18,8 @@ class _PyPDB:
     def __init__(self):
         self._last_status = None
         self._last_error = None
+        self._gegl_operations = None
+        self._gegl_operations_set = None
         self._proc_cache = None
 
     @property
@@ -37,8 +39,22 @@ class _PyPDB:
     def __contains__(self, name: Optional[str]) -> bool:
         pass
 
+    def list_all_gegl_operations(self):
+        pass
+
     @staticmethod
-    def list_all_gegl_operations():
+    def get_duplicate_gegl_operations():
+        pass
+
+    def _fill_gegl_operations_and_set_if_empty(self):
+        pass
+
+    @staticmethod
+    def _list_all_gegl_operations_post_3_1_4():
+        pass
+
+    @staticmethod
+    def _list_all_gegl_operations_pre_3_1_4():
         pass
 
     @staticmethod
@@ -66,8 +82,7 @@ class _PyPDB:
     def _gimp_pdb_procedure_exists(proc_name):
         pass
 
-    @staticmethod
-    def _gegl_operation_exists(proc_name):
+    def _gegl_operation_exists(self, proc_name):
         pass
 
     def extension_gimp_help(self, domain_names: list[str]=None, domain_uris: list[str]=None):
@@ -247,12 +262,12 @@ class _PyPDB:
         pass
 
     def file_bz2_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
-        """Saves files compressed with bzip2.
+        """Exports files compressed with bzip2.
         
         Image types: RGB*, GRAY*, INDEXED*
         Menu label: bzip archive
         
-        This procedure saves files in the bzip2 compressed format.
+        This procedure exports files in the bzip2 compressed format.
         
         Parameters:
         
@@ -367,7 +382,7 @@ class _PyPDB:
         Image types: *
         Menu label: C source code
         
-        CSource cannot be run non-interactively.
+        Dump image data in RGB(A) format for C source.
         
         Parameters:
         
@@ -470,7 +485,7 @@ class _PyPDB:
         * compression_format (default: 'none') - Compression format.
           
           Allowed values: 'none', 'bc1', 'bc2', 'bc3, ', 'bc3n', 'bc4', 'bc5',
-          'rxgb', 'aexp', 'ycocg', 'ycocgs'
+          'bc7', 'rxgb', 'aexp', 'ycocg', 'ycocgs'
         
         * perceptual_metric (default: False) - Use a perceptual error metric
           during compression.
@@ -552,26 +567,6 @@ class _PyPDB:
         """
         pass
 
-    def file_desktop_link_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
-        """Follows a link to an image in a .desktop file.
-        
-        Menu label: Desktop Link
-        
-        Opens a .desktop file and if it is a link, it asks GIMP to open the file
-        the link points to.
-        
-        Parameters:
-        
-        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
-        
-        * file (file to open) - The file to load.
-        
-        Returns:
-        
-        * image (can be None) - Output image.
-        """
-        pass
-
     def file_dicom_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
         """Save file in the DICOM file format.
         
@@ -617,7 +612,7 @@ class _PyPDB:
         """
         pass
 
-    def file_eps_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, width: float=287.0, height: float=200.0, x_offset: float=5.0, y_offset: float=5.0, unit: str='inch', keep_ratio: bool=True, rotation: int=0, level: bool=True, eps_flag: bool=False, show_preview: bool=False, preview: int=256):
+    def file_eps_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, width: float=287.0, height: float=200.0, x_offset: float=5.0, y_offset: float=5.0, unit: str='millimeter', keep_ratio: bool=True, rotation: int=0, level: bool=True, eps_flag: bool=False, show_preview: bool=False, preview: int=256):
         """Export image as Encapsulated PostScript image.
         
         Image types: RGB, GRAY, INDEXED
@@ -654,7 +649,7 @@ class _PyPDB:
           
           Minimum value: -524288.0, maximum value: 524288.0
         
-        * unit (default: 'inch') - Unit of measure for offset values.
+        * unit (default: 'millimeter') - Unit of measure for offset values.
           
           Allowed values: 'inch', 'millimeter'
         
@@ -1247,12 +1242,12 @@ class _PyPDB:
         pass
 
     def file_gz_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
-        """Saves files compressed with gzip.
+        """Exports files compressed with gzip.
         
         Image types: RGB*, GRAY*, INDEXED*
         Menu label: gzip archive
         
-        This procedure saves files in the gzip compressed format.
+        This procedure exports files in the gzip compressed format.
         
         Parameters:
         
@@ -1367,6 +1362,25 @@ class _PyPDB:
         """
         pass
 
+    def file_heif_avci_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Loads AVCI images.
+        
+        Menu label: AVC-encoded image encapsulated in HEIF
+        
+        Load AVCI image - H.264 image encapsulated in HEIF.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
     def file_heif_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: int=50, lossless: bool=False, save_bit_depth: int=8, pixel_format: str='yuv420', encoder_speed: str='balanced', include_exif: bool=False, include_xmp: bool=False):
         """Exports HEIF images.
         
@@ -1403,6 +1417,44 @@ class _PyPDB:
           compression.
           
           Allowed values: 'slow', 'balanced', 'fast'
+        
+        * include_exif (default: False) - Toggle saving Exif data.
+        
+        * include_xmp (default: False) - Toggle saving XMP data.
+        """
+        pass
+
+    def file_heif_hej2_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: int=50, lossless: bool=False, save_bit_depth: int=8, pixel_format: str='yuv420', include_exif: bool=False, include_xmp: bool=False):
+        """Exports HEJ2 images.
+        
+        Image types: RGB*
+        Menu label: HEIF/HEJ2
+        
+        Save JPEG 2000 image encapsulated in HEIF (HEJ2).
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * image - The image to export.
+        
+        * file (file to save) - The file to export to.
+        
+        * options - Export options.
+        
+        * quality (default: 50) - Quality factor (0 = worst, 100 = best).
+          
+          Minimum value: 0, maximum value: 100
+        
+        * lossless (default: False) - Use lossless compression.
+        
+        * save_bit_depth (default: 8) - Bit depth of exported image.
+          
+          Minimum value: 8, maximum value: 12
+        
+        * pixel_format (default: 'yuv420') - Format of color sub-sampling.
+          
+          Allowed values: 'yuv444', 'yuv420'
         
         * include_exif (default: False) - Toggle saving Exif data.
         
@@ -1491,6 +1543,23 @@ class _PyPDB:
         """
         pass
 
+    def file_hrz_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Load HRZ data as images.
+        
+        Menu label: Slow-scan television data
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
     def file_html_table_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
         """GIMP Table Magic.
         
@@ -1511,7 +1580,7 @@ class _PyPDB:
         """
         pass
 
-    def file_icns_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
+    def file_icns_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, include_color_profile: bool=False):
         """Saves files in Apple Icon Image file format.
         
         Image types: *
@@ -1528,6 +1597,9 @@ class _PyPDB:
         * file (file to save) - The file to export to.
         
         * options - Export options.
+        
+        * include_color_profile (default: False) - Save the ICC color profile
+          as metadata.
         """
         pass
 
@@ -1707,6 +1779,51 @@ class _PyPDB:
         """
         pass
 
+    def file_j2k_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: float=90.0, ict: bool=False, resolution: int=6, progression_order: str='lrcp', compliance: str='standard', cmyk: bool=False):
+        """Exports files in JPEG 2000 codestream format.
+        
+        Image types: GRAY, RGB*
+        Menu label: JPEG 2000 codestream
+        
+        Exports files in JPEG 2000 codestream format.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * image - The image to export.
+        
+        * file (file to save) - The file to export to.
+        
+        * options - Export options.
+        
+        * quality (default: 90.0) - Quality of exported image.
+          
+          Minimum value: 1.0, maximum value: 100.0
+        
+        * ict (default: False) - Use Irreversible Color Transformation
+          compression.
+        
+        * resolution (default: 6) - Equivalent to the number of DWT
+          decompositions plus one.
+          
+          Minimum value: 1, maximum value: 12
+        
+        * progression_order (default: 'lrcp')
+          
+          Allowed values: 'lrcp', 'rlcp', 'rpcl', 'pcrl', 'cprl'
+        
+        * compliance (default: 'standard') - Set to ensure compliance with
+          Digital Cinema Specifications.
+          
+          Allowed values: 'standard', 'cinema-2k-24', 'cinema-2k-48',
+          'cinema-4k-24'
+        
+        * cmyk (default: False) - Create a CMYK JPEG 2000 image using the
+          soft-proofing color profile.
+        """
+        pass
+
     def file_j2k_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None, colorspace: str='unknown') -> Gimp.Image:
         """Loads JPEG 2000 codestream.
         
@@ -1731,6 +1848,104 @@ class _PyPDB:
         Returns:
         
         * image (can be None) - Output image.
+        """
+        pass
+
+    def file_jif_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Loads files of Jeff's Image Format file format.
+        
+        Menu label: Jeff's Image Format
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
+    def file_jif_load_thumb(self, file: Gio.File=None, thumb_size: int=256) -> tuple[Gimp.Image, int, int, Gimp.ImageType, int]:
+        """Loads only the first frame of a Jeff's Image Format image, to be used
+        as a thumbnail.
+        
+        Parameters:
+        
+        * file (file to open) - The file to load the thumbnail from.
+        
+        * thumb_size (default: 256) - Preferred thumbnail size.
+          
+          Minimum value: 16, maximum value: 2014
+        
+        Returns:
+        
+        * image (can be None) - Thumbnail image.
+        
+        * image_width (default: 0) - Width of the full-sized image (0 for
+          unknown).
+          
+          Minimum value: 0, maximum value: 524288
+        
+        * image_height (default: 0) - Height of the full-sized image (0 for
+          unknown).
+          
+          Minimum value: 0, maximum value: 524288
+        
+        * image_type (default: Gimp.ImageType.RGB_IMAGE) - Type of the image.
+        
+        * num_layers (default: 1) - Number of layers in the image.
+          
+          Minimum value: 1
+        """
+        pass
+
+    def file_jp2_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, quality: float=90.0, ict: bool=False, resolution: int=6, progression_order: str='lrcp', compliance: str='standard', cmyk: bool=False, include_comment: bool=False):
+        """Exports files in JPEG 2000 file format.
+        
+        Image types: GRAY, RGB*
+        Menu label: JPEG 2000 image
+        
+        Exports files in JPEG 2000 file format.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * image - The image to export.
+        
+        * file (file to save) - The file to export to.
+        
+        * options - Export options.
+        
+        * quality (default: 90.0) - Quality of exported image.
+          
+          Minimum value: 1.0, maximum value: 100.0
+        
+        * ict (default: False) - Use Irreversible Color Transformation
+          compression.
+        
+        * resolution (default: 6) - Equivalent to the number of DWT
+          decompositions plus one.
+          
+          Minimum value: 1, maximum value: 12
+        
+        * progression_order (default: 'lrcp')
+          
+          Allowed values: 'lrcp', 'rlcp', 'rpcl', 'pcrl', 'cprl'
+        
+        * compliance (default: 'standard') - Set to ensure compliance with
+          Digital Cinema Specifications.
+          
+          Allowed values: 'standard', 'cinema-2k-24', 'cinema-2k-48',
+          'cinema-4k-24'
+        
+        * cmyk (default: False) - Create a CMYK JPEG 2000 image using the
+          soft-proofing color profile.
+        
+        * include_comment (default: False) - Save a comment as metadata.
         """
         pass
 
@@ -2022,12 +2237,12 @@ class _PyPDB:
         pass
 
     def file_openraster_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
-        """Save an OpenRaster (.ora) file.
+        """Export an OpenRaster (.ora) file.
         
         Image types: *
         Menu label: OpenRaster
         
-        Save an OpenRaster (.ora) file.
+        Export an OpenRaster (.ora) file.
         
         Parameters:
         
@@ -2092,6 +2307,44 @@ class _PyPDB:
         * num_layers (default: 1) - Number of layers in the image.
           
           Minimum value: 1
+        """
+        pass
+
+    def file_otb_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Loads files in Nokia Over The Air Bitmap file format.
+        
+        Menu label: Nokia Over The Air Bitmap image
+        
+        Loads files in Nokia Over The Air Bitmap file format.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
+    def file_paa_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Load file in the PAA file format.
+        
+        Menu label: PAA Image
+        
+        Load file in the Bohemia Interactive PAA file format.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
         """
         pass
 
@@ -2679,7 +2932,7 @@ class _PyPDB:
         """
         pass
 
-    def file_ps_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, width: float=287.0, height: float=200.0, x_offset: float=5.0, y_offset: float=5.0, unit: str='inch', keep_ratio: bool=True, rotation: int=0, level: bool=True, eps_flag: bool=False, show_preview: bool=False, preview: int=256):
+    def file_ps_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, width: float=287.0, height: float=200.0, x_offset: float=5.0, y_offset: float=5.0, unit: str='millimeter', keep_ratio: bool=True, rotation: int=0, level: bool=True, eps_flag: bool=False, show_preview: bool=False, preview: int=256):
         """Export image as PostScript document.
         
         Image types: RGB, GRAY, INDEXED
@@ -2716,7 +2969,7 @@ class _PyPDB:
           
           Minimum value: -524288.0, maximum value: 524288.0
         
-        * unit (default: 'inch') - Unit of measure for offset values.
+        * unit (default: 'millimeter') - Unit of measure for offset values.
           
           Allowed values: 'inch', 'millimeter'
         
@@ -2828,14 +3081,53 @@ class _PyPDB:
         """
         pass
 
+    def file_psb_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, clippingpath: bool=False, clippingpathname: str=None, clippingpathflatness: float=0.2, cmyk: bool=False, duotone: bool=False):
+        """Saves files in the Photoshop (TM) Large PSB file format.
+        
+        Image types: *
+        Menu label: Photoshop Large image
+        
+        This plug-in saves files of Adobe Photoshop (TM) Large native PSB
+        format. These files may be of any image type supported by GIMP,
+        with or without layers, layer masks, aux channels and guides.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * image - The image to export.
+        
+        * file (file to save) - The file to export to.
+        
+        * options - Export options.
+        
+        * clippingpath (default: False) - Select a path to be the clipping
+          path.
+        
+        * clippingpathname - Clipping path name (ignored if no clipping path).
+        
+        * clippingpathflatness (default: 0.2) - Clipping path flatness in
+          device pixels (ignored if no clipping path).
+          
+          Minimum value: 0.0, maximum value: 100.0
+        
+        * cmyk (default: False) - Export a CMYK PSD image using the
+          soft-proofing color profile.
+        
+        * duotone (default: False) - Export as a Duotone PSD file if Duotone
+          color space information was attached to the image when
+          originally imported.
+        """
+        pass
+
     def file_psd_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, clippingpath: bool=False, clippingpathname: str=None, clippingpathflatness: float=0.2, cmyk: bool=False, duotone: bool=False, include_exif: bool=False, include_iptc: bool=False, include_xmp: bool=False, include_color_profile: bool=False, include_thumbnail: bool=True):
         """Saves files in the Photoshop (TM) PSD file format.
         
         Image types: *
         Menu label: Photoshop image
         
-        This filter saves files of Adobe Photoshop (TM) native PSD format. These
-        files may be of any image type supported by GIMP, with or
+        This plug-in saves files of Adobe Photoshop (TM) native PSD format.
+        These files may be of any image type supported by GIMP, with or
         without layers, layer masks, aux channels and guides.
         
         Parameters:
@@ -2995,6 +3287,25 @@ class _PyPDB:
         This plug-in loads and exports images in Paint Shop Pro's native PSP
         format. Vector layers aren't handled. Exporting isn't yet
         implemented.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
+    def file_pvr_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Load file in the PVR file format.
+        
+        Menu label: PVR Image
+        
+        Load file in the PowerVR texture file format.
         
         Parameters:
         
@@ -3629,6 +3940,25 @@ class _PyPDB:
         """
         pass
 
+    def file_seattle_filmworks_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Load file in the Seattle FilmWorks file format.
+        
+        Menu label: Seattle FilmWorks Image
+        
+        Load file in the Seattle FilmWorks file format.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
     def file_sgi_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, compression: str='rle'):
         """Exports files in SGI image file format.
         
@@ -3716,8 +4046,34 @@ class _PyPDB:
         """
         pass
 
+    def file_svg_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, title: str=None, raster_export_format: str='png'):
+        """Exports files in SVG file format.
+        
+        Image types: *
+        Menu label: Scalable Vector Graphic
+        
+        Exports files in SVG file format (Scalable Vector Graphic).
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * image - The image to export.
+        
+        * file (file to save) - The file to export to.
+        
+        * options - Export options.
+        
+        * title - Optional <title> for SVG.
+        
+        * raster_export_format (default: 'png')
+          
+          Allowed values: 'png', 'jpeg', 'none'
+        """
+        pass
+
     def file_svg_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None, width: int=0, height: int=0, keep_ratio: bool=True, prefer_native_dimensions: bool=False, paths: str='no-import') -> Gimp.Image:
-        """Loads files in the SVG file format.
+        """Loads files in SVG file format.
         
         Menu label: SVG image
         
@@ -3860,6 +4216,65 @@ class _PyPDB:
         
         Loads files of the Tag Image File Format (TIFF) and its 64-bit offsets
         variant (BigTIFF).
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
+    def file_tim_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None, type: str='pal-8bpp', origin_x: int=0, origin_y: int=0, palette_x: int=0, palette_y: int=0):
+        """Saves files in the TIM file format.
+        
+        Image types: RGB*, GRAY*, INDEXED*
+        Menu label: Playstation TIM image
+        
+        Saves files in the Playstation TIM file format.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * image - The image to export.
+        
+        * file (file to save) - The file to export to.
+        
+        * options - Export options.
+        
+        * type (default: 'pal-8bpp') - Type of TIM texture to export.
+          
+          Allowed values: 'pal-4bpp', 'pal-8bpp', 'rgb-16bpp', 'rgb-24bpp'
+        
+        * origin_x (default: 0) - Origin X coordinate.
+          
+          Minimum value: 0, maximum value: 65535
+        
+        * origin_y (default: 0) - Origin Y coordinate.
+          
+          Minimum value: 0, maximum value: 65535
+        
+        * palette_x (default: 0) - Palette X coordinate.
+          
+          Minimum value: 0, maximum value: 65535
+        
+        * palette_y (default: 0) - Palette Y coordinate.
+          
+          Minimum value: 0, maximum value: 511
+        """
+        pass
+
+    def file_tim_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Load file in the TIM file format.
+        
+        Menu label: Playstation TIM image
+        
+        Load file in the Sony Playstation TIM file format.
         
         Parameters:
         
@@ -4209,12 +4624,12 @@ class _PyPDB:
         pass
 
     def file_xz_export(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, file: Gio.File=None, options: Gimp.ExportOptions=None):
-        """Saves files compressed with xz.
+        """Exports files compressed with xz.
         
         Image types: RGB*, GRAY*, INDEXED*
         Menu label: xz archive
         
-        This procedure saves files in the xz compressed format.
+        This procedure exports files in the xz compressed format.
         
         Parameters:
         
@@ -4234,6 +4649,25 @@ class _PyPDB:
         Menu label: xz archive
         
         This procedure loads files in the xz compressed format.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * file (file to open) - The file to load.
+        
+        Returns:
+        
+        * image (can be None) - Output image.
+        """
+        pass
+
+    def file_zip_load(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, file: Gio.File=None) -> Gimp.Image:
+        """Loads files compressed with zip.
+        
+        Menu label: zip archive
+        
+        This procedure loads files in the zip compressed format.
         
         Parameters:
         
@@ -4553,7 +4987,7 @@ class _PyPDB:
     def gimp_brush_set_radius(self, brush: Gimp.Brush=None, radius_in: float=0.0) -> float:
         """Sets the radius of a generated brush.
         
-        Sets the radius for a generated brush. Clamps radius to [0.0, 32767.0].
+        Sets the radius for a generated brush. Clamps radius to [0.1, 4000.0].
         Returns the clamped value. Returns an error when brush is
         non-parametric or not editable.
         
@@ -4829,9 +5263,11 @@ class _PyPDB:
     def gimp_channel_copy(self, channel: Gimp.Channel=None) -> Gimp.Channel:
         """Copy a channel.
         
-        This procedure copies the specified channel and returns the copy. The
-        new channel still needs to be added to the image, as this is not
-        automatic. Add the new channel with 'gimp-image-insert-channel'.
+        This procedure copies the specified channel and returns the copy.
+        
+        The new channel still needs to be added to the image, as this is not
+        automatic. Add the new channel with
+        [method@Gimp.Image.insert_channel].
         
         Parameters:
         
@@ -4936,9 +5372,12 @@ class _PyPDB:
     def gimp_channel_new_from_component(self, image: Gimp.Image=None, component: Gimp.ChannelType=Gimp.ChannelType.RED, name: str=None) -> Gimp.Channel:
         """Create a new channel from a color component.
         
-        This procedure creates a new channel from a color component. The new
-        channel still needs to be added to the image, as this is not
-        automatic. Add the new channel with 'gimp-image-insert-channel'.
+        This procedure creates a new channel from a color component.
+        
+        The new channel still needs to be added to the image, as this is not
+        automatic. Add the new channel with
+        [method@Gimp.Image.insert_channel].
+        
         Other attributes, such as channel visibility, should be set with
         explicit procedure calls.
         
@@ -5570,6 +6009,31 @@ class _PyPDB:
         * opacity (default: 0.0) - The opacity.
           
           Minimum value: 0.0, maximum value: 100.0
+        """
+        pass
+
+    def gimp_context_get_paint_fade_length(self) -> float:
+        """Get the paint fade length.
+        
+        Get the paint fade length for paint tools and the gradient tool.
+        
+        Returns:
+        
+        * fade_length (default: 0.0) - The paint fade length setting.
+          
+          Minimum value: 0.0, maximum value: 32767.0
+        """
+        pass
+
+    def gimp_context_get_paint_fade_repeat(self) -> Gimp.RepeatMode:
+        """Get the paint fade repeat type.
+        
+        Get the paint fade repeat type for paint tools and the gradient tool.
+        
+        Returns:
+        
+        * fade_repeat (default: Gimp.RepeatMode.NONE) - The paint fade repeat
+          type setting.
         """
         pass
 
@@ -6405,6 +6869,31 @@ class _PyPDB:
         """
         pass
 
+    def gimp_context_set_paint_fade_length(self, fade_length: float=0.0):
+        """Set the paint fade length.
+        
+        Set the paint fade length for paint tools and the gradient tool.
+        
+        Parameters:
+        
+        * fade_length (default: 0.0) - The paint fade length setting.
+          
+          Minimum value: 0.0, maximum value: 32767.0
+        """
+        pass
+
+    def gimp_context_set_paint_fade_repeat(self, fade_repeat: Gimp.RepeatMode=Gimp.RepeatMode.NONE):
+        """Set the paint fade repeat type.
+        
+        Set the paint fade repeat type for paint tools and the gradient tool.
+        
+        Parameters:
+        
+        * fade_repeat (default: Gimp.RepeatMode.NONE) - The paint fade repeat
+          type setting.
+        """
+        pass
+
     def gimp_context_set_paint_method(self, name: str=None):
         """Set the active paint method.
         
@@ -6693,7 +7182,11 @@ class _PyPDB:
     def gimp_detach_parasite(self, name: str=None):
         """Removes a global parasite.
         
-        This procedure detaches a global parasite from. It has no return values.
+        This procedure detaches a global parasite.
+        
+        It will return %FALSE if @name is invalid (%NULL or empty string) and
+        %TRUE otherwise (even if there was no parasite removed, because
+        no parasite was named like this).
         
         Parameters:
         
@@ -6864,6 +7357,8 @@ class _PyPDB:
         drawable to be modified. Both 'brightness' and 'contrast'
         parameters are defined between -1.0 and 1.0.
         
+        Deprecated: Use filter "gimp:brightness-contrast" instead.
+        
         Parameters:
         
         * drawable - The drawable.
@@ -6889,6 +7384,8 @@ class _PyPDB:
         shadows, mid-tones, and highlights in an image to be affected
         differently. The 'preserve-lum' parameter, if TRUE, ensures that
         the luminosity of each pixel remains fixed.
+        
+        Deprecated: Use filter "gimp:color-balance" instead.
         
         Parameters:
         
@@ -6921,6 +7418,8 @@ class _PyPDB:
         tool is only valid on RGB color images. It will not operate on
         grayscale drawables.
         
+        Deprecated: Use filter "gimp:colorize" instead.
+        
         Parameters:
         
         * drawable - The drawable.
@@ -6949,6 +7448,8 @@ class _PyPDB:
         modified. Use the 'gimp-drawable-curves-spline' function to
         modify intensity levels with Catmull Rom splines.
         
+        Deprecated: Use filter "gimp:curves" instead.
+        
         Parameters:
         
         * drawable - The drawable.
@@ -6964,12 +7465,20 @@ class _PyPDB:
         """Modifies the intensity curve(s) for specified drawable.
         
         Modifies the intensity mapping for one channel in the specified
-        drawable. The channel can be either an intensity component, or
-        the value. The 'points' parameter is an array of doubles which
+        @drawable. The @channel can be either an intensity component, or
+        the value.
+        
+        The @points parameter is an array of doubles in the range `[0, 1]` which
         define a set of control points which describe a Catmull Rom
-        spline which yields the final intensity curve. Use the
-        'gimp-drawable-curves-explicit' function to explicitly modify
+        spline which yields the final intensity curve. Since every point
+        has 2 coordinates, the size of @points (@num_coordinates) must
+        be a multiple of 2, equal or bigger than 4 (i.e. a minimum of 2
+        points).
+        
+        Use [method@Gimp.Drawable.curves_explicit] to explicitly modify
         intensity levels.
+        
+        Deprecated: Use filter "gimp:curves" instead.
         
         Parameters:
         
@@ -6990,6 +7499,8 @@ class _PyPDB:
         This procedure desaturates the contents of the specified drawable, with
         the specified formula. This procedure only works on drawables of
         type RGB color.
+        
+        Deprecated: Use filter "gimp:desaturate" instead.
         
         Parameters:
         
@@ -7201,6 +7712,8 @@ class _PyPDB:
         
         Extract a color model component.
         
+        Deprecated: Use filter "gegl:component-extract" instead.
+        
         Parameters:
         
         * drawable - The drawable.
@@ -7379,6 +7892,60 @@ class _PyPDB:
         """
         pass
 
+    def gimp_drawable_filter_operation_get_available(self) -> list[str]:
+        """Get a list of all available GEGL operation names for drawable
+        filters.
+        
+        This procedure returns a list of all GEGL operation names available for
+        use with drawable filters.
+        
+        Returns:
+        
+        * names - The list of GEGL operation names.
+        """
+        pass
+
+    def gimp_drawable_filter_operation_get_details(self, operation_name: str=None) -> tuple[list[str], Gimp.ValueArray]:
+        """Get information about a GEGL operation.
+        
+        This procedure returns information about a GEGL operation. The content
+        of the list of information can vary across versions and
+        currently can contain: - a human-readable title of the
+        operation, - a description of the operation's behaviour, - the
+        categories the operation belongs to, and - the license of the
+        operation. An operation can belong to no categories or to
+        multiple categories. Multiple categories are separated by the
+        ':' character. Some operation's license is not specifically set.
+        In such cases, the returned license is 'unknown'.
+        
+        Parameters:
+        
+        * operation_name - The GEGL operation's name.
+        
+        Returns:
+        
+        * propnames - The names of properties.
+        
+        * propvalues - The values of properties in the same order.
+        """
+        pass
+
+    def gimp_drawable_filter_operation_get_pspecs(self, operation_name: str=None) -> Gimp.ValueArray:
+        """Get information for all parameters of a GEGL operation.
+        
+        This procedure returns a list of all parameters used to configure a GEGL
+        operation. Each parameter is represented by GParamSpec.
+        
+        Parameters:
+        
+        * operation_name - The GEGL operation's name.
+        
+        Returns:
+        
+        * pspecs - List of all parameters of the GEGL operation.
+        """
+        pass
+
     def gimp_drawable_filter_set_visible(self, filter: Gimp.DrawableFilter=None, visible: bool=False):
         """Set the visibility of the specified filter.
         
@@ -7397,8 +7964,9 @@ class _PyPDB:
     def gimp_drawable_foreground_extract(self, drawable: Gimp.Drawable=None, mode: Gimp.ForegroundExtractMode=Gimp.ForegroundExtractMode.MATTING, mask: Gimp.Drawable=None):
         """Extract the foreground of a drawable using a given trimap.
         
-        Image Segmentation by Uniform Color Clustering, see
-        https://www.inf.fu-berlin.de/inst/pubs/tr-b-05-07.pdf.
+        This procedure extracts the foreground from @drawable using @mask as a
+        trimap. Set white as foreground, black as background and
+        uncertain pixels as any other value, for the tri-map.
         
         Parameters:
         
@@ -7609,7 +8177,8 @@ class _PyPDB:
         specified drawable to be modified. The 'hue-range' parameter
         provides the capability to limit range of affected hues. The
         'overlap' parameter provides blending into neighboring hue
-        channels when rendering.
+        channels when rendering. Deprecated: Use filter
+        "gimp:hue-saturation" instead.
         
         Parameters:
         
@@ -7642,6 +8211,9 @@ class _PyPDB:
         intensity channel is inverted independently. The inverted
         intensity is given as inten' = (255 - inten). If 'linear' is
         TRUE, the drawable is inverted in linear space.
+        
+        Deprecated: Use filters "gegl:invert-linear" or "gegl:invert-gamma"
+        instead.
         
         Parameters:
         
@@ -7715,6 +8287,8 @@ class _PyPDB:
         lower than the low output level and no final intensity will be
         higher than the high output level. This tool is only valid on
         RGB color and grayscale images.
+        
+        Deprecated: Use filter "gimp:levels" instead.
         
         Parameters:
         
@@ -7898,6 +8472,8 @@ class _PyPDB:
         This procedures reduces the number of shades allows in each intensity
         channel to the specified 'levels' parameter.
         
+        Deprecated: Use filter "gimp:posterize" instead.
+        
         Parameters:
         
         * drawable - The drawable.
@@ -7937,6 +8513,8 @@ class _PyPDB:
         This filter allows adjusting shadows and highlights in the image
         separately. The implementation closely follow its counterpart in
         the Darktable photography software.
+        
+        Deprecated: Use filter "gegl:shadows-highlights" instead.
         
         Parameters:
         
@@ -7981,6 +8559,8 @@ class _PyPDB:
         pixels between the values of 'low_threshold' and
         'high_threshold', on the scale of 'channel' are replaced with
         white, and all other pixels with black.
+        
+        Deprecated: Use filter "gimp:threshold" instead.
         
         Parameters:
         
@@ -8060,6 +8640,8 @@ class _PyPDB:
         
         Closes an open drawable selection dialog.
         
+        Deprecated: Use 'gimp-items-close-popup' instead.
+        
         Parameters:
         
         * callback - The name of the callback registered for this pop-up.
@@ -8070,6 +8652,8 @@ class _PyPDB:
         """Invokes the drawable selection dialog.
         
         Opens a dialog letting a user choose an drawable.
+        
+        Deprecated: Use 'gimp-items-popup' instead.
         
         Parameters:
         
@@ -8092,6 +8676,8 @@ class _PyPDB:
         """Sets the selected drawable in a drawable selection dialog.
         
         Sets the selected drawable in a drawable selection dialog.
+        
+        Deprecated: Use 'gimp-items-set-popup' instead.
         
         Parameters:
         
@@ -8415,7 +9001,7 @@ class _PyPDB:
         
         This procedure invokes the correct file load handler using magic if
         possible, and falling back on the file's extension and/or prefix
-        if not.
+        if not. Note that the loaded image will be marked as clean.
         
         Parameters:
         
@@ -10058,8 +10644,11 @@ class _PyPDB:
     def gimp_image_detach_parasite(self, image: Gimp.Image=None, name: str=None):
         """Removes a parasite from an image.
         
-        This procedure detaches a parasite from an image. It has no return
-        values.
+        This procedure detaches a parasite from an image.
+        
+        It will return %FALSE if @name is invalid (%NULL or empty string) and
+        %TRUE otherwise (even if there was no parasite removed, because
+        no parasite was named like this).
         
         Parameters:
         
@@ -10151,7 +10740,7 @@ class _PyPDB:
         """
         pass
 
-    def gimp_image_find_next_sample_point(self, image: Gimp.Image=None, sample_point: int=1) -> int:
+    def gimp_image_find_next_sample_point(self, image: Gimp.Image=None, sample_point: int=0) -> int:
         """Find next sample point on an image.
         
         This procedure takes an image and a sample point ID as input and finds
@@ -10165,16 +10754,16 @@ class _PyPDB:
         
         * image - The image.
         
-        * sample_point (default: 1) - The ID of the current sample point (0 if
+        * sample_point (default: 0) - The ID of the current sample point (0 if
           first invocation).
           
-          Minimum value: 1
+          Minimum value: 0
         
         Returns:
         
-        * next_sample_point (default: 1) - The next sample point's ID.
+        * next_sample_point (default: 0) - The next sample point's ID.
           
-          Minimum value: 1
+          Minimum value: 0
         """
         pass
 
@@ -10183,9 +10772,9 @@ class _PyPDB:
         layers.
         
         This procedure combines the visible layers in a manner analogous to
-        merging with the CLIP_TO_IMAGE merge type. Non-visible layers
-        are discarded, and the resulting image is stripped of its alpha
-        channel.
+        merging with the [enum@Gimp.MergeType.CLIP_TO_IMAGE] merge type.
+        Non-visible layers are discarded, and the resulting image is
+        stripped of its alpha channel.
         
         Parameters:
         
@@ -10236,8 +10825,8 @@ class _PyPDB:
         while applying changes affecting the channel list.
         
         Each call to 'gimp-image-freeze-channels' should be matched by a
-        corresponding call to 'gimp-image-thaw-channels', undoing its
-        effects.
+        corresponding call to [method@Gimp.Image.thaw_channels], undoing
+        its effects.
         
         Parameters:
         
@@ -10254,8 +10843,8 @@ class _PyPDB:
         applying changes affecting the layer list.
         
         Each call to 'gimp-image-freeze-layers' should be matched by a
-        corresponding call to 'gimp-image-thaw-layers', undoing its
-        effects.
+        corresponding call to [method@Gimp.Image.thaw_layers], undoing
+        its effects.
         
         Parameters:
         
@@ -10272,8 +10861,8 @@ class _PyPDB:
         applying changes affecting the path list.
         
         Each call to 'gimp-image-freeze-paths' should be matched by a
-        corresponding call to gimp_image_thaw_paths (), undoing its
-        effects.
+        corresponding call to [method@Gimp.Image.thaw_paths], undoing
+        its effects.
         
         Parameters:
         
@@ -10647,8 +11236,8 @@ class _PyPDB:
     def gimp_image_get_palette(self, image: Gimp.Image=None) -> Gimp.Palette:
         """Returns the image's colormap.
         
-        This procedure returns the image's colormap as a %GimpPalette. If the
-        image is not in Indexed color mode, %NULL is returned.
+        This procedure returns the image's colormap as a [class@Gimp.Palette].
+        If the image is not in Indexed color mode, %NULL is returned.
         
         Parameters:
         
@@ -11249,13 +11838,13 @@ class _PyPDB:
         
         This procedure adds the specified layer to the image at the given
         position. If the specified parent is a valid layer group (See
-        'gimp-item-is-group' and 'gimp-layer-group-new') then the layer
-        is added inside the group. If the parent is 0, the layer is
-        added inside the main stack, outside of any group. The position
-        argument specifies the location of the layer inside the stack
-        (or the group, if a valid parent was supplied), starting from
-        the top (0) and increasing. If the position is specified as -1
-        and the parent is specified as 0, then the layer is inserted
+        [method@Gimp.Item.is_group] and [ctor@Gimp.GroupLayer.new]) then
+        the layer is added inside the group. If the parent is 0, the
+        layer is added inside the main stack, outside of any group. The
+        position argument specifies the location of the layer inside the
+        stack (or the group, if a valid parent was supplied), starting
+        from the top (0) and increasing. If the position is specified as
+        -1 and the parent is specified as 0, then the layer is inserted
         above the active layer, or inside the group if the active layer
         is a layer group. The layer type must be compatible with the
         image base type.
@@ -11300,8 +11889,13 @@ class _PyPDB:
         This procedure checks the specified image's dirty count to see if it
         needs to be saved. Note that saving the image does not
         automatically set the dirty count to 0, you need to call
-        'gimp-image-clean-all' after calling a save procedure to make
-        the image clean.
+        [method@Gimp.Image.clean_all] after calling a save procedure to
+        make the image clean.
+        
+        When loading an image using e.g. [func@Gimp.file_load], or when created
+        by a [class@Gimp.LoadProcedure], the image will be marked as
+        clean. In other cases, it may sometimes be useful to clean
+        programmatically created image yourself.
         
         Parameters:
         
@@ -11347,11 +11941,12 @@ class _PyPDB:
         
         This procedure combines the passed layer and the first visible layer
         below it using the specified merge type. A merge type of
-        EXPAND_AS_NECESSARY expands the final layer to encompass the
-        areas of the visible layers. A merge type of CLIP_TO_IMAGE clips
-        the final layer to the extents of the image. A merge type of
-        CLIP_TO_BOTTOM_LAYER clips the final layer to the size of the
-        bottommost layer.
+        [enum@Gimp.MergeType.EXPAND_AS_NECESSARY] expands the final
+        layer to encompass the areas of the visible layers. A merge type
+        of [enum@Gimp.MergeType.CLIP_TO_IMAGE] clips the final layer to
+        the extents of the image. A merge type of
+        [enum@Gimp.MergeType.CLIP_TO_BOTTOM_LAYER] clips the final layer
+        to the size of the bottommost layer.
         
         Parameters:
         
@@ -11372,11 +11967,13 @@ class _PyPDB:
         """Merge the visible image layers into one.
         
         This procedure combines the visible layers into a single layer using the
-        specified merge type. A merge type of EXPAND_AS_NECESSARY
-        expands the final layer to encompass the areas of the visible
-        layers. A merge type of CLIP_TO_IMAGE clips the final layer to
-        the extents of the image. A merge type of CLIP_TO_BOTTOM_LAYER
-        clips the final layer to the size of the bottommost layer.
+        specified merge type. A merge type of
+        [enum@Gimp.MergeType.EXPAND_AS_NECESSARY] expands the final
+        layer to encompass the areas of the visible layers. A merge type
+        of [enum@Gimp.MergeType.CLIP_TO_IMAGE] clips the final layer to
+        the extents of the image. A merge type of
+        [enum@Gimp.MergeType.CLIP_TO_BOTTOM_LAYER] clips the final layer
+        to the size of the bottommost layer.
         
         Parameters:
         
@@ -11396,12 +11993,12 @@ class _PyPDB:
         
         Creates a new image, undisplayed, with the specified extents and type. A
         layer should be created and added before this image is
-        displayed, or subsequent calls to 'gimp-display-new' with this
-        image as an argument will fail. Layers can be created using the
-        'gimp-layer-new' commands. They can be added to an image using
-        the 'gimp-image-insert-layer' command.
+        displayed, or subsequent calls to [ctor@Gimp.Display.new] with
+        this image as an argument will fail. Layers can be created using
+        the [ctor@Gimp.Layer.new] command. They can be added to an image
+        using the [method@Gimp.Image.insert_layer] command.
         
-        If your image's type if INDEXED, a palette must also be set with
+        If your image's type is INDEXED, a palette must also be set with
         [method@Gimp.Image.set_palette]. An indexed image without a
         palette will output unexpected colors.
         
@@ -11429,8 +12026,8 @@ class _PyPDB:
         
         Creates a new image, undisplayed with the specified extents, type and
         precision. Indexed images can only be created at
-        GIMP_PRECISION_U8_NON_LINEAR precision. See 'gimp-image-new' for
-        further details.
+        [enum@Gimp.Precision.U8_NON_LINEAR] precision. See
+        [ctor@Gimp.Image.new] for further details.
         
         Parameters:
         
@@ -11878,7 +12475,7 @@ class _PyPDB:
         This procedure renders the item's outline into the current selection of
         the image the item belongs to. What exactly the item's outline
         is depends on the item type: for layers, it's the layer's alpha
-        channel, for vectors the vector's shape.
+        channel, for paths the path's shape.
         
         This procedure is affected by the following context setters:
         'gimp-context-set-antialias', 'gimp-context-set-feather',
@@ -12239,7 +12836,7 @@ class _PyPDB:
         to the Channels dialog.
         
         This procedure should match a corresponding call to
-        'gimp-image-freeze-channels'.
+        [method@Gimp.Image.freeze_channels].
         
         Parameters:
         
@@ -12254,7 +12851,7 @@ class _PyPDB:
         the Layers dialog.
         
         This procedure should match a corresponding call to
-        'gimp-image-freeze-layers'.
+        [method@Gimp.Image.freeze_layers].
         
         Parameters:
         
@@ -12269,7 +12866,7 @@ class _PyPDB:
         the Paths dialog.
         
         This procedure should match a corresponding call to
-        'gimp-image-freeze-paths'.
+        [method@Gimp.Image.freeze_paths].
         
         Parameters:
         
@@ -12420,6 +13017,49 @@ class _PyPDB:
         Parameters:
         
         * image - The image.
+        """
+        pass
+
+    def gimp_images_close_popup(self, callback: str=None):
+        """Close the image selection dialog.
+        
+        Closes an open image selection dialog.
+        
+        Parameters:
+        
+        * callback - The name of the callback registered for this pop-up.
+        """
+        pass
+
+    def gimp_images_popup(self, callback: str=None, popup_title: str=None, initial_image: Optional[Gimp.Image]=None, parent_window: GLib.Bytes=None):
+        """Invokes the image selection dialog.
+        
+        Opens a dialog letting a user choose an image.
+        
+        Parameters:
+        
+        * callback - The callback PDB proc to call when user chooses an image.
+        
+        * popup_title - Title of the image selection dialog.
+        
+        * initial_image (can be None) - The image to set as the initial
+          choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
+        """
+        pass
+
+    def gimp_images_set_popup(self, callback: str=None, image: Gimp.Image=None):
+        """Sets the selected image in a image selection dialog.
+        
+        Sets the selected image in a image selection dialog.
+        
+        Parameters:
+        
+        * callback - The name of the callback registered for this pop-up.
+        
+        * image - The image to set as selected.
         """
         pass
 
@@ -12776,6 +13416,24 @@ class _PyPDB:
         """
         pass
 
+    def gimp_item_id_is_link_layer(self, item_id: int=0) -> bool:
+        """Returns whether the item ID is a link layer.
+        
+        This procedure returns %TRUE if the specified item ID is a link layer.
+        *Note*: in most use cases, you should not use this function. See
+        [func@Gimp.Item.id_is_layer] for a discussion on alternatives.
+        
+        Parameters:
+        
+        * item_id (default: 0) - The item ID.
+        
+        Returns:
+        
+        * text_layer (default: False) - TRUE if the item is a text layer,
+          FALSE otherwise.
+        """
+        pass
+
     def gimp_item_id_is_path(self, item_id: int=0) -> bool:
         """Returns whether the item ID is a path.
         
@@ -12847,6 +13505,24 @@ class _PyPDB:
         Returns:
         
         * valid (default: False) - Whether the item ID is valid.
+        """
+        pass
+
+    def gimp_item_id_is_vector_layer(self, item_id: int=0) -> bool:
+        """Returns whether the item ID is a vector layer.
+        
+        This procedure returns %TRUE if the specified item ID is a vector layer.
+        *Note*: in most use cases, you should not use this function. See
+        [func@Gimp.Item.id_is_layer] for a discussion on alternatives.
+        
+        Parameters:
+        
+        * item_id (default: 0) - The item ID.
+        
+        Returns:
+        
+        * vector_layer (default: False) - TRUE if the item is a vector layer,
+          FALSE otherwise.
         """
         pass
 
@@ -13422,6 +14098,50 @@ class _PyPDB:
         """
         pass
 
+    def gimp_items_close_popup(self, callback: str=None):
+        """Close the item selection dialog.
+        
+        Closes an open item selection dialog.
+        
+        Parameters:
+        
+        * callback - The name of the callback registered for this pop-up.
+        """
+        pass
+
+    def gimp_items_popup(self, callback: str=None, popup_title: str=None, item_type: str=None, initial_item: Optional[Gimp.Item]=None, parent_window: GLib.Bytes=None):
+        """Invokes the item selection dialog.
+        
+        Opens a dialog letting a user choose an item .
+        
+        Parameters:
+        
+        * callback - The callback PDB proc to call when user chooses an item.
+        
+        * popup_title - Title of the item selection dialog.
+        
+        * item_type - The name of the GIMP_TYPE_ITEM subtype.
+        
+        * initial_item (can be None) - The item to set as the initial choice.
+        
+        * parent_window - An optional parent window handle for the popup to be
+          set transient to.
+        """
+        pass
+
+    def gimp_items_set_popup(self, callback: str=None, item: Gimp.Item=None):
+        """Sets the selected item in a item selection dialog.
+        
+        Sets the selected item in a item selection dialog.
+        
+        Parameters:
+        
+        * callback - The name of the callback registered for this pop-up.
+        
+        * item - The item to set as selected.
+        """
+        pass
+
     def gimp_layer_add_alpha(self, layer: Gimp.Layer=None):
         """Add an alpha channel to the layer if it doesn't already have one.
         
@@ -13463,6 +14183,13 @@ class _PyPDB:
         newly copied layer is for use within the original layer's image.
         It should not be subsequently added to any other image.
         
+        The new layer still needs to be added to the image as this is not
+        automatic. Add the new layer with the
+        [method@Image.insert_layer] method.
+        
+        Other attributes such as layer mask and offsets should be set with
+        explicit procedure calls.
+        
         Parameters:
         
         * layer - The layer to copy.
@@ -13479,13 +14206,14 @@ class _PyPDB:
         
         This procedure creates a layer mask for the specified layer. Layer masks
         serve as an additional alpha channel for a layer. Different
-        types of masks are allowed for initialisation: - white mask
-        (leaves the layer fully visible); - black mask (gives the layer
-        complete transparency); - the layer's alpha channel (either a
-        copy, or a transfer, which leaves the layer fully visible, but
-        which may be more useful than a white mask); - the current
-        selection; - a grayscale copy of the layer; - or a copy of the
-        active channel.
+        types of masks are allowed for initialisation:
+        
+        - white mask (leaves the layer fully visible); - black mask (gives the
+        layer complete transparency); - the layer's alpha channel
+        (either a copy, or a transfer, which leaves the layer fully
+        visible, but which may be more useful than a white mask); - the
+        current selection; - a grayscale copy of the layer; - or a copy
+        of the active channel.
         
         The layer mask still needs to be added to the layer. This can be done
         with a call to 'gimp-layer-add-mask'. 'gimp-layer-create-mask'
@@ -13729,7 +14457,7 @@ class _PyPDB:
         automatic. Add the new layer with the
         [method@Image.insert_layer] method.
         
-        Other attributes such as layer mask modes and offsets should be set with
+        Other attributes such as layer mask and offsets should be set with
         explicit procedure calls.
         
         Parameters:
@@ -13765,11 +14493,12 @@ class _PyPDB:
         """Create a new layer by copying an existing drawable.
         
         This procedure creates a new layer as a copy of the specified drawable.
-        The new layer still needs to be added to the image, as this is
+        The new layer still needs to be added to the image as this is
         not automatic. Add the new layer with the
-        'gimp-image-insert-layer' command. Other attributes such as
-        layer mask modes, and offsets should be set with explicit
-        procedure calls.
+        [method@Image.insert_layer] method.
+        
+        Other attributes such as layer mask and offsets should be set with
+        explicit procedure calls.
         
         Parameters:
         
@@ -13787,11 +14516,14 @@ class _PyPDB:
         """Create a new layer from what is visible in an image.
         
         This procedure creates a new layer from what is visible in the given
-        image. The new layer still needs to be added to the destination
-        image, as this is not automatic. Add the new layer with the
-        'gimp-image-insert-layer' command. Other attributes such as
-        layer mask modes, and offsets should be set with explicit
-        procedure calls.
+        image.
+        
+        The new layer still needs to be added to the image as this is not
+        automatic. Add the new layer with the
+        [method@Image.insert_layer] method.
+        
+        Other attributes such as layer mask and offsets should be set with
+        explicit procedure calls.
         
         Parameters:
         
@@ -14037,6 +14769,84 @@ class _PyPDB:
         * layer - The layer.
         
         * show_mask (default: False) - The new layer's show mask setting.
+        """
+        pass
+
+    def gimp_link_layer_get_file(self, layer: Gimp.LinkLayer=None) -> Gio.File:
+        """Get the monitored file.
+        
+        This procedure returns the file which is being monitored.
+        
+        Parameters:
+        
+        * layer - The link layer.
+        
+        Returns:
+        
+        * file - The monitored file.
+        """
+        pass
+
+    def gimp_link_layer_get_mime_type(self, layer: Gimp.LinkLayer=None) -> str:
+        """Get the mime type of the monitored file.
+        
+        This procedure returns the mime type of the file which is being
+        monitored by @layer.
+        
+        Note that this will be the real mime type, corresponding to our format
+        support, as returned by the [class@Gimp.LoadProcedure] which
+        actually performs the external image file import.
+        
+        This function may also return %NULL in case of error (for instance if
+        the external file doesn't exist anymore).
+        
+        Parameters:
+        
+        * layer - The link layer.
+        
+        Returns:
+        
+        * mimetype - The mime type of the monitored file.
+        """
+        pass
+
+    def gimp_link_layer_new(self, image: Gimp.Image=None, file: Gio.File=None) -> Gimp.LinkLayer:
+        """Create a new link layer.
+        
+        This procedure creates a link layer monitoring the specified @file.
+        
+        The new layer still needs to be added to the image as this is not
+        automatic. Add the new layer with the
+        [method@Image.insert_layer] method.
+        
+        The arguments are kept as simple as necessary for the basic case. All
+        link attributes, however, can be modified with the appropriate
+        `gimp_link_layer_set_*()` procedures.
+        
+        Parameters:
+        
+        * image - The image.
+        
+        * file - The file this link layer will monitor.
+        
+        Returns:
+        
+        * layer - The new link layer. The object belongs to libgimp and you
+          should not free it.
+        """
+        pass
+
+    def gimp_link_layer_set_file(self, layer: Gimp.LinkLayer=None, file: Gio.File=None):
+        """Set the monitored file.
+        
+        This procedure sets the file to be monitored. It may change the layer's
+        render.
+        
+        Parameters:
+        
+        * layer - The link layer.
+        
+        * file - The file to monitor.
         """
         pass
 
@@ -14689,6 +15499,9 @@ class _PyPDB:
         """Copy a path object.
         
         This procedure copies the specified path object and returns the copy.
+        The new path still needs to be added to the image as this is not
+        automatic. Add the new path with the [method@Image.insert_path]
+        method.
         
         Parameters:
         
@@ -14716,10 +15529,14 @@ class _PyPDB:
         pass
 
     def gimp_path_new(self, image: Gimp.Image=None, name: str=None) -> Gimp.Path:
-        """Creates a new empty path object.
+        """Create a new empty path object.
         
-        Creates a new empty path object. The path object needs to be added to
-        the image using 'gimp-image-insert-path'.
+        This procedure creates a new empty path object. If @name is %NULL, a
+        default path name will be used.
+        
+        The new path still needs to be added to the image as this is not
+        automatic. Add the new path with the [method@Image.insert_path]
+        method.
         
         Parameters:
         
@@ -14734,10 +15551,13 @@ class _PyPDB:
         pass
 
     def gimp_path_new_from_text_layer(self, image: Gimp.Image=None, layer: Gimp.Layer=None) -> Gimp.Path:
-        """Creates a new path object from a text layer.
+        """Create a new path object from a text layer.
         
-        Creates a new path object from a text layer. The path object needs to be
-        added to the image using 'gimp-image-insert-path'.
+        This procedure creates a new path object from a text layer.
+        
+        The new path still needs to be added to the image as this is not
+        automatic. Add the new path with the [method@Image.insert_path]
+        method.
         
         Parameters:
         
@@ -15148,6 +15968,29 @@ class _PyPDB:
         """
         pass
 
+    def gimp_plug_ins_query(self, search_string: str=None) -> tuple[list[str], list[str], list[str], Gimp.Int32Array]:
+        """Queries the plug-in database for its contents.
+        
+        This procedure queries the contents of the plug-in database.
+        
+        Parameters:
+        
+        * search_string - If not an empty string then use this as a search
+          pattern.
+        
+        Returns:
+        
+        * procedures - The plug-in procedure name.
+        
+        * accelerators - String representing keyboard accelerator (could be
+          empty string).
+        
+        * locations - Location of the plug-in program.
+        
+        * install_times - Time that the plug-in was installed.
+        """
+        pass
+
     def gimp_progress_cancel(self, progress_callback: str=None):
         """Cancels a running progress.
         
@@ -15223,6 +16066,66 @@ class _PyPDB:
         Parameters:
         
         * force (default: False) - Force GIMP to quit without asking.
+        """
+        pass
+
+    def gimp_rasterizable_is_rasterized(self, item: Gimp.Rasterizable=None) -> bool:
+        """Return whether @item has been rasterized.
+        
+        This procedure returns %TRUE if the specified @item has been previously
+        rasterized. In this case, you should treat this @item as the
+        generic raster variant.
+        
+        For instance, a [class@Gimp.TextLayer] object implements the
+        %GimpRasterizable interface. If a text layer instance were to
+        return %TRUE, you should only consider its rendering as returned
+        by [method@Gimp.Drawable.get_buffer].
+        
+        On the other hand, if this returned %FALSE, depending on your intents,
+        you may prefer to use the text contents and its properties with
+        the various procedures provided by the [class@Gimp.TextLayer]
+        class interface.
+        
+        Parameters:
+        
+        * item - The rasterizable item.
+        
+        Returns:
+        
+        * is_rasterized (default: False) - TRUE if @item is rasterized.
+        """
+        pass
+
+    def gimp_rasterizable_rasterize(self, item: Gimp.Rasterizable=None):
+        """Rasterize the object.
+        
+        This procedure makes the item behave like a typical raster layer.
+        
+        Note that the source information (text contents and properties for a
+        text layer, source file for a link layer, path and render
+        properties for a vector layer, etc.) are not actually discarded,
+        and it is possible to retrieve the original behavior with
+        [method@Gimp.Rasterizable.restore].
+        
+        Parameters:
+        
+        * item - The rasterizable item.
+        """
+        pass
+
+    def gimp_rasterizable_restore(self, item: Gimp.Rasterizable=None):
+        """Revert the rasterization of @item.
+        
+        Restore the information making the item non-destructive, such as text
+        contents and properties of a text layer, source file of a link
+        layer, path and render properties of a vector layer, etc. This
+        item won't behave anymore like a raster item. In particular, it
+        will prevent direct modification of its pixels and will be
+        rendered when its properties are updated.
+        
+        Parameters:
+        
+        * item - The rasterizable item.
         """
         pass
 
@@ -15996,6 +16899,152 @@ class _PyPDB:
         """
         pass
 
+    def gimp_text_layer_get_outline(self, layer: Gimp.TextLayer=None) -> Gimp.TextOutline:
+        """Get the outline type from a text layer.
+        
+        This procedure returns the outline type of a text layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline (default: Gimp.TextOutline.NONE) - The type of outline in
+          the text layer.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_antialias(self, layer: Gimp.TextLayer=None) -> bool:
+        """Get the outline antialias setting from a text layer.
+        
+        This procedure returns the antialias setting of the text outline in a
+        text layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline_antialias (default: False) - The text outline antialias
+          setting.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_cap_style(self, layer: Gimp.TextLayer=None) -> Gimp.CapStyle:
+        """Get the outline cap style from a text layer.
+        
+        This procedure returns the outline cap style of a text layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline_cap_style (default: Gimp.CapStyle.BUTT) - The cap style of
+          the outline in the text layer.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_color(self, layer: Gimp.TextLayer=None) -> Gegl.Color:
+        """Get the color of the text outline in a text layer.
+        
+        This procedure returns the color of the text outline in a text layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * color - The color of the text outline.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_dash_offset(self, layer: Gimp.TextLayer=None) -> float:
+        """Get the outline dash offset from a text layer.
+        
+        This procedure returns the dash offset of the text outline in a text
+        layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline_dash_offset (default: 0.0) - The text outline dash offset.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_direction(self, layer: Gimp.TextLayer=None) -> Gimp.TextOutlineDirection:
+        """Get the outline direction from a text layer.
+        
+        This procedure returns the outline direction of a text layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline_direction (default: Gimp.TextOutlineDirection.OUTER) - The
+          direction of the outline in the text layer.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_join_style(self, layer: Gimp.TextLayer=None) -> Gimp.JoinStyle:
+        """Get the outline join style from a text layer.
+        
+        This procedure returns the outline join style of a text layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline_join_style (default: Gimp.JoinStyle.MITER) - The join style
+          of the outline in the text layer.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_miter_limit(self, layer: Gimp.TextLayer=None) -> float:
+        """Get the outline miter limit from a text layer.
+        
+        This procedure returns the miter limit of the text outline in a text
+        layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline_miter_limit (default: 0.0) - The text outline miter limit.
+        """
+        pass
+
+    def gimp_text_layer_get_outline_width(self, layer: Gimp.TextLayer=None) -> tuple[float, Gimp.Unit]:
+        """Get the outline width from a text layer.
+        
+        This procedure returns the color of the text outline in a text layer.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        Returns:
+        
+        * outline_width (default: 0.0) - The text outline width.
+        
+        * outline_unit (percent not allowed, pixels not allowed) - The unit
+          used for the outline width.
+        """
+        pass
+
     def gimp_text_layer_get_text(self, layer: Gimp.TextLayer=None) -> str:
         """Get the text from a text layer as string.
         
@@ -16138,8 +17187,7 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 8192.0
         
-        * unit (percent not allowed, pixels not allowed) - The unit to use for
-          the font size.
+        * unit (percent not allowed) - The unit to use for the font size.
         """
         pass
 
@@ -16268,6 +17316,142 @@ class _PyPDB:
         """
         pass
 
+    def gimp_text_layer_set_outline(self, layer: Gimp.TextLayer=None, outline: Gimp.TextOutline=Gimp.TextOutline.NONE):
+        """Set the outline type for the text layer.
+        
+        This procedure sets the type of the outline in the text layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline (default: Gimp.TextOutline.NONE) - The type of outline in
+          the text layer.
+        """
+        pass
+
+    def gimp_text_layer_set_outline_antialias(self, layer: Gimp.TextLayer=None, outline_antialias: bool=False):
+        """Set the outline antialias setting from a text layer.
+        
+        This procedure sets the text outline antialias in the text layer
+        'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline_antialias (default: False) - The text outline antialias
+          setting.
+        """
+        pass
+
+    def gimp_text_layer_set_outline_cap_style(self, layer: Gimp.TextLayer=None, outline_cap_style: Gimp.CapStyle=Gimp.CapStyle.BUTT):
+        """Set the outline cap style for the text layer.
+        
+        This procedure sets the cap style of the outline in the text layer
+        'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline_cap_style (default: Gimp.CapStyle.BUTT) - The cap style of
+          the outline in the text layer.
+        """
+        pass
+
+    def gimp_text_layer_set_outline_color(self, layer: Gimp.TextLayer=None, color: Gegl.Color=None):
+        """Set the color of the text outline in the text layer.
+        
+        This procedure sets the outline color in the text layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * color - The color to use for the text outline.
+        """
+        pass
+
+    def gimp_text_layer_set_outline_dash_offset(self, layer: Gimp.TextLayer=None, outline_dash_offset: float=0.0):
+        """Set the outline dash offset from a text layer.
+        
+        This procedure sets the outline dash offset in the text layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline_dash_offset (default: 0.0) - The text outline dash offset.
+          
+          Minimum value: 0.0, maximum value: 2000.0
+        """
+        pass
+
+    def gimp_text_layer_set_outline_direction(self, layer: Gimp.TextLayer=None, outline_direction: Gimp.TextOutlineDirection=Gimp.TextOutlineDirection.OUTER):
+        """Set the outline direction for the text layer.
+        
+        This procedure sets the direction of the outline in the text layer
+        'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline_direction (default: Gimp.TextOutlineDirection.OUTER) - The
+          direction of the outline in the text layer.
+        """
+        pass
+
+    def gimp_text_layer_set_outline_join_style(self, layer: Gimp.TextLayer=None, outline_join_style: Gimp.JoinStyle=Gimp.JoinStyle.MITER):
+        """Set the outline join style for the text layer.
+        
+        This procedure sets the join style of the outline in the text layer
+        'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline_join_style (default: Gimp.JoinStyle.MITER) - The join style
+          of the outline in the text layer.
+        """
+        pass
+
+    def gimp_text_layer_set_outline_miter_limit(self, layer: Gimp.TextLayer=None, outline_miter_limit: float=0.0):
+        """Set the outline miter limit from a text layer.
+        
+        This procedure sets the text outline miter limit in the text layer
+        'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline_miter_limit (default: 0.0) - The text outline miter limit.
+          
+          Minimum value: 0.0, maximum value: 100.0
+        """
+        pass
+
+    def gimp_text_layer_set_outline_width(self, layer: Gimp.TextLayer=None, outline_width: float=0.0, outline_unit: Gimp.Unit=None):
+        """Set the outline width from a text layer.
+        
+        This procedure sets the text outline color in the text layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The text layer.
+        
+        * outline_width (default: 0.0) - The text outline width.
+          
+          Minimum value: 0.0, maximum value: 8192.0
+        
+        * outline_unit (percent not allowed) - The unit to use for the outline
+          width.
+        """
+        pass
+
     def gimp_text_layer_set_text(self, layer: Gimp.TextLayer=None, text: str=None):
         """Set the text of a text layer.
         
@@ -16304,6 +17488,434 @@ class _PyPDB:
         Returns:
         
         * unit (percent not allowed, pixels not allowed) - The new unit.
+        """
+        pass
+
+    def gimp_vector_layer_get_enable_fill(self, layer: Gimp.VectorLayer=None) -> bool:
+        """Check if fill is enabled in the vector layer.
+        
+        This procedure checks if fill is enabled in the specified vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * enable_fill (default: False) - If the fill is enabled on the vector
+          layer.
+        """
+        pass
+
+    def gimp_vector_layer_get_enable_stroke(self, layer: Gimp.VectorLayer=None) -> bool:
+        """Check if stroke is enabled in the vector layer.
+        
+        This procedure checks if stroke is enabled in the specified vector
+        layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * enable_stroke (default: False) - If the stroke is enabled on the
+          vector layer.
+        """
+        pass
+
+    def gimp_vector_layer_get_fill_color(self, layer: Gimp.VectorLayer=None) -> Gegl.Color:
+        """Get the color of the fill in a vector layer.
+        
+        This procedure returns the color of the fill in a vector layer.
+        
+        Note that there won't be both a fill color and pattern, so either this
+        procedure or [method@Gimp.VectorLayer.get_fill_pattern] will
+        return %NULL at any given time.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * color - The color of the fill.
+        """
+        pass
+
+    def gimp_vector_layer_get_fill_pattern(self, layer: Gimp.VectorLayer=None) -> Gimp.Pattern:
+        """Get the pattern of the fill in a vector layer.
+        
+        This procedure returns the pattern of the fill in a vector layer.
+        
+        Note that there won't be both a fill color and pattern, so either this
+        procedure or [method@Gimp.VectorLayer.get_fill_color] will
+        return %NULL at any given time.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * pattern - The pattern of the fill.
+        """
+        pass
+
+    def gimp_vector_layer_get_path(self, layer: Gimp.VectorLayer=None) -> Gimp.Path:
+        """Gets the path from the vector layer if one is associated with it.
+        
+        This procedure returns the path from the vector layer if one is
+        associated with it.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * path - The path associated with the vector layer.
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_cap_style(self, layer: Gimp.VectorLayer=None) -> Gimp.CapStyle:
+        """Get the stroke cap style of a vector layer.
+        
+        This procedure returns the stroke cap style in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * cap_style (default: Gimp.CapStyle.BUTT) - The stroke cap style.
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_color(self, layer: Gimp.VectorLayer=None) -> Gegl.Color:
+        """Get the color of the stroke in a vector layer.
+        
+        This procedure returns the color of the stroke in a vector layer.
+        
+        Note that there won't be both a stroke color and pattern, so either this
+        procedure or [method@Gimp.VectorLayer.get_stroke_pattern] will
+        return %NULL at any given time.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * color - The color of the stroke.
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_dash_offset(self, layer: Gimp.VectorLayer=None) -> float:
+        """Get the stroke dash offset of a vector layer.
+        
+        This procedure returns the stroke dash offset in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * dash_offset (default: 0.0) - The stroke dash offset.
+          
+          Minimum value: 0.0
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_dash_pattern(self, layer: Gimp.VectorLayer=None) -> Gimp.DoubleArray:
+        """Get the stroke dash pattern of a vector layer.
+        
+        This procedure returns the stroke dash pattern in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * dashes - The stroke dash pattern array.
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_join_style(self, layer: Gimp.VectorLayer=None) -> Gimp.JoinStyle:
+        """Get the stroke join style of a vector layer.
+        
+        This procedure returns the stroke join style in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * join_style (default: Gimp.JoinStyle.MITER) - The stroke join style.
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_miter_limit(self, layer: Gimp.VectorLayer=None) -> float:
+        """Get the stroke miter limit of a vector layer.
+        
+        This procedure returns the stroke miter limit in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * miter (default: 0.0) - The stroke miter limit.
+          
+          Minimum value: 0.0
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_pattern(self, layer: Gimp.VectorLayer=None) -> Gimp.Pattern:
+        """Get the pattern of the stroke in a vector layer.
+        
+        This procedure returns the pattern of the fill in a vector layer.
+        
+        Note that there won't be both a stroke color and pattern, so either this
+        procedure or [method@Gimp.VectorLayer.get_stroke_color] will
+        return %NULL at any given time.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * pattern - The pattern of the fill.
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_width(self, layer: Gimp.VectorLayer=None) -> float:
+        """Get the stroke width of a vector layer.
+        
+        This procedure returns the stroke width in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * width (default: 0.0) - The stroke width.
+          
+          Minimum value: 0.0
+        """
+        pass
+
+    def gimp_vector_layer_get_stroke_width_unit(self, layer: Gimp.VectorLayer=None) -> Gimp.Unit:
+        """Get the stroke width unit of a vector layer.
+        
+        This procedure returns the stroke width unit in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        Returns:
+        
+        * unit (percent not allowed, pixels not allowed) - The stroke width
+          unit.
+        """
+        pass
+
+    def gimp_vector_layer_new(self, image: Gimp.Image=None, path: Gimp.Path=None) -> Gimp.VectorLayer:
+        """Create a new vector layer.
+        
+        This procedure creates a new vector layer displaying the specified
+        @path. By default, the fill and stroke properties will be
+        defined by the context.
+        
+        The new layer still needs to be added to the image as this is not
+        automatic. Add the new layer with the
+        [method@Image.insert_layer] method.
+        
+        The arguments are kept as simple as necessary for the basic case. All
+        vector attributes, however, can be modified with the appropriate
+        `gimp_vector_layer_set_*()` procedures.
+        
+        Parameters:
+        
+        * image - The image.
+        
+        * path - The path to create the layer from.
+        
+        Returns:
+        
+        * layer - The new vector layer. The object belongs to libgimp and you
+          should not free it.
+        """
+        pass
+
+    def gimp_vector_layer_refresh(self, layer: Gimp.VectorLayer=None):
+        """Rerender the vector layer.
+        
+        This procedure causes the vector layer to refresh itself after changes.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        """
+        pass
+
+    def gimp_vector_layer_set_enable_fill(self, layer: Gimp.VectorLayer=None, enable_fill: bool=False):
+        """Set whether the fill is enabled on the vector layer.
+        
+        This procedure sets the fill's visibility in the vector layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * enable_fill (default: False) - Whether to enable the fill on the
+          vector layer.
+        """
+        pass
+
+    def gimp_vector_layer_set_enable_stroke(self, layer: Gimp.VectorLayer=None, enable_stroke: bool=False):
+        """Set whether the stroke is enabled on the vector layer.
+        
+        This procedure sets the stroke's visibility in the vector layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * enable_stroke (default: False) - Whether to enable the stroke on the
+          vector layer.
+        """
+        pass
+
+    def gimp_vector_layer_set_fill_color(self, layer: Gimp.VectorLayer=None, color: Gegl.Color=None):
+        """Set the color of the fill in the vector layer.
+        
+        This procedure sets the fill color in the vector layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * color - The color to use for the fill.
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_cap_style(self, layer: Gimp.VectorLayer=None, cap_style: Gimp.CapStyle=Gimp.CapStyle.BUTT):
+        """Set the stroke cap style of a vector layer.
+        
+        This procedure sets the stroke cap style in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * cap_style (default: Gimp.CapStyle.BUTT) - The stroke cap style.
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_color(self, layer: Gimp.VectorLayer=None, color: Gegl.Color=None):
+        """Set the color of the stroke in the vector layer.
+        
+        This procedure sets the stroke color in the vector layer 'layer'.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * color - The color to use for the stroke.
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_dash_offset(self, layer: Gimp.VectorLayer=None, dash_offset: float=0.0):
+        """Set the stroke dash offset of a vector layer.
+        
+        This procedure sets the stroke dash offset in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * dash_offset (default: 0.0) - The stroke dash offset.
+          
+          Minimum value: 0.0
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_dash_pattern(self, layer: Gimp.VectorLayer=None, dashes: Gimp.DoubleArray=None):
+        """Set the stroke dash pattern of a vector layer.
+        
+        This procedure sets the stroke dash pattern in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * dashes - The line dash pattern setting.
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_join_style(self, layer: Gimp.VectorLayer=None, join_style: Gimp.JoinStyle=Gimp.JoinStyle.MITER):
+        """Set the stroke join style of a vector layer.
+        
+        This procedure sets the stroke join style in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * join_style (default: Gimp.JoinStyle.MITER) - The stroke join style.
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_miter_limit(self, layer: Gimp.VectorLayer=None, miter: float=0.0):
+        """Set the stroke miter limit of a vector layer.
+        
+        This procedure sets the stroke miter limit in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * miter (default: 0.0) - The stroke miter limit.
+          
+          Minimum value: 0.0
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_width(self, layer: Gimp.VectorLayer=None, width: float=0.0):
+        """Set the stroke width of a vector layer.
+        
+        This procedure sets the stroke width in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * width (default: 0.0) - The stroke width.
+          
+          Minimum value: 0.0
+        """
+        pass
+
+    def gimp_vector_layer_set_stroke_width_unit(self, layer: Gimp.VectorLayer=None, unit: Gimp.Unit=None):
+        """Set the stroke width unit of a vector layer.
+        
+        This procedure sets the stroke width unit in a vector layer.
+        
+        Parameters:
+        
+        * layer - The vector layer.
+        
+        * unit (percent not allowed, pixels not allowed) - The stroke width
+          unit.
         """
         pass
 
@@ -17145,7 +18757,7 @@ class _PyPDB:
         
         * drawables (array of Gimp.Drawable elements) - The input drawables.
         
-        * fractal_type (default: 'mandelbrot') - Type of Fractal Pattern.
+        * fractal_type (default: 'mandelbrot') - Type of fractal pattern.
           
           Allowed values: 'mandelbrot', 'julia', 'barnsley-1', 'barnsley-2',
           'barnsley-3', 'spider', 'man-o-war', 'lambda', 'sierpinski'
@@ -17170,11 +18782,11 @@ class _PyPDB:
           
           Minimum value: 1.0, maximum value: 1000.0
         
-        * cx (default: -0.75) - cx value.
+        * cx (default: -0.75) - CX value.
           
           Minimum value: -2.5, maximum value: 2.5
         
-        * cy (default: -0.2) - cy value.
+        * cy (default: -0.2) - CY value.
           
           Minimum value: -2.5, maximum value: 2.5
         
@@ -17219,6 +18831,22 @@ class _PyPDB:
         
         * use_loglog_smoothing (default: False) - Use log log smoothing to
           eliminate "banding" in the result.
+        """
+        pass
+
+    def plug_in_gegl_filter_browser(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE):
+        """Display information about available GEGL operations (i.e., filters).
+        
+        Menu label: _GEGL Filter Browser
+        Menu path: <Image>/Help/[Programming]
+        
+        Shows a list of all GEGL operations, their details and what parameters
+        they are configured with. The list contains operations provided
+        by GEGL itself, GIMP and plug-ins loaded by GEGL.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
         """
         pass
 
@@ -17654,7 +19282,7 @@ class _PyPDB:
           
           Minimum value: 0.1, maximum value: 64.0
         
-        * noise_magnitude (default: 2.0) - Noise Magnitude.
+        * noise_magnitude (default: 2.0) - Noise magnitude.
           
           Minimum value: 1.0, maximum value: 5.0
         
@@ -18891,7 +20519,7 @@ class _PyPDB:
         """Wavelet decompose.
         
         Image types: RGB*, GRAY*
-        Menu label: _Wavelet-decompose...
+        Menu label: _Wavelet Decompose...
         Menu path: <Image>/Filters/Enhance
         
         Compute and render wavelet scales.
@@ -19026,7 +20654,7 @@ class _PyPDB:
         """Exports the image histogram to a text file (CSV).
         
         Image types: *
-        Menu label: _Export histogram...
+        Menu label: _Export Histogram...
         Menu path: <Image>/Colors/Info
         
         Exports the image histogram to a text file, so that it can be used by
@@ -19055,15 +20683,37 @@ class _PyPDB:
         
         * file (file to save) - Histogram export file.
         
-        * bucket_size (default: 0.01) - Bucket Size.
+        * bucket_size (default: 0.01) - Bucket size.
           
           Minimum value: 0.001, maximum value: 1.0
         
-        * sample_average (default: False) - Sample Average.
+        * sample_average (default: False) - Sample average.
         
         * output_format (default: 'percent') - Output format.
           
           Allowed values: 'pixel-count', 'normalized', 'percent'
+        """
+        pass
+
+    def python_fu_palette_export_as_kpl(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, palette: Optional[Gimp.Palette]=None, file: Gio.File=None, comment: str=None, read_only: bool=False):
+        """Export palette as Krita .kpl.
+        
+        Menu label: _Krita palette...
+        Menu path: <Palettes>/Palettes Menu/Export as
+        
+        Export palette as Krita .kpl.
+        
+        Parameters:
+        
+        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
+        
+        * palette (can be None)
+        
+        * file (file to save)
+        
+        * comment - Optional comment.
+        
+        * read_only (default: False) - The palette will be locked on import.
         """
         pass
 
@@ -19454,7 +21104,7 @@ class _PyPDB:
         """
         pass
 
-    def script_fu_difference_clouds(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
+    def script_fu_difference_clouds(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None, adjustment: int=0, adjustment_2: int=1, toggle: bool=False, toggle_2: bool=False, adjustment_3: float=4.0, adjustment_4: float=4.0):
         """Solid noise applied with Difference layer mode.
         
         Image types: RGB* GRAY*
@@ -19468,6 +21118,26 @@ class _PyPDB:
         * image - The input image.
         
         * drawables (array of Gimp.Drawable elements) - The input drawables.
+        
+        * adjustment (default: 0) - Random Seed.
+          
+          Minimum value: 0, maximum value: 1024
+        
+        * adjustment_2 (default: 1) - Levels.
+          
+          Minimum value: 0, maximum value: 15
+        
+        * toggle (default: False) - Tileable.
+        
+        * toggle_2 (default: False) - Turbulent.
+        
+        * adjustment_3 (default: 4.0) - X.
+          
+          Minimum value: 0.1, maximum value: 16.0
+        
+        * adjustment_4 (default: 4.0) - Y.
+          
+          Minimum value: 0.1, maximum value: 16.0
         """
         pass
 
@@ -20515,44 +22185,6 @@ class _PyPDB:
         """
         pass
 
-    def test_export_plug_ins(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
-        """Run file export plug-in tests.
-        
-        Image types: *
-        Menu label: Test file _export plug-ins
-        Menu path: <Image>/Filters/Development/Python-Fu
-        
-        Run file export plug-in tests.
-        
-        Parameters:
-        
-        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
-        
-        * image - The input image.
-        
-        * drawables (array of Gimp.Drawable elements) - The input drawables.
-        """
-        pass
-
-    def test_import_plug_ins(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None):
-        """Run file import plug-in tests.
-        
-        Image types: *
-        Menu label: Test file _import plug-ins
-        Menu path: <Image>/Filters/Development/Python-Fu
-        
-        Run file import plug-in tests.
-        
-        Parameters:
-        
-        * run_mode (default: Gimp.RunMode.INTERACTIVE) - The run mode.
-        
-        * image - The input image.
-        
-        * drawables (array of Gimp.Drawable elements) - The input drawables.
-        """
-        pass
-
     def twain_acquire(self, run_mode: Gimp.RunMode=Gimp.RunMode.INTERACTIVE, image: Gimp.Image=None, drawables: list[Gimp.Drawable]=None) -> list[Gimp.Image]:
         """Capture an image from a TWAIN datasource.
         
@@ -20585,35 +22217,6 @@ class _PyPDB:
         Parameters:
         
         * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__add(self, drawable_: Gimp.Drawable=None, value: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Add
-        
-        Math operation add, performs the operation per pixel, using either
-        the constant provided in 'value' or the corresponding pixel
-        from the buffer on aux as operands. The result is the
-        evaluation of the expression result = input + value.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value (default: 0.0) - global value used if aux doesn't contain
-          data.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -20744,7 +22347,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__apply_lens(self, drawable_: Gimp.Drawable=None, refraction_index: float=1.7, keep_surroundings: bool=False, background_color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__apply_lens(self, drawable_: Gimp.Drawable=None, refraction_index: float=1.7, keep_surroundings: bool=False, background_color: Optional[Gegl.Color]=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Apply Lens
         
         Simulates the optical distortion caused by having an elliptical lens
@@ -20761,7 +22364,7 @@ class _PyPDB:
         * keep_surroundings (default: False) - Keep image unchanged, where not
           affected by the lens.
         
-        * background_color
+        * background_color (can be None)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -20844,11 +22447,11 @@ class _PyPDB:
           
           Allowed values: 'chamfer', 'bump'
         
-        * blendmode (default: 'hardlight') - What blending mode the bevel's
-          emboss will be. Light Map is a special blend mode that
-          allows users to extract the filters output as a light map
-          which should be put on a layer above or be used with Gimp's
-          blending options.
+        * blendmode (default: 'hardlight') - What blending mode the
+          bevel&apos;s emboss will be. Light Map is a special blend
+          mode that allows users to extract the filters output as a
+          light map which should be put on a layer above or be used
+          with Gimp&apos;s blending options.
           
           Allowed values: 'gimpblend', 'hardlight', 'multiply', 'colordodge',
           'darken', 'lighten', 'add'
@@ -20949,59 +22552,7 @@ class _PyPDB:
           
           Minimum value: 0.0
         
-        * limit_exposure (default: False) - Don't over-expose highlights.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__border_align(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, x: float=0.5, y: float=0.5, horizontal_margin: float=0.0, vertical_margin: float=0.0, snap_integer: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Border Align
-        
-        Aligns box of input rectangle with border of compositing target or
-        aux' bounding-box border, if aux pad is not connected the op
-        tries to figure out which bounding box' border applies.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * x (default: 0.5) - Horizontal justification 0.0 is left 0.5 centered
-          and 1.0 right.
-          
-          Minimum value: -2.0, maximum value: 3.0
-        
-        * y (default: 0.5) - Vertical justification 0.0 is top 0.5 middle and
-          1.0 bottom.
-          
-          Minimum value: -2.0, maximum value: 3.0
-        
-        * horizontal_margin (default: 0.0)
-        
-        * vertical_margin (default: 0.0)
-        
-        * snap_integer (default: True)
+        * limit_exposure (default: False) - Don&apos;t over-expose highlights.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21057,66 +22608,14 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * contrast (default: 1.0) - Magnitude of contrast scaling >1.0
-          brighten < 1.0 darken.
+        * contrast (default: 1.0) - Magnitude of contrast scaling &gt;1.0
+          brighten &lt; 1.0 darken.
           
           Minimum value: -5.0, maximum value: 5.0
         
         * brightness (default: 0.0) - Amount to increase brightness.
           
           Minimum value: -3.0, maximum value: 3.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__buffer_sink(self, drawable_: Gimp.Drawable=None, buffer: GObject.Value=None, format: GObject.Value=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Buffer Sink
-        
-        Create a new GEGL buffer to write the resulting rendering.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * buffer
-        
-        * format
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__buffer_source(self, drawable_: Gimp.Drawable=None, buffer: Gegl.Buffer=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Buffer Source
-        
-        Use an existing in-memory GeglBuffer as image source.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * buffer - The GeglBuffer to load into the pipeline.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21243,36 +22742,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__cache(self, drawable_: Gimp.Drawable=None, cache: Gegl.Buffer=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Cache
-        
-        An explicit caching node, caches results and should provide faster
-        recomputation if what is cached by it is expensive but isn't
-        changing.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * cache - NULL or a GeglBuffer containing cached rendering results,
-          this is a special buffer where
-          gegl_buffer_list_valid_rectangles returns the part of the
-          cache that is valid.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__cartoon(self, drawable_: Gimp.Drawable=None, mask_radius: float=7.0, pct_black: float=0.2, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Cartoon
         
@@ -21292,66 +22761,6 @@ class _PyPDB:
         * pct_black (default: 0.2)
           
           Minimum value: 0.0, maximum value: 1.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__cast_format(self, drawable_: Gimp.Drawable=None, input_format: GObject.Value=None, output_format: GObject.Value=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Cast Format
-        
-        Cast the data between input_format and output_format, both formats
-        must have the same bpp.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * input_format - The babl format of the input.
-        
-        * output_format - The babl format of the output.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__cast_space(self, drawable_: Gimp.Drawable=None, space_name: str='sRGB', pointer: GObject.Value=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Cast color space
-        
-        Override the specified color space setting a pointer to a format
-        override the string property and setting an aux pad overrides
-        both.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * space_name (default: 'sRGB') - One of: sRGB, Adobish, Rec2020,
-          ProPhoto, Apple, ACEScg, ACES2065-1.
-        
-        * pointer - pointer to a const * Babl space.
-        
-        * path (default: '') - File system path to ICC matrix profile to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21475,7 +22884,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__checkerboard(self, drawable_: Gimp.Drawable=None, x: int=16, y: int=16, x_offset: int=0, y_offset: int=0, color1: Gegl.Color=None, color2: Gegl.Color=None, format: GObject.Value=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__checkerboard(self, drawable_: Gimp.Drawable=None, x: int=16, y: int=16, x_offset: int=0, y_offset: int=0, color1: Optional[Gegl.Color]=None, color2: Optional[Gegl.Color]=None, unknown: GObject.ParamSpec=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Checkerboard
         
         Render a checkerboard pattern.
@@ -21498,67 +22907,12 @@ class _PyPDB:
         * y_offset (default: 0) - Vertical offset (from origin) for start of
           grid.
         
-        * color1 - The first cell color.
+        * color1 (can be None) - The first cell color.
         
-        * color2 - The second cell color.
+        * color2 (can be None) - The second cell color.
         
-        * format - The babl format of the output.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__clone(self, drawable_: Gimp.Drawable=None, ref: str='ID', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Clone
-        
-        Clone a buffer, this is the same as gegl:nop but can get special
-        treatment to get more human readable references in
-        serializations/UI.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * ref (default: 'ID') - The reference ID used as input (for use in
-          XML).
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__color(self, drawable_: Gimp.Drawable=None, value: Gegl.Color=None, format: GObject.Value=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Color
-        
-        Generates a buffer entirely filled with the specified color, use
-        gegl:crop to get smaller dimensions.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value - The color to render (defaults to 'black').
-        
-        * format - The babl format of the output.
+        * unknown - placeholder for unsupported type:format:gpointer:The babl
+          format of the output.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -21640,7 +22994,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__color_exchange(self, drawable_: Gimp.Drawable=None, from_color: Gegl.Color=None, to_color: Gegl.Color=None, red_threshold: float=0.0, green_threshold: float=0.0, blue_threshold: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__color_exchange(self, drawable_: Gimp.Drawable=None, from_color: Optional[Gegl.Color]=None, to_color: Optional[Gegl.Color]=None, red_threshold: float=0.0, green_threshold: float=0.0, blue_threshold: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Exchange color
         
         Exchange one color with another, optionally setting a threshold to
@@ -21650,9 +23004,9 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * from_color - The color to change.
+        * from_color (can be None) - The color to change.
         
-        * to_color - Replacement color.
+        * to_color (can be None) - Replacement color.
         
         * red_threshold (default: 0.0) - Red threshold of the input color.
           
@@ -21680,7 +23034,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__color_overlay(self, drawable_: Gimp.Drawable=None, value: Gegl.Color=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__color_overlay(self, drawable_: Gimp.Drawable=None, value: Optional[Gegl.Color]=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Color Overlay
         
         Paint a color overlay over the input, preserving its transparency.
@@ -21689,7 +23043,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * value - The color to paint over the input.
+        * value (can be None) - The color to paint over the input.
         
         * srgb (default: False) - Use sRGB gamma instead of linear.
         
@@ -21806,7 +23160,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__color_to_alpha(self, drawable_: Gimp.Drawable=None, color: Gegl.Color=None, transparency_threshold: float=0.0, opacity_threshold: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__color_to_alpha(self, drawable_: Gimp.Drawable=None, color: Optional[Gegl.Color]=None, transparency_threshold: float=0.0, opacity_threshold: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Color to Alpha
         
         Convert a specified color to transparency, works best with white.
@@ -21815,7 +23169,7 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * color - The color to make transparent.
+        * color (can be None) - The color to make transparent.
         
         * transparency_threshold (default: 0.0) - The limit below which colors
           become transparent.
@@ -21841,7 +23195,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__color_warp(self, drawable_: Gimp.Drawable=None, from_0: Gegl.Color=None, to_0: Gegl.Color=None, weight_0: float=100.0, from_1: Gegl.Color=None, to_1: Gegl.Color=None, weight_1: float=100.0, from_2: Gegl.Color=None, to_2: Gegl.Color=None, weight_2: float=100.0, from_3: Gegl.Color=None, to_3: Gegl.Color=None, weight_3: float=100.0, from_4: Gegl.Color=None, to_4: Gegl.Color=None, weight_4: float=100.0, from_5: Gegl.Color=None, to_5: Gegl.Color=None, weight_5: float=100.0, from_6: Gegl.Color=None, to_6: Gegl.Color=None, weight_6: float=100.0, from_7: Gegl.Color=None, to_7: Gegl.Color=None, weight_7: float=100.0, weight: float=1.0, amount: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__color_warp(self, drawable_: Gimp.Drawable=None, from_0: Optional[Gegl.Color]=None, to_0: Optional[Gegl.Color]=None, weight_0: float=100.0, from_1: Optional[Gegl.Color]=None, to_1: Optional[Gegl.Color]=None, weight_1: float=100.0, from_2: Optional[Gegl.Color]=None, to_2: Optional[Gegl.Color]=None, weight_2: float=100.0, from_3: Optional[Gegl.Color]=None, to_3: Optional[Gegl.Color]=None, weight_3: float=100.0, from_4: Optional[Gegl.Color]=None, to_4: Optional[Gegl.Color]=None, weight_4: float=100.0, from_5: Optional[Gegl.Color]=None, to_5: Optional[Gegl.Color]=None, weight_5: float=100.0, from_6: Optional[Gegl.Color]=None, to_6: Optional[Gegl.Color]=None, weight_6: float=100.0, from_7: Optional[Gegl.Color]=None, to_7: Optional[Gegl.Color]=None, weight_7: float=100.0, weight: float=1.0, amount: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Color warp
         
         Warps the colors of an image between colors with weighted distortion
@@ -21852,51 +23206,51 @@ class _PyPDB:
         
         * drawable_ - Drawable.
         
-        * from_0
+        * from_0 (can be None)
         
-        * to_0
+        * to_0 (can be None)
         
         * weight_0 (default: 100.0)
         
-        * from_1
+        * from_1 (can be None)
         
-        * to_1
+        * to_1 (can be None)
         
         * weight_1 (default: 100.0)
         
-        * from_2
+        * from_2 (can be None)
         
-        * to_2
+        * to_2 (can be None)
         
         * weight_2 (default: 100.0)
         
-        * from_3
+        * from_3 (can be None)
         
-        * to_3
+        * to_3 (can be None)
         
         * weight_3 (default: 100.0)
         
-        * from_4
+        * from_4 (can be None)
         
-        * to_4
+        * to_4 (can be None)
         
         * weight_4 (default: 100.0)
         
-        * from_5
+        * from_5 (can be None)
         
-        * to_5
+        * to_5 (can be None)
         
         * weight_5 (default: 100.0)
         
-        * from_6
+        * from_6 (can be None)
         
-        * to_6
+        * to_6 (can be None)
         
         * weight_6 (default: 100.0)
         
-        * from_7
+        * from_7 (can be None)
         
-        * to_7
+        * to_7 (can be None)
         
         * weight_7 (default: 100.0)
         
@@ -21938,96 +23292,6 @@ class _PyPDB:
         
         * linear (default: False) - Use linear output instead of gamma
           corrected.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__contrast_curve(self, drawable_: Gimp.Drawable=None, sampling_points: int=0, curve: Gegl.Curve=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Contrast Curve
-        
-        Adjusts the contrast of a grayscale image with a curve specifying
-        contrast for intensity.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * sampling_points (default: 0) - Number of curve sampling points.  0
-          for exact calculation.
-          
-          Minimum value: 0, maximum value: 65536
-        
-        * curve - The contrast curve.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__convert_format(self, drawable_: Gimp.Drawable=None, format: GObject.Value=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Convert Format
-        
-        Convert the data to the specified format.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * format - The babl format of the output.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__convert_space(self, drawable_: Gimp.Drawable=None, space_name: str='sRGB', pointer: GObject.Value=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Convert color space
-        
-        Set color space which subsequent babl-formats in the pipeline are
-        created with, and the ICC profile potentially embedded for
-        external color management, setting a pointer to a format
-        overrides the string property and setting an aux pad
-        overrides both.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * space_name (default: 'sRGB') - One of: sRGB, Adobish, Rec2020,
-          ProPhoto, Apple, ACEScg, ACES2065-1.
-        
-        * pointer - pointer to a const * Babl space.
-        
-        * path (default: '') - File system path to ICC matrix profile to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -22138,69 +23402,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__copy_buffer(self, drawable_: Gimp.Drawable=None, buffer: Gegl.Buffer=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Copy Buffer
-        
-        Writes image data to an already existing buffer.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * buffer - An already existing GeglBuffer to write incoming buffer
-          data to, or NULL.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__crop(self, drawable_: Gimp.Drawable=None, x: float=0.0, y: float=0.0, width: float=0.0, height: float=0.0, reset_origin: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Crop
-        
-        Crops a buffer, if the aux pad is connected the bounding box of the
-        node connected is used. When the crop area is configured to
-        0x0 at 0,0 and nothing is connected on aux, the bounding box
-        of the node at the producing end of the input chain is used.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * x (default: 0.0)
-        
-        * y (default: 0.0)
-        
-        * width (default: 0.0)
-        
-        * height (default: 0.0)
-        
-        * reset_origin (default: False)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__cubism(self, drawable_: Gimp.Drawable=None, tile_size: float=10.0, tile_saturation: float=2.5, bg_color: Gegl.Color=None, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__cubism(self, drawable_: Gimp.Drawable=None, tile_size: float=10.0, tile_saturation: float=2.5, bg_color: Optional[Gegl.Color]=None, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Cubism
         
         Convert the image into randomly rotated square blobs, somehow
@@ -22219,7 +23421,7 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 10.0
         
-        * bg_color - The tiles' background color.
+        * bg_color (can be None) - The tiles&apos; background color.
         
         * seed (default: 0)
           
@@ -22471,32 +23673,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__display(self, drawable_: Gimp.Drawable=None, window_title: str='window_title', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Display
-        
-        Display the input buffer in a window.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * window_title (default: 'window_title') - Title to be given to output
-          window.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__distance_transform(self, drawable_: Gimp.Drawable=None, metric: str='euclidean', edge_handling: str='below', threshold_lo: float=0.0001, threshold_hi: float=1.0, averaging: int=0, normalize: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Distance Transform
         
@@ -22597,36 +23773,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__divide(self, drawable_: Gimp.Drawable=None, value: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Divide
-        
-        Math operation divide, performs the operation per pixel, using either
-        the constant provided in 'value' or the corresponding pixel
-        from the buffer on aux as operands. The result is the
-        evaluation of the expression result =
-        value==0.0f?0.0f:input/value.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value (default: 1.0) - global value used if aux doesn't contain
-          data.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__domain_transform(self, drawable_: Gimp.Drawable=None, n_iterations: int=3, spatial_factor: float=30.0, edge_preservation: float=0.8, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Smooth by Domain Transform
         
@@ -22668,7 +23814,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__dropshadow(self, drawable_: Gimp.Drawable=None, x: float=20.0, y: float=20.0, radius: float=10.0, grow_shape: str='circle', grow_radius: float=0.0, color: Gegl.Color=None, opacity: float=0.5, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__dropshadow(self, drawable_: Gimp.Drawable=None, x: float=20.0, y: float=20.0, radius: float=10.0, grow_shape: str='circle', grow_radius: float=0.0, color: Optional[Gegl.Color]=None, opacity: float=0.5, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Dropshadow
         
         Creates a dropshadow effect on the input buffer.
@@ -22696,11 +23842,12 @@ class _PyPDB:
           
           Minimum value: -100.0, maximum value: 100.0
         
-        * color - The shadow's color (defaults to 'black').
+        * color (can be None) - The shadow&apos;s color (defaults to
+          &apos;black&apos;).
         
         * opacity (default: 0.5)
           
-          Minimum value: 0.0, maximum value: 2.0
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -22904,41 +24051,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__exp_combine(self, drawable_: Gimp.Drawable=None, exposures: str='', steps: int=13, sigma: float=8.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Combine Exposures
-        
-        Combine multiple scene exposures into one high dynamic range image.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * exposures (default: '') - Relative brightness of each exposure in
-          EV.
-        
-        * steps (default: 13) - Log2 of source's discretization steps.
-          
-          Minimum value: 8, maximum value: 32
-        
-        * sigma (default: 8.0) - Weight distribution sigma controlling
-          response contributions.
-          
-          Minimum value: 0.0, maximum value: 32.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__exposure(self, drawable_: Gimp.Drawable=None, black_level: float=0.0, exposure: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Exposure
         
@@ -22953,60 +24065,6 @@ class _PyPDB:
           Minimum value: -0.1, maximum value: 0.1
         
         * exposure (default: 0.0) - Relative brightness change in stops.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__exr_load(self, drawable_: Gimp.Drawable=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        EXR image loader.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__exr_save(self, drawable_: Gimp.Drawable=None, path: str='', tile: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        OpenEXR image saver.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - path of file to write to.
-        
-        * tile (default: 0) - tile size to use.
-          
-          Minimum value: 0, maximum value: 2048
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23052,42 +24110,6 @@ class _PyPDB:
           enhancement.
           
           Minimum value: 0.0, maximum value: 1.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__fill_path(self, drawable_: Gimp.Drawable=None, color: Gegl.Color=None, opacity: float=1.0, fill_rule: str='nonzero', transform: str='', d: Gegl.Path=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Fill Path
-        
-        Renders a filled region.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * color - Color of paint to use for filling.
-        
-        * opacity (default: 1.0) - The fill opacity to use.
-          
-          Minimum value: -2.0, maximum value: 2.0
-        
-        * fill_rule (default: 'nonzero') - how to determine what to fill
-          (nonzero|evenodd).
-        
-        * transform (default: '') - svg style description of transform.
-        
-        * d - A GeglVector representing the path of the stroke.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23323,36 +24345,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__gamma(self, drawable_: Gimp.Drawable=None, value: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Gamma
-        
-        Math operation gamma, performs the operation per pixel, using either
-        the constant provided in 'value' or the corresponding pixel
-        from the buffer on aux as operands. The result is the
-        evaluation of the expression result = (input >= 0.0f ? powf
-        (input, value) : -powf (-input, value)).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value (default: 1.0) - global value used if aux doesn't contain
-          data.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__gaussian_blur(self, drawable_: Gimp.Drawable=None, std_dev_x: float=1.5, std_dev_y: float=1.5, filter: str='auto', abyss_policy: str='clamp', clip_extent: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Gaussian Blur
         
@@ -23430,220 +24422,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__gblur_1d(self, drawable_: Gimp.Drawable=None, std_dev: float=1.5, orientation: str='horizontal', filter: str='auto', abyss_policy: str='none', clip_extent: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """1D Gaussian-blur
-        
-        Performs an averaging of neighboring pixels with the normal
-        distribution as weighting.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * std_dev (default: 1.5) - Standard deviation (spatial scale factor).
-          
-          Minimum value: 0.0, maximum value: 1500.0
-        
-        * orientation (default: 'horizontal') - The orientation of the blur -
-          hor/ver.
-          
-          Allowed values: 'horizontal', 'vertical'
-        
-        * filter (default: 'auto') - How the gaussian kernel is discretized.
-          
-          Allowed values: 'auto', 'fir', 'iir'
-        
-        * abyss_policy (default: 'none') - How image edges are handled.
-          
-          Allowed values: 'none', 'clamp', 'black', 'white'
-        
-        * clip_extent (default: True) - Should the output extent be clipped to
-          the input extent.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__gegl(self, drawable_: Gimp.Drawable=None, string: str='# uncomment a set of lines below by removing the\n# leading to test and modify an example, use\n# use ctrl+a before typing to select all, if you\n# want a blank slate.\n#\nid=in # name a reference to the input buffer \'in\'\n\n\n# adaptive threshold:\n#\n#threshold aux=[ ref=in gaussian-blur  std-dev-x=0.2rel std-dev-y=0.2rel ]\n\n# local white balance and contrast stretching\n#\n#divide aux=[  ref=in  median-blur radius=.25rel percentile=100  gaussian-blur std-dev-x=.5rel std-dev-y=.5rel ]\n\n# median sharpen (unsharp-mask with median-blur):\n#\n#add aux=[  ref=in subtract aux=[ ref=in  median-blur radius=5  ] ] \n\n# styled text overlay\n#\n#over aux=[ text wrap=1.0rel  color=rgb(0.1,0.1,.3) size=.1rel string="ipsum sic amet deliriarium mic sel adendum. Mic fubar bax qux facilium dhat." dropshadow radius=.01rel  grow-radius=0.0065rel color=white x=0 y=0 border-align x=0.5 y=0.33  ] # try x=1 y=1\n\n\n# thumbs with misc filters along bottom of image:\n#\n#over aux=[\n#  ref=in scale-ratio x=0.20 y=0.20 newsprint period=0.01rel period2=0.01rel period3=0.01rel period4=0.01rel color-model=cmyk aa-samples=64 pattern=pssquare pattern2=pssquare pattern3=pssquare pattern4=pssquare \n#  pack gap=0.05rel aux=[ ref=in scale-ratio x=0.20 y=0.20 newsprint period=0.01rel period2=0.01rel period3=0.01rel period4=00.01rel color-model=rgb aa-samples=64  ] \n#  pack gap=0.05rel aux=[ ref=in scale-ratio x=0.20 y=0.20 id=scaled snn-mean snn-mean crop aux=[ ref=scaled ] ] \n#  pack gap=0.05rel aux=[ ref=in scale-ratio x=0.20 y=0.20 mosaic tile-size=0.03rel ] \n#  border-align x=0.5 y=0.9\n#]\n\n# All the examples can be expanded to be on\n# multiple lines, this graph description\n# language is not whitespace sensitive, the\n# rel suffix is relative to image height\n', error: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """GEGL graph
-        
-        Do a chain of operations, with key=value pairs after each operation
-        name to set properties. And aux=[ source filter ] for
-        specifying a chain with a source as something connected to an
-        aux pad.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * string (default: '# uncomment a set of lines below by removing the #
-          leading to test and modify an example, use # use ctrl+a
-          before typing to select all, if you # want a blank slate. #
-          id=in # name a reference to the input buffer 'in'   #
-          adaptive threshold: # #threshold aux=[ ref=in gaussian-blur
-          std-dev-x=0.2rel std-dev-y=0.2rel ]  # local white balance
-          and contrast stretching # #divide aux=[  ref=in  median-blur
-          radius=.25rel percentile=100  gaussian-blur std-dev-x=.5rel
-          std-dev-y=.5rel ]  # median sharpen (unsharp-mask with
-          median-blur): # #add aux=[  ref=in subtract aux=[ ref=in
-          median-blur radius=5  ] ]   # styled text overlay # #over
-          aux=[ text wrap=1.0rel  color=rgb(0.1,0.1,.3) size=.1rel
-          string="ipsum sic amet deliriarium mic sel adendum. Mic
-          fubar bax qux facilium dhat." dropshadow radius=.01rel
-          grow-radius=0.0065rel color=white x=0 y=0 border-align x=0.5
-          y=0.33  ] # try x=1 y=1   # thumbs with misc filters along
-          bottom of image: # #over aux=[ #  ref=in scale-ratio x=0.20
-          y=0.20 newsprint period=0.01rel period2=0.01rel
-          period3=0.01rel period4=0.01rel color-model=cmyk
-          aa-samples=64 pattern=pssquare pattern2=pssquare
-          pattern3=pssquare pattern4=pssquare  #  pack gap=0.05rel
-          aux=[ ref=in scale-ratio x=0.20 y=0.20 newsprint
-          period=0.01rel period2=0.01rel period3=0.01rel
-          period4=00.01rel color-model=rgb aa-samples=64  ]  #  pack
-          gap=0.05rel aux=[ ref=in scale-ratio x=0.20 y=0.20 id=scaled
-          snn-mean snn-mean crop aux=[ ref=scaled ] ]  #  pack
-          gap=0.05rel aux=[ ref=in scale-ratio x=0.20 y=0.20 mosaic
-          tile-size=0.03rel ]  #  border-align x=0.5 y=0.9 #]  # All
-          the examples can be expanded to be on # multiple lines, this
-          graph description # language is not whitespace sensitive,
-          the # rel suffix is relative to image height ') - [op
-          [property=value] [property=value]] [[op] [property=value].
-        
-        * error (default: '') - There is a problem in the syntax or in the
-          application of parsed property values. Things might mostly
-          work nevertheless.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__gegl_buffer_load(self, drawable_: Gimp.Drawable=None, path: str='/tmp/gegl-buffer.gegl', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        GeglBuffer file loader.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '/tmp/gegl-buffer.gegl') - Path of GeglBuffer file to
-          load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__gegl_buffer_save(self, drawable_: Gimp.Drawable=None, path: str='/tmp/gegl-buffer.gegl', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        GeglBuffer file writer.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '/tmp/gegl-buffer.gegl') - Target file path to write
-          GeglBuffer to.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__gif_load(self, drawable_: Gimp.Drawable=None, path: str='', frame: int=0, frames: int=0, frame_delay: int=100, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """GIF File Loader
-        
-        GIF image loader.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * frame (default: 0) - frame number to decode.
-        
-        * frames (default: 0) - Number of frames in gif animation.
-        
-        * frame_delay (default: 100) - Delay in ms for last decoded frame.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__gray(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Make Gray
-        
-        Turns the image grayscale.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__grid(self, drawable_: Gimp.Drawable=None, x: int=32, y: int=32, x_offset: int=0, y_offset: int=0, line_width: int=4, line_height: int=4, line_color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__grid(self, drawable_: Gimp.Drawable=None, x: int=32, y: int=32, x_offset: int=0, y_offset: int=0, line_width: int=4, line_height: int=4, line_color: Optional[Gegl.Color]=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Grid
         
         Grid renderer.
@@ -23674,7 +24453,7 @@ class _PyPDB:
           
           Minimum value: 0
         
-        * line_color - Color of the grid lines.
+        * line_color (can be None) - Color of the grid lines.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23756,56 +24535,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__icc_load(self, drawable_: Gimp.Drawable=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """ICC File Loader
-        
-        ICC profile loader.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__icc_save(self, drawable_: Gimp.Drawable=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """ICC profile saver
-        
-        Stores the ICC profile that would be embedded if stored as an image.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__illusion(self, drawable_: Gimp.Drawable=None, division: int=8, illusion_type: str='type1', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Illusion
         
@@ -23822,41 +24551,6 @@ class _PyPDB:
         * illusion_type (default: 'type1') - Type of illusion.
           
           Allowed values: 'type1', 'type2'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__image_compare(self, drawable_: Gimp.Drawable=None, wrong_pixels: int=0, max_diff: float=0.0, avg_diff_wrong: float=0.0, avg_diff_total: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Compares if input and aux buffers are different. Global statistics
-        are saved in the properties and a visual difference image is
-        produced as a visual result.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * wrong_pixels (default: 0) - Number of differing pixels.
-        
-        * max_diff (default: 0.0) - Maximum difference between two pixels.
-        
-        * avg_diff_wrong (default: 0.0) - Average difference between wrong
-          pixels.
-        
-        * avg_diff_total (default: 0.0) - Average difference between all
-          pixels.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -23899,7 +24593,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__inner_glow(self, drawable_: Gimp.Drawable=None, grow_shape: str='circleig', x: float=0.0, y: float=0.0, radius: float=7.5, grow_radius: float=4.0, opacity: float=1.2, value: Gegl.Color=None, cover: float=60.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__inner_glow(self, drawable_: Gimp.Drawable=None, grow_shape: str='circleig', x: float=0.0, y: float=0.0, radius: float=7.5, grow_radius: float=4.0, opacity: float=1.2, value: Optional[Gegl.Color]=None, cover: float=60.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Inner Glow
         
         GEGL does an inner shadow glow effect; for more interesting use
@@ -23932,7 +24626,7 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 2.0
         
-        * value - The color to paint over the input.
+        * value (can be None) - The color to paint over the input.
         
         * cover (default: 60.0) - Median Blur covers unaffected pixels. Making
           this slider too high will make it outline-like. So only
@@ -24002,242 +24696,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__jp2_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """JPEG 2000 File Loader
-        
-        JPEG 2000 image loader using jasper.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI for file to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__jpg_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """JPEG File Loader
-        
-        JPEG image loader using libjpeg.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI of file to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__jpg_save(self, drawable_: Gimp.Drawable=None, path: str='', quality: int=90, smoothing: int=0, optimize: bool=True, progressive: bool=True, grayscale: bool=False, metadata: Gegl.Metadata=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """JPEG File Saver
-        
-        JPEG image saver, using libjpeg.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename, use '-' for stdout.
-        
-        * quality (default: 90) - JPEG compression quality (between 1 and
-          100).
-          
-          Minimum value: 1, maximum value: 100
-        
-        * smoothing (default: 0) - Smoothing factor from 1 to 100; 0 disables
-          smoothing.
-          
-          Minimum value: 0, maximum value: 100
-        
-        * optimize (default: True) - Use optimized huffman tables.
-        
-        * progressive (default: True) - Create progressive JPEG images.
-        
-        * grayscale (default: False) - Create a grayscale (monochrome) image.
-        
-        * metadata - Object to supply image metadata.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__json__dropshadow2(self, drawable_: Gimp.Drawable=None, x: float=0.0, y: float=0.0, color: Gegl.Color=None, radius: float=1.5, opacity: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * x (default: 0.0) - Horizontal translation.
-        
-        * y (default: 0.0) - Vertical translation.
-        
-        * color - The color to render (defaults to 'black').
-        
-        * radius (default: 1.5) - Standard deviation for the horizontal axis.
-          
-          Minimum value: 0.0, maximum value: 1500.0
-        
-        * opacity (default: 1.0) - Global opacity value that is always used on
-          top of the optional auxiliary input buffer.
-          
-          Minimum value: -10.0, maximum value: 10.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__json__grey2(self, drawable_: Gimp.Drawable=None, height: float=0.0, width: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * height (default: 0.0)
-        
-        * width (default: 0.0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__layer(self, drawable_: Gimp.Drawable=None, composite_op: str='gegl:over', opacity: float=1.0, x: float=0.0, y: float=0.0, scale: float=1.0, src: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Layer
-        
-        A layer in the traditional sense.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * composite_op (default: 'gegl:over') - Composite operation to use.
-        
-        * opacity (default: 1.0)
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * x (default: 0.0) - Horizontal position in pixels.
-        
-        * y (default: 0.0) - Vertical position in pixels.
-        
-        * scale (default: 1.0) - Scale 1:1 size.
-        
-        * src (default: '') - Source image file path (png, jpg, raw, svg, bmp,
-          tif, ...).
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__lcms_from_profile(self, drawable_: Gimp.Drawable=None, src_profile: GObject.Value=None, intent: str='perceptual', black_point_compensation: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """LCMS From Profile
-        
-        Converts the input from an ICC color profile to a well defined babl
-        format. The buffer's data will then be correctly managed by
-        GEGL for further processing.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * src_profile
-        
-        * intent (default: 'perceptual') - The rendering intent to use in the
-          conversion.
-          
-          Allowed values: 'perceptual', 'relative-colorimetric', 'saturation',
-          'absolute-colorimetric'
-        
-        * black_point_compensation (default: False) - Convert using black
-          point compensation.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__lens_blur(self, drawable_: Gimp.Drawable=None, radius: float=10.0, highlight_factor: float=0.0, highlight_threshold_low: float=0.0, highlight_threshold_high: float=1.0, clip: bool=True, linear_mask: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Lens Blur
         
@@ -24277,7 +24735,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__lens_distortion(self, drawable_: Gimp.Drawable=None, main: float=0.0, edge: float=0.0, zoom: float=0.0, x_shift: float=0.0, y_shift: float=0.0, brighten: float=0.0, background: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__lens_distortion(self, drawable_: Gimp.Drawable=None, main: float=0.0, edge: float=0.0, zoom: float=0.0, x_shift: float=0.0, y_shift: float=0.0, brighten: float=0.0, background: Optional[Gegl.Color]=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Lens Distortion
         
         Corrects barrel or pincushion lens distortion.
@@ -24310,7 +24768,7 @@ class _PyPDB:
           
           Minimum value: -100.0, maximum value: 100.0
         
-        * background
+        * background (can be None)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -24370,41 +24828,6 @@ class _PyPDB:
         * out_low (default: 0.0) - Lowest luminance level in output.
         
         * out_high (default: 1.0) - Highest luminance level in output.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__linear_gradient(self, drawable_: Gimp.Drawable=None, start_x: float=25.0, start_y: float=25.0, end_x: float=150.0, end_y: float=150.0, start_color: Gegl.Color=None, end_color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Linear Gradient
-        
-        Linear gradient renderer.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * start_x (default: 25.0)
-        
-        * start_y (default: 25.0)
-        
-        * end_x (default: 150.0)
-        
-        * end_y (default: 150.0)
-        
-        * start_color - The color at (x1, y1).
-        
-        * end_color - The color at (x2, y2).
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -24482,36 +24905,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', metadata: Gegl.Metadata=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Load Image
-        
-        Multipurpose file loader, that uses other native handlers, and
-        fallback conversion using Image Magick's convert.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI of file to load.
-        
-        * metadata - Object to supply image metadata.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__local_threshold(self, drawable_: Gimp.Drawable=None, radius: float=200.0, aa_factor: int=1, low: float=0.5, high: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Local Threshold
         
@@ -24557,7 +24950,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__long_shadow(self, drawable_: Gimp.Drawable=None, style: str='finite', angle: float=45.0, length: float=100.0, midpoint: float=100.0, midpoint_rel: float=0.5, color: Gegl.Color=None, composition: str='shadow-plus-image', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__long_shadow(self, drawable_: Gimp.Drawable=None, style: str='finite', angle: float=45.0, length: float=100.0, midpoint: float=100.0, midpoint_rel: float=0.5, color: Optional[Gegl.Color]=None, composition: str='shadow-plus-image', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Long Shadow
         
         Creates a long-shadow effect.
@@ -24587,37 +24980,12 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 1.0
         
-        * color - Shadow color.
+        * color (can be None) - Shadow color.
         
         * composition (default: 'shadow-plus-image') - Output composition.
           
           Allowed values: 'shadow-plus-image', 'shadow-only',
           'shadow-minus-image'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__magick_load(self, drawable_: Gimp.Drawable=None, path: str='/tmp/gegl-logo.svg', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Image Magick wrapper using the png op.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '/tmp/gegl-logo.svg') - Path of file to load.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -24671,161 +25039,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__map_absolute(self, drawable_: Gimp.Drawable=None, sampler_type: str='cubic', abyss_policy: str='none', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Map Absolute
-        
-        Sample input with an auxiliary buffer that contain absolute source
-        coordinates.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * sampler_type (default: 'cubic')
-          
-          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
-        
-        * abyss_policy (default: 'none')
-          
-          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__map_relative(self, drawable_: Gimp.Drawable=None, scaling: float=1.0, sampler_type: str='cubic', abyss_policy: str='none', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Map Relative
-        
-        Sample input with an auxiliary buffer that contain relative source
-        coordinates.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * scaling (default: 1.0) - scaling factor of displacement, indicates
-          how large spatial displacement a relative mapping value of
-          1.0 corresponds to.
-          
-          Minimum value: 0.0, maximum value: 5000.0
-        
-        * sampler_type (default: 'cubic')
-          
-          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
-        
-        * abyss_policy (default: 'none')
-          
-          Allowed values: 'none', 'clamp', 'loop', 'black', 'white'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__matting_global(self, drawable_: Gimp.Drawable=None, iterations: int=10, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Matting Global
-        
-        Given a sparse user supplied tri-map and an input image, create a
-        foreground alpha matte. Set white as foreground, black as
-        background for the tri-map. Everything else will be treated
-        as unknown and filled in.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * iterations (default: 10)
-          
-          Minimum value: 1, maximum value: 10000
-        
-        * seed (default: 0)
-          
-          Minimum value: 0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__matting_levin(self, drawable_: Gimp.Drawable=None, epsilon: int=-6, radius: int=1, threshold: float=0.02, lambda_: float=100.0, levels: int=4, active_levels: int=2, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Matting Levin
-        
-        Given a sparse user supplied tri-map and an input image, create a
-        foreground alpha mat. Set white as selected, black as
-        unselected, for the tri-map.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * epsilon (default: -6) - Log of the error weighting.
-          
-          Minimum value: -9, maximum value: -1
-        
-        * radius (default: 1) - Radius of the processing window.
-          
-          Minimum value: 1, maximum value: 3
-        
-        * threshold (default: 0.02) - Alpha threshold for multilevel
-          processing.
-          
-          Minimum value: 0.0, maximum value: 0.1
-        
-        * lambda_ (default: 100.0) - Trimap influence factor.
-          
-          Minimum value: 0.0, maximum value: 100.0
-        
-        * levels (default: 4) - Number of downsampled levels to use.
-          
-          Minimum value: 0, maximum value: 8
-        
-        * active_levels (default: 2) - Number of levels to perform solving.
-          
-          Minimum value: 0, maximum value: 8
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__maze(self, drawable_: Gimp.Drawable=None, x: int=16, y: int=16, algorithm_type: str='depth-first', tileable: bool=False, seed: int=0, fg_color: Gegl.Color=None, bg_color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__maze(self, drawable_: Gimp.Drawable=None, x: int=16, y: int=16, algorithm_type: str='depth-first', tileable: bool=False, seed: int=0, fg_color: Optional[Gegl.Color]=None, bg_color: Optional[Gegl.Color]=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Maze
         
         Draw a labyrinth.
@@ -24852,38 +25066,9 @@ class _PyPDB:
           
           Minimum value: 0
         
-        * fg_color - The foreground color.
+        * fg_color (can be None) - The foreground color.
         
-        * bg_color - The background color.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__mblur(self, drawable_: Gimp.Drawable=None, dampness: float=0.95, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Temporal blur
-        
-        Accumulating motion blur using a kalman filter, for use with video
-        sequences of frames.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * dampness (default: 0.95) - The value represents the contribution of
-          the past to the new frame.
-          
-          Minimum value: 0.0, maximum value: 1.0
+        * bg_color (can be None) - The background color.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -25048,32 +25233,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__mix(self, drawable_: Gimp.Drawable=None, ratio: float=0.5, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Mix
-        
-        Do a lerp, linear interpolation (lerp) between input and aux.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * ratio (default: 0.5) - Mixing ratio, read as amount of aux, 0=input
-          0.5=half 1.0=aux.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__mono_mixer(self, drawable_: Gimp.Drawable=None, preserve_luminosity: bool=False, red: float=0.333, green: float=0.333, blue: float=0.333, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Mono Mixer
         
@@ -25111,7 +25270,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__mosaic(self, drawable_: Gimp.Drawable=None, tile_type: str='hexagons', tile_size: float=15.0, tile_height: float=4.0, tile_neatness: float=0.65, color_variation: float=0.2, color_averaging: bool=True, tile_surface: bool=False, tile_allow_split: bool=True, tile_spacing: float=1.0, joints_color: Gegl.Color=None, light_color: Gegl.Color=None, light_dir: float=135.0, antialiasing: bool=True, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__mosaic(self, drawable_: Gimp.Drawable=None, tile_type: str='hexagons', tile_size: float=15.0, tile_height: float=4.0, tile_neatness: float=0.65, color_variation: float=0.2, color_averaging: bool=True, tile_surface: bool=False, tile_allow_split: bool=True, tile_spacing: float=1.0, joints_color: Optional[Gegl.Color]=None, light_color: Optional[Gegl.Color]=None, light_dir: float=135.0, antialiasing: bool=True, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Mosaic
         
         Mosaic is a filter which transforms an image into what appears to be
@@ -25158,9 +25317,9 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 1000.0
         
-        * joints_color
+        * joints_color (can be None)
         
-        * light_color
+        * light_color (can be None)
         
         * light_dir (default: 135.0) - Direction of light-source (in degrees).
           
@@ -25270,35 +25429,6 @@ class _PyPDB:
         * factor (default: 0.1)
           
           Minimum value: -10.0, maximum value: 1.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__multiply(self, drawable_: Gimp.Drawable=None, value: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Multiply
-        
-        Math operation multiply, performs the operation per pixel, using
-        either the constant provided in 'value' or the corresponding
-        pixel from the buffer on aux as operands. The result is the
-        evaluation of the expression result = input * value.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value (default: 1.0) - global value used if aux doesn't contain
-          data.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -25903,29 +26033,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__nop(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """No Operation
-        
-        No operation (can be used as a routing point).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__normal_map(self, drawable_: Gimp.Drawable=None, scale: float=10.0, x_component: str='red', y_component: str='green', flip_x: bool=False, flip_y: bool=False, full_z: bool=False, tileable: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Normal Map
         
@@ -25973,81 +26080,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__npd(self, drawable_: Gimp.Drawable=None, model: GObject.Value=None, square_size: int=20, rigidity: int=100, asap_deformation: bool=False, mls_weights: bool=False, mls_weights_alpha: float=1.0, preserve_model: bool=False, sampler_type: str='cubic', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Performs n-point image deformation.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * model - Model - basic element we operate on.
-        
-        * square_size (default: 20) - Size of an edge of square the mesh
-          consists of.
-          
-          Minimum value: 5, maximum value: 1000
-        
-        * rigidity (default: 100) - The number of deformation iterations.
-          
-          Minimum value: 0, maximum value: 10000
-        
-        * asap_deformation (default: False) - ASAP deformation is performed
-          when TRUE, ARAP deformation otherwise.
-        
-        * mls_weights (default: False) - Use MLS weights.
-        
-        * mls_weights_alpha (default: 1.0) - Alpha parameter of MLS weights.
-          
-          Minimum value: 0.1, maximum value: 2.0
-        
-        * preserve_model (default: False) - When TRUE the model will not be
-          freed.
-        
-        * sampler_type (default: 'cubic') - Sampler used internally.
-          
-          Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__npy_save(self, drawable_: Gimp.Drawable=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """NumPy File Saver
-        
-        NumPy (Numerical Python) image saver.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename, use '-' for stdout.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__oilify(self, drawable_: Gimp.Drawable=None, mask_radius: int=4, exponent: int=8, intensities: int=128, use_inten: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Oilify
         
@@ -26072,93 +26104,6 @@ class _PyPDB:
           Minimum value: 8, maximum value: 256
         
         * use_inten (default: True) - Use pixel luminance values.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__opacity(self, drawable_: Gimp.Drawable=None, value: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Opacity
-        
-        Weights the opacity of the input both the value of the aux input and
-        the global value property.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value (default: 1.0) - Global opacity value that is always used on
-          top of the optional auxiliary input buffer.
-          
-          Minimum value: -10.0, maximum value: 10.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__open_buffer(self, drawable_: Gimp.Drawable=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Open GEGL Buffer
-        
-        Use an on-disk GeglBuffer as data source.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - a GeglBuffer on disk to open.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__pack(self, drawable_: Gimp.Drawable=None, gap: float=0.0, align: float=0.0, orientation: str='horizontal', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Pack
-        
-        Packs an image horizontally or vertically next to each other with
-        optional gap, aux right of input.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * gap (default: 0.0) - How many pixels of space between items.
-        
-        * align (default: 0.0) - How to align items, 0.0 is start 0.5 middle
-          and 1.0 end.
-        
-        * orientation (default: 'horizontal')
-          
-          Allowed values: 'horizontal', 'vertical'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26220,104 +26165,6 @@ class _PyPDB:
           better for the inverse transform back to panorama.
           
           Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__path(self, drawable_: Gimp.Drawable=None, fill: Gegl.Color=None, stroke: Gegl.Color=None, stroke_width: float=2.0, stroke_opacity: float=1.0, stroke_hardness: float=0.6, fill_rule: str='nonzero', transform: str='', fill_opacity: float=1.0, d: Gegl.Path=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Render Path
-        
-        Renders a brush stroke.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * fill - Color of paint to use for filling, use 0 opacity to disable
-          filling.
-        
-        * stroke - Color of paint to use for stroking.
-        
-        * stroke_width (default: 2.0) - The width of the brush used to stroke
-          the path.
-          
-          Minimum value: 0.0, maximum value: 200.0
-        
-        * stroke_opacity (default: 1.0) - Opacity of stroke, note, does not
-          behave like SVG since at the moment stroking is done using
-          an airbrush tool.
-          
-          Minimum value: -2.0, maximum value: 2.0
-        
-        * stroke_hardness (default: 0.6) - Hardness of the brush, 0.0 for a
-          soft brush, 1.0 for a hard brush.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * fill_rule (default: 'nonzero') - How to determine what to fill
-          (nonzero|evenodd).
-        
-        * transform (default: '') - SVG style description of transform.
-        
-        * fill_opacity (default: 1.0) - The fill opacity to use.
-          
-          Minimum value: -2.0, maximum value: 2.0
-        
-        * d - A GeglVector representing the path of the stroke.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__pdf_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', page: int=1, pages: int=1, ppi: float=200.0, password: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """pdf loader
-        
-        PDF page decoder.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - file to load.
-        
-        * uri (default: '') - uri of file to load.
-        
-        * page (default: 1) - Page to render.
-          
-          Minimum value: 1, maximum value: 10000
-        
-        * pages (default: 1) - Total pages, provided as a visual read-only
-          property.
-          
-          Minimum value: 1, maximum value: 10000
-        
-        * ppi (default: 200.0) - Point/pixels per inch.
-          
-          Minimum value: 10.0, maximum value: 2400.0
-        
-        * password (default: '') - Password to use for decryption of PDF, or
-          blank for none.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26405,65 +26252,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__piecewise_blend(self, drawable_: Gimp.Drawable=None, levels: int=0, gamma: float=1.0, linear_mask: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Piecewise Blend
-        
-        Blend a chain of inputs using a mask.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * levels (default: 0) - Number of blend levels.
-          
-          Minimum value: 0, maximum value: 16
-        
-        * gamma (default: 1.0) - Gamma factor for blend-level spacing.
-          
-          Minimum value: 0.0
-        
-        * linear_mask (default: True) - Use linear mask values.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__pixbuf(self, drawable_: Gimp.Drawable=None, pixbuf: gi.overrides.GdkPixbuf.Pixbuf=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """GdkPixbuf Source
-        
-        Uses the GdkPixbuf located at the memory location in <em>pixbuf</em>.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * pixbuf - GdkPixbuf to use.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__pixelize(self, drawable_: Gimp.Drawable=None, norm: str='square', size_x: int=16, size_y: int=16, offset_x: int=0, offset_y: int=0, ratio_x: float=1.0, ratio_y: float=1.0, background: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__pixelize(self, drawable_: Gimp.Drawable=None, norm: str='square', size_x: int=16, size_y: int=16, offset_x: int=0, offset_y: int=0, ratio_x: float=1.0, ratio_y: float=1.0, background: Optional[Gegl.Color]=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Pixelize
         
         Simplify image into an array of solid-colored rectangles.
@@ -26498,7 +26287,7 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 1.0
         
-        * background - Color used to fill the background.
+        * background (can be None) - Color used to fill the background.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -26558,276 +26347,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__png_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', metadata: Gegl.Metadata=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """PNG File Loader
-        
-        PNG image loader.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI for file to load.
-        
-        * metadata - Object to supply image metadata.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__png_save(self, drawable_: Gimp.Drawable=None, path: str='', compression: int=3, bitdepth: int=16, metadata: Gegl.Metadata=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """PNG File Saver
-        
-        PNG image saver, using libpng.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename, use '-' for stdout.
-        
-        * compression (default: 3) - PNG compression level from 1 to 9.
-          
-          Minimum value: 1, maximum value: 9
-        
-        * bitdepth (default: 16) - 8 and 16 are the currently accepted values.
-          
-          Minimum value: 8, maximum value: 16
-        
-        * metadata - Object to supply image metadata.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__polar_coordinates(self, drawable_: Gimp.Drawable=None, depth: float=100.0, angle: float=0.0, bw: bool=False, top: bool=True, polar: bool=True, pole_x: int=0, pole_y: int=0, middle: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Polar Coordinates
-        
-        Convert image to or from polar coordinates.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * depth (default: 100.0)
-          
-          Minimum value: 0.0, maximum value: 100.0
-        
-        * angle (default: 0.0)
-          
-          Minimum value: 0.0, maximum value: 360.0
-        
-        * bw (default: False) - Start from the right instead of the left.
-        
-        * top (default: True) - Put the top row in the middle and the bottom
-          row on the outside.
-        
-        * polar (default: True) - Map the image to a circle.
-        
-        * pole_x (default: 0) - Origin point for the polar coordinates.
-          
-          Minimum value: 0
-        
-        * pole_y (default: 0) - Origin point for the polar coordinates.
-          
-          Minimum value: 0
-        
-        * middle (default: True) - Let origin point to be the middle one.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__posterize(self, drawable_: Gimp.Drawable=None, levels: int=8, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Posterize
-        
-        Reduces the number of levels in each color component of the image.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * levels (default: 8) - number of levels per component.
-          
-          Minimum value: 1, maximum value: 64
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__ppm_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """PPM File Loader
-        
-        PPM image loader.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI of image to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__ppm_save(self, drawable_: Gimp.Drawable=None, path: str='', rawformat: bool=True, bitdepth: int=16, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """PPM File Saver
-        
-        PPM image saver (Portable pixmap saver.).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename, use '-' for stdout.
-        
-        * rawformat (default: True)
-        
-        * bitdepth (default: 16) - 8 and 16 are the currently accepted values.
-          
-          Minimum value: 8, maximum value: 16
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__radial_gradient(self, drawable_: Gimp.Drawable=None, start_x: float=25.0, start_y: float=25.0, end_x: float=50.0, end_y: float=50.0, start_color: Gegl.Color=None, end_color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Radial Gradient
-        
-        Radial gradient renderer.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * start_x (default: 25.0)
-        
-        * start_y (default: 25.0)
-        
-        * end_x (default: 50.0)
-        
-        * end_y (default: 50.0)
-        
-        * start_color - The color at (x1, y1).
-        
-        * end_color - The color at (x2, y2).
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__rectangle(self, drawable_: Gimp.Drawable=None, x: float=42.0, y: float=42.0, width: float=23.0, height: float=42.0, color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Rectangle
-        
-        A rectangular source of a fixed size with a solid color.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * x (default: 42.0) - Horizontal position.
-        
-        * y (default: 42.0) - Vertical position.
-        
-        * width (default: 23.0) - Horizontal extent.
-          
-          Minimum value: 0.0
-        
-        * height (default: 42.0) - Vertical extent.
-          
-          Minimum value: 0.0
-        
-        * color - Color to render.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__recursive_transform(self, drawable_: Gimp.Drawable=None, transform: str='matrix (1, 0, 0, 0, 1, 0, 0, 0, 1)', first_iteration: int=0, iterations: int=3, fade_color: Gegl.Color=None, fade_opacity: float=1.0, paste_below: bool=False, sampler_type: str='linear', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__recursive_transform(self, drawable_: Gimp.Drawable=None, transform: str='matrix (1, 0, 0, 0, 1, 0, 0, 0, 1)', first_iteration: int=0, iterations: int=3, fade_color: Optional[Gegl.Color]=None, fade_opacity: float=1.0, paste_below: bool=False, sampler_type: str='linear', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Recursive Transform
         
         Apply a transformation recursively.
@@ -26848,8 +26368,8 @@ class _PyPDB:
           
           Minimum value: 0, maximum value: 20
         
-        * fade_color - Color to fade transformed images towards, with a rate
-          depending on its alpha.
+        * fade_color (can be None) - Color to fade transformed images towards,
+          with a rate depending on its alpha.
         
         * fade_opacity (default: 1.0) - Amount by which to scale the opacity
           of each transformed image.
@@ -26905,45 +26425,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__reflect(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, x: float=0.0, y: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Reflect
-        
-        Reflect an image about a line, whose direction is specified by the
-        vector that is defined by the x and y properties.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * x (default: 0.0) - Direction vector's X component.
-        
-        * y (default: 0.0) - Direction vector's Y component.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__reinhard05(self, drawable_: Gimp.Drawable=None, brightness: float=0.0, chromatic: float=0.0, light: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Reinhard 2005 Tone Mapping
         
@@ -26984,64 +26465,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__remap(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Remap
-        
-        Stretch components of pixels individually based on luminance
-        envelopes.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__reset_origin(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Reset origin
-        
-        Translate top-left to 0,0.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__rgb_clip(self, drawable_: Gimp.Drawable=None, clip_low: bool=True, low_limit: float=0.0, clip_high: bool=True, high_limit: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Clip RGB
         
@@ -27060,56 +26483,6 @@ class _PyPDB:
         
         * high_limit (default: 1.0) - Pixels values higher than this limit
           will be set to it.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__rgbe_load(self, drawable_: Gimp.Drawable=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """RGBE File Loader
-        
-        RGBE image loader (Radiance HDR format).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__rgbe_save(self, drawable_: Gimp.Drawable=None, path: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """RGBE File Saver
-        
-        RGBE image saver (Radiance HDR format).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename, use '-' for stdout.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -27178,82 +26551,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__rotate(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, degrees: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Rotate
-        
-        Rotate the buffer around the specified origin.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * degrees (default: 0.0) - Angle to rotate (counter-clockwise).
-          
-          Minimum value: -720.0, maximum value: 720.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__rotate_on_center(self, drawable_: Gimp.Drawable=None, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, degrees: float=0.0, origin_x: float=0.0, origin_y: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Rotate on center
-        
-        Rotate the buffer around its center, taking care of possible offsets.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * degrees (default: 0.0) - Angle to rotate (counter-clockwise).
-        
-        * origin_x (default: 0.0) - Ignored. Always uses center of input
-          buffer.
-        
-        * origin_y (default: 0.0) - Ignored. Always uses center of input
-          buffer.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__saturation(self, drawable_: Gimp.Drawable=None, scale: float=1.0, colorspace: str='Native', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Saturation
         
@@ -27270,276 +26567,6 @@ class _PyPDB:
         * colorspace (default: 'Native')
           
           Allowed values: 'Native', 'CIE-Lab', 'CIE-Yuv'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__save(self, drawable_: Gimp.Drawable=None, path: str='', metadata: Gegl.Metadata=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Save
-        
-        Multipurpose file saver, that uses other native save handlers
-        depending on extension, use the format specific save ops to
-        specify additional parameters.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to save.
-        
-        * metadata - Object providing image metadata.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__save_pixbuf(self, drawable_: Gimp.Drawable=None, pixbuf: gi.overrides.GdkPixbuf.Pixbuf=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Store in GdkPixbuf
-        
-        Store image in a GdkPixbuf.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * pixbuf - The output pixbuf produced by process is stored in this
-          property.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__scale_ratio(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, abyss_policy: Gegl.AbyssPolicy=Gegl.AbyssPolicy.NONE, x: float=0.0, y: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Scale ratio
-        
-        Scales the buffer according to a ratio.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * abyss_policy (default: Gegl.AbyssPolicy.NONE) - How image edges are
-          handled.
-        
-        * x (default: 0.0) - Horizontal scale factor.
-          
-          Minimum value: -9000.0, maximum value: 9000.0
-        
-        * y (default: 0.0) - Vertical scale factor.
-          
-          Minimum value: -9000.0, maximum value: 9000.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__scale_size(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, abyss_policy: Gegl.AbyssPolicy=Gegl.AbyssPolicy.NONE, x: float=100.0, y: float=100.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Scale size
-        
-        Scales the buffer according to a size.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * abyss_policy (default: Gegl.AbyssPolicy.NONE) - How image edges are
-          handled.
-        
-        * x (default: 100.0) - Horizontal size.
-          
-          Minimum value: -9000.0, maximum value: 9000.0
-        
-        * y (default: 100.0) - Vertical size.
-          
-          Minimum value: -9000.0, maximum value: 9000.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__scale_size_keepaspect(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, abyss_policy: Gegl.AbyssPolicy=Gegl.AbyssPolicy.NONE, x: float=-1.0, y: float=-1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Scale size keep aspect
-        
-        Scales the buffer to a size, preserving aspect ratio.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * abyss_policy (default: Gegl.AbyssPolicy.NONE) - How image edges are
-          handled.
-        
-        * x (default: -1.0) - Horizontal size.
-          
-          Minimum value: -9000.0, maximum value: 9000.0
-        
-        * y (default: -1.0) - Vertical size.
-          
-          Minimum value: -9000.0, maximum value: 9000.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__seamless_clone(self, drawable_: Gimp.Drawable=None, max_refine_scale: int=5, xoff: int=0, yoff: int=0, error_msg: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Seamless cloning operation.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * max_refine_scale (default: 5) - Maximal scale of refinement points
-          to be used for the interpolation mesh.
-          
-          Minimum value: 0, maximum value: 100000
-        
-        * xoff (default: 0) - How much horizontal offset should applied to the
-          paste.
-          
-          Minimum value: -100000, maximum value: 100000
-        
-        * yoff (default: 0) - How much horizontal offset should applied to the
-          paste.
-          
-          Minimum value: -100000, maximum value: 100000
-        
-        * error_msg (default: '') - An error message in case of a failure.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__seamless_clone_compose(self, drawable_: Gimp.Drawable=None, max_refine_scale: int=2000, xoff: int=0, yoff: int=0, error_msg: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Seamless cloning composite operation.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * max_refine_scale (default: 2000) - Maximal amount of refinement
-          points to be used for the interpolation mesh.
-          
-          Minimum value: 0, maximum value: 100000
-        
-        * xoff (default: 0) - How much horizontal offset should applied to the
-          paste.
-          
-          Minimum value: 0, maximum value: 100000
-        
-        * yoff (default: 0) - How much vertical offset should applied to the
-          paste.
-          
-          Minimum value: 0, maximum value: 100000
-        
-        * error_msg (default: '') - An error message in case of a failure.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -27637,93 +26664,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__shadows_highlights_correction(self, drawable_: Gimp.Drawable=None, shadows: float=0.0, highlights: float=0.0, whitepoint: float=0.0, compress: float=50.0, shadows_ccorrect: float=100.0, highlights_ccorrect: float=50.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
-        
-        Lighten shadows and darken highlights.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * shadows (default: 0.0) - Adjust exposure of shadows.
-          
-          Minimum value: -100.0, maximum value: 100.0
-        
-        * highlights (default: 0.0) - Adjust exposure of highlights.
-          
-          Minimum value: -100.0, maximum value: 100.0
-        
-        * whitepoint (default: 0.0) - Shift white point.
-          
-          Minimum value: -10.0, maximum value: 10.0
-        
-        * compress (default: 50.0) - Compress the effect on shadows/highlights
-          and preserve midtones.
-          
-          Minimum value: 0.0, maximum value: 100.0
-        
-        * shadows_ccorrect (default: 100.0) - Adjust saturation of shadows.
-          
-          Minimum value: 0.0, maximum value: 100.0
-        
-        * highlights_ccorrect (default: 50.0) - Adjust saturation of
-          highlights.
-          
-          Minimum value: 0.0, maximum value: 100.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__shear(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, x: float=0.0, y: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Shear
-        
-        Shears the buffer.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * x (default: 0.0) - Horizontal shear amount.
-        
-        * y (default: 0.0) - Vertical shear amount.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__shift(self, drawable_: Gimp.Drawable=None, shift: int=5, direction: str='horizontal', seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Shift
         
@@ -27794,7 +26734,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__sinus(self, drawable_: Gimp.Drawable=None, x_scale: float=15.0, y_scale: float=15.0, complexity: float=1.0, seed: int=0, tiling: bool=True, perturbation: bool=True, color1: Gegl.Color=None, color2: Gegl.Color=None, blend_mode: str='sinusoidal', blend_power: float=0.0, width: int=1024, height: int=768, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__sinus(self, drawable_: Gimp.Drawable=None, x_scale: float=15.0, y_scale: float=15.0, complexity: float=1.0, seed: int=0, tiling: bool=True, perturbation: bool=True, color1: Optional[Gegl.Color]=None, color2: Optional[Gegl.Color]=None, blend_mode: str='sinusoidal', blend_power: float=0.0, width: int=1024, height: int=768, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Sinus
         
         Generate complex sinusoidal textures.
@@ -27824,9 +26764,9 @@ class _PyPDB:
         * perturbation (default: True) - If set, the pattern will be a little
           more distorted.
         
-        * color1
+        * color1 (can be None)
         
-        * color2
+        * color2 (can be None)
         
         * blend_mode (default: 'sinusoidal')
           
@@ -27927,37 +26867,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__soft_light(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Soft-light
-        
-        SVG blend operation soft-light (<code>if 2 * cA < aA: d = cB * (aA -
-        (aB == 0 ? 1 : 1 - cB / aB) * (2 * cA - aA)) + cA * (1 - aB)
-        + cB * (1 - aA); if 8 * cB <= aB: d = cB * (aA - (aB == 0 ? 1
-        : 1 - cB / aB) * (2 * cA - aA) * (aB == 0 ? 3 : 3 - 8 * cB /
-        aB)) + cA * (1 - aB) + cB * (1 - aA); otherwise: d = (aA * cB
-        + (aB == 0 ? 0 : sqrt (cB / aB) * aB - cB) * (2 * cA - aA)) +
-        cA * (1 - aB) + cB * (1 - aA)</code>).
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * srgb (default: False) - Use sRGB gamma instead of linear.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__softglow(self, drawable_: Gimp.Drawable=None, glow_radius: float=10.0, brightness: float=0.3, sharpness: float=0.85, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Softglow
         
@@ -28039,7 +26948,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__spiral(self, drawable_: Gimp.Drawable=None, type: str='linear', x: float=0.5, y: float=0.5, radius: float=100.0, base: float=2.0, balance: float=0.0, rotation: float=0.0, direction: str='cw', color1: Gegl.Color=None, color2: Gegl.Color=None, width: int=1024, height: int=768, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__spiral(self, drawable_: Gimp.Drawable=None, type: str='linear', x: float=0.5, y: float=0.5, radius: float=100.0, base: float=2.0, balance: float=0.0, rotation: float=0.0, direction: str='cw', color1: Optional[Gegl.Color]=None, color2: Optional[Gegl.Color]=None, width: int=1024, height: int=768, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Spiral
         
         Spiral renderer.
@@ -28076,9 +26985,9 @@ class _PyPDB:
           
           Allowed values: 'cw', 'ccw'
         
-        * color1
+        * color1 (can be None)
         
-        * color2
+        * color2 (can be None)
         
         * width (default: 1024) - Width of the generated buffer.
           
@@ -28264,7 +27173,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__styles(self, drawable_: Gimp.Drawable=None, guichange: str='outlineshadow', color_fill: Gegl.Color=None, color_policy: str='multiply', enableoutline: bool=False, outline_opacity: float=1.0, outline_x: float=0.0, outline_y: float=0.0, outline_grow_shape: str='circle', outline_blur: float=0.0, outline: float=12.0, outline_color: Gegl.Color=None, shadow_opacity: float=0.0, shadow_x: float=10.0, shadow_y: float=10.0, shadow_color: Gegl.Color=None, shadow_grow_radius: float=0.0, shadow_radius: float=12.0, enablebevel: bool=False, bevel_blend: str='multiply', bevel_type: str='bumpbevel', bevel_depth: int=65, bevel_elevation: float=55.0, bevel_azimuth: float=75.0, bevel_radius: float=5.0, bevel_outlow: float=0.0, bevel_outhigh: float=1.0, bevel_dark: float=0.0, enableinnerglow: bool=False, ig_blend: str='normal', ig_radius: float=6.0, ig_grow_radius: float=5.0, ig_opacity: float=1.0, ig_value: Gegl.Color=None, ig_treatment: float=60.0, enableimage: bool=False, image_src: str='', image_opacity: float=1.0, image_saturation: float=1.0, image_lightness: float=0.0, enablespecialoutline: bool=False, enableoutlinebevel: bool=True, os_blend: str='multiply', os_depth: int=15, os_elevation: float=47.0, os_azimuth: float=55.0, os_radius: float=3.0, enableimageoutline: bool=False, os_src: str='', os_src_opacity: float=1.0, os_outlow: float=0.0, os_outhigh: float=1.0, os_dark: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__styles(self, drawable_: Gimp.Drawable=None, guichange: str='outlineshadow', color_fill: Optional[Gegl.Color]=None, color_policy: str='multiply', enableoutline: bool=False, outline_opacity: float=1.0, outline_x: float=0.0, outline_y: float=0.0, outline_grow_shape: str='circle', outline_blur: float=0.0, outline: float=12.0, outline_color: Optional[Gegl.Color]=None, shadow_opacity: float=0.0, shadow_x: float=10.0, shadow_y: float=10.0, shadow_color: Optional[Gegl.Color]=None, shadow_grow_radius: float=0.0, shadow_radius: float=12.0, enablebevel: bool=False, bevel_blend: str='multiply', bevel_type: str='bumpbevel', bevel_depth: int=65, bevel_elevation: float=55.0, bevel_azimuth: float=75.0, bevel_radius: float=5.0, bevel_outlow: float=0.0, bevel_outhigh: float=1.0, bevel_dark: float=0.0, enableinnerglow: bool=False, ig_blend: str='normal', ig_radius: float=6.0, ig_grow_radius: float=5.0, ig_opacity: float=1.0, ig_value: Optional[Gegl.Color]=None, ig_treatment: float=60.0, enableimage: bool=False, image_src: str='', image_opacity: float=1.0, image_saturation: float=1.0, image_lightness: float=0.0, enablespecialoutline: bool=False, enableoutlinebevel: bool=True, os_blend: str='multiply', os_depth: int=15, os_elevation: float=47.0, os_azimuth: float=55.0, os_radius: float=3.0, enableimageoutline: bool=False, os_src: str='', os_src_opacity: float=1.0, os_outlow: float=0.0, os_outhigh: float=1.0, os_dark: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """GEGL Styles
         
         An engine to style text and add popular effects to alpha channel
@@ -28280,7 +27189,7 @@ class _PyPDB:
           
           Allowed values: 'outlineshadow', 'innerglowbevel', 'imageoutlinebevel'
         
-        * color_fill - Color overlay setting.
+        * color_fill (can be None) - Color overlay setting.
         
         * color_policy (default: 'multiply')
           
@@ -28309,7 +27218,8 @@ class _PyPDB:
           
           Minimum value: 0.0
         
-        * outline_color - Color of the outline (defaults to 'black') .
+        * outline_color (can be None) - Color of the outline (defaults to
+          &apos;black&apos;) .
         
         * shadow_opacity (default: 0.0) - Shadow opacity which will also
           enable or disable the shadow glow effect.
@@ -28320,7 +27230,8 @@ class _PyPDB:
         
         * shadow_y (default: 10.0) - Vertical axis of the shadow glow.
         
-        * shadow_color - The shadow’s color (defaults to 'black').
+        * shadow_color (can be None) - The shadow’s color (defaults to
+          &apos;black&apos;).
         
         * shadow_grow_radius (default: 0.0) - The distance to expand the
           shadow before blurring.
@@ -28397,7 +27308,7 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 1.0
         
-        * ig_value - The color of the inner glow.
+        * ig_value (can be None) - The color of the inner glow.
         
         * ig_treatment (default: 60.0) - Cover pixels that inner glow might
           miss.
@@ -28496,36 +27407,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__subtract(self, drawable_: Gimp.Drawable=None, value: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Subtract
-        
-        Math operation subtract, performs the operation per pixel, using
-        either the constant provided in 'value' or the corresponding
-        pixel from the buffer on aux as operands. The result is the
-        evaluation of the expression result = input - value.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value (default: 0.0) - global value used if aux doesn't contain
-          data.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__supernova(self, drawable_: Gimp.Drawable=None, center_x: float=0.5, center_y: float=0.5, radius: int=20, spokes_count: int=100, random_hue: int=0, color: Gegl.Color=None, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__supernova(self, drawable_: Gimp.Drawable=None, center_x: float=0.5, center_y: float=0.5, radius: int=20, spokes_count: int=100, random_hue: int=0, color: Optional[Gegl.Color]=None, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Supernova
         
         This plug-in produces an effect like a supernova burst. The amount of
@@ -28552,198 +27434,11 @@ class _PyPDB:
           
           Minimum value: 0, maximum value: 360
         
-        * color - The color of supernova.
+        * color (can be None) - The color of supernova.
         
         * seed (default: 0) - The random seed for spokes and random hue.
           
           Minimum value: 0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__svg_huerotate(self, drawable_: Gimp.Drawable=None, values: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """SVG Hue Rotate
-        
-        SVG color matrix operation svg_huerotate.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * values (default: '') - list of <number>s.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__svg_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', width: int=-1, height: int=-1, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """SVG File Loader
-        
-        Load an SVG file using librsvg.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI for file to load.
-        
-        * width (default: -1) - Width for rendered image.
-        
-        * height (default: -1) - Height for rendered image.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__svg_luminancetoalpha(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """SVG Luminance to Alpha
-        
-        SVG color matrix operation svg_luminancetoalpha.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__svg_matrix(self, drawable_: Gimp.Drawable=None, values: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """SVG Matrix
-        
-        SVG color matrix operation svg_matrix.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * values (default: '') - list of <number>s.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__svg_saturate(self, drawable_: Gimp.Drawable=None, values: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """SVG Saturate
-        
-        SVG color matrix operation svg_saturate.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * values (default: '') - list of <number>s.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__text(self, drawable_: Gimp.Drawable=None, string: str='Hello', font: str='Sans', size: float=10.0, color: Gegl.Color=None, wrap: int=-1, vertical_wrap: int=-1, alignment: int=0, vertical_alignment: int=0, width: int=0, height: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Render Text
-        
-        Display a string of text using pango and cairo.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * string (default: 'Hello') - String to display (utf8).
-        
-        * font (default: 'Sans') - Font family (utf8).
-        
-        * size (default: 10.0) - Font size in pixels.
-          
-          Minimum value: 0.0, maximum value: 2048.0
-        
-        * color - Color for the text (defaults to 'black').
-        
-        * wrap (default: -1) - Sets the width in pixels at which long lines
-          will wrap. Use -1 for no wrapping.
-          
-          Minimum value: -1, maximum value: 1000000
-        
-        * vertical_wrap (default: -1) - Sets the height in pixels according to
-          which the text is vertically justified. Use -1 for no
-          vertical justification.
-          
-          Minimum value: -1, maximum value: 1000000
-        
-        * alignment (default: 0) - Alignment for multi-line text (0=Left,
-          1=Center, 2=Right).
-          
-          Minimum value: 0, maximum value: 2
-        
-        * vertical_alignment (default: 0) - Vertical text alignment (0=Top,
-          1=Middle, 2=Bottom).
-          
-          Minimum value: 0, maximum value: 2
-        
-        * width (default: 0) - Rendered width in pixels. (read only).
-        
-        * height (default: 0) - Rendered height in pixels. (read only).
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -28793,136 +27488,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__threshold(self, drawable_: Gimp.Drawable=None, value: float=0.5, high: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Threshold
-        
-        Thresholds the image to white/black based on either the global values
-        set in the value (low) and high properties, or per pixel from
-        the aux input.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * value (default: 0.5) - Lowest value to be included.
-          
-          Minimum value: -200.0, maximum value: 200.0
-        
-        * high (default: 1.0) - Highest value to be included as white.
-          
-          Minimum value: -200.0, maximum value: 200.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__tiff_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', directory: int=1, metadata: Gegl.Metadata=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """TIFF File Loader
-        
-        TIFF image loader using libtiff.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI for file to load.
-        
-        * directory (default: 1) - Image file directory (subfile).
-          
-          Minimum value: 1
-        
-        * metadata - Object to receive image metadata.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__tiff_save(self, drawable_: Gimp.Drawable=None, path: str='', bitdepth: int=-1, fp: int=-1, metadata: Gegl.Metadata=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """TIFF File Saver
-        
-        TIFF image saver using libtiff.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename, use '-' for stdout.
-        
-        * bitdepth (default: -1) - -1, 8, 16, 32 and 64 are the currently
-          accepted values, -1 means auto.
-          
-          Minimum value: -1, maximum value: 64
-        
-        * fp (default: -1) - floating point -1 means auto, 0 means integer, 1
-          means float.
-          
-          Minimum value: -1, maximum value: 1
-        
-        * metadata - Object to receive image metadata.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__tile(self, drawable_: Gimp.Drawable=None, offset_x: int=0, offset_y: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Tile
-        
-        Infinitely repeats the input image.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * offset_x (default: 0)
-        
-        * offset_y (default: 0)
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__tile_glass(self, drawable_: Gimp.Drawable=None, tile_width: int=25, tile_height: int=25, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Tile Glass
         
@@ -28954,7 +27519,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__tile_paper(self, drawable_: Gimp.Drawable=None, tile_width: int=155, tile_height: int=56, move_rate: float=25.0, wrap_around: bool=False, fractional_type: str='force', centering: bool=True, background_type: str='invert', bg_color: Gegl.Color=None, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__tile_paper(self, drawable_: Gimp.Drawable=None, tile_width: int=155, tile_height: int=56, move_rate: float=25.0, wrap_around: bool=False, fractional_type: str='force', centering: bool=True, background_type: str='invert', bg_color: Optional[Gegl.Color]=None, seed: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Paper Tile
         
         Cut image into paper tiles, and slide them.
@@ -28987,7 +27552,7 @@ class _PyPDB:
           
           Allowed values: 'transparent', 'invert', 'image', 'color'
         
-        * bg_color - The tiles' background color.
+        * bg_color (can be None) - The tiles&apos; background color.
         
         * seed (default: 0)
           
@@ -29016,83 +27581,6 @@ class _PyPDB:
         Parameters:
         
         * drawable_ - Drawable.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__transform(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, transform: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Transform
-        
-        Do a transformation using SVG syntax transformation.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * transform (default: '') - Transformation SVG syntax transformation
-          string.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__translate(self, drawable_: Gimp.Drawable=None, origin_x: float=0.0, origin_y: float=0.0, near_z: float=0.0, sampler: Gegl.SamplerType=Gegl.SamplerType.LINEAR, x: float=0.0, y: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Translate
-        
-        Repositions the buffer (with subpixel precision), if integer
-        coordinates are passed a fast-path without resampling is
-        used.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * origin_x (default: 0.0) - X coordinate of origin.
-        
-        * origin_y (default: 0.0) - Y coordinate of origin.
-        
-        * near_z (default: 0.0) - Z coordinate of the near clipping plane.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * sampler (default: Gegl.SamplerType.LINEAR) - Sampler used
-          internally.
-        
-        * x (default: 0.0) - Horizontal translation.
-        
-        * y (default: 0.0) - Vertical translation.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29193,7 +27681,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__value_propagate(self, drawable_: Gimp.Drawable=None, mode: str='white', lower_threshold: float=0.0, upper_threshold: float=1.0, rate: float=1.0, color: Gegl.Color=None, top: bool=True, left: bool=True, right: bool=True, bottom: bool=True, value: bool=True, alpha: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__value_propagate(self, drawable_: Gimp.Drawable=None, mode: str='white', lower_threshold: float=0.0, upper_threshold: float=1.0, rate: float=1.0, color: Optional[Gegl.Color]=None, top: bool=True, left: bool=True, right: bool=True, bottom: bool=True, value: bool=True, alpha: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Value Propagate
         
         Propagate certain values to neighboring pixels. Erode and dilate any
@@ -29223,8 +27711,8 @@ class _PyPDB:
           
           Minimum value: 0.0, maximum value: 1.0
         
-        * color - Color to use for the "Only color" and "Color to peaks"
-          modes.
+        * color (can be None) - Color to use for the &quot;Only color&quot;
+          and &quot;Color to peaks&quot; modes.
         
         * top (default: True) - Propagate to top.
         
@@ -29234,9 +27722,9 @@ class _PyPDB:
         
         * bottom (default: True) - Propagate to bottom.
         
-        * value (default: True) - Whether to propagate a pixel's color.
+        * value (default: True) - Whether to propagate a pixel&apos;s color.
         
-        * alpha (default: True) - Whether to propagate a pixel's opacity.
+        * alpha (default: True) - Whether to propagate a pixel&apos;s opacity.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29284,31 +27772,22 @@ class _PyPDB:
         """
         pass
 
-    def gegl__vector_stroke(self, drawable_: Gimp.Drawable=None, color: Gegl.Color=None, width: float=2.0, opacity: float=1.0, transform: str='', d: Gegl.Path=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Vector Stroke
+    def gegl__vibrance(self, drawable_: Gimp.Drawable=None, vibrance: float=0.0, saturation: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Vibrance
         
-        Renders a vector stroke.
+        Adjusts the saturation and vibrance of the image.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * color - Color of paint to use for stroking.
-        
-        * width (default: 2.0) - The width of the brush used to stroke the
-          path.
+        * vibrance (default: 0.0) - Vibrance (chroma) adjustment.
           
-          Minimum value: 0.0, maximum value: 200.0
+          Minimum value: -100.0, maximum value: 100.0
         
-        * opacity (default: 1.0) - Opacity of stroke, note, does not behave
-          like SVG since at the moment stroking is done using an
-          airbrush tool.
+        * saturation (default: 1.0) - Saturation scale factor.
           
-          Minimum value: -2.0, maximum value: 2.0
-        
-        * transform (default: '') - svg style description of transform.
-        
-        * d - A GeglVector representing the path of the stroke.
+          Minimum value: 0.0, maximum value: 10.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29360,7 +27839,7 @@ class _PyPDB:
         """
         pass
 
-    def gegl__vignette(self, drawable_: Gimp.Drawable=None, shape: str='circle', color: Gegl.Color=None, radius: float=1.2, softness: float=0.8, gamma: float=2.0, proportion: float=1.0, squeeze: float=0.0, x: float=0.5, y: float=0.5, rotation: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gegl__vignette(self, drawable_: Gimp.Drawable=None, shape: str='circle', color: Optional[Gegl.Color]=None, radius: float=1.2, softness: float=0.8, gamma: float=2.0, proportion: float=1.0, squeeze: float=0.0, x: float=0.5, y: float=0.5, rotation: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Vignette
         
         Applies a vignette to an image. Simulates the luminance fall off at
@@ -29376,8 +27855,8 @@ class _PyPDB:
           Allowed values: 'circle', 'square', 'diamond', 'horizontal',
           'vertical'
         
-        * color - Defaults to 'black', you can use transparency here to erase
-          portions of an image.
+        * color (can be None) - Defaults to &apos;black&apos;, you can use
+          transparency here to erase portions of an image.
         
         * radius (default: 1.2) - How far out vignetting goes as portion of
           half image diagonal.
@@ -29410,52 +27889,6 @@ class _PyPDB:
         * rotation (default: 0.0)
           
           Minimum value: 0.0, maximum value: 360.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__warp(self, drawable_: Gimp.Drawable=None, strength: float=50.0, size: float=40.0, hardness: float=0.5, spacing: float=0.01, stroke: Gegl.Path=None, behavior: str='move', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Warp
-        
-        Compute a relative displacement mapping from a stroke.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * strength (default: 50.0)
-          
-          Minimum value: 0.0, maximum value: 100.0
-        
-        * size (default: 40.0)
-          
-          Minimum value: 1.0, maximum value: 10000.0
-        
-        * hardness (default: 0.5)
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * spacing (default: 0.01)
-          
-          Minimum value: 0.0, maximum value: 100.0
-        
-        * stroke
-        
-        * behavior (default: 'move') - Behavior of the op.
-          
-          Allowed values: 'move', 'grow', 'shrink', 'swirl-cw', 'swirl-ccw',
-          'erase', 'smooth'
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29511,101 +27944,6 @@ class _PyPDB:
         """
         pass
 
-    def gegl__watershed_transform(self, drawable_: Gimp.Drawable=None, flag_component: int=-1, flag: GObject.Value=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Watershed Transform
-        
-        Labels propagation by watershed transformation. Output buffer will
-        keep the input format. Unlabelled pixels are marked with a
-        given flag value (by default: last component with NULL
-        value). The aux buffer is a "Y u8" image representing the
-        priority levels (lower value is higher priority). If aux is
-        absent, all labellized pixels have the same priority and
-        propagated labels have a lower priority.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * flag_component (default: -1) - Index of component flagging
-          unlabelled pixels.
-        
-        * flag - Pointer to flag value for unlabelled pixels.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__wavelet_blur(self, drawable_: Gimp.Drawable=None, radius: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Wavelet Blur
-        
-        This blur is used for the wavelet decomposition filter, each pixel is
-        computed from another by the HAT transform.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * radius (default: 1.0) - Radius of the wavelet blur.
-          
-          Minimum value: 0.0, maximum value: 1500.0
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__wavelet_blur_1d(self, drawable_: Gimp.Drawable=None, radius: float=1.0, orientation: str='horizontal', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """1D Wavelet-blur
-        
-        This blur is used for the wavelet decomposition filter, each pixel is
-        computed from another by the HAT transform.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * radius (default: 1.0) - Radius of the wavelet blur.
-          
-          Minimum value: 0.0, maximum value: 1500.0
-        
-        * orientation (default: 'horizontal') - The orientation of the blur -
-          hor/ver.
-          
-          Allowed values: 'horizontal', 'vertical'
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
     def gegl__waves(self, drawable_: Gimp.Drawable=None, x: float=0.5, y: float=0.5, amplitude: float=25.0, period: float=100.0, phi: float=0.0, aspect: float=1.0, sampler_type: str='cubic', clamp: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """Waves
         
@@ -29641,85 +27979,6 @@ class _PyPDB:
           Allowed values: 'nearest', 'linear', 'cubic', 'nohalo', 'lohalo'
         
         * clamp (default: False) - Limit deformation in the image area.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__webp_load(self, drawable_: Gimp.Drawable=None, path: str='', uri: str='', blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """WebP File Loader
-        
-        WebP image loader.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Path of file to load.
-        
-        * uri (default: '') - URI for file to load.
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__webp_save(self, drawable_: Gimp.Drawable=None, path: str='', quality: int=90, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """WebP File Saver
-        
-        WebP image saver.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
-        
-        * path (default: '') - Target path and filename, use '-' for stdout.
-        
-        * quality (default: 90) - WebP compression quality.
-          
-          Minimum value: 1, maximum value: 100
-        
-        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
-        
-        * opacity_ (default: 1.0) - Opacity.
-          
-          Minimum value: 0.0, maximum value: 1.0
-        
-        * merge_filter_ (default: False) - Merge filter.
-        
-        * visible_ (default: True) - Visible.
-        
-        * name_ (default: '') - Filter name.
-        """
-        pass
-
-    def gegl__weighted_blend(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Weighted Blend
-        
-        Blend two images using alpha values as weights.
-        
-        Parameters:
-        
-        * drawable_ - Drawable.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29818,16 +28077,26 @@ class _PyPDB:
         """
         pass
 
-    def gegl__write_buffer(self, drawable_: Gimp.Drawable=None, buffer: Gegl.Buffer=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Write Buffer
+    def gimp__addition_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Write input data into an existing GEGL buffer destination surface.
+        GIMP addition mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * buffer - A pre-existing GeglBuffer to write incoming buffer data to.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29843,16 +28112,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__clear(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Clear
+    def gimp__anti_erase(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation clear (d = 0.0f).
+        GIMP anti erase mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29868,19 +28147,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__color_burn(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Color-burn
+    def gimp__behind(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        SVG blend operation color-burn (<code>if cA * aB + cB * aA <= aA *
-        aB: d = cA * (1 - aB) + cB * (1 - aA) otherwise: d = (cA == 0
-        ? 1 : (aA * (cA * aB + cB * aA - aA * aB) / cA) + cA * (1 -
-        aB) + cB * (1 - aA))</code>).
+        GIMP behind mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29896,19 +28182,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__color_dodge(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Color-dodge
+    def gimp__border(self, drawable_: Gimp.Drawable=None, radius_x: int=1, radius_y: int=1, feather: bool=False, edge_lock: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        SVG blend operation color-dodge (<code>if cA * aB + cB * aA >= aA *
-        aB: d = aA * aB + cA * (1 - aB) + cB * (1 - aA) otherwise: d
-        = (cA == aA ? 1 : cB * aA / (aA == 0 ? 1 : 1 - cA / aA)) + cA
-        * (1 - aB) + cB * (1 - aA)</code>).
+        GIMP Border operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * radius_x (default: 1) - Border radius in X direction.
+          
+          Minimum value: 1, maximum value: 2342
+        
+        * radius_y (default: 1) - Border radius in Y direction.
+          
+          Minimum value: 1, maximum value: 2342
+        
+        * feather (default: False) - Feather the border.
+        
+        * edge_lock (default: False) - Shrink from border.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29924,17 +28217,22 @@ class _PyPDB:
         """
         pass
 
-    def svg__darken(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """
+    def gimp__brightness_contrast(self, drawable_: Gimp.Drawable=None, brightness: float=0.0, contrast: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Brightness-Contrast
         
-        SVG blend operation darken (<code>d = MIN (cA * aB, cB * aA) + cA *
-        (1 - aB) + cB * (1 - aA)</code>).
+        Adjust brightness and contrast.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * brightness (default: 0.0) - Brightness.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * contrast (default: 0.0) - Contrast.
+          
+          Minimum value: -1.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29950,17 +28248,17 @@ class _PyPDB:
         """
         pass
 
-    def svg__difference(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gimp__buffer_source_validate(self, drawable_: Gimp.Drawable=None, unknown: GObject.ParamSpec=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """
         
-        SVG blend operation difference (<code>d = cA + cB - 2 * (MIN (cA *
-        aB, cB * aA))</code>).
+        GIMP Buffer-Source Validate operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * unknown - placeholder for unsupported type:buffer:GeglBuffer:Input
+          buffer.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -29976,16 +28274,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__dst(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Dst
+    def gimp__burn_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation dst (d = cB).
+        GIMP burn mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30001,16 +28309,30 @@ class _PyPDB:
         """
         pass
 
-    def svg__dst_atop(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Dst-atop
+    def gimp__color_balance(self, drawable_: Gimp.Drawable=None, range: Gimp.TransferMode=Gimp.TransferMode.MIDTONES, cyan_red: float=0.0, magenta_green: float=0.0, yellow_blue: float=0.0, preserve_luminosity: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Color Balance
         
-        Porter Duff operation dst-atop (d = cB * aA + cA * (1.0f - aB)).
+        Adjust color distribution.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * range (default: Gimp.TransferMode.MIDTONES) - The affected range.
+        
+        * cyan_red (default: 0.0) - Cyan-Red.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * magenta_green (default: 0.0) - Magenta-Green.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * yellow_blue (default: 0.0) - Yellow-Blue.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * preserve_luminosity (default: True) - Preserve Luminosity.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30026,16 +28348,28 @@ class _PyPDB:
         """
         pass
 
-    def svg__dst_in(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Dst-in
+    def gimp__colorize(self, drawable_: Gimp.Drawable=None, hue: float=0.5, saturation: float=0.5, lightness: float=0.0, color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Colorize
         
-        Porter Duff operation dst-in (d = cB * aA).
+        Colorize the image.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * hue (default: 0.5) - Hue.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * saturation (default: 0.5) - Saturation.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * lightness (default: 0.0) - Lightness.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * color - Color.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30051,16 +28385,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__dst_out(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Dst-out
+    def gimp__compose_crop(self, drawable_: Gimp.Drawable=None, x: int=0, y: int=0, width: int=0, height: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation dst-out (d = cB * (1.0f - aA)).
+        Selectively pick components from src or aux.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * x (default: 0) - x.
+        
+        * y (default: 0) - y.
+        
+        * width (default: 0) - width.
+          
+          Minimum value: 0
+        
+        * height (default: 0) - height.
+          
+          Minimum value: 0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30076,16 +28420,22 @@ class _PyPDB:
         """
         pass
 
-    def svg__dst_over(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Dst-over
+    def gimp__curves(self, drawable_: Gimp.Drawable=None, trc: Gimp.TRCType=Gimp.TRCType.PERCEPTUAL, channel: Gimp.HistogramChannel=Gimp.HistogramChannel.VALUE, curve: Gimp.Curve=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Curves
         
-        Porter Duff operation dst-over (d = cB + cA * (1.0f - aB)).
+        Adjust color curves.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * trc (default: Gimp.TRCType.PERCEPTUAL) - Work on linear or
+          perceptual RGB, or following the image's TRC.
+        
+        * channel (default: Gimp.HistogramChannel.VALUE) - The affected
+          channel.
+        
+        * curve - Curve.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30101,17 +28451,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__exclusion(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gimp__darken_only_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """
         
-        SVG blend operation exclusion (<code>d = (cA * aB + cB * aA - 2 * cA
-        * cB) + cA * (1 - aB) + cB * (1 - aA)</code>).
+        GIMP darken only mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30127,19 +28486,17 @@ class _PyPDB:
         """
         pass
 
-    def svg__hard_light(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Hard-light
+    def gimp__desaturate(self, drawable_: Gimp.Drawable=None, mode: Gimp.DesaturateMode=Gimp.DesaturateMode.LUMINANCE, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Desaturate
         
-        SVG blend operation hard-light (<code>if 2 * cA < aA: d = 2 * cA * cB
-        + cA * (1 - aB) + cB * (1 - aA) otherwise: d = aA * aB - 2 *
-        (aB - cB) * (aA - cA) + cA * (1 - aB) + cB * (1 -
-        aA)</code>).
+        Turn colors into shades of gray.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * mode (default: Gimp.DesaturateMode.LUMINANCE) - Choose shade of gray
+          based on.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30155,17 +28512,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__lighten(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gimp__difference_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """
         
-        SVG blend operation lighten (<code>d = MAX (cA * aB, cB * aA) + cA *
-        (1 - aB) + cB * (1 - aA)</code>).
+        GIMP difference mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30181,19 +28547,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__overlay(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Overlay
+    def gimp__divide_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        SVG blend operation overlay (<code>if 2 * cB > aB: d = 2 * cA * cB +
-        cA * (1 - aB) + cB * (1 - aA) otherwise: d = aA * aB - 2 *
-        (aB - cB) * (aA - cA) + cA * (1 - aB) + cB * (1 -
-        aA)</code>).
+        GIMP divide mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30209,16 +28582,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__plus(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Plus
+    def gimp__dodge_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        SVG blend operation plus (<code>d = cA + cB</code>).
+        GIMP dodge mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30234,16 +28617,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__screen(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+    def gimp__erase(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
         """
         
-        SVG blend operation screen (<code>d = cA + cB - cA * cB</code>).
+        GIMP erase mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30259,16 +28652,23 @@ class _PyPDB:
         """
         pass
 
-    def svg__src(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Src
+    def gimp__fill_source(self, drawable_: Gimp.Drawable=None, unknown: GObject.ParamSpec=None, drawable: Optional[Gimp.Drawable]=None, pattern_offset_x: int=0, pattern_offset_y: int=0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation src (d = cA).
+        GIMP Fill Source operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * unknown - placeholder for unsupported
+          type:options:GimpFillOptions:Fill options.
+        
+        * drawable (can be None) - Fill drawable.
+        
+        * pattern_offset_x (default: 0) - Pattern X-offset.
+        
+        * pattern_offset_y (default: 0) - Pattern Y-offset.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30284,16 +28684,14 @@ class _PyPDB:
         """
         pass
 
-    def svg__src_atop(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Src-atop
+    def gimp__flood(self, drawable_: Gimp.Drawable=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation src-atop (d = cA * aB + cB * (1.0f - aA)).
+        GIMP Flood operation.
         
         Parameters:
         
         * drawable_ - Drawable.
-        
-        * srgb (default: False) - Use sRGB gamma instead of linear.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30309,16 +28707,55 @@ class _PyPDB:
         """
         pass
 
-    def svg__src_in(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Src-in
+    def gimp__gradient(self, drawable_: Gimp.Drawable=None, unknown: GObject.ParamSpec=None, start_x: float=0.0, start_y: float=0.0, end_x: float=200.0, end_y: float=200.0, gradient_type: Gimp.GradientType=Gimp.GradientType.LINEAR, gradient_repeat: Gimp.RepeatMode=Gimp.RepeatMode.NONE, offset: float=0.0, gradient_reverse: bool=False, gradient_blend_color_space: Gimp.GradientBlendColorSpace=Gimp.GradientBlendColorSpace.RGB_PERCEPTUAL, supersample: bool=False, supersample_depth: int=3, supersample_threshold: float=0.2, dither: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff compositing operation src-in (formula:   cA * aB).
+        GIMP Gradient operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * unknown - placeholder for unsupported type:gradient:GimpObject:A
+          GimpGradient to render.
+        
+        * start_x (default: 0.0) - X coordinate of the first point.
+        
+        * start_y (default: 0.0) - Y coordinate of the first point.
+        
+        * end_x (default: 200.0) - X coordinate of the second point.
+        
+        * end_y (default: 200.0) - Y coordinate of the second point.
+        
+        * gradient_type (default: Gimp.GradientType.LINEAR) - The type of
+          gradient to render.
+        
+        * gradient_repeat (default: Gimp.RepeatMode.NONE) - Repeat mode.
+        
+        * offset (default: 0.0) - Offset relates to the starting and ending
+          coordinates specified for the blend. This parameter is mode
+          dependent.
+          
+          Minimum value: 0.0
+        
+        * gradient_reverse (default: False) - Reverse the gradient.
+        
+        * gradient_blend_color_space (default:
+          Gimp.GradientBlendColorSpace.RGB_PERCEPTUAL) - Which color
+          space to use when blending RGB gradient segments.
+        
+        * supersample (default: False) - Do adaptive supersampling.
+        
+        * supersample_depth (default: 3) - Maximum recursion levels for
+          supersampling.
+          
+          Minimum value: 1, maximum value: 9
+        
+        * supersample_threshold (default: 0.2) - Supersampling threshold.
+          
+          Minimum value: 0.0, maximum value: 4.0
+        
+        * dither (default: False) - Use dithering to reduce banding.
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30334,16 +28771,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__src_out(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Src-out
+    def gimp__grain_extract_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation src-out (d = cA * (1.0f - aB)).
+        GIMP grain extract mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30359,17 +28806,26 @@ class _PyPDB:
         """
         pass
 
-    def svg__src_over(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Normal compositing
+    def gimp__grain_merge_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation over (also known as normal mode, and src-over)
-        (d = cA + cB * (1 - aA)).
+        GIMP grain merge mode operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30385,16 +28841,982 @@ class _PyPDB:
         """
         pass
 
-    def svg__xor(self, drawable_: Gimp.Drawable=None, srgb: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
-        """Xor
+    def gimp__grow(self, drawable_: Gimp.Drawable=None, radius_x: int=1, radius_y: int=1, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
         
-        Porter Duff operation xor (d = cA * (1.0f - aB)+ cB * (1.0f - aA)).
+        GIMP Grow operation.
         
         Parameters:
         
         * drawable_ - Drawable.
         
-        * srgb (default: False) - Use sRGB gamma instead of linear.
+        * radius_x (default: 1) - Grow radius in X direction.
+          
+          Minimum value: 1, maximum value: 2342
+        
+        * radius_y (default: 1) - Grow radius in Y direction.
+          
+          Minimum value: 1, maximum value: 2342
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__hardlight_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP hardlight mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__hsl_color_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP color mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__hsv_hue_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP hue mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__hsv_saturation_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP saturation mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__hsv_value_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP value mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__hue_saturation(self, drawable_: Gimp.Drawable=None, range: Gimp.HueRange=Gimp.HueRange.ALL, hue: float=0.0, saturation: float=0.0, lightness: float=0.0, overlap: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Hue-Saturation
+        
+        Adjust hue, saturation, and lightness.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * range (default: Gimp.HueRange.ALL) - The affected range.
+        
+        * hue (default: 0.0) - Hue.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * saturation (default: 0.0) - Saturation.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * lightness (default: 0.0) - Lightness.
+          
+          Minimum value: -1.0, maximum value: 1.0
+        
+        * overlap (default: 0.0) - Overlap.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__layer_mode(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__levels(self, drawable_: Gimp.Drawable=None, trc: Gimp.TRCType=Gimp.TRCType.LINEAR, linear: bool=True, channel: Gimp.HistogramChannel=Gimp.HistogramChannel.VALUE, low_input: float=0.0, high_input: float=1.0, clamp_input: bool=False, gamma: float=1.0, low_output: float=0.0, high_output: float=1.0, clamp_output: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Levels
+        
+        Adjust color levels.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * trc (default: Gimp.TRCType.LINEAR) - Work on linear or perceptual
+          RGB, or following the image's TRC.
+        
+        * linear (default: True) - Work on linear RGB (this property is
+          ignored; use "trc" instead).
+        
+        * channel (default: Gimp.HistogramChannel.VALUE) - The affected
+          channel.
+        
+        * low_input (default: 0.0) - Low Input.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * high_input (default: 1.0) - High Input.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * clamp_input (default: False) - Clamp input values before applying
+          output mapping.
+        
+        * gamma (default: 1.0) - Gamma.
+          
+          Minimum value: 0.1, maximum value: 10.0
+        
+        * low_output (default: 0.0) - Low Output.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * high_output (default: 1.0) - High Output.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * clamp_output (default: False) - Clamp final output values.
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__lighten_only_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP lighten only legacy operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__mask_components(self, drawable_: Gimp.Drawable=None, unknown: GObject.ParamSpec=None, alpha: float=0.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        Selectively pick components from src or aux.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * unknown - placeholder for unsupported
+          type:mask:GimpComponentMask:The component mask.
+        
+        * alpha (default: 0.0) - The masked-in alpha value when there's no aux
+          input.
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__merge(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP merge mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__multiply_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP multiply legacy operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__normal(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP normal mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__overwrite(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP overwrite mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__pass_through(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP pass through mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__posterize(self, drawable_: Gimp.Drawable=None, levels: int=3, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Posterize
+        
+        Reduce to a limited set of colors.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * levels (default: 3)
+          
+          Minimum value: 2, maximum value: 256
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__profile_transform(self, drawable_: Gimp.Drawable=None, unknown: GObject.ParamSpec=None, rendering_intent: Gimp.ColorRenderingIntent=Gimp.ColorRenderingIntent.RELATIVE_COLORIMETRIC, black_point_compensation: bool=True, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        Transform between two color profiles.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * unknown - placeholder for unsupported
+          type:dest-format:gpointer:Destination Format.
+        
+        * rendering_intent (default:
+          Gimp.ColorRenderingIntent.RELATIVE_COLORIMETRIC) - Rendering
+          Intent.
+        
+        * black_point_compensation (default: True) - Black Point Compensation.
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__replace(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP replace mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__scalar_multiply(self, drawable_: Gimp.Drawable=None, n_components: int=2, factor: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        Multiply all floats in a buffer by a factor.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * n_components (default: 2) - Number of components in the input/output
+          vectors.
+          
+          Minimum value: 1, maximum value: 16
+        
+        * factor (default: 1.0) - The scalar factor.
+          
+          Minimum value: 1.1754943508222875e-38, maximum value:
+          3.4028234663852886e+38
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__screen_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP screen mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__semi_flatten(self, drawable_: Gimp.Drawable=None, color: Gegl.Color=None, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Semi-Flatten
+        
+        Replace partial transparency with a color.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * color - The color.
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__set_alpha(self, drawable_: Gimp.Drawable=None, value: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        Set a buffer's alpha channel to a value.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * value (default: 1.0) - The alpha value.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__shrink(self, drawable_: Gimp.Drawable=None, radius_x: int=1, radius_y: int=1, edge_lock: bool=False, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP Shrink operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * radius_x (default: 1) - Shrink radius in X direction.
+          
+          Minimum value: 1, maximum value: 2342
+        
+        * radius_y (default: 1) - Shrink radius in Y direction.
+          
+          Minimum value: 1, maximum value: 2342
+        
+        * edge_lock (default: False) - Shrink from border.
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__softlight_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP softlight mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__split(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP split mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__subtract_legacy(self, drawable_: Gimp.Drawable=None, layer_mode: Gimp.LayerMode=Gimp.LayerMode.NORMAL, opacity: float=1.0, blend_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_space: Gimp.LayerColorSpace=Gimp.LayerColorSpace.RGB_LINEAR, composite_mode: Gimp.LayerCompositeMode=Gimp.LayerCompositeMode.UNION, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """
+        
+        GIMP subtract mode operation.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * layer_mode (default: Gimp.LayerMode.NORMAL)
+        
+        * opacity (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_space (default: Gimp.LayerColorSpace.RGB_LINEAR)
+        
+        * composite_mode (default: Gimp.LayerCompositeMode.UNION)
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__threshold(self, drawable_: Gimp.Drawable=None, channel: Gimp.HistogramChannel=Gimp.HistogramChannel.VALUE, low: float=0.5, high: float=1.0, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Threshold
+        
+        Reduce image to two colors using a threshold.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * channel (default: Gimp.HistogramChannel.VALUE)
+        
+        * low (default: 0.5)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * high (default: 1.0)
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
+        
+        * opacity_ (default: 1.0) - Opacity.
+          
+          Minimum value: 0.0, maximum value: 1.0
+        
+        * merge_filter_ (default: False) - Merge filter.
+        
+        * visible_ (default: True) - Visible.
+        
+        * name_ (default: '') - Filter name.
+        """
+        pass
+
+    def gimp__threshold_alpha(self, drawable_: Gimp.Drawable=None, value: float=0.5, blend_mode_: Gimp.LayerMode=Gimp.LayerMode.REPLACE, opacity_: float=1.0, merge_filter_: bool=False, visible_: bool=True, name_: str=''):
+        """Threshold Alpha
+        
+        Make transparency all-or-nothing, by thresholding the alpha channel
+        to a value.
+        
+        Parameters:
+        
+        * drawable_ - Drawable.
+        
+        * value (default: 0.5) - The alpha value.
+          
+          Minimum value: 0.0, maximum value: 1.0
         
         * blend_mode_ (default: Gimp.LayerMode.REPLACE) - Blend mode.
         
@@ -30478,6 +29900,10 @@ class PDBProcedure(metaclass=abc.ABCMeta):
     def name(self):
         pass
 
+    @property
+    def must_be_merged(self):
+        pass
+
     @abc.abstractmethod
     def create_config(self):
         pass
@@ -30488,7 +29914,7 @@ class GimpPDBProcedure(PDBProcedure):
         self._proc = None
         super().__init__(pypdb_instance, name)
 
-    def __call__(self, **kwargs):
+    def __call__(self, *args, **kwargs):
         pass
 
     @property
@@ -30542,16 +29968,19 @@ class GimpPDBProcedure(PDBProcedure):
         pass
 
 class GeglProcedure(PDBProcedure):
+    _GIMP_GEGL_OPERATIONS_PROPERTIES = None
+    _GIMP_GEGL_OPERATIONS_DETAILS = None
 
     def __init__(self, pypdb_instance, name):
         self._filter_properties = None
+        self._must_be_merged = None
         self._drawable_param = None
         self._blend_mode_param = None
         self._opacity_param = None
         self._merge_filter_param = None
         self._visible_param = None
         self._filter_name_param = None
-        self._keys = None
+        self._details = None
         self._properties = None
         super().__init__(pypdb_instance, name)
 
@@ -30598,7 +30027,33 @@ class GeglProcedure(PDBProcedure):
     def menu_paths(self):
         pass
 
+    @property
+    def must_be_merged(self):
+        pass
+
     def create_config(self):
+        pass
+
+    def _get_filter_properties(self, name):
+        pass
+
+    @staticmethod
+    def _get_must_be_merged(name):
+        pass
+
+    def _get_details(self, name):
+        pass
+
+    @staticmethod
+    def _get_details_post_3_1_4(name):
+        pass
+
+    @staticmethod
+    def _get_details_pre_3_1_4(name):
+        pass
+
+    @classmethod
+    def _fill_gimp_gegl_operations_attributes_pre_3_1_4(cls):
         pass
 
     def _get_properties(self):
@@ -30616,4 +30071,11 @@ class PDBProcedureError(Exception):
 
     def __str__(self):
         pass
+_UNUSED_GEGL_OPERATION_CATEGORIES = frozenset(['compositors', 'core', 'debug', 'display', 'hidden', 'input', 'output', 'programming', 'transform', 'video'])
+_UNUSED_GEGL_OPERATIONS_PRE_3_1_4 = frozenset(['gegl:color', 'gegl:contrast-curve', 'gegl:convert-format', 'gegl:ditto', 'gegl:fill-path', 'gegl:hstack', 'gegl:introspect', 'gegl:json:dropshadow2', 'gegl:json:grey2', 'gegl:layer', 'gegl:lcms-from-profile', 'gegl:linear-gradient', 'gegl:map-absolute', 'gegl:map-relative', 'gegl:matting-global', 'gegl:matting-levin', 'gegl:opacity', 'gegl:pack', 'gegl:path', 'gegl:radial-gradient', 'gegl:rectangle', 'gegl:seamless-clone', 'gegl:text', 'gegl:tile', 'gegl:unpremul', 'gegl:vector-stroke'])
+_DUPLICATE_GEGL_OPERATIONS_PRE_3_1_4 = ('gegl:gray', 'gegl:posterize', 'gegl:threshold', 'gegl:wavelet-blur')
+_DUPLICATE_GEGL_OPERATIONS_POST_3_1_4 = ('gegl:brightness-contrast', 'gegl:levels')
+_GIMP_GEGL_OPERATIONS_PRE_3_1_4 = ('gimp:border', 'gimp:colorize', 'gimp:compose-crop', 'gimp:desaturate', 'gimp:flood', 'gimp:grow', 'gimp:posterize', 'gimp:scalar-multiply', 'gimp:semi-flatten', 'gimp:set-alpha', 'gimp:shrink', 'gimp:threshold', 'gimp:threshold-alpha')
+_GIMP_GEGL_OPERATIONS_SET_PRE_3_1_4 = set(_GIMP_GEGL_OPERATIONS_PRE_3_1_4)
+_GIMP_GEGL_OPERATIONS_THAT_MUST_BE_MERGED = ('gimp:addition-legacy', 'gimp:anti-erase', 'gimp:behind', 'gimp:burn-legacy', 'gimp:compose-crop', 'gimp:darken-only-legacy', 'gimp:difference-legacy', 'gimp:divide-legacy', 'gimp:dodge-legacy', 'gimp:erase', 'gimp:grain-extract-legacy', 'gimp:grain-merge-legacy', 'gimp:hardlight-legacy', 'gimp:hsl-color-legacy', 'gimp:hsv-hue-legacy', 'gimp:hsv-saturation-legacy', 'gimp:hsv-value-legacy', 'gimp:layer-mode', 'gimp:lighten-only-legacy', 'gimp:mask-components', 'gimp:merge', 'gimp:multiply-legacy', 'gimp:normal', 'gimp:overwrite', 'gimp:pass-through', 'gimp:replace', 'gimp:screen-legacy', 'gimp:set-alpha', 'gimp:softlight-legacy', 'gimp:split', 'gimp:subtract-legacy')
 pdb = _PyPDB()
