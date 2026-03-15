@@ -27,6 +27,9 @@ class _PyPDB:
     self._last_status = None
     self._last_error = None
 
+    self._gegl_operations = None
+    self._gegl_operations_set = None
+
     self._proc_cache = {}
 
   @property
@@ -81,15 +84,65 @@ class _PyPDB:
 
     return True
 
+  def list_all_gegl_operations(self):
+    """Lists all available GEGL operations (filters, layer effects)."""
+    self._fill_gegl_operations_and_set_if_empty()
+
+    return self._gegl_operations
+
   @staticmethod
-  def list_all_gegl_operations():
-    return Gegl.list_operations()
+  def get_duplicate_gegl_operations():
+    """Returns all ``'gegl:*'`` operations that have a ``'gimp:*'`` counterpart
+    and are thus redundant.
+    """
+    if (Gimp.MAJOR_VERSION, Gimp.MINOR_VERSION, Gimp.MICRO_VERSION) >= (3, 1, 4):
+      return _DUPLICATE_GEGL_OPERATIONS_POST_3_1_4
+    else:
+      return _DUPLICATE_GEGL_OPERATIONS_PRE_3_1_4
+
+  def _fill_gegl_operations_and_set_if_empty(self):
+    if self._gegl_operations is None:
+      if (Gimp.MAJOR_VERSION, Gimp.MINOR_VERSION, Gimp.MICRO_VERSION) >= (3, 1, 4):
+        self._gegl_operations = self._list_all_gegl_operations_post_3_1_4()
+      else:
+        self._gegl_operations = self._list_all_gegl_operations_pre_3_1_4()
+
+      self._gegl_operations_set = set(self._gegl_operations)
+
+  @staticmethod
+  def _list_all_gegl_operations_post_3_1_4():
+    return Gimp.DrawableFilter.operation_get_available()
+
+  @staticmethod
+  def _list_all_gegl_operations_pre_3_1_4():
+    operation_names = Gegl.list_operations() + list(_GIMP_GEGL_OPERATIONS_PRE_3_1_4)
+
+    processed_operation_names = []
+
+    for name in operation_names:
+      categories_str = Gegl.Operation.get_key(name, 'categories')
+
+      if categories_str is not None:
+        categories = categories_str.split(':')
+        if any(category in _UNUSED_GEGL_OPERATION_CATEGORIES for category in categories):
+          continue
+
+      if name in _UNUSED_GEGL_OPERATIONS_PRE_3_1_4:
+        continue
+
+      processed_operation_names.append(name)
+
+    return processed_operation_names
 
   @staticmethod
   def list_all_gimp_pdb_procedures():
+    """Lists all available GIMP PDB procedures."""
     return Gimp.get_pdb().query_procedures(*([''] * 8))
 
   def list_all_procedure_names(self):
+    """Lists all available procedures and filters (GEGL operations, layer
+    effects).
+    """
     return self.list_all_gegl_operations() + self.list_all_gimp_pdb_procedures()
 
   def remove_from_cache(self, name: str):
@@ -129,9 +182,10 @@ class _PyPDB:
   def _gimp_pdb_procedure_exists(proc_name):
     return Gimp.is_canonical_identifier(proc_name) and Gimp.get_pdb().procedure_exists(proc_name)
 
-  @staticmethod
-  def _gegl_operation_exists(proc_name):
-    return Gegl.has_operation(proc_name)
+  def _gegl_operation_exists(self, proc_name):
+    self._fill_gegl_operations_and_set_if_empty()
+
+    return proc_name in self._gegl_operations_set
 
 
 class PDBProcedure(metaclass=abc.ABCMeta):
@@ -235,6 +289,13 @@ class PDBProcedure(metaclass=abc.ABCMeta):
     The name can be used to access a `PDBProcedure` instance as `pdb[<name>]`.
     """
     return self._name
+
+  @property
+  def must_be_merged(self):
+    """Returns ``True`` if this procedure must always be applied destructively,
+    ``False`` otherwise.
+    """
+    return False
 
   @abc.abstractmethod
   def create_config(self):
@@ -369,8 +430,12 @@ class GimpPDBProcedure(PDBProcedure):
 
 class GeglProcedure(PDBProcedure):
 
+  _GIMP_GEGL_OPERATIONS_PROPERTIES = None
+  _GIMP_GEGL_OPERATIONS_DETAILS = None
+
   def __init__(self, pypdb_instance, name):
-    self._filter_properties = Gegl.Operation.list_properties(name)
+    self._filter_properties = self._get_filter_properties(name)
+    self._must_be_merged = self._get_must_be_merged(name)
 
     self._drawable_param = Gimp.param_spec_drawable(
       'drawable-', 'Drawable', 'Drawable', False, GObject.ParamFlags.READWRITE)
@@ -391,7 +456,7 @@ class GeglProcedure(PDBProcedure):
     self._filter_name_param = GObject.param_spec_string(
       'name-', 'Filter name', 'Filter name', '', GObject.ParamFlags.READWRITE)
 
-    self._keys = {key: None for key in Gegl.Operation.list_keys(name)}
+    self._details = self._get_details(name)
     self._properties = {prop.name: prop for prop in self._get_properties()}
 
     super().__init__(pypdb_instance, name)
@@ -459,22 +524,15 @@ class GeglProcedure(PDBProcedure):
       if arg_name not in properties_from_config:
         continue
 
-      should_transform_enum_to_choice = (
-        (self._properties[arg_name].__gtype__ == Gegl.ParamEnum.__gtype__
-         or self._properties[arg_name].__gtype__ == GObject.ParamSpecEnum.__gtype__.parent)
-        and properties_from_config[arg_name].__gtype__ == Gimp.ParamChoice.__gtype__)
-
-      # GIMP internally transforms GEGL enum values to `Gimp.Choice` values:
-      #  https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008
-      if should_transform_enum_to_choice:
-        # For PyGObject >= 3.50.0, `default_value` returns an int rather than
-        # an enum value. `get_default_value()` is not available in < 3.50.0.
-        if hasattr(self._properties[arg_name], 'get_default_value'):
-          enum_default_value = self._properties[arg_name].get_default_value()
-        else:
-          enum_default_value = self._properties[arg_name].default_value
-
-        processed_value = type(enum_default_value)(arg_value).value_nick
+      # While GIMP internally transforms GEGL enum values to `Gimp.Choice`
+      # values (https://gitlab.gnome.org/GNOME/gimp/-/merge_requests/2008),
+      # this is not the case for GIMP < 3.1.4, or when
+      # `Gimp.DrawableFilter.operation_get_pspecs()` returns ``None`` for some
+      # parameters. We therefore explicitly convert enums to choices in that
+      # case.
+      if (properties_from_config[arg_name].__gtype__ == Gimp.ParamChoice.__gtype__
+          and isinstance(arg_value, GObject.GEnum)):
+        processed_value = arg_value.value_nick
       else:
         processed_value = arg_value
 
@@ -509,10 +567,7 @@ class GeglProcedure(PDBProcedure):
 
   @property
   def blurb(self):
-    if 'description' in self._keys:
-      return Gegl.Operation.get_key(self.name, 'description')
-    else:
-      return ''
+    return self._details['description']
 
   @property
   def copyright(self):
@@ -528,20 +583,132 @@ class GeglProcedure(PDBProcedure):
 
   @property
   def menu_label(self):
-    if 'title' in self._keys:
-      return Gegl.Operation.get_key(self.name, 'title')
-    else:
-      return ''
+    return self._details['title']
 
   @property
   def menu_paths(self):
     return []
+
+  @property
+  def must_be_merged(self):
+    return self._must_be_merged
 
   def create_config(self):
     """This subclass does not support config creation, hence this method returns
     ``None``.
     """
     return None
+
+  def _get_filter_properties(self, name):
+    if (Gimp.MAJOR_VERSION, Gimp.MINOR_VERSION, Gimp.MICRO_VERSION) >= (3, 1, 4):
+      properties_array = Gimp.DrawableFilter.operation_get_pspecs(name)
+
+      properties = [properties_array.index(index) for index in range(properties_array.length())]
+
+      # Use `Gegl.Operation.list_properties()` as a fallback in case
+      # `Gimp.DrawableFilter.operation_get_pspecs()` returns ``None`` for
+      # some parameters for some reason.
+      indexes_of_none_properties = [index for index, prop in enumerate(properties) if prop is None]
+      if indexes_of_none_properties:
+        properties_from_gegl = Gegl.Operation.list_properties(name)
+        if properties_from_gegl:
+          for index in indexes_of_none_properties:
+            properties[index] = properties_from_gegl[index]
+
+      return properties
+    else:
+      if name in _GIMP_GEGL_OPERATIONS_SET_PRE_3_1_4:
+        self._fill_gimp_gegl_operations_attributes_pre_3_1_4()
+
+        return self._GIMP_GEGL_OPERATIONS_PROPERTIES[name]
+      else:
+        return Gegl.Operation.list_properties(name)
+
+  @staticmethod
+  def _get_must_be_merged(name):
+    if name in _GIMP_GEGL_OPERATIONS_THAT_MUST_BE_MERGED:
+      return True
+
+    node = Gegl.Node()
+    node.set_property('operation', name)
+
+    return node.has_pad('aux')
+
+  def _get_details(self, name):
+    if (Gimp.MAJOR_VERSION, Gimp.MINOR_VERSION, Gimp.MICRO_VERSION) >= (3, 1, 4):
+      return self._get_details_post_3_1_4(name)
+    else:
+      if name in _GIMP_GEGL_OPERATIONS_SET_PRE_3_1_4:
+        self._fill_gimp_gegl_operations_attributes_pre_3_1_4()
+
+        return self._GIMP_GEGL_OPERATIONS_DETAILS[name]
+      else:
+        return self._get_details_pre_3_1_4(name)
+
+  @staticmethod
+  def _get_details_post_3_1_4(name):
+    success, names, values = Gimp.DrawableFilter.operation_get_details(name)
+
+    if success:
+      title = values.index(names.index('title'))
+      description = values.index(names.index('description'))
+
+      return {
+        'title': title if title is not None else '',
+        'description': description if description is not None else '',
+      }
+    else:
+      return {
+        'title': '',
+        'description': '',
+      }
+
+  @staticmethod
+  def _get_details_pre_3_1_4(name):
+    keys = set(Gegl.Operation.list_keys(name))
+
+    return {
+      'title': Gegl.Operation.get_key(name, 'title') if 'title' in keys else '',
+      'description': Gegl.Operation.get_key(name, 'description') if 'description' in keys else '',
+    }
+
+  @classmethod
+  def _fill_gimp_gegl_operations_attributes_pre_3_1_4(cls):
+    if cls._GIMP_GEGL_OPERATIONS_PROPERTIES is None:
+      cls._GIMP_GEGL_OPERATIONS_PROPERTIES = {}
+      cls._GIMP_GEGL_OPERATIONS_DETAILS = {}
+
+      # HACK: The only reliable way to obtain information about `gimp:*`
+      # filter parameters seems to be to create `Gimp.DrawableFilter`
+      # instances for each filter, for which we need to create an image with
+      # an empty layer.
+      temp_image = Gimp.Image.new(2, 2, Gimp.ImageBaseType.RGB)
+
+      try:
+        empty_layer = Gimp.Layer.new(
+          temp_image,
+          'layer',
+          temp_image.get_width(),
+          temp_image.get_height(),
+          Gimp.ImageType.RGBA_IMAGE,
+          100.0,
+          Gimp.LayerMode.NORMAL,
+        )
+
+        for operation_name in _GIMP_GEGL_OPERATIONS_PRE_3_1_4:
+          drawable_filter = Gimp.DrawableFilter.new(empty_layer, operation_name, '')
+
+          config = drawable_filter.get_config()
+          cls._GIMP_GEGL_OPERATIONS_PROPERTIES[operation_name] = config.list_properties()
+          cls._GIMP_GEGL_OPERATIONS_DETAILS[operation_name] = {
+            'title': drawable_filter.get_name(),
+            'description': '',
+          }
+
+          drawable_filter.delete()
+      finally:
+        if temp_image.is_valid():
+          temp_image.delete()
 
   def _get_properties(self):
     return [
@@ -574,6 +741,135 @@ class PDBProcedureError(Exception):
 
   def __str__(self):
     return str(self.message)
+
+
+# Taken from:
+# https://gitlab.gnome.org/GNOME/gimp/-/blob/GIMP_3_2_0_RC2/app/gegl/gimp-gegl-utils.c
+_UNUSED_GEGL_OPERATION_CATEGORIES = frozenset([
+  'compositors',
+  'core',
+  'debug',
+  'display',
+  'hidden',
+  'input',
+  'output',
+  'programming',
+  'transform',
+  'video',
+])
+
+
+# Taken from:
+# https://gitlab.gnome.org/GNOME/gimp/-/blob/GIMP_3_2_0_RC2/app/gegl/gimp-gegl-utils.c
+_UNUSED_GEGL_OPERATIONS_PRE_3_1_4 = frozenset([
+  'gegl:color',
+  'gegl:contrast-curve',
+  'gegl:convert-format',
+  'gegl:ditto',
+  'gegl:fill-path',
+  'gegl:hstack',
+  'gegl:introspect',
+  'gegl:json:dropshadow2',
+  'gegl:json:grey2',
+  'gegl:layer',
+  'gegl:lcms-from-profile',
+  'gegl:linear-gradient',
+  'gegl:map-absolute',
+  'gegl:map-relative',
+  'gegl:matting-global',
+  'gegl:matting-levin',
+  'gegl:opacity',
+  'gegl:pack',
+  'gegl:path',
+  'gegl:radial-gradient',
+  'gegl:rectangle',
+  'gegl:seamless-clone',
+  'gegl:text',
+  'gegl:tile',
+  'gegl:unpremul',
+  'gegl:vector-stroke',
+])
+
+
+# The 'gimp:*' counterparts of these filters can achieve the same effect. They
+# are kept to maintain backwards compatibility with GIMP < 3.1.4 or because
+# they are not blocklisted by GIMP.
+_DUPLICATE_GEGL_OPERATIONS_PRE_3_1_4 = (
+  'gegl:gray',
+  'gegl:posterize',
+  'gegl:threshold',
+  'gegl:wavelet-blur',
+)
+
+
+# The 'gimp:*' counterparts of these filters can achieve the same effect. They
+# are kept to maintain backwards compatibility with GIMP < 3.1.4 or because
+# they are not blocklisted by GIMP.
+_DUPLICATE_GEGL_OPERATIONS_POST_3_1_4 = (
+  'gegl:brightness-contrast',
+  'gegl:levels',
+)
+
+
+# This is not an exhaustive list as many 'gimp:*' operations cause GIMP to
+# crash on some platforms, have unsupported parameter types or otherwise have
+# no effect.
+_GIMP_GEGL_OPERATIONS_PRE_3_1_4 = (
+  'gimp:border',
+  'gimp:colorize',
+  'gimp:compose-crop',
+  'gimp:desaturate',
+  'gimp:flood',
+  'gimp:grow',
+  'gimp:posterize',
+  'gimp:scalar-multiply',
+  'gimp:semi-flatten',
+  'gimp:set-alpha',
+  'gimp:shrink',
+  'gimp:threshold',
+  'gimp:threshold-alpha',
+)
+
+
+_GIMP_GEGL_OPERATIONS_SET_PRE_3_1_4 = set(_GIMP_GEGL_OPERATIONS_PRE_3_1_4)
+
+
+# Checking for the presence of the 'aux' pad in `gimp:*` operations does not
+# appear to work and yields console warnings. We therefore list these
+# explicitly.
+_GIMP_GEGL_OPERATIONS_THAT_MUST_BE_MERGED = (
+  'gimp:addition-legacy',
+  'gimp:anti-erase',
+  'gimp:behind',
+  'gimp:burn-legacy',
+  'gimp:compose-crop',
+  'gimp:darken-only-legacy',
+  'gimp:difference-legacy',
+  'gimp:divide-legacy',
+  'gimp:dodge-legacy',
+  'gimp:erase',
+  'gimp:grain-extract-legacy',
+  'gimp:grain-merge-legacy',
+  'gimp:hardlight-legacy',
+  'gimp:hsl-color-legacy',
+  'gimp:hsv-hue-legacy',
+  'gimp:hsv-saturation-legacy',
+  'gimp:hsv-value-legacy',
+  'gimp:layer-mode',
+  'gimp:lighten-only-legacy',
+  'gimp:mask-components',
+  'gimp:merge',
+  'gimp:multiply-legacy',
+  'gimp:normal',
+  'gimp:overwrite',
+  'gimp:pass-through',
+  'gimp:replace',
+  'gimp:screen-legacy',
+  'gimp:set-alpha',
+  'gimp:softlight-legacy',
+  'gimp:split',
+  'gimp:subtract-legacy',
+)
 
 
 pdb = _PyPDB()
