@@ -20,7 +20,7 @@ This project aims to improve development of Python plug-ins for [GIMP 3](https:/
 
 ## Requirements
 
-* GIMP 3.0.0 or later
+* GIMP 3.2 or later
 * Python 3.9 or later
 
 
