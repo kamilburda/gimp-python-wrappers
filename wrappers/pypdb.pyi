@@ -1,5 +1,6 @@
 """Wrapper of ``Gimp.get_pdb()`` to simplify invoking GIMP PDB procedures."""
 import abc
+import contextlib
 import keyword
 from typing import Optional
 from typing import Any
@@ -30054,6 +30055,11 @@ class GeglProcedure(PDBProcedure):
 
     @classmethod
     def _fill_gimp_gegl_operations_attributes_pre_3_1_4(cls):
+        pass
+
+    @classmethod
+    @contextlib.contextmanager
+    def _create_temp_layer(cls):
         pass
 
     def _get_properties(self):
