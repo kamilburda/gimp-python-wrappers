@@ -1,3 +1,8 @@
+# 6.1
+
+* pypdb: It is now possible to create config objects for layer effects (`Gimp.DrawableFilterConfig`), i.e. `GeglProcedure.create_config()` now properly creates a proper instance. This e.g. allows using `GimpUi.prop_choice_combo_box_new` for choice arguments for layer effects. Note the implementation is slow as it requires creating a temporary image and layer.
+
+
 # 6.0
 
 * Bumped up the GIMP version requirement to 3.2 (due to a critical bug preventing plug-in registration from working for GIMP 3.2 or later).
